@@ -6,6 +6,8 @@
     "FORBIDDEN": "You are not allowed to do this.",
     "NOT_FOUND": "We could not find what you are looking for.",
     "INVALID_ID": "This identifier is not valid.",
+    "INVALID_JSON": "The request body is not valid JSON.",
+    "PAYLOAD_TOO_LARGE": "The request is too large. The limit is 1 MB.",
     "DUPLICATE": "This record already exists.",
     "EMAIL_TAKEN": "An account with this email already exists.",
     "PHONE_TAKEN": "An account with this phone number already exists.",

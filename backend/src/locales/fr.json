@@ -6,6 +6,8 @@
     "FORBIDDEN": "Vous n'êtes pas autorisé à faire cela.",
     "NOT_FOUND": "Nous n'avons pas trouvé ce que vous cherchez.",
     "INVALID_ID": "Cet identifiant n'est pas valide.",
+    "INVALID_JSON": "Le corps de la requête n'est pas un JSON valide.",
+    "PAYLOAD_TOO_LARGE": "La requête est trop volumineuse. La limite est de 1 Mo.",
     "DUPLICATE": "Cet enregistrement existe déjà.",
     "EMAIL_TAKEN": "Un compte avec cette adresse e-mail existe déjà.",
     "PHONE_TAKEN": "Un compte avec ce numéro de téléphone existe déjà.",

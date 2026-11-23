@@ -1,4 +1,5 @@
 import type { ErrorRequestHandler, Request, Response } from 'express';
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { ZodError } from 'zod';
 import { AppError } from '../util/AppError';
@@ -7,6 +8,7 @@ import { logger } from '../lib/logger';
 import type { Language } from '../types/enums';
 
 type FieldError = { code: string; message: string };
+type BodyParserError = Error & { type: string; status?: number };
 
 const DUPLICATE_CODES: Record<string, string> = {
   email: 'EMAIL_TAKEN',
@@ -17,8 +19,7 @@ const DUPLICATE_CODES: Record<string, string> = {
 };
 
 function resolveLanguage(req: Request): Language {
-  const userLanguage = (req as Request & { user?: { language?: Language } }).user?.language;
-  if (userLanguage) return userLanguage;
+  if (req.user?.language) return req.user.language;
   return req.acceptsLanguages('en', 'fr') === 'fr' ? 'fr' : 'en';
 }
 
@@ -55,11 +56,20 @@ function zodFieldErrors(err: ZodError, lang: Language) {
   return fields;
 }
 
+function isBodyParserError(err: unknown): err is BodyParserError {
+  return err instanceof Error && typeof (err as BodyParserError).type === 'string' && (err as BodyParserError).type.startsWith('entity.');
+}
+
 function send(res: Response, status: number, code: string, lang: Language, details: unknown = null) {
   res.status(status).json({ success: false, error: { code, message: t(`errors.${code}`, lang), details } });
 }
 
-export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (res.headersSent) {
+    logger.error({ err, reqId: req.id }, 'Error after response was sent');
+    return next(err);
+  }
+
   const lang = resolveLanguage(req);
 
   if (err instanceof AppError) return send(res, err.statusCode, err.code, lang, err.details ?? null);
@@ -72,7 +82,13 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
     const fields = Object.keys((err as { keyPattern?: Record<string, unknown> }).keyPattern ?? {});
     return send(res, 409, DUPLICATE_CODES[fields.join(',')] ?? 'DUPLICATE', lang, { fields });
   }
+  if (err instanceof TokenExpiredError) return send(res, 401, 'TOKEN_EXPIRED', lang);
+  if (err instanceof JsonWebTokenError) return send(res, 401, 'UNAUTHORIZED', lang);
+  if (isBodyParserError(err)) {
+    if (err.type === 'entity.too.large') return send(res, 413, 'PAYLOAD_TOO_LARGE', lang);
+    return send(res, err.status && err.status < 500 ? err.status : 400, 'INVALID_JSON', lang);
+  }
 
-  logger.error({ err }, 'Unhandled error');
+  logger.error({ err, reqId: req.id }, 'Unhandled error');
   return send(res, 500, 'INTERNAL', lang);
 };
