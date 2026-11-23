@@ -1,0 +1,14 @@
+packages:
+  - backend
+  - frontend
+  - mobile
+
+nodeLinker: hoisted
+
+allowBuilds:
+  bcrypt: true
+  esbuild: true
+  mongodb-memory-server: false
+  '@scarf/scarf': false
+  sharp: false
+  unrs-resolver: false
