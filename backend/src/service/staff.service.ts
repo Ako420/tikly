@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import type { Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { BCRYPT_ROUNDS } from '../config/constants';
-import { EventModel, StaffAssignmentModel, UserModel, type EventDoc, type UserDoc } from '../model';
+import { EventModel, StaffAssignmentModel, TicketModel, UserModel, type EventDoc, type UserDoc } from '../model';
 import type { CreateStaffBody, UpdateStaffBody } from '../schema/staff.schema';
 import { AppError } from '../util/AppError';
 
@@ -85,6 +85,37 @@ export async function unassignStaff(event: EventDoc, staffId: string) {
   if (deletedCount === 0) throw AppError.notFound();
 }
 
+type GateCounts = { capacity: number; checkedIn: number; scannedByMe: number };
+
+async function gateCounts(eventIds: Types.ObjectId[], staffId: string) {
+  const staff = new Types.ObjectId(staffId);
+  const rows = await TicketModel.aggregate<GateCounts & { _id: Types.ObjectId }>([
+    { $match: { eventId: { $in: eventIds }, status: { $in: ['valid', 'checked_in'] } } },
+    {
+      $group: {
+        _id: '$eventId',
+        capacity: { $sum: 1 },
+        checkedIn: { $sum: { $cond: [{ $eq: ['$status', 'checked_in'] }, 1, 0] } },
+        scannedByMe: {
+          $sum: {
+            $cond: [
+              {
+                $in: [
+                  { staffId: staff, type: 'entry' },
+                  { $map: { input: '$checkIns', as: 'c', in: { staffId: '$$c.staffId', type: '$$c.type' } } },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ]);
+  return new Map(rows.map(({ _id, ...counts }) => [String(_id), counts]));
+}
+
 export async function listAssignedEvents(staffId: string, now = new Date()) {
   const eventIds = await StaffAssignmentModel.find({ staffId }).distinct('eventId');
   const events = await EventModel.find({
@@ -95,10 +126,15 @@ export async function listAssignedEvents(staffId: string, now = new Date()) {
     .select('title startAt endAt venue city status')
     .sort({ startAt: 1 })
     .lean<EventSummary[]>();
+  const counts = await gateCounts(
+    events.map((event) => event._id),
+    staffId,
+  );
   const isToday = (event: EventSummary) =>
     event.startAt.getTime() - DAY <= now.getTime() && now.getTime() <= event.endAt.getTime() + DAY;
   return [...events.filter(isToday), ...events.filter((event) => !isToday(event))].map((event) => ({
     ...toEventSummary(event),
+    ...(counts.get(String(event._id)) ?? { capacity: 0, checkedIn: 0, scannedByMe: 0 }),
     today: isToday(event),
   }));
 }

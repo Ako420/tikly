@@ -185,7 +185,7 @@ export default function GateLookup() {
       ) : results ? (
         <View className="gap-3">
           <Text variant="eyebrow" tone="muted">
-            {t('gate.lookup.resultsHeader', { count: results.length, name: holder ?? '' })}
+            {t(results.length === 1 ? 'gate.lookup.resultsHeaderOne' : 'gate.lookup.resultsHeaderOther', { count: results.length, name: holder ?? '' })}
           </Text>
           {results.map((ticket) => {
             const inside = ticket.status === 'checked_in' || ticket.checkIns.some((checkIn) => checkIn.type === 'entry');

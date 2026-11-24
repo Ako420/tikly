@@ -4,7 +4,10 @@ import PDFDocument from 'pdfkit';
 import { BCRYPT_ROUNDS } from '../src/config/constants';
 import { connectDb, disconnectDb } from '../src/config/db';
 import { uploadPrivateDocument, uploadPublicImage } from '../src/lib/cloudinary';
-import { EventModel, ProviderModel, PostModel, ServiceModel, SlotModel, StaffAssignmentModel, TicketTierModel, UserModel } from '../src/model';
+import { Types } from 'mongoose';
+import { createQrToken } from '../src/util/qrToken';
+import { ticketCode } from '../src/util/ticketCode';
+import { EventModel, OrderModel, ProviderModel, PostModel, ServiceModel, SlotModel, StaffAssignmentModel, TicketModel, TicketTierModel, UserModel } from '../src/model';
 import { POSTS } from './seedPosts.data';
 import type { ServiceCategory, ServiceUnit } from '../src/types/enums';
 
@@ -455,7 +458,7 @@ async function fetchImage(url: string, attempt = 1): Promise<Buffer> {
 
 let passwordHash: Promise<string> | undefined;
 
-async function upsertUser(user: { name: string; email: string; phone: string }, role: 'organizer' | 'provider' | 'exhibitor') {
+async function upsertUser(user: { name: string; email: string; phone: string }, role: 'organizer' | 'provider' | 'exhibitor' | 'attendee') {
   const existing = await UserModel.findOne({ email: user.email });
   if (existing) return existing;
   passwordHash ??= bcrypt.hash(DEMO_PASSWORD, BCRYPT_ROUNDS);
@@ -637,6 +640,51 @@ async function seedPosts(organizerId: unknown) {
   }
 }
 
+const DEMO_ATTENDEE = { name: 'Demo Attendee', email: 'attendee@tikly.demo', phone: '+237670000401' };
+const DEMO_TICKETS = 3;
+
+async function seedDemoTickets(organizerId: unknown) {
+  const event = await EventModel.findOne({ organizerId, 'title.en': TODAY_EVENT_TITLE });
+  const tier = event && (await TicketTierModel.findOne({ eventId: event._id, name: 'standard' }));
+  if (!event || !tier) {
+    console.error(`fail  tickets: "${TODAY_EVENT_TITLE}" or its standard tier not found`);
+    return;
+  }
+  const attendee = await upsertUser(DEMO_ATTENDEE, 'attendee');
+  const owned = await TicketModel.countDocuments({ eventId: event._id, holderId: attendee._id });
+  const missing = DEMO_TICKETS - owned;
+  if (missing <= 0) {
+    console.log(`tickets ${attendee.email} already holds ${owned} for ${TODAY_EVENT_TITLE}`);
+    return;
+  }
+  const order = await OrderModel.create({
+    type: 'ticket',
+    buyerId: attendee._id,
+    payeeId: event.organizerId,
+    eventId: event._id,
+    items: [{ refId: tier._id, refModel: 'TicketTier', quantity: missing, unitPrice: tier.price }],
+    amount: tier.price * missing,
+    phone: DEMO_ATTENDEE.phone,
+    status: 'paid',
+    paidAt: new Date(),
+  });
+  const tickets = Array.from({ length: missing }, () => {
+    const _id = new Types.ObjectId();
+    return {
+      _id,
+      code: ticketCode(),
+      qrToken: createQrToken(String(_id)),
+      orderId: order._id,
+      eventId: event._id,
+      tierId: tier._id,
+      holderId: attendee._id,
+    };
+  });
+  await TicketModel.insertMany(tickets);
+  await TicketTierModel.updateOne({ _id: tier._id }, { $inc: { sold: missing } });
+  console.log(`tickets ${attendee.email} +${missing}: ${tickets.map((ticket) => ticket.code).join(', ')}`);
+}
+
 async function main() {
   await connectDb();
   const organizer = await upsertUser(DEMO_ORGANIZER, 'organizer');
@@ -661,6 +709,7 @@ async function main() {
   }
   await moveEventToToday(organizer._id);
   await seedStaff(organizer._id);
+  await seedDemoTickets(organizer._id);
   await seedPosts(organizer._id);
 }
 

@@ -18,6 +18,7 @@ import { homeRouteFor } from '@/features/auth/homeRoute';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { toApiError, useApiErrorMessage } from '@/lib/api';
 import { isCameroonMobile, isEmail, toInternationalCameroonNumber } from '@/lib/validation';
+import { useRedirectIfSignedIn } from '@/features/auth/useRedirectIfSignedIn';
 import { useTheme } from '@/theme';
 
 type Field = 'identifier' | 'password';
@@ -33,6 +34,7 @@ export default function Login() {
   const passwordRef = useRef<TextFieldHandle>(null);
   const [googleLoading, setGoogleLoading] = useState(false);
   const { signIn, signInWithGoogle } = useAuth();
+  useRedirectIfSignedIn();
   const errorMessage = useApiErrorMessage();
 
   const errors = useMemo(() => {

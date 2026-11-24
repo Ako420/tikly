@@ -1,9 +1,14 @@
+import { Redirect } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
 import { TabBar } from '@/components/navigation/TabBar';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { useTheme } from '@/theme';
 
 export default function TabsLayout() {
   const { colors } = useTheme();
+  const { user } = useAuth();
+
+  if (user?.role === 'staff') return <Redirect href="/gate" />;
 
   return (
     <Tabs

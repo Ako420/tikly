@@ -7,9 +7,11 @@ import { FormScreen } from '@/components/ui/FormScreen';
 import { LinkPrompt } from '@/components/ui/LinkPrompt';
 import { ScreenHeading } from '@/components/ui/ScreenHeading';
 import { roleMeta, SIGN_UP_ROLES, type SignUpRole } from '@/features/auth/roles';
+import { useRedirectIfSignedIn } from '@/features/auth/useRedirectIfSignedIn';
 import { useTranslation } from '@/i18n/I18nProvider';
 
 export default function ChooseRole() {
+  useRedirectIfSignedIn();
   const { t } = useTranslation();
   const [role, setRole] = useState<SignUpRole>('attendee');
 

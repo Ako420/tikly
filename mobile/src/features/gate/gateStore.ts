@@ -13,6 +13,7 @@ type GateState = {
   outcomes: Record<string, ScanOutcome>;
   lastEntry: Record<string, ScanOutcome>;
   soundOn: boolean;
+  owner?: string;
 };
 
 let state: GateState = { events: [], status: 'idle', outcomes: {}, lastEntry: {}, soundOn: true };
@@ -36,12 +37,13 @@ const updateEvent = (eventId: string, update: (event: GateEvent) => GateEvent) =
   setState({ events: state.events.map((event) => (event.id === eventId ? update(event) : event)) });
 
 async function loadEvents() {
+  const owner = state.owner;
   setState({ status: 'loading', error: undefined });
   try {
     const events = env.useSampleData ? sampleGate.events().map((event) => ({ ...event })) : await gateApi.events();
-    setState({ events, status: 'ready' });
+    if (state.owner === owner) setState({ events, status: 'ready' });
   } catch (caught) {
-    setState({ status: 'error', error: toApiError(caught) });
+    if (state.owner === owner) setState({ status: 'error', error: toApiError(caught) });
   }
 }
 
@@ -104,14 +106,24 @@ export function useGateStaff() {
 }
 
 export function useGateEvents() {
-  const { events, status, error } = useGateState();
+  const { user } = useAuth();
+  const owner = user?.id ?? 'sample';
+  const current = useGateState();
+  const stale = current.owner !== owner;
 
   useEffect(() => {
-    if (getState().status === 'idle') loadEvents();
-  }, []);
+    if (getState().owner === owner && getState().status !== 'idle') return;
+    setState({ events: [], outcomes: {}, lastEntry: {}, status: 'idle', error: undefined, owner });
+    loadEvents();
+  }, [owner]);
 
   const reload = useCallback(() => loadEvents(), []);
-  return { events, loading: status === 'idle' || status === 'loading', error, reload };
+  return {
+    events: stale ? [] : current.events,
+    loading: stale || current.status === 'idle' || current.status === 'loading',
+    error: stale ? undefined : current.error,
+    reload,
+  };
 }
 
 export function useGateEvent(eventId: string | undefined) {
