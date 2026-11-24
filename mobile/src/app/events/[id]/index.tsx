@@ -2,7 +2,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AgendaRow } from '@/components/events/details/AgendaRow';
@@ -12,26 +12,25 @@ import { InfoRow } from '@/components/events/details/InfoRow';
 import { MapPreview } from '@/components/events/details/MapPreview';
 import { ShareTiles } from '@/components/events/details/ShareTiles';
 import { TierRow } from '@/components/events/details/TierRow';
-import { UpdatePost } from '@/components/events/details/UpdatePost';
+import { EventPostCard } from '@/components/posts/EventPostCard';
 import { Button } from '@/components/ui/Button';
-import { Chip } from '@/components/ui/Chip';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { StickyActionBar } from '@/components/ui/StickyActionBar';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useEventFormatter } from '@/features/events/formatEvent';
 import { getTierStock } from '@/features/events/tierStock';
-import { localize, type UpdateTag } from '@/features/events/types';
+import { localize } from '@/features/events/types';
 import { EventLoadState } from '@/components/events/EventLoadState';
 import { useEventDetails } from '@/features/events/useEvents';
+import { useEventPosts } from '@/features/posts/useEventPosts';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { formatDateRange, formatDayMonthTime, formatTimeRange, getEventSpan } from '@/lib/dates';
 import { formatMoney } from '@/lib/money';
 import { copyToClipboard, eventUrl, openInMaps, shareNative } from '@/lib/share';
 import { useTheme } from '@/theme';
 
-const UPDATE_FILTERS: (UpdateTag | 'all')[] = ['all', 'lineup', 'location', 'info'];
-const VISIBLE_UPDATES = 2;
+const VISIBLE_POSTS = 2;
 const ABOUT_COLLAPSED_LINES = 3;
 
 export default function EventDetailsScreen() {
@@ -44,16 +43,12 @@ export default function EventDetailsScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const format = useEventFormatter();
-  const [updateFilter, setUpdateFilter] = useState<UpdateTag | 'all'>('all');
   const [aboutExpanded, setAboutExpanded] = useState(false);
   const [addressCopied, setAddressCopied] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const { scheme } = useTheme();
 
-  const visibleUpdates = useMemo(
-    () => (event?.updates ?? []).filter((update) => updateFilter === 'all' || update.tag === updateFilter).slice(0, VISIBLE_UPDATES),
-    [event, updateFilter],
-  );
+  const posts = useEventPosts(id, { limit: VISIBLE_POSTS });
 
   if (!event) return <EventLoadState resource={eventResource} icon="calendar-outline" />;
 
@@ -69,6 +64,7 @@ export default function EventDetailsScreen() {
   const agendaDay = event.agenda.filter((item) => item.day === 1);
   const mapQuery = `${event.address.label}, ${event.address.line}`;
 
+  const openPosts = () => router.push({ pathname: '/events/[id]/posts', params: { id: event.id } });
   const openReviews = () => router.push({ pathname: '/events/[id]/reviews', params: { id: event.id } });
 
   const copyAddress = async () => {
@@ -192,28 +188,16 @@ export default function EventDetailsScreen() {
             </Text>
           </View>
 
-          {event.updates.length > 0 ? (
+          {posts.items.length > 0 ? (
             <View className="gap-3.5">
-              <SectionHeader title={t('eventDetails.updates')} actionLabel={t('eventDetails.seeAllCount', { count: event.updatesTotal })} />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="-mx-6" contentContainerClassName="gap-2 px-6">
-                {UPDATE_FILTERS.map((filter) => (
-                  <Chip
-                    key={filter}
-                    label={t(filter === 'all' ? 'events.categories.all' : `events.updateTags.${filter}`)}
-                    selected={updateFilter === filter}
-                    onPress={() => setUpdateFilter(filter)}
-                  />
-                ))}
-              </ScrollView>
-              {visibleUpdates.length > 0 ? (
-                visibleUpdates.map((update) => (
-                  <UpdatePost key={update.id} update={update} author={organizer?.name ?? ''} verified={!!organizer?.verified} />
-                ))
-              ) : (
-                <Text variant="bodySm" tone="muted">
-                  {t('eventDetails.noUpdates')}
-                </Text>
-              )}
+              <SectionHeader
+                title={t('eventDetails.updates')}
+                actionLabel={posts.total > VISIBLE_POSTS ? t('eventDetails.seeAllCount', { count: posts.total }) : undefined}
+                onAction={openPosts}
+              />
+              {posts.items.map((post) => (
+                <EventPostCard key={post.id} post={post} author={organizer?.name ?? ''} verified={!!organizer?.verified} />
+              ))}
             </View>
           ) : null}
 
