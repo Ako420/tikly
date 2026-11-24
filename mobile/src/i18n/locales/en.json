@@ -71,7 +71,20 @@
       "qrUnavailable": "Your QR code will appear here shortly.",
       "notFoundTitle": "Ticket not found",
       "pdfFailed": "Couldn’t create the PDF. Please try again.",
-      "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes."
+      "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes.",
+      "rateEvent": "Rate this event"
+    },
+    "refund": {
+      "action": "Cancel this ticket",
+      "confirmTitle": "Cancel ticket {{code}}?",
+      "confirmBody": "You will get a 50% refund of {{amount}} to the Mobile Money number used for payment. This cannot be undone.",
+      "confirmFree": "This free ticket will be cancelled. This cannot be undone.",
+      "keep": "Keep ticket",
+      "confirm": "Cancel ticket",
+      "doneTitle": "Ticket cancelled",
+      "doneBody": "{{amount}} is on its way to your Mobile Money account.",
+      "doneNoRefund": "Your ticket has been cancelled.",
+      "failedTitle": "Couldn’t cancel the ticket"
     }
   },
   "onboarding": {
@@ -354,7 +367,11 @@
     "from": "From",
     "price": "Price",
     "unavailable": "Tickets",
-    "getTickets": "Get tickets"
+    "getTickets": "Get tickets",
+    "reviews": "Reviews",
+    "seeReviews": "See all",
+    "noReviews": "No reviews yet",
+    "reviewsHint": "What attendees thought of this event"
   },
   "checkout": {
     "step": "Step {{step}} of {{total}}",
@@ -546,5 +563,22 @@
         "title": "Update from tikly"
       }
     }
+  },
+  "reviews": {
+    "eyebrow": "Reviews",
+    "title": "Event reviews",
+    "count": "{{count}} reviews",
+    "starsLabel": "{{count}} out of 5 stars",
+    "write": "Write a review",
+    "composeTitle": "How was it?",
+    "composeHint": "Only attendees who checked in can review, once the event is over.",
+    "commentPlaceholder": "Tell others about your experience (optional)",
+    "ratingRequired": "Pick a rating from 1 to 5 stars.",
+    "submit": "Post review",
+    "thanks": "Thanks for your review!",
+    "emptyTitle": "No reviews yet",
+    "emptyBody": "Reviews appear here after the event ends.",
+    "errorTitle": "Couldn’t load reviews",
+    "retry": "Try again"
   }
 }

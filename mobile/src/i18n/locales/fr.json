@@ -71,7 +71,20 @@
       "qrUnavailable": "Votre QR code apparaîtra ici sous peu.",
       "notFoundTitle": "Billet introuvable",
       "pdfFailed": "Impossible de créer le PDF. Veuillez réessayer.",
-      "notFoundBody": "Ce billet n’est pas sur cet appareil. Retrouvez vos billets dans Mes billets."
+      "notFoundBody": "Ce billet n’est pas sur cet appareil. Retrouvez vos billets dans Mes billets.",
+      "rateEvent": "Noter cet événement"
+    },
+    "refund": {
+      "action": "Annuler ce billet",
+      "confirmTitle": "Annuler le billet {{code}} ?",
+      "confirmBody": "Vous recevrez un remboursement de 50 %, soit {{amount}}, sur le numéro Mobile Money utilisé pour le paiement. Cette action est irréversible.",
+      "confirmFree": "Ce billet gratuit sera annulé. Cette action est irréversible.",
+      "keep": "Garder le billet",
+      "confirm": "Annuler le billet",
+      "doneTitle": "Billet annulé",
+      "doneBody": "{{amount}} est en route vers votre compte Mobile Money.",
+      "doneNoRefund": "Votre billet a été annulé.",
+      "failedTitle": "Impossible d’annuler le billet"
     }
   },
   "onboarding": {
@@ -354,7 +367,11 @@
     "from": "À partir de",
     "price": "Prix",
     "unavailable": "Billets",
-    "getTickets": "Prendre des billets"
+    "getTickets": "Prendre des billets",
+    "reviews": "Avis",
+    "seeReviews": "Tout voir",
+    "noReviews": "Pas encore d’avis",
+    "reviewsHint": "Ce que les participants en ont pensé"
   },
   "checkout": {
     "step": "Étape {{step}} sur {{total}}",
@@ -546,5 +563,22 @@
         "title": "Nouvelle de tikly"
       }
     }
+  },
+  "reviews": {
+    "eyebrow": "Avis",
+    "title": "Avis sur l’événement",
+    "count": "{{count}} avis",
+    "starsLabel": "{{count}} étoiles sur 5",
+    "write": "Donner mon avis",
+    "composeTitle": "C’était comment ?",
+    "composeHint": "Seuls les participants enregistrés à l’entrée peuvent donner un avis, après l’événement.",
+    "commentPlaceholder": "Partagez votre expérience (facultatif)",
+    "ratingRequired": "Choisissez une note de 1 à 5 étoiles.",
+    "submit": "Publier l’avis",
+    "thanks": "Merci pour votre avis !",
+    "emptyTitle": "Pas encore d’avis",
+    "emptyBody": "Les avis apparaissent ici après l’événement.",
+    "errorTitle": "Impossible de charger les avis",
+    "retry": "Réessayer"
   }
 }

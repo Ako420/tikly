@@ -10,9 +10,13 @@ import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useTicketFormatter } from '@/features/tickets/formatTicket';
 import { shareTicketsPdf } from '@/features/tickets/ticketPdf';
+import { cancelTicket } from '@/features/tickets/api';
+import { isPastBundle } from '@/features/tickets/types';
 import { useTicketBundle } from '@/features/tickets/useMyTickets';
 import { useScanBrightness } from '@/features/tickets/useScanBrightness';
 import { useTranslation } from '@/i18n/I18nProvider';
+import { useApiErrorMessage } from '@/lib/api';
+import { formatMoney } from '@/lib/money';
 import { googleCalendarUrl } from '@/lib/share';
 import { useTheme } from '@/theme';
 
@@ -21,7 +25,8 @@ const DEFAULT_EVENT_MS = 6 * 60 * 60 * 1000;
 
 export default function TicketDetail() {
   const { bundleId } = useLocalSearchParams<{ bundleId: string }>();
-  const { bundle, loading } = useTicketBundle(bundleId);
+  const { bundle, loading, refresh } = useTicketBundle(bundleId);
+  const errorMessage = useApiErrorMessage();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
@@ -53,12 +58,56 @@ export default function TicketDetail() {
   const title = format.title(bundle);
   const total = bundle.tickets.length;
 
+  const current = bundle.tickets[Math.min(index, total - 1)];
+  const attended = bundle.tickets.some((ticket) => ticket.checkedIn);
+  const canReview = attended && isPastBundle(bundle);
+
+  const submitCancel = async () => {
+    if (!current) return;
+    try {
+      const { refund } = await cancelTicket(current.id);
+      Alert.alert(
+        t('myTickets.refund.doneTitle'),
+        refund.amount > 0 ? t('myTickets.refund.doneBody', { amount: formatMoney(refund.amount) }) : t('myTickets.refund.doneNoRefund'),
+      );
+      setIndex(0);
+      await refresh();
+      if (total <= 1) router.back();
+    } catch (caught) {
+      Alert.alert(t('myTickets.refund.failedTitle'), errorMessage(caught));
+    }
+  };
+
+  const confirmCancel = () => {
+    if (!current) return;
+    const refund = current.price ? Math.floor(current.price / 2) : 0;
+    Alert.alert(
+      t('myTickets.refund.confirmTitle', { code: current.code }),
+      refund > 0 ? t('myTickets.refund.confirmBody', { amount: formatMoney(refund) }) : t('myTickets.refund.confirmFree'),
+      [
+        { text: t('myTickets.refund.keep'), style: 'cancel' },
+        { text: t('myTickets.refund.confirm'), style: 'destructive', onPress: submitCancel },
+      ],
+    );
+  };
+
   const openMenu = () =>
     Alert.alert(title, undefined, [
       {
         text: t('myTickets.detail.viewEvent'),
         onPress: () => router.push({ pathname: '/events/[id]', params: { id: bundle.event.id } }),
       },
+      ...(canReview
+        ? [
+            {
+              text: t('myTickets.detail.rateEvent'),
+              onPress: () => router.push({ pathname: '/events/[id]/reviews', params: { id: bundle.event.id, write: '1' } }),
+            },
+          ]
+        : []),
+      ...(current?.refundable
+        ? [{ text: t('myTickets.refund.action'), style: 'destructive' as const, onPress: confirmCancel }]
+        : []),
       { text: t('myTickets.detail.cancel'), style: 'cancel' },
     ]);
 

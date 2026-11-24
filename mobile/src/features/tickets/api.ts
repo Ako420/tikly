@@ -9,7 +9,9 @@ type ApiMyTicket = {
   status: 'valid' | 'checked_in' | 'cancelled' | 'refunded';
   orderId: string;
   holderName?: string;
-  tier: { id: string; name: TierName };
+  tier: { id: string; name: TierName; price: number };
+  checkIns?: { at: string; type: string }[];
+  refundable?: boolean;
   event: {
     id: string;
     title: LocalizedText;
@@ -54,9 +56,16 @@ export async function listMyTicketBundles(holderName: string): Promise<TicketBun
       code: ticket.code,
       qrToken: ticket.qrToken,
       holderName: ticket.holderName ?? holderName,
+      price: ticket.tier.price,
+      refundable: ticket.refundable,
+      checkedIn: (ticket.checkIns?.length ?? 0) > 0,
     });
     bundles.set(ticket.orderId, bundle);
   }
 
   return [...bundles.values()];
 }
+
+export type CancelTicketResult = { refund: { amount: number } };
+
+export const cancelTicket = (ticketId: string) => api.post<CancelTicketResult>(`/tickets/${ticketId}/cancel`);
