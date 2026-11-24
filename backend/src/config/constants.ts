@@ -47,3 +47,5 @@ export const EXPIRE_ORDERS_BATCH = 50;
 export const PAYMENT_PROMPT_MESSAGE = 'Confirm the payment on your phone';
 export const RECONCILE_WINDOW_HOURS = 24;
 export const RECONCILE_BATCH = 50;
+export const REFUND_CUTOFF_HOURS = 48;
+export const REFUND_PERCENT = 50;

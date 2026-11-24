@@ -335,3 +335,43 @@ export const Order = registry.register(
 );
 
 export const WebhookAck = z.object({ received: z.literal(true) });
+
+export const Ticket = registry.register(
+  'Ticket',
+  z.object({
+    id: id(),
+    code: z.string().openapi({ example: 'EVT-7K2M-9QX', description: 'Short code for manual lookup at the gate.' }),
+    qrToken: z.string().openapi({
+      example: '6743a1f2c9e77b0012ab34cd.AbCdEfGhIjKlMnOpQrStUv',
+      description: 'Encode this string as the QR code. Signed; never contains personal data (SEC-2).',
+    }),
+    status: z.enum(TICKET_STATUSES),
+    orderId: id(),
+    checkIns: z.array(z.object({ at: dateTime(), type: z.enum(['entry', 'reentry']) })),
+    tier: z.object({ id: id(), name: z.enum(TIER_NAMES), price: xaf(15000) }),
+    event: z.object({
+      id: id(),
+      title: bilingual('Douala Jazz Night', 'Nuit du jazz de Douala'),
+      startAt: dateTime(),
+      endAt: dateTime('2026-12-20T21:00:00.000Z'),
+      venue: z.string(),
+      city: z.string(),
+      coverUrl: z.string().optional(),
+      status: z.enum(EVENT_STATUSES),
+    }),
+    refundable: z
+      .boolean()
+      .openapi({ description: 'True while the ticket is unused and the event starts in more than 48 hours.' }),
+    createdAt: dateTime(),
+  }),
+);
+
+export const TicketCancellation = registry.register(
+  'TicketCancellation',
+  z.object({
+    ticket: Ticket,
+    refund: z.object({ amount: xaf(7500).openapi({ description: '50% of the price paid; 0 for free tickets.' }) }),
+  }),
+);
+
+export const PdfFile = z.string().openapi({ type: 'string', format: 'binary' });

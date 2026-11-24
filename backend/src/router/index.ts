@@ -4,6 +4,7 @@ import { categoryRouter, eventRouter, organizerEventRouter } from './event.route
 import { healthRouter } from './health.router';
 import { myOrderRouter, orderRouter } from './order.router';
 import { paymentRouter } from './payment.router';
+import { myTicketRouter, ticketRouter } from './ticket.router';
 import { planningRouter } from './planning.router';
 import { eventTierRouter, tierRouter } from './tier.router';
 import { uploadRouter } from './upload.router';
@@ -22,3 +23,5 @@ apiRouter.use('/categories', categoryRouter);
 apiRouter.use('/orders', orderRouter);
 apiRouter.use('/me/orders', myOrderRouter);
 apiRouter.use('/payments', paymentRouter);
+apiRouter.use('/tickets', ticketRouter);
+apiRouter.use('/me/tickets', myTicketRouter);

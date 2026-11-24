@@ -18,6 +18,7 @@ export type ProviderPayment = {
 
 export interface PaymentProvider {
   readonly name: PaymentProviderName;
+  readonly payoutsEnabled: boolean;
   collect(input: CollectInput): Promise<{ externalRef: string }>;
   getStatus(externalRef: string): Promise<PaymentStatus>;
   getPayment(externalRef: string): Promise<ProviderPayment>;

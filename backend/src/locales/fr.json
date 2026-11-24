@@ -49,6 +49,7 @@
     "PAYOUTS_NOT_CONFIGURED": "Les reversements ne sont pas encore configurés.",
     "REFUND_WINDOW_CLOSED": "Il est trop tard pour annuler ce billet.",
     "TICKET_NOT_REFUNDABLE": "Ce billet ne peut pas être remboursé.",
+    "REFUND_BELOW_MINIMUM": "La moitié du prix de ce billet est inférieure au minimum de 100 XAF du mobile money : il ne peut pas être remboursé.",
     "PROVIDER_NOT_VERIFIED": "Votre entreprise doit être vérifiée avant de publier des services.",
     "PROVIDER_EXISTS": "Vous avez déjà un profil d'entreprise.",
     "BOOKING_NOT_PAYABLE": "Cette réservation ne peut pas être payée pour le moment.",
@@ -652,5 +653,14 @@
   },
   "messages": {
     "paymentPrompt": "Confirmez le paiement sur votre téléphone."
+  },
+  "pdf": {
+    "title": "Billet",
+    "when": "Quand",
+    "where": "Où",
+    "tier": "Catégorie",
+    "holder": "Titulaire",
+    "free": "Gratuit",
+    "scan": "Présentez ce QR code à l'entrée. Ne le partagez pas : chaque billet n'entre qu'une fois."
   }
 }

@@ -9,6 +9,7 @@ import './tier.docs';
 import './planning.docs';
 import './order.docs';
 import './payment.docs';
+import './ticket.docs';
 
 const DESCRIPTION = `
 REST API shared by the Tikly web app (Next.js) and mobile app (Expo).
@@ -43,6 +44,7 @@ const TAGS = [
   'Planning: agenda',
   'Orders',
   'Payments',
+  'Tickets',
 ];
 
 let document: ReturnType<OpenApiGeneratorV31['generateDocument']> | undefined;

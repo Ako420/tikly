@@ -4,6 +4,7 @@ import { PaymentOutcomeUnknownError } from '../lib/payment/errors';
 import { getPaymentProvider, type PaymentProvider } from '../lib/payment/provider';
 import { logger } from '../lib/logger';
 import { sendMail } from '../lib/mailer';
+import { buildTicketsPdf } from '../lib/pdf';
 import { withTransaction } from '../lib/transaction';
 import {
   EventModel,
@@ -393,7 +394,7 @@ async function deliverOrder(order: OrderDoc) {
   const [buyer, event, tickets] = await Promise.all([
     UserModel.findById(order.buyerId).select('name email language').lean(),
     EventModel.findById(order.eventId).select('title startAt venue city').lean(),
-    TicketModel.find({ orderId: order._id }).select('code tierId').lean(),
+    TicketModel.find({ orderId: order._id }).select('code qrToken tierId').lean(),
   ]);
   if (!buyer || !event) return;
   const tiers = await TicketTierModel.find({ _id: { $in: tickets.map((ticket) => ticket.tierId) } })
@@ -409,7 +410,23 @@ async function deliverOrder(order: OrderDoc) {
     String(event._id),
   );
   if (buyer.email) {
+    const unitPrice = new Map(order.items.map((item) => [String(item.refId), item.unitPrice]));
+    const pdf = await buildTicketsPdf(
+      tickets.map((ticket) => ({
+        code: ticket.code,
+        qrToken: ticket.qrToken,
+        tier: tierName.get(String(ticket.tierId)) ?? 'standard',
+        price: unitPrice.get(String(ticket.tierId)) ?? 0,
+        holderName: buyer.name,
+        eventTitle: eventTitle(event.title, lang),
+        startAt: event.startAt,
+        venue: event.venue,
+        city: event.city,
+      })),
+      lang,
+    );
     await sendMail({
+      attachments: [{ filename: 'tikly-tickets.pdf', content: pdf, contentType: 'application/pdf' }],
       to: buyer.email,
       template: 'ticket_purchased',
       lang,

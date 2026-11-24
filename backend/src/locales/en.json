@@ -49,6 +49,7 @@
     "PAYOUTS_NOT_CONFIGURED": "Payouts are not set up yet.",
     "REFUND_WINDOW_CLOSED": "It is too late to cancel this ticket.",
     "TICKET_NOT_REFUNDABLE": "This ticket cannot be refunded.",
+    "REFUND_BELOW_MINIMUM": "Half of this ticket price is below the 100 XAF mobile money minimum, so it cannot be refunded.",
     "PROVIDER_NOT_VERIFIED": "Your business must be verified before you can list services.",
     "PROVIDER_EXISTS": "You already have a business profile.",
     "BOOKING_NOT_PAYABLE": "This booking cannot be paid right now.",
@@ -652,5 +653,14 @@
   },
   "messages": {
     "paymentPrompt": "Confirm the payment on your phone."
+  },
+  "pdf": {
+    "title": "Ticket",
+    "when": "When",
+    "where": "Where",
+    "tier": "Category",
+    "holder": "Holder",
+    "free": "Free",
+    "scan": "Show this QR code at the entrance. Do not share it: each ticket gets in once."
   }
 }
