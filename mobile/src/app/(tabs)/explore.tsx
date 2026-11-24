@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { FlatList, Pressable, ScrollView, View } from 'react-native';
+import { EventListSkeleton } from '@/components/events/EventSkeletons';
 import { EventResultCard } from '@/components/events/EventResultCard';
 import { Chip } from '@/components/ui/Chip';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -11,10 +12,11 @@ import { Text } from '@/components/ui/Text';
 import { sampleUser } from '@/features/events/sampleEvents';
 import { useEvents, type EventSort } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
+import { useApiErrorMessage } from '@/lib/api';
 import { useTheme } from '@/theme';
 
 export default function Explore() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const { colors } = useTheme();
   const params = useLocalSearchParams<{ focus?: string }>();
   const searchRef = useRef<SearchFieldHandle>(null);
@@ -24,7 +26,9 @@ export default function Explore() {
   const [thisMonth, setThisMonth] = useState(false);
   const [sort, setSort] = useState<EventSort>('soonest');
 
-  const events = useEvents({ city, thisMonth, query, sort }, language);
+  const { data: events, loading, error, refetch } = useEvents({ city, thisMonth, query, sort });
+  const errorMessage = useApiErrorMessage();
+  const results = error || loading ? [] : events;
   const activeFilters = Number(!!city) + Number(thisMonth);
 
   useFocusEffect(
@@ -59,7 +63,7 @@ export default function Explore() {
       </View>
 
       <FlatList
-        data={events}
+        data={results}
         keyExtractor={(event) => event.id}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
@@ -98,7 +102,7 @@ export default function Explore() {
             </ScrollView>
             <View className="flex-row items-center justify-between px-6">
               <Text variant="bodySmStrong" tone="secondary">
-                {t(events.length === 1 ? 'explore.resultsOne' : 'explore.resultsOther', { count: events.length })}
+                {loading || error ? ' ' : t(results.length === 1 ? 'explore.resultsOne' : 'explore.resultsOther', { count: results.length })}
               </Text>
               <Pressable
                 accessibilityRole="button"
@@ -119,7 +123,22 @@ export default function Explore() {
             <EventResultCard event={item} onPress={() => router.push({ pathname: '/events/[id]', params: { id: item.id } })} />
           </View>
         )}
+        refreshing={false}
+        onRefresh={refetch}
         ListEmptyComponent={
+          loading ? (
+            <View className="px-6">
+              <EventListSkeleton count={4} variant="result" />
+            </View>
+          ) : error ? (
+            <EmptyState
+              icon="cloud-offline-outline"
+              title={t('errors.generic')}
+              body={errorMessage(error)}
+              actionLabel={t('errors.retry')}
+              onAction={refetch}
+            />
+          ) : (
           <EmptyState
             icon="search-outline"
             title={t('explore.emptyTitle')}
@@ -127,6 +146,7 @@ export default function Explore() {
             actionLabel={t('explore.clearFilters')}
             onAction={clearFilters}
           />
+          )
         }
       />
     </Screen>

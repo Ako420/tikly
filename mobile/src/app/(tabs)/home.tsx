@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Pressable, ScrollView, View } from 'react-native';
+import { EventListSkeleton, FeaturedSkeleton } from '@/components/events/EventSkeletons';
 import { EventRow } from '@/components/events/EventRow';
 import { FEATURED_CARD_WIDTH, FeaturedEventCard } from '@/components/events/FeaturedEventCard';
 import { Avatar } from '@/components/ui/Avatar';
@@ -17,16 +18,19 @@ import { sampleUser } from '@/features/events/sampleEvents';
 import { EVENT_CATEGORIES, type EventCategory } from '@/features/events/types';
 import { useEvents } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
+import { useApiErrorMessage } from '@/lib/api';
 import { useTheme } from '@/theme';
 
 const FEATURED_GAP = 14;
+const FEATURED_COUNT = 5;
 
 export default function Home() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const { colors } = useTheme();
   const [category, setCategory] = useState<EventCategory | undefined>();
-  const events = useEvents({ city: sampleUser.city, category }, language);
-  const featured = events.filter((event) => event.featured);
+  const { data: events, loading, error, refetch } = useEvents({ city: sampleUser.city, category });
+  const featured = events.filter((event) => event.coverUrl).slice(0, FEATURED_COUNT);
+  const errorMessage = useApiErrorMessage();
 
   return (
     <Screen edges={['top']}>
@@ -92,7 +96,12 @@ export default function Home() {
           ))}
         </ScrollView>
 
-        {featured.length > 0 ? (
+        {loading ? (
+          <View className="flex-row gap-3.5 overflow-hidden px-6">
+            <FeaturedSkeleton width={FEATURED_CARD_WIDTH} />
+            <FeaturedSkeleton width={FEATURED_CARD_WIDTH} />
+          </View>
+        ) : featured.length > 0 && !error ? (
           <View className="gap-3.5">
             <SectionHeader
               title={t('home.featured')}
@@ -122,7 +131,17 @@ export default function Home() {
             actionLabel={t('common.seeAll')}
             onAction={() => router.navigate('/explore')}
           />
-          {events.length > 0 ? (
+          {loading ? (
+            <EventListSkeleton />
+          ) : error ? (
+            <EmptyState
+              icon="cloud-offline-outline"
+              title={t('errors.generic')}
+              body={errorMessage(error)}
+              actionLabel={t('errors.retry')}
+              onAction={refetch}
+            />
+          ) : events.length > 0 ? (
             <View className="gap-3">
               {events.map((event) => (
                 <EventRow

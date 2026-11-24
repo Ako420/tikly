@@ -15,14 +15,13 @@ import { TierRow } from '@/components/events/details/TierRow';
 import { UpdatePost } from '@/components/events/details/UpdatePost';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { Screen } from '@/components/ui/Screen';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { StickyActionBar } from '@/components/ui/StickyActionBar';
 import { Text } from '@/components/ui/Text';
 import { useEventFormatter } from '@/features/events/formatEvent';
 import { getTierStock } from '@/features/events/tierStock';
 import { localize, type UpdateTag } from '@/features/events/types';
+import { EventLoadState } from '@/components/events/EventLoadState';
 import { useEventDetails } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { formatDateRange, formatDayMonthTime, formatTimeRange, getEventSpan } from '@/lib/dates';
@@ -36,7 +35,8 @@ const ABOUT_COLLAPSED_LINES = 3;
 
 export default function EventDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const event = useEventDetails(id);
+  const eventResource = useEventDetails(id);
+  const event = eventResource.data;
   const { t, language } = useTranslation();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -52,22 +52,9 @@ export default function EventDetailsScreen() {
     [event, updateFilter],
   );
 
-  if (!event) {
-    return (
-      <Screen>
-        <View className="flex-1 justify-center">
-          <EmptyState
-            icon="calendar-outline"
-            title={t('eventDetails.notFoundTitle')}
-            body={t('eventDetails.notFoundBody')}
-            actionLabel={t('common.back')}
-            onAction={() => router.back()}
-          />
-        </View>
-      </Screen>
-    );
-  }
+  if (!event) return <EventLoadState resource={eventResource} icon="calendar-outline" />;
 
+  const { organizer } = event;
   const title = format.title(event);
   const url = eventUrl(event.id);
   const shareMessage = t('events.shareMessage', { title, venue: event.venue });
@@ -144,21 +131,23 @@ export default function EventDetailsScreen() {
                 </Text>
               }
             />
-            <InfoRow
-              icon="people"
-              highlighted
-              title={
-                <View className="flex-row items-center gap-1">
-                  <Text variant="subheading" numberOfLines={1} className="shrink">
-                    {event.organizer.name}
-                  </Text>
-                  {event.organizer.verified ? <MaterialCommunityIcons name="check-decagram" size={18} color={colors.accentText} /> : null}
-                </View>
-              }
-              subtitle={t('eventDetails.organizerMeta', { count: event.organizer.eventsCount })}
-              onPress={() => undefined}
-              accessibilityLabel={`${event.organizer.name}, ${t('eventDetails.organizerMeta', { count: event.organizer.eventsCount })}`}
-            />
+            {organizer ? (
+              <InfoRow
+                icon="people"
+                highlighted
+                title={
+                  <View className="flex-row items-center gap-1">
+                    <Text variant="subheading" numberOfLines={1} className="shrink">
+                      {organizer.name}
+                    </Text>
+                    {organizer.verified ? <MaterialCommunityIcons name="check-decagram" size={18} color={colors.accentText} /> : null}
+                  </View>
+                }
+                subtitle={t('eventDetails.organizerMeta', { count: organizer.eventsCount })}
+                onPress={() => undefined}
+                accessibilityLabel={`${organizer.name}, ${t('eventDetails.organizerMeta', { count: organizer.eventsCount })}`}
+              />
+            ) : null}
           </View>
 
           {event.tiers.length > 0 ? (
@@ -211,7 +200,7 @@ export default function EventDetailsScreen() {
               </ScrollView>
               {visibleUpdates.length > 0 ? (
                 visibleUpdates.map((update) => (
-                  <UpdatePost key={update.id} update={update} author={event.organizer.name} verified={event.organizer.verified} />
+                  <UpdatePost key={update.id} update={update} author={organizer?.name ?? ''} verified={!!organizer?.verified} />
                 ))
               ) : (
                 <Text variant="bodySm" tone="muted">

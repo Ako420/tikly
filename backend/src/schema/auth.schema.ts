@@ -3,7 +3,7 @@ import { PASSWORD_MAX_BYTES } from '../config/constants';
 import { LANGUAGES, SELF_SIGNUP_ROLES } from '../types/enums';
 import { camPhone, normalizePhone } from './common.schema';
 
-const name = z
+export const personName = z
   .string('validation.user.name.required')
   .trim()
   .min(2, 'validation.user.name.minLength')
@@ -16,7 +16,7 @@ const email = z
   .max(254, 'validation.user.email.maxLength')
   .pipe(z.email('validation.user.email.invalid'));
 
-const newPassword = z
+export const newPassword = z
   .string('validation.auth.password.required')
   .min(8, 'validation.auth.password.minLength')
   .refine((value) => Buffer.byteLength(value, 'utf8') <= PASSWORD_MAX_BYTES, 'validation.auth.password.tooLong');
@@ -31,7 +31,7 @@ const expoPushToken = z
 const requiredString = (key: string) => z.string(key).min(1, key);
 
 export const registerBody = z.object({
-  name,
+  name: personName,
   email,
   phone: camPhone,
   password: newPassword,
@@ -58,7 +58,7 @@ export const resetPasswordBody = z.object({
 });
 
 export const updateMeBody = z
-  .object({ name: name.optional(), phone: camPhone.optional(), language: language.optional() })
+  .object({ name: personName.optional(), phone: camPhone.optional(), language: language.optional() })
   .refine((body) => Object.values(body).some((value) => value !== undefined), 'validation.common.emptyUpdate');
 
 export const pushTokenBody = z.object({ token: expoPushToken });

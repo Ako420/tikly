@@ -35,6 +35,7 @@ export type CreateTicketOrderInput = {
   phone: string;
   method: PaymentMethod;
   holderName: string;
+  idempotencyKey?: string;
 };
 
 export const RESERVATION_MINUTES = 10;

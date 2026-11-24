@@ -72,6 +72,7 @@ export function createFapshiProvider(config: FapshiConfig): PaymentProvider {
 
   return {
     name: 'fapshi',
+    payoutsEnabled: Boolean(config.payout),
 
     async collect(input: CollectInput) {
       const data = await call<FapshiTransaction>('direct-pay', () =>

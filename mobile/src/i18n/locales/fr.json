@@ -10,6 +10,7 @@
     "country": "Cameroun",
     "increase": "Ajouter un",
     "decrease": "Retirer un",
+    "loading": "Chargement",
     "retry": "Réessayer",
     "close": "Fermer"
   },
@@ -213,6 +214,10 @@
       "expos": {
         "plural": "Salons",
         "singular": "Salon"
+      },
+      "other": {
+        "plural": "Autres",
+        "singular": "Événement"
       }
     },
     "photoCount": "Photo {{index}} sur {{total}}",
@@ -313,7 +318,8 @@
   },
   "errors": {
     "network": "Impossible de joindre tikly pour le moment. Vérifiez votre connexion et réessayez.",
-    "generic": "Une erreur est survenue. Veuillez réessayer."
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "retry": "Réessayer"
   },
   "payments": {
     "methods": {

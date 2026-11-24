@@ -17,6 +17,14 @@ orderRouter.post(
   validate({ body: s.createTicketOrderBody }),
   ctrl.createTicketOrder,
 );
+orderRouter.post(
+  '/bookings',
+  authenticate,
+  authorize('organizer'),
+  paymentLimiter,
+  validate({ body: s.createBookingOrderBody }),
+  ctrl.createBookingOrder,
+);
 orderRouter.get('/:id', authenticate, validate({ params: idParam }), ctrl.getOne);
 orderRouter.post('/:id/verify', authenticate, paymentLimiter, validate({ params: idParam }), ctrl.verify);
 

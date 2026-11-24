@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { EventLoadState } from '@/components/events/EventLoadState';
 import { EventSummaryCard } from '@/components/events/EventSummaryCard';
 import { PaymentMethodCard } from '@/components/payments/PaymentMethodCard';
 import { Button } from '@/components/ui/Button';
@@ -29,7 +30,8 @@ import { useTheme } from '@/theme';
 
 export default function Checkout() {
   const params = useLocalSearchParams<{ id: string; tier?: string; qty?: string; method?: string }>();
-  const event = useEventDetails(params.id);
+  const eventResource = useEventDetails(params.id);
+  const event = eventResource.data;
   const { t, language } = useTranslation();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -49,7 +51,9 @@ export default function Checkout() {
   const tier = event?.tiers.find((item) => item.id === params.tier);
   const quantity = Math.min(Math.max(Number(params.qty) || 0, 0), MAX_TICKETS_PER_ORDER);
 
-  if (!event || !tier || quantity < 1) {
+  if (!event) return <EventLoadState resource={eventResource} icon="ticket-outline" />;
+
+  if (!tier || quantity < 1) {
     return (
       <Screen>
         <View className="flex-1 justify-center">

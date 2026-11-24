@@ -49,16 +49,23 @@
     "PAYOUTS_NOT_CONFIGURED": "Payouts are not set up yet.",
     "REFUND_WINDOW_CLOSED": "It is too late to cancel this ticket.",
     "TICKET_NOT_REFUNDABLE": "This ticket cannot be refunded.",
+    "REFUND_BELOW_MINIMUM": "Half of this ticket price is below the 100 XAF mobile money minimum, so it cannot be refunded.",
     "PROVIDER_NOT_VERIFIED": "Your business must be verified before you can list services.",
     "PROVIDER_EXISTS": "You already have a business profile.",
     "BOOKING_NOT_PAYABLE": "This booking cannot be paid right now.",
     "BOOKING_NOT_LINKABLE": "Only an accepted or paid booking of yours for this event can be linked.",
     "BOOKING_ALREADY_LINKED": "This booking is already linked to a budget line.",
+    "BOOKING_NOT_PENDING": "This booking has already been answered.",
+    "BOOKING_NOT_CANCELLABLE": "Only bookings that are not paid yet can be cancelled.",
+    "BOOKING_PAYMENT_PENDING": "A payment for this booking is in progress. Confirm it on your phone or wait a few minutes.",
+    "BOOKING_NOT_COMPLETABLE": "A booking can be marked as done only once it is paid and its end date has passed.",
     "SLOT_SOLD_OUT": "No display slots of this type are left.",
     "REVIEW_NOT_ALLOWED": "You cannot review this yet.",
     "REVIEW_EXISTS": "You have already left a review.",
     "STAFF_ALREADY_ASSIGNED": "This staff member is already assigned to the event.",
     "NOT_ASSIGNED_TO_EVENT": "You are not assigned to this event.",
+    "TICKET_NOT_CHECKED_IN": "This ticket has not entered yet. Scan it as a normal entry.",
+    "TICKET_NOT_VALID": "This ticket was cancelled or refunded.",
     "RATE_LIMITED": "Too many attempts. Please wait a minute and try again.",
     "SERVICE_UNAVAILABLE": "The service is temporarily unavailable. Please try again in a moment.",
     "INTERNAL": "Something went wrong on our side. Please try again later."
@@ -76,7 +83,8 @@
         "integer": "Quantity must be a whole number."
       },
       "invalidValue": "This value has the wrong format.",
-      "emptyUpdate": "Send at least one field to update."
+      "emptyUpdate": "Send at least one field to update.",
+      "dateRange": "The start date must be before the end date."
     },
     "user": {
       "name": {
@@ -422,7 +430,9 @@
         "invalid": "Enter a valid WhatsApp number, e.g. 6XXXXXXXX."
       },
       "documents": {
-        "required": "Upload at least one verification document."
+        "required": "Upload at least one verification document.",
+        "invalid": "Each document must be one you uploaded with POST /uploads/document.",
+        "max": "You can attach at most {max} documents."
       },
       "verification": {
         "invalid": "This verification status does not exist."
@@ -448,7 +458,8 @@
         "maxLength": "The description must be at most {max} characters."
       },
       "photos": {
-        "invalid": "Each photo must be a valid web address."
+        "invalid": "Each photo must be a valid web address.",
+        "max": "You can add at most {max} photos."
       },
       "city": {
         "required": "Enter the city where the service is offered.",
@@ -461,6 +472,9 @@
       "unit": {
         "required": "Choose how the price is charged.",
         "invalid": "The price must be per day, per item or per event."
+      },
+      "priceRange": {
+        "invalid": "The minimum price cannot be higher than the maximum price."
       }
     },
     "booking": {
@@ -474,7 +488,8 @@
         "required": "The booking must be linked to an order."
       },
       "startDate": {
-        "required": "Set the start date of the booking."
+        "required": "Set the start date of the booking.",
+        "future": "The booking must start in the future."
       },
       "endDate": {
         "required": "Set the end date of the booking.",
@@ -482,11 +497,13 @@
       },
       "quantity": {
         "required": "Enter the quantity to book.",
-        "min": "Book at least {min}."
+        "min": "Book at least {min}.",
+        "max": "You can book at most {max}."
       },
       "amount": {
         "required": "Set the final price before accepting the booking.",
-        "min": "The price cannot be negative."
+        "min": "The price cannot be negative.",
+        "minPayment": "The price must be at least {min} XAF, the mobile money minimum."
       },
       "note": {
         "maxLength": "The note must be at most {max} characters."
@@ -586,6 +603,14 @@
         },
         "duplicate": "Two categories cannot share the same key."
       }
+    },
+    "access": {
+      "scan": {
+        "required": "Send the scanned QR code or the ticket code."
+      },
+      "lookup": {
+        "required": "Enter a ticket code or a phone number."
+      }
     }
   },
   "email": {
@@ -652,5 +677,14 @@
   },
   "messages": {
     "paymentPrompt": "Confirm the payment on your phone."
+  },
+  "pdf": {
+    "title": "Ticket",
+    "when": "When",
+    "where": "Where",
+    "tier": "Category",
+    "holder": "Holder",
+    "free": "Free",
+    "scan": "Show this QR code at the entrance. Do not share it: each ticket gets in once."
   }
 }

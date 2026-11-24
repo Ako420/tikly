@@ -19,7 +19,7 @@ import { useTheme } from '@/theme';
 export default function OrderStatus() {
   const { orderId } = useLocalSearchParams<{ orderId: string }>();
   const { order, error, verify, verifying } = useTicketOrder(orderId);
-  const event = useEventDetails(order?.eventId);
+  const event = useEventDetails(order?.eventId).data;
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { user } = useAuth();

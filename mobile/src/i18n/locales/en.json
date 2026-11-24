@@ -10,6 +10,7 @@
     "country": "Cameroon",
     "increase": "Add one",
     "decrease": "Remove one",
+    "loading": "Loading",
     "retry": "Try again",
     "close": "Close"
   },
@@ -213,6 +214,10 @@
       "expos": {
         "plural": "Expos",
         "singular": "Expo"
+      },
+      "other": {
+        "plural": "Other",
+        "singular": "Event"
       }
     },
     "photoCount": "Photo {{index}} of {{total}}",
@@ -313,7 +318,8 @@
   },
   "errors": {
     "network": "Can’t reach tikly right now. Check your connection and try again.",
-    "generic": "Something went wrong. Please try again."
+    "generic": "Something went wrong. Please try again.",
+    "retry": "Try again"
   },
   "payments": {
     "methods": {

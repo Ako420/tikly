@@ -49,16 +49,23 @@
     "PAYOUTS_NOT_CONFIGURED": "Les reversements ne sont pas encore configurés.",
     "REFUND_WINDOW_CLOSED": "Il est trop tard pour annuler ce billet.",
     "TICKET_NOT_REFUNDABLE": "Ce billet ne peut pas être remboursé.",
+    "REFUND_BELOW_MINIMUM": "La moitié du prix de ce billet est inférieure au minimum de 100 XAF du mobile money : il ne peut pas être remboursé.",
     "PROVIDER_NOT_VERIFIED": "Votre entreprise doit être vérifiée avant de publier des services.",
     "PROVIDER_EXISTS": "Vous avez déjà un profil d'entreprise.",
     "BOOKING_NOT_PAYABLE": "Cette réservation ne peut pas être payée pour le moment.",
     "BOOKING_NOT_LINKABLE": "Seule une de vos réservations acceptée ou payée pour cet événement peut être liée.",
     "BOOKING_ALREADY_LINKED": "Cette réservation est déjà liée à une ligne du budget.",
+    "BOOKING_NOT_PENDING": "Cette réservation a déjà reçu une réponse.",
+    "BOOKING_NOT_CANCELLABLE": "Seules les réservations non encore payées peuvent être annulées.",
+    "BOOKING_PAYMENT_PENDING": "Un paiement pour cette réservation est en cours. Confirmez-le sur votre téléphone ou patientez quelques minutes.",
+    "BOOKING_NOT_COMPLETABLE": "Une réservation ne peut être marquée comme terminée qu’une fois payée et après sa date de fin.",
     "SLOT_SOLD_OUT": "Il ne reste plus d'emplacement d'exposition de ce type.",
     "REVIEW_NOT_ALLOWED": "Vous ne pouvez pas encore laisser d'avis.",
     "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
     "STAFF_ALREADY_ASSIGNED": "Ce membre du personnel est déjà affecté à l'événement.",
     "NOT_ASSIGNED_TO_EVENT": "Vous n'êtes pas affecté à cet événement.",
+    "TICKET_NOT_CHECKED_IN": "Ce billet n'est pas encore entré. Scannez-le comme une entrée normale.",
+    "TICKET_NOT_VALID": "Ce billet a été annulé ou remboursé.",
     "RATE_LIMITED": "Trop de tentatives. Patientez une minute puis réessayez.",
     "SERVICE_UNAVAILABLE": "Le service est momentanément indisponible. Veuillez réessayer dans un instant.",
     "INTERNAL": "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard."
@@ -76,7 +83,8 @@
         "integer": "La quantité doit être un nombre entier."
       },
       "invalidValue": "Cette valeur n'a pas le bon format.",
-      "emptyUpdate": "Envoyez au moins un champ à modifier."
+      "emptyUpdate": "Envoyez au moins un champ à modifier.",
+      "dateRange": "La date de début doit précéder la date de fin."
     },
     "user": {
       "name": {
@@ -422,7 +430,9 @@
         "invalid": "Saisissez un numéro WhatsApp valide, par ex. 6XXXXXXXX."
       },
       "documents": {
-        "required": "Téléversez au moins un document de vérification."
+        "required": "Téléversez au moins un document de vérification.",
+        "invalid": "Chaque document doit avoir été envoyé avec POST /uploads/document.",
+        "max": "Vous pouvez joindre au plus {max} documents."
       },
       "verification": {
         "invalid": "Ce statut de vérification n'existe pas."
@@ -448,7 +458,8 @@
         "maxLength": "La description doit contenir au maximum {max} caractères."
       },
       "photos": {
-        "invalid": "Chaque photo doit être une adresse web valide."
+        "invalid": "Chaque photo doit être une adresse web valide.",
+        "max": "Vous pouvez ajouter au plus {max} photos."
       },
       "city": {
         "required": "Indiquez la ville où le service est proposé.",
@@ -461,6 +472,9 @@
       "unit": {
         "required": "Choisissez comment le prix est facturé.",
         "invalid": "Le prix doit être par jour, par article ou par événement."
+      },
+      "priceRange": {
+        "invalid": "Le prix minimum ne peut pas dépasser le prix maximum."
       }
     },
     "booking": {
@@ -474,7 +488,8 @@
         "required": "La réservation doit être liée à une commande."
       },
       "startDate": {
-        "required": "Indiquez la date de début de la réservation."
+        "required": "Indiquez la date de début de la réservation.",
+        "future": "La réservation doit commencer dans le futur."
       },
       "endDate": {
         "required": "Indiquez la date de fin de la réservation.",
@@ -482,11 +497,13 @@
       },
       "quantity": {
         "required": "Saisissez la quantité à réserver.",
-        "min": "Réservez au moins {min}."
+        "min": "Réservez au moins {min}.",
+        "max": "Vous pouvez réserver au plus {max}."
       },
       "amount": {
         "required": "Fixez le prix final avant d'accepter la réservation.",
-        "min": "Le prix ne peut pas être négatif."
+        "min": "Le prix ne peut pas être négatif.",
+        "minPayment": "Le prix doit être d’au moins {min} XAF, le minimum du mobile money."
       },
       "note": {
         "maxLength": "La note doit contenir au maximum {max} caractères."
@@ -586,6 +603,14 @@
         },
         "duplicate": "Deux catégories ne peuvent pas avoir la même clé."
       }
+    },
+    "access": {
+      "scan": {
+        "required": "Envoyez le QR code scanné ou le code du billet."
+      },
+      "lookup": {
+        "required": "Saisissez un code de billet ou un numéro de téléphone."
+      }
     }
   },
   "email": {
@@ -652,5 +677,14 @@
   },
   "messages": {
     "paymentPrompt": "Confirmez le paiement sur votre téléphone."
+  },
+  "pdf": {
+    "title": "Billet",
+    "when": "Quand",
+    "where": "Où",
+    "tier": "Catégorie",
+    "holder": "Titulaire",
+    "free": "Gratuit",
+    "scan": "Présentez ce QR code à l'entrée. Ne le partagez pas : chaque billet n'entre qu'une fois."
   }
 }

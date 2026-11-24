@@ -61,6 +61,7 @@ type Operation = {
   alsoStatus?: { status: 200 | 201; description: string };
   response: ZodType;
   paged?: boolean;
+  pdf?: boolean;
   responseDescription?: string;
   errors?: Partial<Record<Status, string[]>>;
 };
@@ -126,7 +127,9 @@ export function route(op: Operation) {
     responses: {
       [op.status ?? 200]: {
         description: op.responseDescription ?? 'Success',
-        content: { 'application/json': { schema: op.paged ? pagedEnvelope(op.response) : envelope(op.response) } },
+        content: op.pdf
+          ? { 'application/pdf': { schema: op.response } }
+          : { 'application/json': { schema: op.paged ? pagedEnvelope(op.response) : envelope(op.response) } },
       },
       ...(op.alsoStatus && {
         [op.alsoStatus.status]: {

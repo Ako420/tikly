@@ -1,5 +1,10 @@
 import type { RequestHandler } from 'express';
-import { purchaseHeaders, type CreateTicketOrderBody, type ListMyOrdersQuery } from '../schema/order.schema';
+import {
+  purchaseHeaders,
+  type CreateBookingOrderBody,
+  type CreateTicketOrderBody,
+  type ListMyOrdersQuery,
+} from '../schema/order.schema';
 import * as orderService from '../service/order.service';
 import { requestLanguage } from '../util/requestLanguage';
 import { created, ok, paginated } from '../util/response';
@@ -9,6 +14,18 @@ export const createTicketOrder: RequestHandler = async (req, res) => {
   const { order, replayed } = await orderService.createTicketOrder(
     req.user!.id,
     req.body as CreateTicketOrderBody,
+    requestLanguage(req),
+    idempotencyKey,
+  );
+  if (replayed) ok(res, order);
+  else created(res, order);
+};
+
+export const createBookingOrder: RequestHandler = async (req, res) => {
+  const { 'idempotency-key': idempotencyKey } = purchaseHeaders.parse(req.headers);
+  const { order, replayed } = await orderService.createBookingOrder(
+    req.user!.id,
+    req.body as CreateBookingOrderBody,
     requestLanguage(req),
     idempotencyKey,
   );

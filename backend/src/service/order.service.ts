@@ -4,6 +4,7 @@ import { PaymentOutcomeUnknownError } from '../lib/payment/errors';
 import { getPaymentProvider, type PaymentProvider } from '../lib/payment/provider';
 import { logger } from '../lib/logger';
 import { sendMail } from '../lib/mailer';
+import { buildTicketsPdf } from '../lib/pdf';
 import { withTransaction } from '../lib/transaction';
 import {
   EventModel,
@@ -16,7 +17,7 @@ import {
   type OrderDoc,
   type TransactionDoc,
 } from '../model';
-import type { CreateTicketOrderBody, ListMyOrdersQuery } from '../schema/order.schema';
+import type { CreateBookingOrderBody, CreateTicketOrderBody, ListMyOrdersQuery } from '../schema/order.schema';
 import type { Language, Role, TierName } from '../types/enums';
 import { AppError } from '../util/AppError';
 import { t } from '../util/i18n';
@@ -24,6 +25,13 @@ import { splitAmount } from '../util/money';
 import { skipFor } from '../util/pagination';
 import { createQrToken } from '../util/qrToken';
 import { ticketCode } from '../util/ticketCode';
+import {
+  announceBookingPaid,
+  bookingRefunded,
+  findPayableBooking,
+  linkOrder,
+  markBookingPaid,
+} from './booking.service';
 import { notifyUsers } from './notification.service';
 import { getCommissionRate } from './setting.service';
 
@@ -136,7 +144,7 @@ async function replayPurchase(buyerId: string, key: string, input: CreateTicketO
   return { order: await toOrderView(previous, lang), replayed: true };
 }
 
-async function startCollection(order: OrderDoc, input: CreateTicketOrderBody, description: string) {
+async function startCollection(order: OrderDoc, input: { phone: string }, description: string) {
   const provider = getPaymentProvider();
   let externalRef: string;
   try {
@@ -221,6 +229,58 @@ export async function createTicketOrder(
   return { order: await toOrderView((await OrderModel.findById(order._id))!, lang), replayed: false };
 }
 
+async function replayBookingPayment(buyerId: string, key: string, bookingId: string, lang: Language) {
+  const previous = await OrderModel.findOne({ buyerId, idempotencyKey: key });
+  if (!previous) return null;
+  if (previous.type !== 'service' || String(previous.items[0]?.refId) !== bookingId) {
+    throw AppError.conflict('IDEMPOTENCY_KEY_REUSED');
+  }
+  return { order: await toOrderView(previous, lang), replayed: true };
+}
+
+export async function createBookingOrder(
+  buyerId: string,
+  input: CreateBookingOrderBody,
+  lang: Language,
+  idempotencyKey?: string,
+) {
+  if (idempotencyKey) {
+    const previous = await replayBookingPayment(buyerId, idempotencyKey, input.bookingId, lang);
+    if (previous) return previous;
+  }
+
+  const { booking, payeeId, title } = await findPayableBooking(buyerId, input.bookingId);
+  const amount = booking.amount!;
+  let order: OrderDoc;
+  try {
+    order = await OrderModel.create({
+      type: 'service',
+      buyerId,
+      payeeId,
+      ...(booking.eventId && { eventId: booking.eventId }),
+      items: [{ refId: booking._id, refModel: 'Booking', quantity: 1, unitPrice: amount }],
+      amount,
+      phone: input.phone,
+      status: 'pending',
+      expiresAt: minutesFromNow(RESERVATION_MINUTES),
+      ...(idempotencyKey && { idempotencyKey }),
+    });
+  } catch (err) {
+    if (idempotencyKey && isDuplicateKey(err)) {
+      const previous = await replayBookingPayment(buyerId, idempotencyKey, input.bookingId, lang);
+      if (previous) return previous;
+    }
+    throw err;
+  }
+
+  if (!(await linkOrder(booking, order._id))) {
+    await OrderModel.updateOne({ _id: order._id, status: 'pending' }, { status: 'failed' });
+    throw AppError.conflict('BOOKING_NOT_PAYABLE');
+  }
+  await startCollection(order, input, `Tikly booking – ${title}`.slice(0, 200));
+  return { order: await toOrderView((await OrderModel.findById(order._id))!, lang), replayed: false };
+}
+
 async function issueTickets(order: OrderDoc, session: ClientSession) {
   for (const item of order.items) {
     const moved = await TicketTierModel.updateOne(
@@ -245,6 +305,19 @@ async function issueTickets(order: OrderDoc, session: ClientSession) {
   }
 }
 
+async function secureLapsedItems(order: OrderDoc, session: ClientSession) {
+  const taken: OrderItem[] = [];
+  for (const item of order.items) {
+    const reserved = await reserveTier(item.refId, order.eventId!, item.quantity, session);
+    if (!reserved) {
+      await releaseItems(taken, session);
+      return false;
+    }
+    taken.push(item);
+  }
+  return true;
+}
+
 async function claimForPayment(orderId: string, session: ClientSession) {
   const paidAt = new Date();
   const pending = await OrderModel.findOneAndUpdate(
@@ -252,19 +325,19 @@ async function claimForPayment(orderId: string, session: ClientSession) {
     { status: 'paid', paidAt },
     { new: true, session },
   );
-  if (pending) return { order: pending };
+  if (pending) {
+    if (pending.type === 'service' && !(await markBookingPaid(pending, session))) {
+      await OrderModel.updateOne({ _id: pending._id }, { status: 'failed', $unset: { paidAt: 1 } }, { session });
+      return { unfulfillable: pending };
+    }
+    return { order: pending };
+  }
 
   const lapsed = await OrderModel.findOne({ _id: orderId, status: { $in: ['expired', 'failed'] } }).session(session);
   if (!lapsed) return null;
-  const taken: OrderItem[] = [];
-  for (const item of lapsed.items) {
-    const reserved = await reserveTier(item.refId, lapsed.eventId!, item.quantity, session);
-    if (!reserved) {
-      await releaseItems(taken, session);
-      return { unfulfillable: lapsed };
-    }
-    taken.push(item);
-  }
+  const secured =
+    lapsed.type === 'service' ? await markBookingPaid(lapsed, session) : await secureLapsedItems(lapsed, session);
+  if (!secured) return { unfulfillable: lapsed };
   const revived = await OrderModel.findOneAndUpdate(
     { _id: orderId, status: lapsed.status },
     { status: 'paid', paidAt },
@@ -308,7 +381,8 @@ async function refundUnfulfillable(order: OrderDoc) {
       reference: `refund-${order.id}`,
       amount: order.amount,
       phone: order.phone!,
-      description: 'Tikly refund: tickets sold out',
+      description:
+        order.type === 'service' ? 'Tikly refund: booking no longer payable' : 'Tikly refund: tickets sold out',
     });
     await TransactionModel.create({
       orderId: order._id,
@@ -319,12 +393,16 @@ async function refundUnfulfillable(order: OrderDoc) {
       status: 'pending',
     });
     await OrderModel.updateOne({ _id: order._id }, { status: 'refunded' });
-    await notifyUsers(
-      [String(order.buyerId)],
-      'ticket_refunded',
-      { orderId: order.id, amount: order.amount },
-      String(order.eventId),
-    );
+    if (order.type === 'service') {
+      await bookingRefunded(order);
+    } else {
+      await notifyUsers(
+        [String(order.buyerId)],
+        'ticket_refunded',
+        { orderId: order.id, amount: order.amount },
+        String(order.eventId),
+      );
+    }
   } catch (err) {
     logger.error({ err, orderId: order.id, amount: order.amount }, 'Late payment could not be refunded automatically');
   }
@@ -338,7 +416,7 @@ export async function releaseOrder(orderId: string, status: 'failed' | 'expired'
       { new: true, session },
     );
     if (!order) return;
-    await releaseItems(order.items, session);
+    if (order.type === 'ticket') await releaseItems(order.items, session);
     if (status === 'failed') {
       await TransactionModel.updateOne(
         { orderId: order._id, kind: 'payment', status: 'pending' },
@@ -390,10 +468,11 @@ export async function adoptPayment(externalRef: string) {
 }
 
 async function deliverOrder(order: OrderDoc) {
+  if (order.type === 'service') return announceBookingPaid(order);
   const [buyer, event, tickets] = await Promise.all([
     UserModel.findById(order.buyerId).select('name email language').lean(),
     EventModel.findById(order.eventId).select('title startAt venue city').lean(),
-    TicketModel.find({ orderId: order._id }).select('code tierId').lean(),
+    TicketModel.find({ orderId: order._id }).select('code qrToken tierId').lean(),
   ]);
   if (!buyer || !event) return;
   const tiers = await TicketTierModel.find({ _id: { $in: tickets.map((ticket) => ticket.tierId) } })
@@ -409,7 +488,23 @@ async function deliverOrder(order: OrderDoc) {
     String(event._id),
   );
   if (buyer.email) {
+    const unitPrice = new Map(order.items.map((item) => [String(item.refId), item.unitPrice]));
+    const pdf = await buildTicketsPdf(
+      tickets.map((ticket) => ({
+        code: ticket.code,
+        qrToken: ticket.qrToken,
+        tier: tierName.get(String(ticket.tierId)) ?? 'standard',
+        price: unitPrice.get(String(ticket.tierId)) ?? 0,
+        holderName: buyer.name,
+        eventTitle: eventTitle(event.title, lang),
+        startAt: event.startAt,
+        venue: event.venue,
+        city: event.city,
+      })),
+      lang,
+    );
     await sendMail({
+      attachments: [{ filename: 'tikly-tickets.pdf', content: pdf, contentType: 'application/pdf' }],
       to: buyer.email,
       template: 'ticket_purchased',
       lang,
