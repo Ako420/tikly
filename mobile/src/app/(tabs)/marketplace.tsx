@@ -16,12 +16,14 @@ import { HOME_CITIES, useHomeCity } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 const PRICE_CAPS = [100_000, 500_000];
 const SEARCH_DEBOUNCE_MS = 350;
 
 export default function Marketplace() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const format = useMarketplaceFormat();
@@ -84,6 +86,7 @@ export default function Marketplace() {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={header}
         contentContainerClassName="gap-3 px-6 pb-8 pt-2"
+        contentContainerStyle={{ paddingBottom: tabBarSpace }}
         keyboardShouldPersistTaps="handled"
         refreshControl={<RefreshControl refreshing={services.loading && items.length > 0} onRefresh={services.reload} tintColor={colors.accentText} />}
         renderItem={({ item }) => (

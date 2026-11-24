@@ -13,9 +13,11 @@ import { DEFAULT_LOCATION } from '@/features/events/location';
 import { useEvents, type EventSort } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 export default function Explore() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const params = useLocalSearchParams<{ focus?: string }>();
@@ -68,7 +70,7 @@ export default function Explore() {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         showsVerticalScrollIndicator={false}
-        contentContainerClassName="gap-3 pb-6"
+        contentContainerClassName="gap-3 pb-6" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         ListHeaderComponent={
           <View className="gap-4 pb-1 pt-2">
             <SearchField

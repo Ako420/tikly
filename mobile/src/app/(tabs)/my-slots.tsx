@@ -10,9 +10,11 @@ import { useMarketplaceFormat } from '@/features/marketplace/format';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 export default function MySlots() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const format = useMarketplaceFormat();
@@ -34,7 +36,7 @@ export default function MySlots() {
         data={items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<ScreenTitle title={t('exhibitor.mySlotsTitle')} />}
-        contentContainerClassName="gap-3 px-6 pb-8 pt-3"
+        contentContainerClassName="gap-3 px-6 pb-8 pt-3" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         refreshControl={<RefreshControl refreshing={bookings.loading && items.length > 0} onRefresh={reload} tintColor={colors.accentText} />}
         renderItem={({ item }) => (
           <BookingRow

@@ -23,12 +23,14 @@ import { useNotifications } from '@/features/notifications/notificationStore';
 import { HOME_CITIES, setHomeCity, useHomeCity } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 const FEATURED_GAP = 14;
 const FEATURED_COUNT = 5;
 
 export default function Home() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { user } = useAuth();
@@ -42,7 +44,7 @@ export default function Home() {
 
   return (
     <Screen edges={['top']}>
-      <ScrollView contentContainerClassName="gap-[22px] pb-6" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="gap-[22px] pb-6" contentContainerStyle={{ paddingBottom: tabBarSpace }} showsVerticalScrollIndicator={false}>
         <View className="h-14 flex-row items-center justify-between px-6">
           <Pressable accessibilityRole="button" accessibilityLabel={t('home.changeCity')} onPress={() => setCityOpen(true)} className="gap-0.5">
             <Text variant="eyebrow" tone="accent">
