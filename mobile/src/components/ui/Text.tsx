@@ -8,6 +8,7 @@ export type TextTone =
   | 'muted'
   | 'accent'
   | 'onAction'
+  | 'onPrimary'
   | 'onAccent'
   | 'onMedia'
   | 'inverse'
@@ -21,6 +22,7 @@ const toneClass: Record<TextTone, string> = {
   muted: 'text-foreground-muted',
   accent: 'text-accent-text',
   onAction: 'text-on-action',
+  onPrimary: 'text-on-primary',
   onAccent: 'text-on-accent',
   onMedia: 'text-on-media',
   inverse: 'text-background',

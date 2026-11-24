@@ -49,6 +49,7 @@ export default function SignUpDetails() {
 
   const handleSubmit = () => {
     setSubmitted(true);
+    if (Object.keys(errors).length === 0) router.replace('/home');
   };
 
   return (

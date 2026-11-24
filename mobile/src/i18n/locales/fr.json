@@ -4,7 +4,9 @@
     "language": "Langue",
     "back": "Retour",
     "showPassword": "Afficher le mot de passe",
-    "hidePassword": "Masquer le mot de passe"
+    "hidePassword": "Masquer le mot de passe",
+    "seeAll": "Tout voir",
+    "clear": "Effacer"
   },
   "splash": {
     "tagline": "Événements · Billets · Entrée",
@@ -15,7 +17,11 @@
       "standard": "Standard",
       "vip": "VIP",
       "vvip": "VVIP"
-    }
+    },
+    "title": "Billets",
+    "emptyTitle": "Pas encore de billets",
+    "emptyBody": "Les billets que vous achetez apparaissent ici avec leur code QR.",
+    "browse": "Trouver un événement"
   },
   "onboarding": {
     "getStarted": "Commencer",
@@ -118,5 +124,76 @@
       "identifierInvalid": "Saisissez votre e-mail ou un numéro à 9 chiffres",
       "passwordRequired": "Saisissez votre mot de passe"
     }
+  },
+  "tabs": {
+    "home": "Accueil",
+    "explore": "Explorer",
+    "tickets": "Billets",
+    "profile": "Profil"
+  },
+  "events": {
+    "searchPlaceholder": "Rechercher un événement ou un lieu",
+    "fromPrice": "À partir de {{price}}",
+    "free": "Gratuit",
+    "sellingFast": "Ça part vite",
+    "share": "Partager l’événement",
+    "shareMessage": "{{title}} à {{venue}}, sur tikly",
+    "categories": {
+      "all": "Tout",
+      "concerts": {
+        "plural": "Concerts",
+        "singular": "Concert"
+      },
+      "sports": {
+        "plural": "Sports",
+        "singular": "Sport"
+      },
+      "conferences": {
+        "plural": "Conférences",
+        "singular": "Conférence"
+      },
+      "comedy": {
+        "plural": "Humour",
+        "singular": "Humour"
+      },
+      "festivals": {
+        "plural": "Festivals",
+        "singular": "Festival"
+      },
+      "expos": {
+        "plural": "Salons",
+        "singular": "Salon"
+      }
+    }
+  },
+  "home": {
+    "yourCity": "Votre ville",
+    "changeCity": "Changer de ville",
+    "notifications": "Notifications",
+    "title": "Quoi de neuf cette semaine ?",
+    "featured": "À la une cette semaine",
+    "comingUp": "Bientôt à {{city}}",
+    "emptyTitle": "Aucun événement dans cette catégorie",
+    "emptyBody": "Essayez une autre catégorie ou voyez tout ce qui se passe dans votre ville."
+  },
+  "explore": {
+    "title": "Explorer",
+    "filters": "Filtres",
+    "filtersCount": "Filtres · {{count}}",
+    "thisMonth": "Ce mois-ci",
+    "category": "Catégorie",
+    "price": "Prix",
+    "removeFilter": "Retirer le filtre {{filter}}",
+    "resultsOne": "{{count}} événement trouvé",
+    "resultsOther": "{{count}} événements trouvés",
+    "sortSoonest": "Les plus proches",
+    "sortLatest": "Les plus lointains",
+    "emptyTitle": "Aucun événement trouvé",
+    "emptyBody": "Essayez une autre recherche ou retirez un filtre.",
+    "clearFilters": "Effacer les filtres"
+  },
+  "profile": {
+    "title": "Profil",
+    "signOut": "Se déconnecter"
   }
 }

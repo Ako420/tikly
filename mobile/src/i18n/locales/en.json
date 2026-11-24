@@ -4,7 +4,9 @@
     "language": "Language",
     "back": "Back",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "seeAll": "See all",
+    "clear": "Clear"
   },
   "splash": {
     "tagline": "Events · Tickets · Entry",
@@ -15,7 +17,11 @@
       "standard": "Standard",
       "vip": "VIP",
       "vvip": "VVIP"
-    }
+    },
+    "title": "Tickets",
+    "emptyTitle": "No tickets yet",
+    "emptyBody": "Tickets you buy appear here with their QR code.",
+    "browse": "Find an event"
   },
   "onboarding": {
     "getStarted": "Get started",
@@ -118,5 +124,76 @@
       "identifierInvalid": "Enter your email or a 9-digit phone number",
       "passwordRequired": "Enter your password"
     }
+  },
+  "tabs": {
+    "home": "Home",
+    "explore": "Explore",
+    "tickets": "Tickets",
+    "profile": "Profile"
+  },
+  "events": {
+    "searchPlaceholder": "Search events or venues",
+    "fromPrice": "From {{price}}",
+    "free": "Free",
+    "sellingFast": "Selling fast",
+    "share": "Share event",
+    "shareMessage": "{{title}} at {{venue}}, on tikly",
+    "categories": {
+      "all": "All",
+      "concerts": {
+        "plural": "Concerts",
+        "singular": "Concert"
+      },
+      "sports": {
+        "plural": "Sports",
+        "singular": "Sports"
+      },
+      "conferences": {
+        "plural": "Conferences",
+        "singular": "Conference"
+      },
+      "comedy": {
+        "plural": "Comedy",
+        "singular": "Comedy"
+      },
+      "festivals": {
+        "plural": "Festivals",
+        "singular": "Festival"
+      },
+      "expos": {
+        "plural": "Expos",
+        "singular": "Expo"
+      }
+    }
+  },
+  "home": {
+    "yourCity": "Your city",
+    "changeCity": "Change city",
+    "notifications": "Notifications",
+    "title": "What’s on this week?",
+    "featured": "Featured this week",
+    "comingUp": "Coming up in {{city}}",
+    "emptyTitle": "No events in this category",
+    "emptyBody": "Try another category or see everything on in your city."
+  },
+  "explore": {
+    "title": "Explore",
+    "filters": "Filters",
+    "filtersCount": "Filters · {{count}}",
+    "thisMonth": "This month",
+    "category": "Category",
+    "price": "Price",
+    "removeFilter": "Remove filter {{filter}}",
+    "resultsOne": "{{count}} event found",
+    "resultsOther": "{{count}} events found",
+    "sortSoonest": "Soonest first",
+    "sortLatest": "Latest first",
+    "emptyTitle": "No events match",
+    "emptyBody": "Try a different search or remove a filter.",
+    "clearFilters": "Clear filters"
+  },
+  "profile": {
+    "title": "Profile",
+    "signOut": "Sign out"
   }
 }
