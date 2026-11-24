@@ -1,20 +1,28 @@
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { LogoMark } from '@/components/brand/LogoMark';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { useTranslation } from '@/i18n/I18nProvider';
 
 const SPLASH_DURATION_MS = 1800;
 
 export default function Splash() {
   const { t } = useTranslation();
+  const { status } = useAuth();
+  const [minimumElapsed, setMinimumElapsed] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => router.replace('/onboarding'), SPLASH_DURATION_MS);
+    const timer = setTimeout(() => setMinimumElapsed(true), SPLASH_DURATION_MS);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (!minimumElapsed || status === 'loading') return;
+    router.replace(status === 'signedIn' ? '/home' : '/onboarding');
+  }, [minimumElapsed, status]);
 
   return (
     <Screen>

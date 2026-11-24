@@ -11,15 +11,17 @@ import { PhonePrefix } from '@/components/ui/PhonePrefix';
 import { ScreenHeading } from '@/components/ui/ScreenHeading';
 import { Text } from '@/components/ui/Text';
 import { TextField, type TextFieldHandle } from '@/components/ui/TextField';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { isSignUpRole } from '@/features/auth/roles';
 import { useTranslation } from '@/i18n/I18nProvider';
-import { isCameroonMobile, isEmail, MIN_PASSWORD_LENGTH } from '@/lib/validation';
+import { toApiError, useApiErrorMessage } from '@/lib/api';
+import { isCameroonMobile, isEmail, MIN_PASSWORD_LENGTH, toInternationalCameroonNumber } from '@/lib/validation';
 import { useTheme } from '@/theme';
 
 type Field = 'name' | 'email' | 'phone' | 'password' | 'terms';
 
 export default function SignUpDetails() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { colors } = useTheme();
   const params = useLocalSearchParams<{ role?: string }>();
   const role = isSignUpRole(params.role) ? params.role : 'attendee';
@@ -30,6 +32,11 @@ export default function SignUpDetails() {
   const [password, setPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [serverErrors, setServerErrors] = useState<Partial<Record<Field, string>>>({});
+  const [formError, setFormError] = useState<string>();
+  const { signUp } = useAuth();
+  const errorMessage = useApiErrorMessage();
 
   const emailRef = useRef<TextFieldHandle>(null);
   const phoneRef = useRef<TextFieldHandle>(null);
@@ -45,11 +52,40 @@ export default function SignUpDetails() {
     return next;
   }, [name, email, phone, password, acceptedTerms, t]);
 
-  const visibleError = (field: Field) => (submitted ? errors[field] : undefined);
+  const visibleError = (field: Field) => serverErrors[field] ?? (submitted ? errors[field] : undefined);
 
-  const handleSubmit = () => {
+  const clearServerError = (field: Field) =>
+    setServerErrors((current) => (current[field] ? { ...current, [field]: undefined } : current));
+
+  const handleSubmit = async () => {
     setSubmitted(true);
-    if (Object.keys(errors).length === 0) router.replace('/home');
+    if (Object.keys(errors).length > 0 || submitting) return;
+    setServerErrors({});
+    setFormError(undefined);
+    setSubmitting(true);
+    try {
+      await signUp({
+        name: name.trim(),
+        email: email.trim(),
+        phone: toInternationalCameroonNumber(phone),
+        password,
+        role,
+        language,
+      });
+      router.replace('/home');
+    } catch (error) {
+      const apiError = toApiError(error);
+      const fields: Partial<Record<Field, string>> = {};
+      for (const [path, message] of Object.entries(apiError.fieldErrors)) {
+        if (path === 'name' || path === 'email' || path === 'phone' || path === 'password') fields[path] = message;
+      }
+      if (apiError.code === 'EMAIL_TAKEN') fields.email = apiError.message;
+      if (apiError.code === 'PHONE_TAKEN') fields.phone = apiError.message;
+      setServerErrors(fields);
+      if (Object.keys(fields).length === 0) setFormError(errorMessage(apiError));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -70,7 +106,10 @@ export default function SignUpDetails() {
         <TextField
           label={t('auth.fields.fullName')}
           value={name}
-          onChangeText={setName}
+          onChangeText={(value) => {
+            setName(value);
+            clearServerError('name');
+          }}
           error={visibleError('name')}
           autoCapitalize="words"
           autoComplete="name"
@@ -83,7 +122,10 @@ export default function SignUpDetails() {
           ref={emailRef}
           label={t('auth.fields.email')}
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(value) => {
+            setEmail(value);
+            clearServerError('email');
+          }}
           error={visibleError('email')}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -97,7 +139,10 @@ export default function SignUpDetails() {
           ref={phoneRef}
           label={t('auth.fields.phone')}
           value={phone}
-          onChangeText={(value) => setPhone(value.replace(/[^\d\s]/g, ''))}
+          onChangeText={(value) => {
+            setPhone(value.replace(/[^\d\s]/g, ''));
+            clearServerError('phone');
+          }}
           hint={t('auth.signUp.phoneHint')}
           error={visibleError('phone')}
           prefix={<PhonePrefix />}
@@ -113,7 +158,10 @@ export default function SignUpDetails() {
           ref={passwordRef}
           label={t('auth.fields.password')}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(value) => {
+            setPassword(value);
+            clearServerError('password');
+          }}
           placeholder={t('auth.signUp.passwordPlaceholder', { min: MIN_PASSWORD_LENGTH })}
           error={visibleError('password')}
           secure
@@ -150,7 +198,12 @@ export default function SignUpDetails() {
         ) : null}
       </View>
       <View className="mt-auto items-center gap-4 pt-2">
-        <Button label={t('auth.signUp.createAccount')} onPress={handleSubmit} />
+        {formError ? (
+          <Text variant="bodySm" tone="invalid" accessibilityRole="alert" className="self-stretch">
+            {formError}
+          </Text>
+        ) : null}
+        <Button label={t('auth.signUp.createAccount')} onPress={handleSubmit} loading={submitting} />
         <LinkPrompt prompt={t('auth.signUp.haveAccount')} action={t('auth.logIn')} onPress={() => router.replace('/login')} />
       </View>
     </FormScreen>

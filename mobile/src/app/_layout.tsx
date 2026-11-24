@@ -8,6 +8,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { AuthProvider } from '@/features/auth/AuthProvider';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { ThemeProvider, useTheme } from '@/theme';
 
@@ -40,9 +41,11 @@ export default function RootLayout() {
 
   return (
     <I18nProvider>
-      <ThemeProvider>
-        <AppStack />
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <AppStack />
+        </ThemeProvider>
+      </AuthProvider>
     </I18nProvider>
   );
 }

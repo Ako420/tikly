@@ -12,8 +12,10 @@ import { PillButton } from '@/components/ui/PillButton';
 import { ScreenHeading } from '@/components/ui/ScreenHeading';
 import { Text } from '@/components/ui/Text';
 import { TextField, type TextFieldHandle } from '@/components/ui/TextField';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { useTranslation } from '@/i18n/I18nProvider';
-import { isCameroonMobile, isEmail } from '@/lib/validation';
+import { useApiErrorMessage } from '@/lib/api';
+import { isCameroonMobile, isEmail, toInternationalCameroonNumber } from '@/lib/validation';
 import { useTheme } from '@/theme';
 
 type Field = 'identifier' | 'password';
@@ -24,7 +26,11 @@ export default function Login() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string>();
   const passwordRef = useRef<TextFieldHandle>(null);
+  const { signIn } = useAuth();
+  const errorMessage = useApiErrorMessage();
 
   const errors = useMemo(() => {
     const next: Partial<Record<Field, string>> = {};
@@ -35,9 +41,20 @@ export default function Login() {
 
   const visibleError = (field: Field) => (submitted ? errors[field] : undefined);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setSubmitted(true);
-    if (Object.keys(errors).length === 0) router.replace('/home');
+    if (Object.keys(errors).length > 0 || submitting) return;
+    setFormError(undefined);
+    setSubmitting(true);
+    try {
+      const value = identifier.trim();
+      await signIn({ identifier: isEmail(value) ? value : toInternationalCameroonNumber(value), password });
+      router.replace('/home');
+    } catch (error) {
+      setFormError(errorMessage(error));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -80,7 +97,12 @@ export default function Login() {
         </View>
       </View>
       <View className="gap-5">
-        <Button label={t('auth.logIn')} onPress={handleSubmit} />
+        {formError ? (
+          <Text variant="bodySm" tone="invalid" accessibilityRole="alert">
+            {formError}
+          </Text>
+        ) : null}
+        <Button label={t('auth.logIn')} onPress={handleSubmit} loading={submitting} />
         <Divider label={t('auth.login.or')} />
         <Button
           variant="outline"
