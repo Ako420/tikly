@@ -18,6 +18,7 @@ import { Chip } from '@/components/ui/Chip';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { StickyActionBar } from '@/components/ui/StickyActionBar';
 import { Text } from '@/components/ui/Text';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { useEventFormatter } from '@/features/events/formatEvent';
 import { getTierStock } from '@/features/events/tierStock';
 import { localize, type UpdateTag } from '@/features/events/types';
@@ -38,6 +39,8 @@ export default function EventDetailsScreen() {
   const eventResource = useEventDetails(id);
   const event = eventResource.data;
   const { t, language } = useTranslation();
+  const { user } = useAuth();
+  const canBuyTickets = !user || user.role === 'attendee';
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const format = useEventFormatter();
@@ -290,13 +293,15 @@ export default function EventDetailsScreen() {
         <View pointerEvents="none" className="absolute left-0 right-0 top-0 border-b border-border bg-background" style={{ height: insets.top }} />
       ) : null}
 
-      <StickyActionBar
-        caption={cheapest === undefined ? t('eventDetails.unavailable') : availableTiers.length > 1 ? t('eventDetails.from') : t('eventDetails.price')}
-        amount={cheapest === undefined ? '—' : cheapest === 0 ? t('events.free') : formatMoney(cheapest)}
-        actionLabel={cheapest === undefined ? t('tickets.stock.soldOut') : t('eventDetails.getTickets')}
-        disabled={cheapest === undefined}
-        onAction={() => router.push({ pathname: '/events/[id]/tickets', params: { id: event.id } })}
-      />
+      {canBuyTickets ? (
+        <StickyActionBar
+          caption={cheapest === undefined ? t('eventDetails.unavailable') : availableTiers.length > 1 ? t('eventDetails.from') : t('eventDetails.price')}
+          amount={cheapest === undefined ? '—' : cheapest === 0 ? t('events.free') : formatMoney(cheapest)}
+          actionLabel={cheapest === undefined ? t('tickets.stock.soldOut') : t('eventDetails.getTickets')}
+          disabled={cheapest === undefined}
+          onAction={() => router.push({ pathname: '/events/[id]/tickets', params: { id: event.id } })}
+        />
+      ) : null}
     </View>
   );
 }

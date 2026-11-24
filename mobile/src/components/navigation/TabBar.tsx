@@ -53,10 +53,10 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
               if (!focused && !event.defaultPrevented) navigateToTab(route.key);
             }}
             onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
-            className="w-[72px] items-center gap-1"
+            className="max-w-[72px] flex-1 items-center gap-1"
           >
             <Ionicons name={focused ? icons.active : icons.inactive} size={24} color={color} />
-            <Text variant="tag" style={{ color }}>
+            <Text variant="tag" numberOfLines={1} style={{ color }}>
               {label}
             </Text>
           </Pressable>
