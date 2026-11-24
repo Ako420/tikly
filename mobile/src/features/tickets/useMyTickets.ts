@@ -69,7 +69,7 @@ export function useMyTickets() {
 }
 
 export function useTicketBundle(id: string | undefined) {
-  const { upcoming, past, loading, error } = useMyTickets();
+  const { upcoming, past, loading, error, refresh } = useMyTickets();
   const bundle = useMemo(() => [...upcoming, ...past].find((item) => item.id === id), [upcoming, past, id]);
-  return { bundle, loading, error };
+  return { bundle, loading, error, refresh };
 }

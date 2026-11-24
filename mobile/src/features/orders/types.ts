@@ -9,6 +9,9 @@ export type IssuedTicket = {
   code: string;
   qrToken: string;
   holderName: string;
+  price?: number;
+  refundable?: boolean;
+  checkedIn?: boolean;
 };
 
 export type TicketOrder = {

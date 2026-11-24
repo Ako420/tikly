@@ -3,7 +3,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AgendaRow } from '@/components/events/details/AgendaRow';
 import { ArtistCard } from '@/components/events/details/ArtistCard';
@@ -66,6 +66,8 @@ export default function EventDetailsScreen() {
   const agendaDay = event.agenda.filter((item) => item.day === 1);
   const mapQuery = `${event.address.label}, ${event.address.line}`;
 
+  const openReviews = () => router.push({ pathname: '/events/[id]/reviews', params: { id: event.id } });
+
   const copyAddress = async () => {
     await copyToClipboard(mapQuery);
     setAddressCopied(true);
@@ -93,15 +95,17 @@ export default function EventDetailsScreen() {
                 {eyebrow}
               </Text>
               {event.rating ? (
-                <View
+                <Pressable
                   className="flex-row items-center gap-1"
-                  accessible
+                  accessibilityRole="link"
                   accessibilityLabel={t('eventDetails.rating', { average: event.rating.average, count: event.rating.count })}
+                  hitSlop={8}
+                  onPress={openReviews}
                 >
                   <Ionicons name="star" size={16} color={colors.accentText} />
                   <Text variant="link">{event.rating.average.toFixed(1)}</Text>
                   <Text variant="bodySm" tone="muted">{`(${event.rating.count})`}</Text>
-                </View>
+                </Pressable>
               ) : null}
             </View>
             <Text variant="display" accessibilityRole="header">
@@ -253,6 +257,26 @@ export default function EventDetailsScreen() {
                 className="flex-1"
               />
             </View>
+          </View>
+
+          <View className="gap-3.5">
+            <SectionHeader title={t('eventDetails.reviews')} actionLabel={t('eventDetails.seeReviews')} onAction={openReviews} />
+            <Pressable
+              className="flex-row items-center gap-3 rounded-2xl border border-border bg-surface-raised p-4"
+              accessibilityRole="link"
+              onPress={openReviews}
+            >
+              <Ionicons name="star" size={22} color={colors.accentText} />
+              <View className="flex-1">
+                <Text variant="subheading">
+                  {event.rating ? `${event.rating.average.toFixed(1)} · ${t('reviews.count', { count: event.rating.count })}` : t('eventDetails.noReviews')}
+                </Text>
+                <Text variant="bodySm" tone="muted">
+                  {t('eventDetails.reviewsHint')}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={colors.foregroundMuted} />
+            </Pressable>
           </View>
 
           <View className="gap-3.5">
