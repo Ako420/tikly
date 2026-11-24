@@ -1,6 +1,7 @@
 import type { ErrorRequestHandler, Request, Response } from 'express';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import { MulterError } from 'multer';
 import { ZodError } from 'zod';
 import { AppError } from '../util/AppError';
 import { hasTranslation, t } from '../util/i18n';
@@ -99,6 +100,13 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   }
   if (err instanceof TokenExpiredError) return send(res, 401, 'TOKEN_EXPIRED', lang);
   if (err instanceof JsonWebTokenError) return send(res, 401, 'UNAUTHORIZED', lang);
+  if (err instanceof MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') return send(res, 413, 'FILE_TOO_LARGE', lang);
+    if (err.code === 'LIMIT_UNEXPECTED_FILE' || err.code === 'LIMIT_FILE_COUNT') {
+      return send(res, 400, 'FILE_REQUIRED', lang, { field: 'file' });
+    }
+    return send(res, 400, 'VALIDATION_ERROR', lang, { reason: err.code });
+  }
   if (isBodyParserError(err)) {
     if (err.type === 'entity.too.large') return send(res, 413, 'PAYLOAD_TOO_LARGE', lang);
     return send(res, err.status && err.status < 500 ? err.status : 400, 'INVALID_JSON', lang);

@@ -11,7 +11,8 @@
     "format": "prettier --write src",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.test.json",
     "test": "vitest run",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "test:cloudinary": "vitest run --config vitest.live.config.mts test/live/cloudinary.live.ts"
   },
   "engines": {
     "node": ">=20"
