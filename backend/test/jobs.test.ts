@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { describe, expect, it } from 'vitest';
 import { startJobs, stopJobs } from '../src/lib/agenda';
+import { COMPLETE_EVENTS } from '../src/lib/jobs/completeEvents.job';
 import { EXPIRE_ORDERS } from '../src/lib/jobs/expireOrders.job';
 import { testDatabaseUri, useTestDatabase } from './helpers/db';
 
@@ -12,6 +13,8 @@ describe('background jobs (REL-3)', () => {
     try {
       const job = await mongoose.connection.db!.collection('jobs').findOne({ name: EXPIRE_ORDERS });
       expect(job).toMatchObject({ name: EXPIRE_ORDERS, repeatInterval: '1 minute' });
+      const completion = await mongoose.connection.db!.collection('jobs').findOne({ name: COMPLETE_EVENTS });
+      expect(completion).toMatchObject({ repeatInterval: '1 hour' });
     } finally {
       await stopJobs();
     }

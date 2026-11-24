@@ -659,3 +659,14 @@ export const SlotBookingView = registry.register(
     createdAt: dateTime(),
   }),
 );
+
+export const ReviewView = registry.register(
+  'Review',
+  z.object({
+    id: id(),
+    rating: z.number().int().min(1).max(5).openapi({ example: 5 }),
+    comment: z.string().optional().openapi({ example: 'Great sound and well organised.' }),
+    author: z.string().openapi({ example: 'Ama N.', description: 'First name and last initial only.' }),
+    createdAt: dateTime(),
+  }),
+);

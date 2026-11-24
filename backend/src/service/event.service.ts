@@ -247,3 +247,11 @@ export async function getShareLinks(eventId: string, lang: Language) {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
   };
 }
+
+export async function completeEndedEvents(now = new Date()) {
+  const { modifiedCount } = await EventModel.updateMany(
+    { status: 'published', endAt: { $lt: now } },
+    { status: 'completed' },
+  );
+  return modifiedCount;
+}
