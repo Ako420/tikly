@@ -56,6 +56,21 @@ function zodFieldErrors(err: ZodError, lang: Language) {
   return fields;
 }
 
+const DB_UNAVAILABLE_ERRORS = new Set([
+  'MongooseServerSelectionError',
+  'MongoServerSelectionError',
+  'MongoNetworkError',
+  'MongoNetworkTimeoutError',
+  'MongoNotConnectedError',
+  'MongoTopologyClosedError',
+]);
+
+function isDbUnavailable(err: unknown) {
+  if (!(err instanceof Error)) return false;
+  if (DB_UNAVAILABLE_ERRORS.has(err.name)) return true;
+  return err.name === 'MongooseError' && /buffering timed out/i.test(err.message);
+}
+
 function isBodyParserError(err: unknown): err is BodyParserError {
   return err instanceof Error && typeof (err as BodyParserError).type === 'string' && (err as BodyParserError).type.startsWith('entity.');
 }
@@ -87,6 +102,11 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (isBodyParserError(err)) {
     if (err.type === 'entity.too.large') return send(res, 413, 'PAYLOAD_TOO_LARGE', lang);
     return send(res, err.status && err.status < 500 ? err.status : 400, 'INVALID_JSON', lang);
+  }
+
+  if (isDbUnavailable(err)) {
+    logger.error({ err, reqId: req.id }, 'Database unavailable');
+    return send(res, 503, 'SERVICE_UNAVAILABLE', lang);
   }
 
   logger.error({ err, reqId: req.id }, 'Unhandled error');

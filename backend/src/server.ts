@@ -4,9 +4,13 @@ import { connectDb, disconnectDb } from './config/db';
 import { logger } from './lib/logger';
 import { registerProcessHandlers } from './lib/shutdown';
 
-const app = buildApp();
-const server = app.listen(env.PORT, () => logger.info(`API listening on http://localhost:${env.PORT}`));
+async function main() {
+  await connectDb();
+  const server = buildApp().listen(env.PORT, () => logger.info(`API listening on http://localhost:${env.PORT}`));
+  registerProcessHandlers({ server, cleanup: disconnectDb });
+}
 
-registerProcessHandlers({ server, cleanup: disconnectDb });
-
-connectDb().catch((err) => logger.error({ err }, 'MongoDB connection failed'));
+main().catch((err) => {
+  logger.fatal({ err }, 'API failed to start');
+  process.exit(1);
+});

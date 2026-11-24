@@ -12,4 +12,5 @@ export class AppError extends Error {
   static notFound = (code = 'NOT_FOUND') => new AppError(404, code);
   static conflict = (code: string) => new AppError(409, code);
   static tooManyRequests = (code = 'RATE_LIMITED') => new AppError(429, code);
+  static serviceUnavailable = (code = 'SERVICE_UNAVAILABLE') => new AppError(503, code);
 }

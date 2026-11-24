@@ -33,6 +33,7 @@
     "STAFF_ALREADY_ASSIGNED": "Ce membre du personnel est déjà affecté à l'événement.",
     "NOT_ASSIGNED_TO_EVENT": "Vous n'êtes pas affecté à cet événement.",
     "RATE_LIMITED": "Trop de tentatives. Patientez une minute puis réessayez.",
+    "SERVICE_UNAVAILABLE": "Le service est momentanément indisponible. Veuillez réessayer dans un instant.",
     "INTERNAL": "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard."
   },
   "validation": {
