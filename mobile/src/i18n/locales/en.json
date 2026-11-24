@@ -1,0 +1,31 @@
+{
+  "common": {
+    "appName": "tikly",
+    "language": "Language"
+  },
+  "splash": {
+    "tagline": "Events · Tickets · Entry",
+    "footer": "Made for CEMAC"
+  },
+  "tickets": {
+    "tiers": {
+      "standard": "Standard",
+      "vip": "VIP",
+      "vvip": "VVIP"
+    }
+  },
+  "onboarding": {
+    "getStarted": "Get started",
+    "haveAccount": "I already have an account",
+    "discover": {
+      "eyebrow": "All events · One app",
+      "title": "Every event in your city, one tap away",
+      "body": "Concerts, football, conferences, comedy and expos. Book them in seconds.",
+      "ticket": {
+        "eyebrow": "Sat 14 Dec · Douala",
+        "title": "Douala Business Expo",
+        "venue": "Akwa Expo Hall"
+      }
+    }
+  }
+}

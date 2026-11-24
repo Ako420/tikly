@@ -1,0 +1,31 @@
+{
+  "common": {
+    "appName": "tikly",
+    "language": "Langue"
+  },
+  "splash": {
+    "tagline": "Événements · Billets · Entrée",
+    "footer": "Conçu pour la CEMAC"
+  },
+  "tickets": {
+    "tiers": {
+      "standard": "Standard",
+      "vip": "VIP",
+      "vvip": "VVIP"
+    }
+  },
+  "onboarding": {
+    "getStarted": "Commencer",
+    "haveAccount": "J’ai déjà un compte",
+    "discover": {
+      "eyebrow": "Tous les événements · Une app",
+      "title": "Tous les événements de votre ville, à portée de main",
+      "body": "Concerts, football, conférences, humour et salons. Réservez en quelques secondes.",
+      "ticket": {
+        "eyebrow": "Sam. 14 déc. · Douala",
+        "title": "Douala Business Expo",
+        "venue": "Akwa Expo Hall"
+      }
+    }
+  }
+}
