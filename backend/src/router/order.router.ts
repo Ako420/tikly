@@ -6,6 +6,7 @@ import { paymentLimiter } from '../middleware/rateLimit';
 import { validate } from '../middleware/validate';
 import { idParam } from '../schema/common.schema';
 import * as s from '../schema/order.schema';
+import { createSlotOrderBody } from '../schema/slot.schema';
 
 export const orderRouter = Router();
 
@@ -24,6 +25,14 @@ orderRouter.post(
   paymentLimiter,
   validate({ body: s.createBookingOrderBody }),
   ctrl.createBookingOrder,
+);
+orderRouter.post(
+  '/slots',
+  authenticate,
+  authorize('exhibitor'),
+  paymentLimiter,
+  validate({ body: createSlotOrderBody }),
+  ctrl.createSlotOrder,
 );
 orderRouter.get('/:id', authenticate, validate({ params: idParam }), ctrl.getOne);
 orderRouter.post('/:id/verify', authenticate, paymentLimiter, validate({ params: idParam }), ctrl.verify);

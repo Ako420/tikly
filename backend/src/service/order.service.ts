@@ -9,6 +9,8 @@ import { withTransaction } from '../lib/transaction';
 import {
   EventModel,
   OrderModel,
+  SlotBookingModel,
+  SlotModel,
   TicketModel,
   TicketTierModel,
   TransactionModel,
@@ -18,7 +20,8 @@ import {
   type TransactionDoc,
 } from '../model';
 import type { CreateBookingOrderBody, CreateTicketOrderBody, ListMyOrdersQuery } from '../schema/order.schema';
-import type { Language, Role, TierName } from '../types/enums';
+import type { CreateSlotOrderBody } from '../schema/slot.schema';
+import type { Language, OrderType, Role, TierName } from '../types/enums';
 import { AppError } from '../util/AppError';
 import { t } from '../util/i18n';
 import { splitAmount } from '../util/money';
@@ -33,10 +36,25 @@ import {
   markBookingPaid,
 } from './booking.service';
 import { notifyUsers } from './notification.service';
+import {
+  announceSlotsBooked,
+  closeSlotBooking,
+  confirmSlots,
+  findBookableSlot,
+  releaseSlots,
+  reserveSlot,
+  reserveSlotsAgain,
+} from './slot.service';
 import { getCommissionRate } from './setting.service';
 
 type Viewer = { id: string; role: Role };
 type OrderItem = { refId: Types.ObjectId; quantity: number };
+
+const REFUND_REASONS: Record<OrderType, string> = {
+  ticket: 'Tikly refund: tickets sold out',
+  service: 'Tikly refund: booking no longer payable',
+  slot: 'Tikly refund: display slots sold out',
+};
 
 const minutesFromNow = (minutes: number) => new Date(Date.now() + minutes * 60 * 1000);
 const eventTitle = (title: { en?: string | null; fr?: string | null } | null | undefined, lang: Language) =>
@@ -281,6 +299,84 @@ export async function createBookingOrder(
   return { order: await toOrderView((await OrderModel.findById(order._id))!, lang), replayed: false };
 }
 
+async function replaySlotPurchase(buyerId: string, key: string, input: CreateSlotOrderBody, lang: Language) {
+  const previous = await OrderModel.findOne({ buyerId, idempotencyKey: key });
+  if (!previous) return null;
+  const item = previous.items[0];
+  const same =
+    previous.type === 'slot' &&
+    previous.items.length === 1 &&
+    String(item?.refId) === input.slotId &&
+    item?.quantity === input.quantity;
+  if (!same) throw AppError.conflict('IDEMPOTENCY_KEY_REUSED');
+  return { order: await toOrderView(previous, lang), replayed: true };
+}
+
+export async function createSlotOrder(
+  buyerId: string,
+  input: CreateSlotOrderBody,
+  lang: Language,
+  idempotencyKey?: string,
+) {
+  if (idempotencyKey) {
+    const previous = await replaySlotPurchase(buyerId, idempotencyKey, input, lang);
+    if (previous) return previous;
+  }
+
+  const { slot, event } = await findBookableSlot(input.slotId);
+  const reserved = await reserveSlot(slot._id, input.quantity);
+  if (!reserved) {
+    const current = await SlotModel.findById(slot._id).lean();
+    throw AppError.conflict('SLOT_SOLD_OUT', {
+      available: current ? Math.max(0, current.quantity - current.booked - current.reserved) : 0,
+    });
+  }
+  const items = [{ refId: slot._id, refModel: 'Slot', quantity: input.quantity, unitPrice: slot.price }];
+  const amount = slot.price * input.quantity;
+
+  let order: OrderDoc;
+  try {
+    order = await withTransaction(async (session) => {
+      const [created] = await OrderModel.create(
+        [
+          {
+            type: 'slot',
+            buyerId,
+            payeeId: event.organizerId,
+            eventId: event._id,
+            items,
+            amount,
+            phone: input.phone,
+            status: 'pending',
+            expiresAt: minutesFromNow(RESERVATION_MINUTES),
+            ...(idempotencyKey && { idempotencyKey }),
+          },
+        ],
+        { session },
+      );
+      await SlotBookingModel.create(
+        [{ slotId: slot._id, exhibitorId: buyerId, orderId: created!._id, quantity: input.quantity }],
+        { session },
+      );
+      return created!;
+    });
+  } catch (err) {
+    await releaseSlots(items);
+    if (idempotencyKey && isDuplicateKey(err)) {
+      const previous = await replaySlotPurchase(buyerId, idempotencyKey, input, lang);
+      if (previous) return previous;
+    }
+    throw err;
+  }
+
+  if (amount === 0) {
+    await fulfillOrder(order.id);
+  } else {
+    await startCollection(order, input, `${input.quantity} × ${slot.label} – ${eventTitle(event.title, lang)}`);
+  }
+  return { order: await toOrderView((await OrderModel.findById(order._id))!, lang), replayed: false };
+}
+
 async function issueTickets(order: OrderDoc, session: ClientSession) {
   for (const item of order.items) {
     const moved = await TicketTierModel.updateOne(
@@ -336,7 +432,11 @@ async function claimForPayment(orderId: string, session: ClientSession) {
   const lapsed = await OrderModel.findOne({ _id: orderId, status: { $in: ['expired', 'failed'] } }).session(session);
   if (!lapsed) return null;
   const secured =
-    lapsed.type === 'service' ? await markBookingPaid(lapsed, session) : await secureLapsedItems(lapsed, session);
+    lapsed.type === 'service'
+      ? await markBookingPaid(lapsed, session)
+      : lapsed.type === 'slot'
+        ? await reserveSlotsAgain(lapsed, session)
+        : await secureLapsedItems(lapsed, session);
   if (!secured) return { unfulfillable: lapsed };
   const revived = await OrderModel.findOneAndUpdate(
     { _id: orderId, status: lapsed.status },
@@ -358,6 +458,7 @@ export async function fulfillOrder(orderId: string) {
       { session },
     );
     if (order.type === 'ticket') await issueTickets(order, session);
+    if (order.type === 'slot') await confirmSlots(order, session);
     return claim;
   });
 
@@ -381,8 +482,7 @@ async function refundUnfulfillable(order: OrderDoc) {
       reference: `refund-${order.id}`,
       amount: order.amount,
       phone: order.phone!,
-      description:
-        order.type === 'service' ? 'Tikly refund: booking no longer payable' : 'Tikly refund: tickets sold out',
+      description: REFUND_REASONS[order.type],
     });
     await TransactionModel.create({
       orderId: order._id,
@@ -398,7 +498,7 @@ async function refundUnfulfillable(order: OrderDoc) {
     } else {
       await notifyUsers(
         [String(order.buyerId)],
-        'ticket_refunded',
+        order.type === 'slot' ? 'slot_refunded' : 'ticket_refunded',
         { orderId: order.id, amount: order.amount },
         String(order.eventId),
       );
@@ -417,6 +517,7 @@ export async function releaseOrder(orderId: string, status: 'failed' | 'expired'
     );
     if (!order) return;
     if (order.type === 'ticket') await releaseItems(order.items, session);
+    if (order.type === 'slot') await closeSlotBooking(order, status, session);
     if (status === 'failed') {
       await TransactionModel.updateOne(
         { orderId: order._id, kind: 'payment', status: 'pending' },
@@ -469,6 +570,7 @@ export async function adoptPayment(externalRef: string) {
 
 async function deliverOrder(order: OrderDoc) {
   if (order.type === 'service') return announceBookingPaid(order);
+  if (order.type === 'slot') return announceSlotsBooked(order);
   const [buyer, event, tickets] = await Promise.all([
     UserModel.findById(order.buyerId).select('name email language').lean(),
     EventModel.findById(order.eventId).select('title startAt venue city').lean(),

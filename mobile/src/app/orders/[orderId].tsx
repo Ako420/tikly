@@ -7,7 +7,6 @@ import { PaymentSuccessView } from '@/components/orders/PaymentSuccessView';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Screen } from '@/components/ui/Screen';
 import { useAuth } from '@/features/auth/AuthProvider';
-import { sampleUser } from '@/features/events/sampleEvents';
 import { useEventDetails } from '@/features/events/useEvents';
 import { createTicketOrder } from '@/features/orders/orderService';
 import type { PaymentMethod } from '@/features/orders/types';
@@ -43,7 +42,7 @@ export default function OrderStatus() {
         quantity: order.quantity,
         phone: order.phone,
         method: order.method,
-        holderName: user?.name ?? sampleUser.name,
+        holderName: user?.name ?? '',
       });
       router.replace({ pathname: '/orders/[orderId]', params: { orderId: next.id } });
     } catch (caught) {

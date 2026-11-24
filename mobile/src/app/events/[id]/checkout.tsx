@@ -15,7 +15,6 @@ import { Text } from '@/components/ui/Text';
 import { TextField } from '@/components/ui/TextField';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useEventFormatter } from '@/features/events/formatEvent';
-import { sampleUser } from '@/features/events/sampleEvents';
 import { MAX_TICKETS_PER_ORDER } from '@/features/events/tierStock';
 import { useEventDetails } from '@/features/events/useEvents';
 import { createTicketOrder } from '@/features/orders/orderService';
@@ -98,7 +97,7 @@ export default function Checkout() {
         quantity,
         phone,
         method,
-        holderName: user?.name ?? sampleUser.name,
+        holderName: user?.name ?? '',
       });
       router.replace({ pathname: '/orders/[orderId]', params: { orderId: order.id } });
     } catch (caught) {

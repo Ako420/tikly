@@ -38,6 +38,7 @@ export function useNotificationFormatter() {
   };
 
   const content = (notification: AppNotification): { title: string; body: string } => {
+    if (notification.title) return { title: notification.title, body: notification.body ?? '' };
     const { payload } = notification;
     const name = eventName(notification);
     switch (notification.type) {

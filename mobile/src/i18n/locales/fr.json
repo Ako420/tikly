@@ -291,7 +291,8 @@
       "failed": "Impossible d’envoyer le lien",
       "noEmailTitle": "Aucun e-mail sur ce compte",
       "noEmailBody": "Ajoutez un e-mail à votre compte pour réinitialiser votre mot de passe."
-    }
+    },
+    "guest": "Invité"
   },
   "time": {
     "justNow": "À l’instant",

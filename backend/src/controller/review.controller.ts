@@ -1,0 +1,28 @@
+import type { RequestHandler } from 'express';
+import type { EventReviewBody, ProviderReviewBody } from '../schema/review.schema';
+import * as reviewService from '../service/review.service';
+import type { Page } from '../util/pagination';
+import { created, paginated } from '../util/response';
+
+export const listForEvent: RequestHandler = async (req, res) => {
+  const page = req.validatedQuery as Page;
+  const { items, total } = await reviewService.listEventReviews(String(req.params.eventId), page);
+  paginated(res, items, page, total);
+};
+
+export const reviewEvent: RequestHandler = async (req, res) => {
+  created(res, await reviewService.reviewEvent(req.user!, String(req.params.eventId), req.body as EventReviewBody));
+};
+
+export const listForProvider: RequestHandler = async (req, res) => {
+  const page = req.validatedQuery as Page;
+  const { items, total } = await reviewService.listProviderReviews(String(req.params.providerId), page);
+  paginated(res, items, page, total);
+};
+
+export const reviewProvider: RequestHandler = async (req, res) => {
+  created(
+    res,
+    await reviewService.reviewProvider(req.user!, String(req.params.providerId), req.body as ProviderReviewBody),
+  );
+};

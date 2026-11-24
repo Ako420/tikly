@@ -16,7 +16,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { ALL_CATEGORIES_ICON, categoryIcons } from '@/features/events/categories';
-import { sampleUser } from '@/features/events/sampleEvents';
+import { DEFAULT_LOCATION } from '@/features/events/location';
 import { EVENT_CATEGORIES, type EventCategory } from '@/features/events/types';
 import { useEvents } from '@/features/events/useEvents';
 import { useNotifications } from '@/features/notifications/notificationStore';
@@ -50,7 +50,7 @@ export default function Home() {
             </Text>
             <View className="flex-row items-center gap-1.5">
               <Ionicons name="location" size={18} color={colors.foreground} />
-              <Text variant="subheading">{`${city}, ${sampleUser.country}`}</Text>
+              <Text variant="subheading">{`${city}, ${DEFAULT_LOCATION.country}`}</Text>
               <Ionicons name="chevron-down" size={16} color={colors.foregroundMuted} />
             </View>
           </Pressable>
@@ -62,7 +62,7 @@ export default function Home() {
               accessibilityLabel={t('home.notifications')}
               icon={<Ionicons name="notifications-outline" size={22} color={colors.foreground} />}
             />
-            <Avatar name={user?.name ?? sampleUser.name} onPress={() => router.navigate('/profile')} />
+            <Avatar name={user?.name ?? ''} onPress={() => router.navigate('/profile')} />
           </View>
         </View>
 

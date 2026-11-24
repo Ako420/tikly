@@ -291,7 +291,8 @@
       "failed": "Couldn’t send the reset link",
       "noEmailTitle": "No email on this account",
       "noEmailBody": "Add an email to your account to reset your password."
-    }
+    },
+    "guest": "Guest"
   },
   "time": {
     "justNow": "Just now",

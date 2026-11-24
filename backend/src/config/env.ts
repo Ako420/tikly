@@ -26,6 +26,10 @@ const envSchema = z.object({
   SMTP_USER: z.string().min(1),
   SMTP_PASS: z.string().min(1),
   MAIL_FROM: z.string().min(1),
+  EXPO_ACCESS_TOKEN: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 export const env = envSchema.parse(process.env);

@@ -1,12 +1,12 @@
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useSyncExternalStore } from 'react';
-import { sampleUser } from '@/features/events/sampleEvents';
+import { DEFAULT_LOCATION } from '@/features/events/location';
 
 export const HOME_CITIES = ['Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Kribi', 'Limbe'] as const;
 
 const STORAGE_KEY = 'tikly.homeCity';
 
-let city: string = sampleUser.city;
+let city: string = DEFAULT_LOCATION.city;
 let loaded = false;
 const listeners = new Set<() => void>();
 

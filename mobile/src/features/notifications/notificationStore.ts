@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 import { env } from '@/config/env';
-import { api, toApiError, type ApiError } from '@/lib/api';
+import { toApiError, type ApiError } from '@/lib/api';
+import { notificationsApi, type ApiNotification } from './api';
 import { createSampleNotifications } from './sampleNotifications';
 import type { AppNotification } from './types';
 
@@ -25,22 +26,31 @@ const subscribe = (listener: () => void) => {
   };
 };
 
-const notificationsApi = {
-  list: async () => (await api.get<{ items: AppNotification[] }>('/me/notifications')).items,
-  markRead: (ids: string[]) => api.post<unknown>('/me/notifications/read', { ids }),
-};
+const INBOX_PAGE_SIZE = 50;
+
+const fromApi = (item: ApiNotification): AppNotification => ({
+  id: item.id,
+  type: item.type,
+  title: item.title,
+  body: item.body,
+  payload: (item.data ?? {}) as AppNotification['payload'],
+  createdAt: item.createdAt,
+  readAt: item.readAt ?? undefined,
+});
+
+const fetchInbox = async () => (await notificationsApi.list(1, INBOX_PAGE_SIZE)).items.map(fromApi);
 
 async function load() {
   setState({ status: 'loading', error: undefined });
   try {
-    const items = env.useSampleData ? createSampleNotifications() : await notificationsApi.list();
+    const items = env.useSampleData ? createSampleNotifications() : await fetchInbox();
     setState({ items, status: 'ready' });
   } catch (caught) {
     setState({ status: 'error', error: toApiError(caught) });
   }
 }
 
-async function markRead(ids: string[]) {
+async function markRead(ids: string[], all = false) {
   const unread = state.items.filter((item) => ids.includes(item.id) && !item.readAt).map((item) => item.id);
   if (unread.length === 0) return;
   const readAt = new Date().toISOString();
@@ -48,15 +58,16 @@ async function markRead(ids: string[]) {
   setState({ items: state.items.map((item) => (unread.includes(item.id) ? { ...item, readAt } : item)) });
   if (env.useSampleData) return;
   try {
-    await notificationsApi.markRead(unread);
+    if (all) await notificationsApi.readAll();
+    else await Promise.all(unread.map((id) => notificationsApi.read(id)));
   } catch {
     setState({ items: previous });
   }
 }
 
 export const notificationStore = {
-  markRead,
-  markAllRead: () => markRead(state.items.map((item) => item.id)),
+  markRead: (ids: string[]) => markRead(ids),
+  markAllRead: () => markRead(state.items.map((item) => item.id), true),
 };
 
 export function useNotifications() {

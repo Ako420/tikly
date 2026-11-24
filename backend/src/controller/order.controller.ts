@@ -5,6 +5,7 @@ import {
   type CreateTicketOrderBody,
   type ListMyOrdersQuery,
 } from '../schema/order.schema';
+import type { CreateSlotOrderBody } from '../schema/slot.schema';
 import * as orderService from '../service/order.service';
 import { requestLanguage } from '../util/requestLanguage';
 import { created, ok, paginated } from '../util/response';
@@ -26,6 +27,18 @@ export const createBookingOrder: RequestHandler = async (req, res) => {
   const { order, replayed } = await orderService.createBookingOrder(
     req.user!.id,
     req.body as CreateBookingOrderBody,
+    requestLanguage(req),
+    idempotencyKey,
+  );
+  if (replayed) ok(res, order);
+  else created(res, order);
+};
+
+export const createSlotOrder: RequestHandler = async (req, res) => {
+  const { 'idempotency-key': idempotencyKey } = purchaseHeaders.parse(req.headers);
+  const { order, replayed } = await orderService.createSlotOrder(
+    req.user!.id,
+    req.body as CreateSlotOrderBody,
     requestLanguage(req),
     idempotencyKey,
   );

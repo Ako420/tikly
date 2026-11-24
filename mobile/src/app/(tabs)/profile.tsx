@@ -14,7 +14,6 @@ import { env } from '@/config/env';
 import { authApi, type UserRole } from '@/features/auth/api';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { isSignUpRole } from '@/features/auth/roles';
-import { sampleUser } from '@/features/events/sampleEvents';
 import { HOME_CITIES, setHomeCity, useHomeCity } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
@@ -32,7 +31,7 @@ export default function Profile() {
   const city = useHomeCity();
   const [cityOpen, setCityOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const name = user?.name ?? sampleUser.name;
+  const name = user?.name ?? t('profile.guest');
   const role: UserRole = user?.role ?? 'attendee';
   const roleLabel = isSignUpRole(role) ? t(`auth.roles.${role}.title`) : t(`profile.roles.${role}`);
 

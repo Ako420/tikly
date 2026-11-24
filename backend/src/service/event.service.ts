@@ -25,6 +25,7 @@ import { skipFor } from '../util/pagination';
 import { exactInsensitive } from '../util/regex';
 import { notifyAdmins, notifyUsers } from './notification.service';
 import { assertCategory } from './setting.service';
+import { exhibitorsOf } from './slot.service';
 import { toTierView } from './tier.service';
 
 type Viewer = { id: string; role: Role } | undefined;
@@ -170,22 +171,6 @@ export async function listOrganizerEvents(organizerId: string, query: OrganizerE
   return { items, total };
 }
 
-async function exhibitorsOf(eventId: Types.ObjectId) {
-  const slots = await SlotModel.find({ eventId }).select('label').lean();
-  if (slots.length === 0) return [];
-  const labels = new Map(slots.map((slot) => [String(slot._id), slot.label]));
-  const bookings = await SlotBookingModel.find({ slotId: { $in: [...labels.keys()] }, status: 'paid' })
-    .populate<{ exhibitorId: { _id: Types.ObjectId; name: string } | null }>('exhibitorId', 'name')
-    .lean();
-  return bookings
-    .filter((booking) => booking.exhibitorId)
-    .map((booking) => ({
-      name: booking.exhibitorId!.name,
-      slot: labels.get(String(booking.slotId)) ?? '',
-      quantity: booking.quantity,
-    }));
-}
-
 export async function getEventDetails(eventId: string, viewer: Viewer) {
   const event = await findVisible(eventId, viewer);
   const [tiers, agenda, exhibitors] = await Promise.all([
@@ -261,4 +246,12 @@ export async function getShareLinks(eventId: string, lang: Language) {
     whatsapp: `https://wa.me/?text=${encodeURIComponent(message)}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
   };
+}
+
+export async function completeEndedEvents(now = new Date()) {
+  const { modifiedCount } = await EventModel.updateMany(
+    { status: 'published', endAt: { $lt: now } },
+    { status: 'completed' },
+  );
+  return modifiedCount;
 }

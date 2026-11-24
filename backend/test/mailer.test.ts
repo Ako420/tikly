@@ -20,6 +20,7 @@ const samples: { [K in MailTemplate]: TemplateData[K] } = {
   password_reset: { name: 'Ama', resetUrl: 'https://tikly.test/reset-password?token=abc123' },
   ticket_purchased: { ...event, amount: 30000, tickets: [{ code: 'EVT-7K2M-9Q', tier: 'vip' }, { code: 'EVT-8P3D-2R', tier: 'vip' }] },
   reminder_24h: { ...event, ticketCount: 1 },
+  notification: { name: 'Ama', title: 'Booking accepted', body: 'Pay 50 000 XAF to confirm your booking.', url: 'https://tikly.test/bookings/b1' },
 };
 const templates = Object.keys(samples) as MailTemplate[];
 
@@ -54,7 +55,8 @@ describe.each(templates)('%s template', (template) => {
   it('is different in English and French', () => {
     const en = renderEmail(template, 'en', samples[template] as never);
     const fr = renderEmail(template, 'fr', samples[template] as never);
-    expect(fr.subject).not.toBe(en.subject);
+    expect(fr.text).not.toBe(en.text);
+    if (template !== 'notification') expect(fr.subject).not.toBe(en.subject);
   });
 });
 

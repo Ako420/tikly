@@ -25,6 +25,8 @@ export type NotificationPayload = {
 export type AppNotification = {
   id: string;
   type: NotificationType | string;
+  title?: string;
+  body?: string;
   payload: NotificationPayload;
   createdAt: string;
   readAt?: string;

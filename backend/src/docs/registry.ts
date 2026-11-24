@@ -38,8 +38,8 @@ export const PageMeta = registry.register(
 );
 
 export const envelope = (data: ZodType) => z.object({ success: z.literal(true), data });
-export const pagedEnvelope = (item: ZodType) =>
-  z.object({ success: z.literal(true), data: z.array(item), meta: PageMeta });
+export const pagedEnvelope = (item: ZodType, meta: ZodType = PageMeta) =>
+  z.object({ success: z.literal(true), data: z.array(item), meta });
 
 type Status = 400 | 401 | 403 | 404 | 409 | 413 | 415 | 429 | 502 | 503;
 type Access = 'public' | 'optional' | 'auth';
@@ -61,6 +61,7 @@ type Operation = {
   alsoStatus?: { status: 200 | 201; description: string };
   response: ZodType;
   paged?: boolean;
+  pageMeta?: ZodType;
   pdf?: boolean;
   responseDescription?: string;
   errors?: Partial<Record<Status, string[]>>;
@@ -129,7 +130,11 @@ export function route(op: Operation) {
         description: op.responseDescription ?? 'Success',
         content: op.pdf
           ? { 'application/pdf': { schema: op.response } }
-          : { 'application/json': { schema: op.paged ? pagedEnvelope(op.response) : envelope(op.response) } },
+          : {
+              'application/json': {
+                schema: op.paged ? pagedEnvelope(op.response, op.pageMeta) : envelope(op.response),
+              },
+            },
       },
       ...(op.alsoStatus && {
         [op.alsoStatus.status]: {

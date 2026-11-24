@@ -12,6 +12,7 @@ export type TemplateData = {
   password_reset: { name: string; resetUrl: string };
   ticket_purchased: EventSummary & { tickets: { code: string; tier: TierName }[]; amount: number };
   reminder_24h: EventSummary & { ticketCount: number };
+  notification: { name: string; title: string; body: string; url: string };
 };
 
 export type MailTemplate = keyof TemplateData;
@@ -87,6 +88,17 @@ const templates: { [K in MailTemplate]: (data: TemplateData[K], lang: Language) 
         ],
         details: eventDetails(data, lang),
         action: { label: t('email.common.viewTickets', lang), url: ticketsUrl(data) },
+      },
+      lang,
+    ),
+
+  notification: (data, lang) =>
+    renderLayout(
+      data.title,
+      {
+        heading: t('notifications.common.greeting', lang, { name: data.name }),
+        paragraphs: [data.body],
+        action: { label: t('notifications.common.action', lang), url: data.url },
       },
       lang,
     ),

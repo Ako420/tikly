@@ -3,6 +3,7 @@ import { BookingModel } from '../model/booking.model';
 import { EventModel } from '../model/event.model';
 import { ProviderModel } from '../model/provider.model';
 import { ServiceModel } from '../model/service.model';
+import { SlotModel } from '../model/slot.model';
 import { StaffAssignmentModel } from '../model/staffAssignment.model';
 import { TicketTierModel } from '../model/ticketTier.model';
 import { UserModel } from '../model/user.model';
@@ -68,5 +69,16 @@ export const requireBookingParty: RequestHandler = async (req, _res, next) => {
   if (!party) throw AppError.notFound();
   req.booking = booking;
   req.bookingParty = party;
+  next();
+};
+
+export const requireSlotOwner: RequestHandler = async (req, _res, next) => {
+  const slot = await SlotModel.findById(req.params.id);
+  if (!slot) throw AppError.notFound();
+  const event = await EventModel.findById(slot.eventId);
+  if (!event) throw AppError.notFound();
+  if (req.user!.role !== 'admin' && String(event.organizerId) !== req.user!.id) throw AppError.forbidden();
+  req.slot = slot;
+  req.event = event;
   next();
 };
