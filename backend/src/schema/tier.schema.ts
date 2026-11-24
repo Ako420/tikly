@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { TIER_NAMES } from '../types/enums';
-import { objectId } from './common.schema';
+import { eventIdParam } from './common.schema';
 
 const MAX_PRICE = 10_000_000;
 const MAX_QUANTITY = 100_000;
@@ -21,8 +21,6 @@ const salesEndAt = z.coerce
   .date('validation.ticketTier.salesEndAt.required')
   .refine((date) => date > new Date(), 'validation.ticketTier.salesEndAt.future');
 
-export const eventIdParam = z.object({ eventId: objectId });
-
 export const createTierBody = z.object({
   name: z.enum(TIER_NAMES, 'validation.ticketTier.name.invalid'),
   price,
@@ -33,6 +31,8 @@ export const createTierBody = z.object({
 export const updateTierBody = z
   .object({ price: price.optional(), quantity: quantity.optional(), salesEndAt: salesEndAt.optional() })
   .refine((body) => Object.values(body).some((value) => value !== undefined), 'validation.common.emptyUpdate');
+
+export { eventIdParam };
 
 export type CreateTierBody = z.infer<typeof createTierBody>;
 export type UpdateTierBody = z.infer<typeof updateTierBody>;

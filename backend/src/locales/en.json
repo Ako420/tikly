@@ -29,6 +29,7 @@
     "EVENT_NOT_EDITABLE": "This event can no longer be edited.",
     "EVENT_ALREADY_STARTED": "This event has already started. Change its dates before submitting it.",
     "EVENT_NOT_CANCELLABLE": "Only published events that have not ended can be cancelled.",
+    "AGENDA_OUTSIDE_EVENT": "Agenda sessions must take place during the event.",
     "INVALID_CATEGORY": "This category does not exist.",
     "EVENT_NEEDS_TIERS": "Add at least one ticket tier before submitting the event.",
     "EVENT_NOT_PUBLISHED": "This event is not open for sale.",
@@ -48,6 +49,8 @@
     "PROVIDER_NOT_VERIFIED": "Your business must be verified before you can list services.",
     "PROVIDER_EXISTS": "You already have a business profile.",
     "BOOKING_NOT_PAYABLE": "This booking cannot be paid right now.",
+    "BOOKING_NOT_LINKABLE": "Only an accepted or paid booking of yours for this event can be linked.",
+    "BOOKING_ALREADY_LINKED": "This booking is already linked to a budget line.",
     "SLOT_SOLD_OUT": "No display slots of this type are left.",
     "REVIEW_NOT_ALLOWED": "You cannot review this yet.",
     "REVIEW_EXISTS": "You have already left a review.",
@@ -63,7 +66,8 @@
         "required": "An event is required."
       },
       "amount": {
-        "integer": "Amounts must be whole francs (XAF), with no decimals."
+        "integer": "Amounts must be whole francs (XAF), with no decimals.",
+        "max": "Amounts can be at most {max} XAF."
       },
       "quantity": {
         "integer": "Quantity must be a whole number."

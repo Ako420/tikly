@@ -29,6 +29,7 @@
     "EVENT_NOT_EDITABLE": "Cet événement ne peut plus être modifié.",
     "EVENT_ALREADY_STARTED": "Cet événement a déjà commencé. Modifiez ses dates avant de le soumettre.",
     "EVENT_NOT_CANCELLABLE": "Seuls les événements publiés et non terminés peuvent être annulés.",
+    "AGENDA_OUTSIDE_EVENT": "Les sessions de l'agenda doivent avoir lieu pendant l'événement.",
     "INVALID_CATEGORY": "Cette catégorie n'existe pas.",
     "EVENT_NEEDS_TIERS": "Ajoutez au moins une catégorie de billets avant de soumettre l'événement.",
     "EVENT_NOT_PUBLISHED": "Cet événement n'est pas ouvert à la vente.",
@@ -48,6 +49,8 @@
     "PROVIDER_NOT_VERIFIED": "Votre entreprise doit être vérifiée avant de publier des services.",
     "PROVIDER_EXISTS": "Vous avez déjà un profil d'entreprise.",
     "BOOKING_NOT_PAYABLE": "Cette réservation ne peut pas être payée pour le moment.",
+    "BOOKING_NOT_LINKABLE": "Seule une de vos réservations acceptée ou payée pour cet événement peut être liée.",
+    "BOOKING_ALREADY_LINKED": "Cette réservation est déjà liée à une ligne du budget.",
     "SLOT_SOLD_OUT": "Il ne reste plus d'emplacement d'exposition de ce type.",
     "REVIEW_NOT_ALLOWED": "Vous ne pouvez pas encore laisser d'avis.",
     "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
@@ -63,7 +66,8 @@
         "required": "Un événement est requis."
       },
       "amount": {
-        "integer": "Les montants doivent être en francs entiers (XAF), sans décimales."
+        "integer": "Les montants doivent être en francs entiers (XAF), sans décimales.",
+        "max": "Les montants peuvent être au maximum de {max} XAF."
       },
       "quantity": {
         "integer": "La quantité doit être un nombre entier."

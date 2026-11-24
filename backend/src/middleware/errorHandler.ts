@@ -19,6 +19,7 @@ const DUPLICATE_CODES: Record<string, string> = {
   'eventId,name': 'TIER_EXISTS',
   'staffId,eventId': 'STAFF_ALREADY_ASSIGNED',
   'targetId,authorId': 'REVIEW_EXISTS',
+  bookingId: 'BOOKING_ALREADY_LINKED',
 };
 
 function translateKey(key: string, lang: Language, params: Record<string, unknown> = {}) {

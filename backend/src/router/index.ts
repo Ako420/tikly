@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authRouter } from './auth.router';
 import { categoryRouter, eventRouter, organizerEventRouter } from './event.router';
 import { healthRouter } from './health.router';
+import { planningRouter } from './planning.router';
 import { eventTierRouter, tierRouter } from './tier.router';
 import { uploadRouter } from './upload.router';
 
@@ -11,6 +12,7 @@ apiRouter.use('/health', healthRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/uploads', uploadRouter);
 apiRouter.use('/events/:eventId/tiers', eventTierRouter);
+apiRouter.use('/events/:eventId', planningRouter);
 apiRouter.use('/events', eventRouter);
 apiRouter.use('/tiers', tierRouter);
 apiRouter.use('/organizer/events', organizerEventRouter);
