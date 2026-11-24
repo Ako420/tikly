@@ -256,10 +256,67 @@
     "chooseTickets": "Choose your tickets",
     "rules": "Max {{max}} tickets per order. Tickets are personal and can’t be transferred. Seats are held for 10 minutes at payment.",
     "noneSelected": "No tickets yet",
-    "continue": "Continue"
+    "continue": "Continue",
+    "title": "Checkout",
+    "bookingFee": "Booking fee",
+    "total": "Total",
+    "payWith": "Pay with",
+    "numberToCharge": "{{method}} number to charge",
+    "wrongNetwork": "This number isn’t {{method}}. Pick the other network or use another number.",
+    "deliveryTo": "Tickets go to your app and",
+    "deliveryInApp": "Tickets go to your app as soon as payment is approved.",
+    "pay": "Pay {{amount}}",
+    "secureNote": "Secure Mobile Money payment · No card needed",
+    "invalidTitle": "Choose your tickets first",
+    "invalidBody": "Go back and pick a tier and quantity."
   },
   "errors": {
     "network": "Can’t reach tikly right now. Check your connection and try again.",
     "generic": "Something went wrong. Please try again."
+  },
+  "payments": {
+    "methods": {
+      "mtn": "MTN MoMo",
+      "orange": "Orange Money"
+    },
+    "short": {
+      "mtn": "MoMo",
+      "orange": "Orange Money"
+    },
+    "notFoundTitle": "Order not found",
+    "retryFailed": "Couldn’t start a new payment",
+    "pending": {
+      "eyebrow": "Waiting for approval",
+      "title": "Approve on your phone",
+      "body": "We sent a request for {{amount}} to {{phone}}. Enter your {{method}} PIN to confirm.",
+      "held": "{{count}} {{tier}} seats held for",
+      "timeLeft": "{{time}} left to approve",
+      "stepSent": "Payment request sent",
+      "stepPin": "Waiting for your PIN",
+      "stepTickets": "Tickets issued with QR codes",
+      "noPrompt": "No prompt? Dial ",
+      "noPromptEnd": " to approve pending payments.",
+      "resend": "I’ve approved, check again",
+      "cancel": "Cancel payment"
+    },
+    "success": {
+      "title": "You’re going",
+      "body": "{{count}} {{tier}} tickets saved to your app and email.",
+      "ticketOf": "{{tier}} · Ticket {{index}} of {{total}}",
+      "qrLabel": "Ticket QR code {{code}}",
+      "paid": "Paid {{amount}} with {{method}} · Ref {{reference}}",
+      "viewTickets": "View my tickets",
+      "addToCalendar": "Add to calendar"
+    },
+    "failed": {
+      "eyebrow": "Payment not completed",
+      "title": "Your seats were released",
+      "expiredBody": "The request expired after 10 minutes without your PIN. You were not charged.",
+      "declinedBody": "The payment was declined or cancelled. You were not charged.",
+      "sellingFast": "{{tier}} is selling fast: {{count}} left. Try again now to hold new seats.",
+      "retry": "Try again with {{method}}",
+      "switch": "Pay with {{method}}",
+      "backToEvent": "Back to event"
+    }
   }
 }

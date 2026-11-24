@@ -18,5 +18,10 @@ export const shareNative = (message: string) => Share.share({ message });
 
 export const copyToClipboard = (value: string) => Clipboard.setStringAsync(value);
 
-export const openInMaps = (query: string) =>
+const calendarStamp = (iso: string) => new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+
+export const googleCalendarUrl = ({ title, startAt, endAt, location }: { title: string; startAt: string; endAt: string; location: string }) =>
+  `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${calendarStamp(startAt)}/${calendarStamp(endAt)}&location=${encodeURIComponent(location)}`;
+
+export const openInMaps =(query: string) =>
   Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`);

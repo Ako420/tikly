@@ -111,6 +111,10 @@ export default function SelectTickets() {
         amount={formatMoney(total)}
         actionLabel={t('checkout.continue')}
         disabled={!selectedTier}
+        onAction={() =>
+          selectedTier &&
+          router.push({ pathname: '/events/[id]/checkout', params: { id: event.id, tier: selectedTier.id, qty: String(quantity) } })
+        }
       />
     </Screen>
   );
