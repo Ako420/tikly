@@ -8,9 +8,9 @@ vi.mock('../src/middleware/rateLimit', () => {
 });
 
 import { buildApp } from '../src/app';
-import { EventModel, StaffAssignmentModel, UserModel } from '../src/model';
+import { EventModel, StaffAssignmentModel, TicketModel, UserModel } from '../src/model';
 import { useTestDatabase } from './helpers/db';
-import { createEvent, createUser, daysFromNow } from './helpers/factories';
+import { createEvent, createTier, createUser, daysFromNow, objectId } from './helpers/factories';
 
 useTestDatabase('staff');
 
@@ -212,6 +212,40 @@ describe('GET /staff/events (ACC-2)', () => {
     expect(res.body.data.map((event: { id: string }) => event.id)).toEqual([today.id, later.id]);
     expect(res.body.data.map((event: { today: boolean }) => event.today)).toEqual([true, false]);
     expect(unassigned.id).toBeDefined();
+  });
+
+  it('reports tickets issued, checked in and scanned by this staff member', async () => {
+    const { organizer, staff } = await organizerWithStaff();
+    const token = (await login('690000001')).body.data.tokens.accessToken;
+    const event = await createEvent(organizer.user._id, {
+      status: 'published',
+      startAt: daysFromNow(0.1),
+      endAt: daysFromNow(0.3),
+    });
+    const tier = await createTier(event._id);
+    await StaffAssignmentModel.create({ staffId: staff.id, eventId: event._id });
+    const ticket = (status: string, staffId?: string) => ({
+      code: `EVT-${Math.random().toString(36).slice(2, 6).toUpperCase()}-ABC`,
+      qrToken: 'token',
+      orderId: objectId(),
+      eventId: event._id,
+      tierId: tier._id,
+      holderId: objectId(),
+      status,
+      checkIns: staffId ? [{ staffId, type: 'entry' }] : [],
+    });
+    await TicketModel.insertMany([
+      ticket('valid'),
+      ticket('valid'),
+      ticket('checked_in', staff.id),
+      ticket('checked_in', String(objectId())),
+      ticket('refunded'),
+    ]);
+
+    const res = await request(app)
+      .get(`${api}/staff/events`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(res.body.data[0]).toMatchObject({ id: event.id, capacity: 4, checkedIn: 2, scannedByMe: 1 });
   });
 
   it('is for staff only', async () => {
