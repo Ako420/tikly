@@ -29,6 +29,11 @@ const dayKey = (iso: string) =>
     new Date(iso),
   );
 
+const DAY_MS = 24 * HOUR;
+
+export const calendarDaysUntil = (iso: string, now = Date.now()) =>
+  Math.round((Date.parse(dayKey(iso)) - Date.parse(dayKey(new Date(now).toISOString()))) / DAY_MS);
+
 export function getEventSpan(startIso: string, endIso: string) {
   const start = new Date(startIso).getTime();
   const end = new Date(endIso).getTime();

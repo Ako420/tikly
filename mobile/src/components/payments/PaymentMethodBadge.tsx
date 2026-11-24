@@ -7,7 +7,7 @@ export function PaymentMethodBadge({ method }: { method: PaymentMethod }) {
   const meta = paymentMethods[method];
 
   return (
-    <View className="self-start rounded-lg px-2 py-1" style={{ backgroundColor: meta.badgeBackground }}>
+    <View className="rounded-lg px-2 py-1" style={{ backgroundColor: meta.badgeBackground }}>
       <Text variant="label" style={{ color: meta.badgeForeground }}>
         {meta.badge}
       </Text>

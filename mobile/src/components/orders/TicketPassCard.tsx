@@ -16,13 +16,13 @@ type TicketPassCardProps = {
   coverUrl?: string;
   tierLabel: string;
   tickets: IssuedTicket[];
-  width: number;
 };
 
-export function TicketPassCard({ title, meta, coverUrl, tierLabel, tickets, width }: TicketPassCardProps) {
+export function TicketPassCard({ title, meta, coverUrl, tierLabel, tickets }: TicketPassCardProps) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const [index, setIndex] = useState(0);
+  const [width, setWidth] = useState(0);
   const notch = { backgroundColor: colors.background };
 
   return (
@@ -48,10 +48,11 @@ export function TicketPassCard({ title, meta, coverUrl, tierLabel, tickets, widt
         keyExtractor={(ticket) => ticket.id}
         horizontal
         pagingEnabled
+        onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(event) => setIndex(Math.round(event.nativeEvent.contentOffset.x / width))}
+        onMomentumScrollEnd={(event) => setIndex(Math.round(event.nativeEvent.contentOffset.x / Math.max(width, 1)))}
         renderItem={({ item, index: position }) => (
-          <View style={{ width }} className="items-center gap-3 px-4 pb-4 pt-2">
+          <View style={{ width: width || undefined }} className="items-center gap-3 px-4 pb-4 pt-2">
             <View className="rounded-2xl border border-border p-3">
               <QrCode value={item.qrToken} size={QR_SIZE} accessibilityLabel={t('payments.success.qrLabel', { code: item.code })} />
             </View>

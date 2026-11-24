@@ -10,7 +10,8 @@
     "country": "Cameroon",
     "increase": "Add one",
     "decrease": "Remove one",
-    "loading": "Loading"
+    "loading": "Loading",
+    "retry": "Try again"
   },
   "splash": {
     "tagline": "Events · Tickets · Entry",
@@ -31,6 +32,45 @@
       "onlyLeft": "Only {{count}} left",
       "soldOut": "Sold out",
       "salesClosed": "Sales closed"
+    }
+  },
+  "myTickets": {
+    "title": "My tickets",
+    "upcoming": "Upcoming · {{count}}",
+    "past": "Past",
+    "reminder": "We’ll remind you by push and email {{hours}} hours before each event.",
+    "when": {
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "inDays": "In {{count}} days",
+      "live": "Happening now",
+      "ended": "Ended"
+    },
+    "quantity": "{{count}} × {{tier}}",
+    "show": "Show",
+    "view": "View",
+    "open": "{{title}}, {{when}}, {{quantity}}. Open tickets",
+    "emptyPastTitle": "No past events yet",
+    "emptyPastBody": "Events you’ve been to will show up here.",
+    "loadFailed": "Couldn’t load your tickets",
+    "detail": {
+      "brightness": "Brightness raised for scanning",
+      "eyebrow": "{{date}} · Doors {{time}}",
+      "holder": "Holder",
+      "tier": "Tier",
+      "entrance": "Entrance",
+      "entranceDefault": "Main gate",
+      "ticketOf": "Ticket {{index}} of {{total}}",
+      "swipeHint": " · swipe for next",
+      "downloadPdf": "Download PDF",
+      "calendar": "Calendar",
+      "more": "More options",
+      "viewEvent": "View event",
+      "cancel": "Cancel",
+      "qrUnavailable": "Your QR code will appear here shortly.",
+      "notFoundTitle": "Ticket not found",
+      "pdfFailed": "Couldn’t create the PDF. Please try again.",
+      "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes."
     }
   },
   "onboarding": {

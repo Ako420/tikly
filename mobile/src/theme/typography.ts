@@ -14,6 +14,8 @@ export const typography = {
   headline: { fontFamily: fontFamily.extrabold, fontSize: 28, lineHeight: 32, letterSpacing: -0.7 },
   sectionTitle: { fontFamily: fontFamily.extrabold, fontSize: 20, lineHeight: 26, letterSpacing: -0.5 },
   titleLg: { fontFamily: fontFamily.extrabold, fontSize: 19, lineHeight: 23 },
+  dateDayLg: { fontFamily: fontFamily.extrabold, fontSize: 24, lineHeight: 26 },
+  ticketCode: { fontFamily: fontFamily.extrabold, fontSize: 22, lineHeight: 28, letterSpacing: 2 },
   dateDay: { fontFamily: fontFamily.extrabold, fontSize: 18, lineHeight: 20 },
   title: { fontFamily: fontFamily.extrabold, fontSize: 17, lineHeight: 20 },
   subtitle: { fontFamily: fontFamily.bold, fontSize: 15, lineHeight: 20 },
@@ -46,6 +48,7 @@ export const typography = {
     textTransform: 'uppercase',
   },
   tag: { fontFamily: fontFamily.semibold, fontSize: 12, lineHeight: 16 },
+  tagStrong: { fontFamily: fontFamily.bold, fontSize: 12, lineHeight: 16 },
   micro: { fontFamily: fontFamily.semibold, fontSize: 11, lineHeight: 14 },
 } satisfies Record<string, TextStyle>;
 
