@@ -1,1 +1,630 @@
-{}
+{
+  "errors": {
+    "VALIDATION_ERROR": "Some fields are invalid. Please check and try again.",
+    "UNAUTHORIZED": "You need to log in to continue.",
+    "TOKEN_EXPIRED": "Your session has expired. Please log in again.",
+    "FORBIDDEN": "You are not allowed to do this.",
+    "NOT_FOUND": "We could not find what you are looking for.",
+    "INVALID_ID": "This identifier is not valid.",
+    "INVALID_JSON": "The request body is not valid JSON.",
+    "PAYLOAD_TOO_LARGE": "The request is too large. The limit is 1 MB.",
+    "FILE_REQUIRED": "Attach one file in the \"file\" field.",
+    "FILE_TOO_LARGE": "The file is too large. Images can be up to 5 MB and documents up to 10 MB.",
+    "INVALID_FILE_TYPE": "This file type is not allowed. Use JPEG, PNG or WebP for images, and PDF, JPEG or PNG for documents.",
+    "UPLOAD_FAILED": "The file could not be stored. Please try again.",
+    "MAIL_FAILED": "The email could not be sent. Please try again later.",
+    "DUPLICATE": "This record already exists.",
+    "EMAIL_TAKEN": "An account with this email already exists.",
+    "PHONE_TAKEN": "An account with this phone number already exists.",
+    "INVALID_CREDENTIALS": "The email, phone or password is incorrect.",
+    "RESET_TOKEN_INVALID": "This reset link is invalid or has expired. Request a new one.",
+    "ACCOUNT_SUSPENDED": "Your account has been suspended. Contact support.",
+    "ACCOUNT_DISABLED": "This account has been disabled.",
+    "GOOGLE_NOT_CONFIGURED": "Google sign-in is not available right now.",
+    "GOOGLE_TOKEN_INVALID": "Google sign-in failed. Please try again.",
+    "GOOGLE_EMAIL_UNVERIFIED": "Your Google account email is not verified.",
+    "GOOGLE_NOT_ALLOWED": "This account cannot sign in with Google. Use your password.",
+    "GOOGLE_ACCOUNT_MISMATCH": "This email is already linked to a different Google account.",
+    "GOOGLE_SIGNUP_INCOMPLETE": "Choose an account type and enter your phone number to finish signing up.",
+    "EVENT_NOT_EDITABLE": "This event can no longer be edited.",
+    "EVENT_NEEDS_TIERS": "Add at least one ticket tier before submitting the event.",
+    "EVENT_NOT_PUBLISHED": "This event is not open for sale.",
+    "SALES_CLOSED": "Ticket sales for this tier are closed.",
+    "TIER_SOLD_OUT": "This ticket tier is sold out.",
+    "TIER_EXISTS": "This event already has a ticket tier with that name.",
+    "MAX_TICKETS_EXCEEDED": "You can buy at most 10 tickets per order.",
+    "ORDER_EXPIRED": "This order has expired. Please start again.",
+    "PAYMENT_FAILED": "The payment did not go through. Please try again.",
+    "REFUND_WINDOW_CLOSED": "It is too late to cancel this ticket.",
+    "TICKET_NOT_REFUNDABLE": "This ticket cannot be refunded.",
+    "PROVIDER_NOT_VERIFIED": "Your business must be verified before you can list services.",
+    "PROVIDER_EXISTS": "You already have a business profile.",
+    "BOOKING_NOT_PAYABLE": "This booking cannot be paid right now.",
+    "SLOT_SOLD_OUT": "No display slots of this type are left.",
+    "REVIEW_NOT_ALLOWED": "You cannot review this yet.",
+    "REVIEW_EXISTS": "You have already left a review.",
+    "STAFF_ALREADY_ASSIGNED": "This staff member is already assigned to the event.",
+    "NOT_ASSIGNED_TO_EVENT": "You are not assigned to this event.",
+    "RATE_LIMITED": "Too many attempts. Please wait a minute and try again.",
+    "SERVICE_UNAVAILABLE": "The service is temporarily unavailable. Please try again in a moment.",
+    "INTERNAL": "Something went wrong on our side. Please try again later."
+  },
+  "validation": {
+    "common": {
+      "eventId": {
+        "required": "An event is required."
+      },
+      "amount": {
+        "integer": "Amounts must be whole francs (XAF), with no decimals."
+      },
+      "quantity": {
+        "integer": "Quantity must be a whole number."
+      },
+      "invalidValue": "This value has the wrong format.",
+      "emptyUpdate": "Send at least one field to update."
+    },
+    "user": {
+      "name": {
+        "required": "Your name is required.",
+        "minLength": "Your name must be at least {min} characters.",
+        "maxLength": "Your name must be at most {max} characters."
+      },
+      "email": {
+        "required": "Your email address is required.",
+        "invalid": "Enter a valid email address.",
+        "maxLength": "Your email address is too long."
+      },
+      "phone": {
+        "required": "Your phone number is required.",
+        "invalid": "Enter a valid Cameroon mobile number, e.g. 6XXXXXXXX."
+      },
+      "passwordHash": {
+        "required": "A password is required."
+      },
+      "role": {
+        "required": "Choose an account type.",
+        "invalid": "This account type does not exist."
+      },
+      "language": {
+        "invalid": "Language must be English or French."
+      },
+      "status": {
+        "invalid": "This account status does not exist."
+      },
+      "organizerId": {
+        "required": "Gate staff must belong to an organizer.",
+        "notAllowed": "Only gate staff accounts can belong to an organizer."
+      }
+    },
+    "auth": {
+      "password": {
+        "required": "A password is required.",
+        "minLength": "Your password must be at least {min} characters.",
+        "tooLong": "Your password is too long."
+      },
+      "identifier": {
+        "required": "Enter your email or phone number."
+      },
+      "refreshToken": {
+        "required": "A refresh token is required."
+      },
+      "resetToken": {
+        "required": "The reset token is missing."
+      },
+      "pushToken": {
+        "invalid": "This push token is not a valid Expo push token."
+      },
+      "idToken": {
+        "required": "The Google sign-in token is missing."
+      }
+    },
+    "event": {
+      "organizerId": {
+        "required": "The event must have an organizer."
+      },
+      "title": {
+        "required": "Give the event a title in English or French.",
+        "maxLength": "The event title must be at most {max} characters."
+      },
+      "description": {
+        "required": "Describe the event in English or French.",
+        "maxLength": "The event description must be at most {max} characters."
+      },
+      "category": {
+        "required": "Choose a category for the event."
+      },
+      "coverUrl": {
+        "invalid": "The cover image must be a valid web address."
+      },
+      "venue": {
+        "required": "Enter the venue of the event.",
+        "maxLength": "The venue must be at most {max} characters."
+      },
+      "city": {
+        "required": "Enter the city where the event takes place.",
+        "maxLength": "The city must be at most {max} characters."
+      },
+      "country": {
+        "required": "Choose the country of the event.",
+        "maxLength": "The country must be at most {max} characters."
+      },
+      "startAt": {
+        "required": "Set the start date and time."
+      },
+      "endAt": {
+        "required": "Set the end date and time.",
+        "afterStart": "The event must end after it starts."
+      },
+      "status": {
+        "invalid": "This event status does not exist."
+      },
+      "rejectionReason": {
+        "required": "Give a reason for rejecting the event.",
+        "maxLength": "The rejection reason must be at most {max} characters."
+      },
+      "cancellationReason": {
+        "required": "Give a reason for cancelling the event.",
+        "maxLength": "The cancellation reason must be at most {max} characters."
+      }
+    },
+    "ticketTier": {
+      "name": {
+        "required": "Choose a tier: Standard, VIP or VVIP.",
+        "invalid": "The tier must be Standard, VIP or VVIP."
+      },
+      "price": {
+        "required": "Set a price for this tier.",
+        "min": "The price cannot be negative."
+      },
+      "quantity": {
+        "required": "Set how many tickets this tier has.",
+        "min": "A tier needs at least {min} ticket.",
+        "belowSold": "The quantity cannot be lower than the tickets already sold or reserved."
+      },
+      "reserved": {
+        "min": "Reserved tickets cannot be negative."
+      },
+      "sold": {
+        "min": "Sold tickets cannot be negative."
+      },
+      "salesEndAt": {
+        "required": "Set when ticket sales end."
+      }
+    },
+    "order": {
+      "type": {
+        "required": "The order type is required.",
+        "invalid": "This order type does not exist."
+      },
+      "buyerId": {
+        "required": "The order must have a buyer."
+      },
+      "payeeId": {
+        "required": "The order must have a payee."
+      },
+      "items": {
+        "required": "The order must contain at least one item.",
+        "maxTickets": "You can buy at most 10 tickets per order.",
+        "refId": {
+          "required": "Each order item must point to what is being bought."
+        },
+        "refModel": {
+          "required": "Each order item must say what kind of item it is.",
+          "invalid": "This kind of order item does not exist."
+        },
+        "quantity": {
+          "required": "Each order item needs a quantity.",
+          "min": "Each order item needs a quantity of at least {min}."
+        },
+        "unitPrice": {
+          "required": "Each order item needs a unit price.",
+          "min": "A unit price cannot be negative."
+        }
+      },
+      "amount": {
+        "required": "The order amount is required.",
+        "min": "The order amount cannot be negative."
+      },
+      "phone": {
+        "required": "Enter the Mobile Money or Orange Money number to pay with.",
+        "invalid": "Enter a valid Cameroon mobile number, e.g. 6XXXXXXXX."
+      },
+      "status": {
+        "invalid": "This order status does not exist."
+      },
+      "expiresAt": {
+        "required": "A pending order must have an expiry time."
+      }
+    },
+    "ticket": {
+      "code": {
+        "required": "The ticket needs a code."
+      },
+      "qrToken": {
+        "required": "The ticket needs a QR token."
+      },
+      "orderId": {
+        "required": "The ticket must belong to an order."
+      },
+      "tierId": {
+        "required": "The ticket must belong to a tier."
+      },
+      "holderId": {
+        "required": "The ticket must have a holder."
+      },
+      "status": {
+        "invalid": "This ticket status does not exist."
+      },
+      "checkIns": {
+        "at": {
+          "required": "A check-in needs a time."
+        },
+        "staffId": {
+          "required": "A check-in must record the staff member who scanned it."
+        },
+        "type": {
+          "invalid": "A check-in must be an entry or a re-entry."
+        },
+        "note": {
+          "maxLength": "The check-in note must be at most {max} characters."
+        }
+      }
+    },
+    "transaction": {
+      "orderId": {
+        "required": "The transaction must belong to an order."
+      },
+      "payeeId": {
+        "required": "The transaction must have a payee."
+      },
+      "provider": {
+        "required": "The payment provider is required.",
+        "invalid": "The payment provider must be Fapshi or Campay."
+      },
+      "externalRef": {
+        "required": "The payment provider reference is required."
+      },
+      "kind": {
+        "required": "The transaction kind is required.",
+        "invalid": "The transaction must be a payment or a refund."
+      },
+      "amount": {
+        "required": "The transaction amount is required.",
+        "min": "The transaction amount cannot be negative."
+      },
+      "status": {
+        "invalid": "This transaction status does not exist."
+      },
+      "split": {
+        "exceedsAmount": "The payee share and commission cannot exceed the amount paid."
+      }
+    },
+    "staffAssignment": {
+      "staffId": {
+        "required": "Choose a staff member to assign."
+      }
+    },
+    "budgetItem": {
+      "label": {
+        "required": "Name this budget line.",
+        "maxLength": "The budget line name must be at most {max} characters."
+      },
+      "category": {
+        "required": "Choose a category for this budget line.",
+        "maxLength": "The category must be at most {max} characters."
+      },
+      "planned": {
+        "required": "Enter the planned amount.",
+        "min": "The planned amount cannot be negative."
+      },
+      "actual": {
+        "min": "The actual amount cannot be negative."
+      },
+      "source": {
+        "invalid": "This budget source does not exist."
+      },
+      "bookingId": {
+        "required": "A service budget line must be linked to a booking."
+      }
+    },
+    "checklistItem": {
+      "title": {
+        "required": "Give the task a title.",
+        "maxLength": "The task title must be at most {max} characters."
+      }
+    },
+    "guest": {
+      "name": {
+        "required": "Enter the guest's name.",
+        "maxLength": "The guest's name must be at most {max} characters."
+      },
+      "phone": {
+        "invalid": "Enter a valid Cameroon mobile number, e.g. 6XXXXXXXX."
+      },
+      "email": {
+        "invalid": "Enter a valid email address."
+      },
+      "category": {
+        "required": "Choose a guest category.",
+        "maxLength": "The guest category must be at most {max} characters."
+      },
+      "source": {
+        "invalid": "This guest source does not exist."
+      }
+    },
+    "agendaItem": {
+      "title": {
+        "required": "Give the session a title.",
+        "maxLength": "The session title must be at most {max} characters."
+      },
+      "startAt": {
+        "required": "Set when the session starts."
+      },
+      "endAt": {
+        "required": "Set when the session ends.",
+        "afterStart": "The session must end after it starts."
+      },
+      "speaker": {
+        "maxLength": "The speaker name must be at most {max} characters."
+      },
+      "location": {
+        "maxLength": "The location must be at most {max} characters."
+      }
+    },
+    "provider": {
+      "userId": {
+        "required": "The business profile must belong to a user."
+      },
+      "businessName": {
+        "required": "Enter your business name.",
+        "minLength": "The business name must be at least {min} characters.",
+        "maxLength": "The business name must be at most {max} characters."
+      },
+      "description": {
+        "maxLength": "The description must be at most {max} characters."
+      },
+      "city": {
+        "required": "Enter the city where your business operates.",
+        "maxLength": "The city must be at most {max} characters."
+      },
+      "country": {
+        "required": "Choose your country.",
+        "maxLength": "The country must be at most {max} characters."
+      },
+      "phone": {
+        "required": "Enter your business phone number.",
+        "invalid": "Enter a valid Cameroon mobile number, e.g. 6XXXXXXXX."
+      },
+      "whatsapp": {
+        "invalid": "Enter a valid WhatsApp number, e.g. 6XXXXXXXX."
+      },
+      "documents": {
+        "required": "Upload at least one verification document."
+      },
+      "verification": {
+        "invalid": "This verification status does not exist."
+      },
+      "rejectionReason": {
+        "required": "Give a reason for rejecting this business.",
+        "maxLength": "The rejection reason must be at most {max} characters."
+      }
+    },
+    "service": {
+      "providerId": {
+        "required": "The service must belong to a business."
+      },
+      "category": {
+        "required": "Choose a service category.",
+        "invalid": "This service category does not exist."
+      },
+      "title": {
+        "required": "Give the service a title in English or French.",
+        "maxLength": "The service title must be at most {max} characters."
+      },
+      "description": {
+        "maxLength": "The description must be at most {max} characters."
+      },
+      "photos": {
+        "invalid": "Each photo must be a valid web address."
+      },
+      "city": {
+        "required": "Enter the city where the service is offered.",
+        "maxLength": "The city must be at most {max} characters."
+      },
+      "price": {
+        "required": "Set a price for the service.",
+        "min": "The price cannot be negative."
+      },
+      "unit": {
+        "required": "Choose how the price is charged.",
+        "invalid": "The price must be per day, per item or per event."
+      }
+    },
+    "booking": {
+      "serviceId": {
+        "required": "Choose the service to book."
+      },
+      "organizerId": {
+        "required": "The booking must have an organizer."
+      },
+      "orderId": {
+        "required": "The booking must be linked to an order."
+      },
+      "startDate": {
+        "required": "Set the start date of the booking."
+      },
+      "endDate": {
+        "required": "Set the end date of the booking.",
+        "afterStart": "The booking cannot end before it starts."
+      },
+      "quantity": {
+        "required": "Enter the quantity to book.",
+        "min": "Book at least {min}."
+      },
+      "amount": {
+        "required": "Set the final price before accepting the booking.",
+        "min": "The price cannot be negative."
+      },
+      "note": {
+        "maxLength": "The note must be at most {max} characters."
+      },
+      "declineReason": {
+        "maxLength": "The reason must be at most {max} characters."
+      },
+      "status": {
+        "invalid": "This booking status does not exist."
+      }
+    },
+    "slot": {
+      "label": {
+        "required": "Give the display slot a name or number.",
+        "maxLength": "The slot name must be at most {max} characters."
+      },
+      "size": {
+        "maxLength": "The size description must be at most {max} characters."
+      },
+      "price": {
+        "required": "Set a price for the slot.",
+        "min": "The price cannot be negative."
+      },
+      "quantity": {
+        "required": "Set how many slots of this type are available.",
+        "min": "Offer at least {min} slot.",
+        "belowBooked": "The quantity cannot be lower than the slots already booked or reserved."
+      }
+    },
+    "slotBooking": {
+      "slotId": {
+        "required": "Choose a display slot."
+      },
+      "exhibitorId": {
+        "required": "The slot booking must have an exhibitor."
+      },
+      "orderId": {
+        "required": "The slot booking must be linked to an order."
+      },
+      "quantity": {
+        "required": "Enter how many slots to book.",
+        "min": "Book at least {min} slot."
+      },
+      "status": {
+        "invalid": "This slot booking status does not exist."
+      }
+    },
+    "review": {
+      "target": {
+        "required": "Say what you are reviewing.",
+        "invalid": "You can only review an event or a service provider."
+      },
+      "targetId": {
+        "required": "Say what you are reviewing."
+      },
+      "authorId": {
+        "required": "The review must have an author."
+      },
+      "bookingId": {
+        "required": "A provider review must be linked to a completed booking."
+      },
+      "rating": {
+        "required": "Give a rating from 1 to 5 stars.",
+        "range": "The rating must be between 1 and 5 stars.",
+        "integer": "The rating must be a whole number of stars."
+      },
+      "comment": {
+        "maxLength": "The comment must be at most {max} characters."
+      }
+    },
+    "notification": {
+      "userId": {
+        "required": "The notification must have a recipient."
+      },
+      "type": {
+        "required": "The notification type is required.",
+        "invalid": "This notification type does not exist."
+      },
+      "channels": {
+        "invalid": "Notifications can only be sent by push or email."
+      }
+    },
+    "setting": {
+      "commission": {
+        "range": "Commission must be between 0% and 30%."
+      },
+      "categories": {
+        "key": {
+          "required": "Each category needs a key.",
+          "invalid": "Category keys may only use lowercase letters, numbers and dashes."
+        },
+        "en": {
+          "required": "Each category needs an English name."
+        },
+        "fr": {
+          "required": "Each category needs a French name."
+        },
+        "duplicate": "Two categories cannot share the same key."
+      }
+    }
+  },
+  "email": {
+    "layout": {
+      "footer": "You are receiving this email because you have a Tikly account.",
+      "linkFallback": "If the button does not work, copy this link into your browser:"
+    },
+    "common": {
+      "event": "Event",
+      "when": "When",
+      "where": "Where",
+      "total": "Total paid",
+      "viewTickets": "View my tickets",
+      "ticketsOne": "{count} ticket",
+      "ticketsMany": "{count} tickets"
+    },
+    "roles": {
+      "attendee": "attendee",
+      "organizer": "organizer",
+      "provider": "service provider",
+      "exhibitor": "exhibitor",
+      "staff": "gate staff",
+      "admin": "administrator"
+    },
+    "tiers": {
+      "standard": "Standard ticket",
+      "vip": "VIP ticket",
+      "vvip": "VVIP ticket"
+    },
+    "account_welcome": {
+      "subject": "Welcome to Tikly",
+      "heading": "Welcome, {name}!",
+      "intro": "Your Tikly account is ready. You signed up as an {role}.",
+      "next": {
+        "attendee": "Discover events near you, buy tickets with Mobile Money or Orange Money, and keep your QR tickets in the app.",
+        "organizer": "Create your first event, add ticket tiers and plan your budget, checklist, guests and agenda. Submit it for approval when you are ready.",
+        "provider": "Add your business details and verification documents. Your services appear in listings once an administrator verifies your business.",
+        "exhibitor": "Browse events with open display slots and book the space you need.",
+        "staff": "Log in on the Tikly app in scanner mode to check tickets at the events you are assigned to.",
+        "admin": "Review pending events and provider verifications from your dashboard."
+      },
+      "action": "Open Tikly"
+    },
+    "password_reset": {
+      "subject": "Reset your Tikly password",
+      "heading": "Hello {name},",
+      "intro": "We received a request to reset the password for your Tikly account.",
+      "expiry": "This link expires in {minutes} minutes.",
+      "ignore": "If you did not ask for this, you can ignore this email. Your password stays the same.",
+      "action": "Choose a new password"
+    },
+    "ticket_purchased": {
+      "subject": "Your tickets for {event}",
+      "heading": "Thank you, {name}!",
+      "intro": "Your payment went through. Here are your {tickets} for {event}.",
+      "attachment": "Each ticket is attached as a PDF with its QR code. Show it on your phone or on paper at the entrance."
+    },
+    "reminder_24h": {
+      "subject": "Tomorrow: {event}",
+      "heading": "See you tomorrow, {name}!",
+      "intro": "{event} starts in about 24 hours. You have {tickets}.",
+      "tip": "Have your QR code ready at the entrance to get in faster."
+    }
+  }
+}

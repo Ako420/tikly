@@ -1,1 +1,630 @@
-{}
+{
+  "errors": {
+    "VALIDATION_ERROR": "Certains champs sont invalides. Vérifiez et réessayez.",
+    "UNAUTHORIZED": "Vous devez vous connecter pour continuer.",
+    "TOKEN_EXPIRED": "Votre session a expiré. Veuillez vous reconnecter.",
+    "FORBIDDEN": "Vous n'êtes pas autorisé à faire cela.",
+    "NOT_FOUND": "Nous n'avons pas trouvé ce que vous cherchez.",
+    "INVALID_ID": "Cet identifiant n'est pas valide.",
+    "INVALID_JSON": "Le corps de la requête n'est pas un JSON valide.",
+    "PAYLOAD_TOO_LARGE": "La requête est trop volumineuse. La limite est de 1 Mo.",
+    "FILE_REQUIRED": "Joignez un fichier dans le champ « file ».",
+    "FILE_TOO_LARGE": "Le fichier est trop volumineux. Les images peuvent faire jusqu’à 5 Mo et les documents jusqu’à 10 Mo.",
+    "INVALID_FILE_TYPE": "Ce type de fichier n’est pas autorisé. Utilisez JPEG, PNG ou WebP pour les images, et PDF, JPEG ou PNG pour les documents.",
+    "UPLOAD_FAILED": "Le fichier n’a pas pu être enregistré. Veuillez réessayer.",
+    "MAIL_FAILED": "L’e-mail n’a pas pu être envoyé. Veuillez réessayer plus tard.",
+    "DUPLICATE": "Cet enregistrement existe déjà.",
+    "EMAIL_TAKEN": "Un compte avec cette adresse e-mail existe déjà.",
+    "PHONE_TAKEN": "Un compte avec ce numéro de téléphone existe déjà.",
+    "INVALID_CREDENTIALS": "L'e-mail, le téléphone ou le mot de passe est incorrect.",
+    "RESET_TOKEN_INVALID": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
+    "ACCOUNT_SUSPENDED": "Votre compte a été suspendu. Contactez le support.",
+    "ACCOUNT_DISABLED": "Ce compte a été désactivé.",
+    "GOOGLE_NOT_CONFIGURED": "La connexion avec Google n'est pas disponible pour le moment.",
+    "GOOGLE_TOKEN_INVALID": "La connexion avec Google a échoué. Veuillez réessayer.",
+    "GOOGLE_EMAIL_UNVERIFIED": "L'adresse e-mail de votre compte Google n'est pas vérifiée.",
+    "GOOGLE_NOT_ALLOWED": "Ce compte ne peut pas se connecter avec Google. Utilisez votre mot de passe.",
+    "GOOGLE_ACCOUNT_MISMATCH": "Cet e-mail est déjà lié à un autre compte Google.",
+    "GOOGLE_SIGNUP_INCOMPLETE": "Choisissez un type de compte et saisissez votre numéro de téléphone pour terminer l'inscription.",
+    "EVENT_NOT_EDITABLE": "Cet événement ne peut plus être modifié.",
+    "EVENT_NEEDS_TIERS": "Ajoutez au moins une catégorie de billets avant de soumettre l'événement.",
+    "EVENT_NOT_PUBLISHED": "Cet événement n'est pas ouvert à la vente.",
+    "SALES_CLOSED": "La vente de billets pour cette catégorie est terminée.",
+    "TIER_SOLD_OUT": "Cette catégorie de billets est épuisée.",
+    "TIER_EXISTS": "Cet événement a déjà une catégorie de billets avec ce nom.",
+    "MAX_TICKETS_EXCEEDED": "Vous pouvez acheter au maximum 10 billets par commande.",
+    "ORDER_EXPIRED": "Cette commande a expiré. Veuillez recommencer.",
+    "PAYMENT_FAILED": "Le paiement n'a pas abouti. Veuillez réessayer.",
+    "REFUND_WINDOW_CLOSED": "Il est trop tard pour annuler ce billet.",
+    "TICKET_NOT_REFUNDABLE": "Ce billet ne peut pas être remboursé.",
+    "PROVIDER_NOT_VERIFIED": "Votre entreprise doit être vérifiée avant de publier des services.",
+    "PROVIDER_EXISTS": "Vous avez déjà un profil d'entreprise.",
+    "BOOKING_NOT_PAYABLE": "Cette réservation ne peut pas être payée pour le moment.",
+    "SLOT_SOLD_OUT": "Il ne reste plus d'emplacement d'exposition de ce type.",
+    "REVIEW_NOT_ALLOWED": "Vous ne pouvez pas encore laisser d'avis.",
+    "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
+    "STAFF_ALREADY_ASSIGNED": "Ce membre du personnel est déjà affecté à l'événement.",
+    "NOT_ASSIGNED_TO_EVENT": "Vous n'êtes pas affecté à cet événement.",
+    "RATE_LIMITED": "Trop de tentatives. Patientez une minute puis réessayez.",
+    "SERVICE_UNAVAILABLE": "Le service est momentanément indisponible. Veuillez réessayer dans un instant.",
+    "INTERNAL": "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard."
+  },
+  "validation": {
+    "common": {
+      "eventId": {
+        "required": "Un événement est requis."
+      },
+      "amount": {
+        "integer": "Les montants doivent être en francs entiers (XAF), sans décimales."
+      },
+      "quantity": {
+        "integer": "La quantité doit être un nombre entier."
+      },
+      "invalidValue": "Cette valeur n'a pas le bon format.",
+      "emptyUpdate": "Envoyez au moins un champ à modifier."
+    },
+    "user": {
+      "name": {
+        "required": "Votre nom est requis.",
+        "minLength": "Votre nom doit contenir au moins {min} caractères.",
+        "maxLength": "Votre nom doit contenir au maximum {max} caractères."
+      },
+      "email": {
+        "required": "Votre adresse e-mail est requise.",
+        "invalid": "Saisissez une adresse e-mail valide.",
+        "maxLength": "Votre adresse e-mail est trop longue."
+      },
+      "phone": {
+        "required": "Votre numéro de téléphone est requis.",
+        "invalid": "Saisissez un numéro mobile camerounais valide, par ex. 6XXXXXXXX."
+      },
+      "passwordHash": {
+        "required": "Un mot de passe est requis."
+      },
+      "role": {
+        "required": "Choisissez un type de compte.",
+        "invalid": "Ce type de compte n'existe pas."
+      },
+      "language": {
+        "invalid": "La langue doit être l'anglais ou le français."
+      },
+      "status": {
+        "invalid": "Ce statut de compte n'existe pas."
+      },
+      "organizerId": {
+        "required": "Le personnel d'accueil doit être rattaché à un organisateur.",
+        "notAllowed": "Seuls les comptes du personnel d'accueil peuvent être rattachés à un organisateur."
+      }
+    },
+    "auth": {
+      "password": {
+        "required": "Un mot de passe est requis.",
+        "minLength": "Votre mot de passe doit contenir au moins {min} caractères.",
+        "tooLong": "Votre mot de passe est trop long."
+      },
+      "identifier": {
+        "required": "Saisissez votre e-mail ou votre numéro de téléphone."
+      },
+      "refreshToken": {
+        "required": "Un jeton de rafraîchissement est requis."
+      },
+      "resetToken": {
+        "required": "Le jeton de réinitialisation est manquant."
+      },
+      "pushToken": {
+        "invalid": "Ce jeton n'est pas un jeton de notification Expo valide."
+      },
+      "idToken": {
+        "required": "Le jeton de connexion Google est manquant."
+      }
+    },
+    "event": {
+      "organizerId": {
+        "required": "L'événement doit avoir un organisateur."
+      },
+      "title": {
+        "required": "Donnez un titre à l'événement en anglais ou en français.",
+        "maxLength": "Le titre de l'événement doit contenir au maximum {max} caractères."
+      },
+      "description": {
+        "required": "Décrivez l'événement en anglais ou en français.",
+        "maxLength": "La description de l'événement doit contenir au maximum {max} caractères."
+      },
+      "category": {
+        "required": "Choisissez une catégorie pour l'événement."
+      },
+      "coverUrl": {
+        "invalid": "L'image de couverture doit être une adresse web valide."
+      },
+      "venue": {
+        "required": "Indiquez le lieu de l'événement.",
+        "maxLength": "Le lieu doit contenir au maximum {max} caractères."
+      },
+      "city": {
+        "required": "Indiquez la ville où se déroule l'événement.",
+        "maxLength": "La ville doit contenir au maximum {max} caractères."
+      },
+      "country": {
+        "required": "Choisissez le pays de l'événement.",
+        "maxLength": "Le pays doit contenir au maximum {max} caractères."
+      },
+      "startAt": {
+        "required": "Indiquez la date et l'heure de début."
+      },
+      "endAt": {
+        "required": "Indiquez la date et l'heure de fin.",
+        "afterStart": "L'événement doit se terminer après son début."
+      },
+      "status": {
+        "invalid": "Ce statut d'événement n'existe pas."
+      },
+      "rejectionReason": {
+        "required": "Indiquez le motif du rejet de l'événement.",
+        "maxLength": "Le motif du rejet doit contenir au maximum {max} caractères."
+      },
+      "cancellationReason": {
+        "required": "Indiquez le motif de l'annulation de l'événement.",
+        "maxLength": "Le motif de l'annulation doit contenir au maximum {max} caractères."
+      }
+    },
+    "ticketTier": {
+      "name": {
+        "required": "Choisissez une catégorie : Standard, VIP ou VVIP.",
+        "invalid": "La catégorie doit être Standard, VIP ou VVIP."
+      },
+      "price": {
+        "required": "Fixez un prix pour cette catégorie.",
+        "min": "Le prix ne peut pas être négatif."
+      },
+      "quantity": {
+        "required": "Indiquez le nombre de billets de cette catégorie.",
+        "min": "Une catégorie doit avoir au moins {min} billet.",
+        "belowSold": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés."
+      },
+      "reserved": {
+        "min": "Les billets réservés ne peuvent pas être négatifs."
+      },
+      "sold": {
+        "min": "Les billets vendus ne peuvent pas être négatifs."
+      },
+      "salesEndAt": {
+        "required": "Indiquez la date de fin des ventes."
+      }
+    },
+    "order": {
+      "type": {
+        "required": "Le type de commande est requis.",
+        "invalid": "Ce type de commande n'existe pas."
+      },
+      "buyerId": {
+        "required": "La commande doit avoir un acheteur."
+      },
+      "payeeId": {
+        "required": "La commande doit avoir un bénéficiaire."
+      },
+      "items": {
+        "required": "La commande doit contenir au moins un article.",
+        "maxTickets": "Vous pouvez acheter au maximum 10 billets par commande.",
+        "refId": {
+          "required": "Chaque article doit indiquer ce qui est acheté."
+        },
+        "refModel": {
+          "required": "Chaque article doit indiquer son type.",
+          "invalid": "Ce type d'article n'existe pas."
+        },
+        "quantity": {
+          "required": "Chaque article doit avoir une quantité.",
+          "min": "Chaque article doit avoir une quantité d'au moins {min}."
+        },
+        "unitPrice": {
+          "required": "Chaque article doit avoir un prix unitaire.",
+          "min": "Un prix unitaire ne peut pas être négatif."
+        }
+      },
+      "amount": {
+        "required": "Le montant de la commande est requis.",
+        "min": "Le montant de la commande ne peut pas être négatif."
+      },
+      "phone": {
+        "required": "Saisissez le numéro Mobile Money ou Orange Money pour payer.",
+        "invalid": "Saisissez un numéro mobile camerounais valide, par ex. 6XXXXXXXX."
+      },
+      "status": {
+        "invalid": "Ce statut de commande n'existe pas."
+      },
+      "expiresAt": {
+        "required": "Une commande en attente doit avoir une date d'expiration."
+      }
+    },
+    "ticket": {
+      "code": {
+        "required": "Le billet doit avoir un code."
+      },
+      "qrToken": {
+        "required": "Le billet doit avoir un jeton QR."
+      },
+      "orderId": {
+        "required": "Le billet doit appartenir à une commande."
+      },
+      "tierId": {
+        "required": "Le billet doit appartenir à une catégorie."
+      },
+      "holderId": {
+        "required": "Le billet doit avoir un titulaire."
+      },
+      "status": {
+        "invalid": "Ce statut de billet n'existe pas."
+      },
+      "checkIns": {
+        "at": {
+          "required": "Un contrôle d'entrée doit avoir une heure."
+        },
+        "staffId": {
+          "required": "Un contrôle d'entrée doit indiquer le membre du personnel qui a scanné."
+        },
+        "type": {
+          "invalid": "Un contrôle doit être une entrée ou une ré-entrée."
+        },
+        "note": {
+          "maxLength": "La note doit contenir au maximum {max} caractères."
+        }
+      }
+    },
+    "transaction": {
+      "orderId": {
+        "required": "La transaction doit appartenir à une commande."
+      },
+      "payeeId": {
+        "required": "La transaction doit avoir un bénéficiaire."
+      },
+      "provider": {
+        "required": "Le prestataire de paiement est requis.",
+        "invalid": "Le prestataire de paiement doit être Fapshi ou Campay."
+      },
+      "externalRef": {
+        "required": "La référence du prestataire de paiement est requise."
+      },
+      "kind": {
+        "required": "Le type de transaction est requis.",
+        "invalid": "La transaction doit être un paiement ou un remboursement."
+      },
+      "amount": {
+        "required": "Le montant de la transaction est requis.",
+        "min": "Le montant de la transaction ne peut pas être négatif."
+      },
+      "status": {
+        "invalid": "Ce statut de transaction n'existe pas."
+      },
+      "split": {
+        "exceedsAmount": "La part du bénéficiaire et la commission ne peuvent pas dépasser le montant payé."
+      }
+    },
+    "staffAssignment": {
+      "staffId": {
+        "required": "Choisissez un membre du personnel à affecter."
+      }
+    },
+    "budgetItem": {
+      "label": {
+        "required": "Nommez cette ligne budgétaire.",
+        "maxLength": "Le nom de la ligne doit contenir au maximum {max} caractères."
+      },
+      "category": {
+        "required": "Choisissez une catégorie pour cette ligne budgétaire.",
+        "maxLength": "La catégorie doit contenir au maximum {max} caractères."
+      },
+      "planned": {
+        "required": "Saisissez le montant prévu.",
+        "min": "Le montant prévu ne peut pas être négatif."
+      },
+      "actual": {
+        "min": "Le montant réel ne peut pas être négatif."
+      },
+      "source": {
+        "invalid": "Cette source budgétaire n'existe pas."
+      },
+      "bookingId": {
+        "required": "Une ligne budgétaire de service doit être liée à une réservation."
+      }
+    },
+    "checklistItem": {
+      "title": {
+        "required": "Donnez un titre à la tâche.",
+        "maxLength": "Le titre de la tâche doit contenir au maximum {max} caractères."
+      }
+    },
+    "guest": {
+      "name": {
+        "required": "Saisissez le nom de l'invité.",
+        "maxLength": "Le nom de l'invité doit contenir au maximum {max} caractères."
+      },
+      "phone": {
+        "invalid": "Saisissez un numéro mobile camerounais valide, par ex. 6XXXXXXXX."
+      },
+      "email": {
+        "invalid": "Saisissez une adresse e-mail valide."
+      },
+      "category": {
+        "required": "Choisissez une catégorie d'invité.",
+        "maxLength": "La catégorie d'invité doit contenir au maximum {max} caractères."
+      },
+      "source": {
+        "invalid": "Cette source d'invité n'existe pas."
+      }
+    },
+    "agendaItem": {
+      "title": {
+        "required": "Donnez un titre à la session.",
+        "maxLength": "Le titre de la session doit contenir au maximum {max} caractères."
+      },
+      "startAt": {
+        "required": "Indiquez l'heure de début de la session."
+      },
+      "endAt": {
+        "required": "Indiquez l'heure de fin de la session.",
+        "afterStart": "La session doit se terminer après son début."
+      },
+      "speaker": {
+        "maxLength": "Le nom de l'intervenant doit contenir au maximum {max} caractères."
+      },
+      "location": {
+        "maxLength": "Le lieu doit contenir au maximum {max} caractères."
+      }
+    },
+    "provider": {
+      "userId": {
+        "required": "Le profil d'entreprise doit appartenir à un utilisateur."
+      },
+      "businessName": {
+        "required": "Saisissez le nom de votre entreprise.",
+        "minLength": "Le nom de l'entreprise doit contenir au moins {min} caractères.",
+        "maxLength": "Le nom de l'entreprise doit contenir au maximum {max} caractères."
+      },
+      "description": {
+        "maxLength": "La description doit contenir au maximum {max} caractères."
+      },
+      "city": {
+        "required": "Indiquez la ville où votre entreprise exerce.",
+        "maxLength": "La ville doit contenir au maximum {max} caractères."
+      },
+      "country": {
+        "required": "Choisissez votre pays.",
+        "maxLength": "Le pays doit contenir au maximum {max} caractères."
+      },
+      "phone": {
+        "required": "Saisissez le numéro de téléphone de votre entreprise.",
+        "invalid": "Saisissez un numéro mobile camerounais valide, par ex. 6XXXXXXXX."
+      },
+      "whatsapp": {
+        "invalid": "Saisissez un numéro WhatsApp valide, par ex. 6XXXXXXXX."
+      },
+      "documents": {
+        "required": "Téléversez au moins un document de vérification."
+      },
+      "verification": {
+        "invalid": "Ce statut de vérification n'existe pas."
+      },
+      "rejectionReason": {
+        "required": "Indiquez le motif du rejet de cette entreprise.",
+        "maxLength": "Le motif du rejet doit contenir au maximum {max} caractères."
+      }
+    },
+    "service": {
+      "providerId": {
+        "required": "Le service doit appartenir à une entreprise."
+      },
+      "category": {
+        "required": "Choisissez une catégorie de service.",
+        "invalid": "Cette catégorie de service n'existe pas."
+      },
+      "title": {
+        "required": "Donnez un titre au service en anglais ou en français.",
+        "maxLength": "Le titre du service doit contenir au maximum {max} caractères."
+      },
+      "description": {
+        "maxLength": "La description doit contenir au maximum {max} caractères."
+      },
+      "photos": {
+        "invalid": "Chaque photo doit être une adresse web valide."
+      },
+      "city": {
+        "required": "Indiquez la ville où le service est proposé.",
+        "maxLength": "La ville doit contenir au maximum {max} caractères."
+      },
+      "price": {
+        "required": "Fixez un prix pour le service.",
+        "min": "Le prix ne peut pas être négatif."
+      },
+      "unit": {
+        "required": "Choisissez comment le prix est facturé.",
+        "invalid": "Le prix doit être par jour, par article ou par événement."
+      }
+    },
+    "booking": {
+      "serviceId": {
+        "required": "Choisissez le service à réserver."
+      },
+      "organizerId": {
+        "required": "La réservation doit avoir un organisateur."
+      },
+      "orderId": {
+        "required": "La réservation doit être liée à une commande."
+      },
+      "startDate": {
+        "required": "Indiquez la date de début de la réservation."
+      },
+      "endDate": {
+        "required": "Indiquez la date de fin de la réservation.",
+        "afterStart": "La réservation ne peut pas se terminer avant de commencer."
+      },
+      "quantity": {
+        "required": "Saisissez la quantité à réserver.",
+        "min": "Réservez au moins {min}."
+      },
+      "amount": {
+        "required": "Fixez le prix final avant d'accepter la réservation.",
+        "min": "Le prix ne peut pas être négatif."
+      },
+      "note": {
+        "maxLength": "La note doit contenir au maximum {max} caractères."
+      },
+      "declineReason": {
+        "maxLength": "Le motif doit contenir au maximum {max} caractères."
+      },
+      "status": {
+        "invalid": "Ce statut de réservation n'existe pas."
+      }
+    },
+    "slot": {
+      "label": {
+        "required": "Donnez un nom ou un numéro à l'emplacement d'exposition.",
+        "maxLength": "Le nom de l'emplacement doit contenir au maximum {max} caractères."
+      },
+      "size": {
+        "maxLength": "La description de la taille doit contenir au maximum {max} caractères."
+      },
+      "price": {
+        "required": "Fixez un prix pour l'emplacement.",
+        "min": "Le prix ne peut pas être négatif."
+      },
+      "quantity": {
+        "required": "Indiquez combien d'emplacements de ce type sont disponibles.",
+        "min": "Proposez au moins {min} emplacement.",
+        "belowBooked": "La quantité ne peut pas être inférieure aux emplacements déjà réservés."
+      }
+    },
+    "slotBooking": {
+      "slotId": {
+        "required": "Choisissez un emplacement d'exposition."
+      },
+      "exhibitorId": {
+        "required": "La réservation d'emplacement doit avoir un exposant."
+      },
+      "orderId": {
+        "required": "La réservation d'emplacement doit être liée à une commande."
+      },
+      "quantity": {
+        "required": "Indiquez combien d'emplacements réserver.",
+        "min": "Réservez au moins {min} emplacement."
+      },
+      "status": {
+        "invalid": "Ce statut de réservation d'emplacement n'existe pas."
+      }
+    },
+    "review": {
+      "target": {
+        "required": "Indiquez ce que vous évaluez.",
+        "invalid": "Vous ne pouvez évaluer qu'un événement ou un prestataire."
+      },
+      "targetId": {
+        "required": "Indiquez ce que vous évaluez."
+      },
+      "authorId": {
+        "required": "L'avis doit avoir un auteur."
+      },
+      "bookingId": {
+        "required": "L'avis sur un prestataire doit être lié à une réservation terminée."
+      },
+      "rating": {
+        "required": "Donnez une note de 1 à 5 étoiles.",
+        "range": "La note doit être comprise entre 1 et 5 étoiles.",
+        "integer": "La note doit être un nombre entier d'étoiles."
+      },
+      "comment": {
+        "maxLength": "Le commentaire doit contenir au maximum {max} caractères."
+      }
+    },
+    "notification": {
+      "userId": {
+        "required": "La notification doit avoir un destinataire."
+      },
+      "type": {
+        "required": "Le type de notification est requis.",
+        "invalid": "Ce type de notification n'existe pas."
+      },
+      "channels": {
+        "invalid": "Les notifications ne peuvent être envoyées que par push ou e-mail."
+      }
+    },
+    "setting": {
+      "commission": {
+        "range": "La commission doit être comprise entre 0 % et 30 %."
+      },
+      "categories": {
+        "key": {
+          "required": "Chaque catégorie doit avoir une clé.",
+          "invalid": "Les clés de catégorie ne peuvent contenir que des minuscules, des chiffres et des tirets."
+        },
+        "en": {
+          "required": "Chaque catégorie doit avoir un nom en anglais."
+        },
+        "fr": {
+          "required": "Chaque catégorie doit avoir un nom en français."
+        },
+        "duplicate": "Deux catégories ne peuvent pas avoir la même clé."
+      }
+    }
+  },
+  "email": {
+    "layout": {
+      "footer": "Vous recevez cet e-mail parce que vous avez un compte Tikly.",
+      "linkFallback": "Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :"
+    },
+    "common": {
+      "event": "Événement",
+      "when": "Quand",
+      "where": "Où",
+      "total": "Total payé",
+      "viewTickets": "Voir mes billets",
+      "ticketsOne": "{count} billet",
+      "ticketsMany": "{count} billets"
+    },
+    "roles": {
+      "attendee": "participant",
+      "organizer": "organisateur",
+      "provider": "prestataire de services",
+      "exhibitor": "exposant",
+      "staff": "personnel d’accueil",
+      "admin": "administrateur"
+    },
+    "tiers": {
+      "standard": "Billet Standard",
+      "vip": "Billet VIP",
+      "vvip": "Billet VVIP"
+    },
+    "account_welcome": {
+      "subject": "Bienvenue sur Tikly",
+      "heading": "Bienvenue, {name} !",
+      "intro": "Votre compte Tikly est prêt. Vous êtes inscrit en tant que {role}.",
+      "next": {
+        "attendee": "Découvrez les événements près de chez vous, achetez vos billets avec Mobile Money ou Orange Money et gardez vos billets QR dans l’application.",
+        "organizer": "Créez votre premier événement, ajoutez des catégories de billets et planifiez votre budget, votre liste de tâches, vos invités et votre programme. Soumettez-le pour validation quand vous êtes prêt.",
+        "provider": "Ajoutez les informations de votre entreprise et vos documents de vérification. Vos services apparaissent dans les annonces dès qu’un administrateur a vérifié votre entreprise.",
+        "exhibitor": "Parcourez les événements avec des emplacements d’exposition libres et réservez l’espace dont vous avez besoin.",
+        "staff": "Connectez-vous à l’application Tikly en mode scanner pour contrôler les billets aux événements qui vous sont attribués.",
+        "admin": "Examinez les événements et les vérifications de prestataires en attente depuis votre tableau de bord."
+      },
+      "action": "Ouvrir Tikly"
+    },
+    "password_reset": {
+      "subject": "Réinitialisez votre mot de passe Tikly",
+      "heading": "Bonjour {name},",
+      "intro": "Nous avons reçu une demande de réinitialisation du mot de passe de votre compte Tikly.",
+      "expiry": "Ce lien expire dans {minutes} minutes.",
+      "ignore": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Votre mot de passe reste inchangé.",
+      "action": "Choisir un nouveau mot de passe"
+    },
+    "ticket_purchased": {
+      "subject": "Vos billets pour {event}",
+      "heading": "Merci, {name} !",
+      "intro": "Votre paiement a été accepté. Voici vos {tickets} pour {event}.",
+      "attachment": "Chaque billet est joint en PDF avec son code QR. Présentez-le sur votre téléphone ou sur papier à l’entrée."
+    },
+    "reminder_24h": {
+      "subject": "Demain : {event}",
+      "heading": "À demain, {name} !",
+      "intro": "{event} commence dans environ 24 heures. Vous avez {tickets}.",
+      "tip": "Préparez votre code QR à l’entrée pour entrer plus vite."
+    }
+  }
+}
