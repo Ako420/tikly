@@ -1,3 +1,4 @@
+import './openapi';
 import { Types } from 'mongoose';
 import { z } from 'zod';
 
