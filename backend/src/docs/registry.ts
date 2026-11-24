@@ -54,6 +54,7 @@ type Operation = {
   roles?: string[];
   params?: ZodObject;
   query?: ZodObject;
+  headers?: ZodObject;
   body?: ZodType;
   multipart?: ZodType;
   status?: 200 | 201;
@@ -82,7 +83,7 @@ function errorResponses(op: Operation) {
   const add = (status: Status, ...codes: string[]) => {
     errors[status] = [...new Set([...(errors[status] ?? []), ...codes])];
   };
-  if (op.params || op.query || op.body || op.multipart) add(400, 'VALIDATION_ERROR');
+  if (op.params || op.query || op.headers || op.body || op.multipart) add(400, 'VALIDATION_ERROR');
   if (op.access === 'auth' || op.access === 'optional') add(401, 'UNAUTHORIZED', 'TOKEN_EXPIRED');
   if (op.access === 'auth') add(403, 'ACCOUNT_SUSPENDED', 'ACCOUNT_DISABLED');
   if (op.roles) add(403, 'FORBIDDEN');
@@ -110,6 +111,7 @@ export function route(op: Operation) {
   const request: RouteConfig['request'] = {};
   if (op.params) request.params = op.params;
   if (op.query) request.query = op.query;
+  if (op.headers) request.headers = op.headers;
   if (op.body) request.body = { required: true, content: { 'application/json': { schema: op.body } } };
   if (op.multipart) request.body = { required: true, content: { 'multipart/form-data': { schema: op.multipart } } };
 

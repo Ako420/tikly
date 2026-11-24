@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { MIN_PAYMENT_AMOUNT } from '../config/constants';
 import { TIER_NAMES } from '../types/enums';
 import { eventIdParam } from './common.schema';
 
@@ -9,7 +10,8 @@ const price = z
   .number('validation.ticketTier.price.required')
   .int('validation.common.amount.integer')
   .min(0, 'validation.ticketTier.price.min')
-  .max(MAX_PRICE, 'validation.ticketTier.price.max');
+  .max(MAX_PRICE, 'validation.ticketTier.price.max')
+  .refine((value) => value === 0 || value >= MIN_PAYMENT_AMOUNT, 'validation.ticketTier.price.minPaid');
 
 const quantity = z
   .number('validation.ticketTier.quantity.required')

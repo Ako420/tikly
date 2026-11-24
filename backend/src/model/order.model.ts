@@ -5,7 +5,11 @@ import { PHONE_REGEX, integer, ref, schemaOptions } from './shared';
 
 const orderItemSchema = new Schema(
   {
-    refId: { type: Schema.Types.ObjectId, required: [true, 'validation.order.items.refId.required'], refPath: 'items.refModel' },
+    refId: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'validation.order.items.refId.required'],
+      refPath: 'items.refModel',
+    },
     refModel: {
       type: String,
       enum: { values: ORDER_ITEM_MODELS, message: 'validation.order.items.refModel.invalid' },
@@ -59,6 +63,12 @@ const orderSchema = new Schema(
     },
     expiresAt: { type: Date },
     paidAt: { type: Date },
+    idempotencyKey: {
+      type: String,
+      trim: true,
+      match: [/^[A-Za-z0-9_-]{8,100}$/, 'validation.order.idempotencyKey.invalid'],
+    },
+    paymentUncertain: { type: Boolean },
   },
   schemaOptions,
 );
@@ -76,6 +86,14 @@ orderSchema.pre<OrderDoc>('validate', function () {
 orderSchema.index({ status: 1, expiresAt: 1 });
 orderSchema.index({ buyerId: 1, createdAt: -1 });
 orderSchema.index({ eventId: 1, status: 1 });
+orderSchema.index(
+  { buyerId: 1, idempotencyKey: 1 },
+  { unique: true, partialFilterExpression: { idempotencyKey: { $type: 'string' } } },
+);
+orderSchema.index(
+  { status: 1, paymentUncertain: 1, createdAt: -1 },
+  { partialFilterExpression: { paymentUncertain: true } },
+);
 
 export type Order = InferSchemaType<typeof orderSchema>;
 export type OrderDoc = HydratedDocument<Order>;

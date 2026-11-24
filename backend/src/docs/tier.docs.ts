@@ -26,7 +26,7 @@ route({
   tag,
   summary: 'Add a tier',
   description:
-    'Event must be draft or rejected. One tier per name (standard, vip, vvip). Price in whole XAF, 0 for free. Sales end in the future and no later than the event start (TKT-1).',
+    'Event must be draft or rejected. One tier per name (standard, vip, vvip). Price in whole XAF: 0 for free, otherwise at least 100 (the payment minimum). Sales end in the future and no later than the event start (TKT-1).',
   roles: owner,
   params: eventIdParam,
   body: s.createTierBody.openapi('CreateTierBody', {

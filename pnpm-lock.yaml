@@ -10,6 +10,9 @@ importers:
 
   backend:
     dependencies:
+      '@agendajs/mongo-backend':
+        specifier: ^4.0.5
+        version: 4.0.5(agenda@6.2.8(supports-color@8.1.1))(mongodb@7.5.0)(supports-color@8.1.1)
       '@asteasolutions/zod-to-openapi':
         specifier: ^9.1.0
         version: 9.1.0(zod@4.6.7)
@@ -273,6 +276,13 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  '@agendajs/mongo-backend@4.0.5':
+    resolution: {integrity: sha512-vY8jpxcYEomj0KOnrj9FySAPY4iq5GTPYoIxHf9S2y9FsVuM0phH490m4swC5TJtwXaNMGAZP4xnihbCQ3FCVg==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      agenda: 6.2.8
+      mongodb: ^6.0.0 || ^7.0.0
 
   '@alloc/quick-lru@5.3.0':
     resolution: {integrity: sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA==}
@@ -6027,6 +6037,14 @@ snapshots:
   2g@1.0.1(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
+
+  '@agendajs/mongo-backend@4.0.5(agenda@6.2.8(supports-color@8.1.1))(mongodb@7.5.0)(supports-color@8.1.1)':
+    dependencies:
+      agenda: 6.2.8(supports-color@8.1.1)
+      debug: 4.4.3(supports-color@8.1.1)
+      mongodb: 7.5.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@alloc/quick-lru@5.3.0': {}
 

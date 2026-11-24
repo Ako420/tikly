@@ -38,3 +38,12 @@ export const DEFAULT_EVENT_CATEGORIES = [
   { key: 'other', en: 'Other', fr: 'Autre' },
 ] as const;
 export const PUBLISHED_EDITABLE_EVENT_FIELDS = ['description', 'coverUrl'] as const;
+
+export const DEFAULT_COMMISSION_PERCENT = { ticket: 10, service: 10, slot: 10 } as const;
+export const MIN_PAYMENT_AMOUNT = 100;
+export const PAYMENT_HTTP_TIMEOUT_MS = 20_000;
+export const TICKET_CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
+export const EXPIRE_ORDERS_BATCH = 50;
+export const PAYMENT_PROMPT_MESSAGE = 'Confirm the payment on your phone';
+export const RECONCILE_WINDOW_HOURS = 24;
+export const RECONCILE_BATCH = 50;
