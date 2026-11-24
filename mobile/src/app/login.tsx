@@ -13,6 +13,7 @@ import { ScreenHeading } from '@/components/ui/ScreenHeading';
 import { Text } from '@/components/ui/Text';
 import { TextField, type TextFieldHandle } from '@/components/ui/TextField';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { homeRouteFor } from '@/features/auth/homeRoute';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { isCameroonMobile, isEmail, toInternationalCameroonNumber } from '@/lib/validation';
@@ -48,8 +49,8 @@ export default function Login() {
     setSubmitting(true);
     try {
       const value = identifier.trim();
-      await signIn({ identifier: isEmail(value) ? value : toInternationalCameroonNumber(value), password });
-      router.replace('/home');
+      const user = await signIn({ identifier: isEmail(value) ? value : toInternationalCameroonNumber(value), password });
+      router.replace(homeRouteFor(user));
     } catch (error) {
       setFormError(errorMessage(error));
     } finally {

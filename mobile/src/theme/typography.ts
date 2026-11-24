@@ -10,6 +10,7 @@ export const fontFamily = {
 export const typography = {
   wordmarkXl: { fontFamily: fontFamily.extrabold, fontSize: 44, lineHeight: 48, letterSpacing: -2.2 },
   wordmark: { fontFamily: fontFamily.extrabold, fontSize: 24, lineHeight: 30, letterSpacing: -0.6 },
+  resultTitle: { fontFamily: fontFamily.extrabold, fontSize: 52, lineHeight: 58, letterSpacing: -1.3 },
   display: { fontFamily: fontFamily.extrabold, fontSize: 32, lineHeight: 36, letterSpacing: -0.8 },
   headline: { fontFamily: fontFamily.extrabold, fontSize: 28, lineHeight: 32, letterSpacing: -0.7 },
   sectionTitle: { fontFamily: fontFamily.extrabold, fontSize: 20, lineHeight: 26, letterSpacing: -0.5 },

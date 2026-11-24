@@ -10,7 +10,8 @@
     "country": "Cameroon",
     "increase": "Add one",
     "decrease": "Remove one",
-    "retry": "Try again"
+    "retry": "Try again",
+    "close": "Close"
   },
   "splash": {
     "tagline": "Events · Tickets · Entry",
@@ -357,6 +358,88 @@
       "retry": "Try again with {{method}}",
       "switch": "Pay with {{method}}",
       "backToEvent": "Back to event"
+    }
+  },
+  "gate": {
+    "tag": "Gate",
+    "events": {
+      "eyebrow": "Gate staff · {{name}}",
+      "title": "Your events",
+      "assignedBy": "Assigned by {{organizer}}",
+      "live": "Live now",
+      "meta": "{{date}} · Doors {{time}} · {{area}}",
+      "ofTotal": "/ {{total}} in",
+      "checkedInLabel": "{{count}} of {{total}} checked in",
+      "mine": "You scanned {{count}}",
+      "start": "Start scanning",
+      "comingUp": "Coming up",
+      "opensAt": "{{date}} · Scanning opens {{time}}",
+      "lockedHint": "Scanning has not opened yet",
+      "lockedBody": "Scanning opens {{when}}.",
+      "logout": "Log out of scanner",
+      "loadFailed": "Couldn’t load your events",
+      "emptyTitle": "No events assigned",
+      "emptyBody": "Ask the organizer to add you to an event’s gate team."
+    },
+    "scanner": {
+      "close": "Close scanner",
+      "torch": "Flashlight",
+      "hint": "Point at the ticket QR code",
+      "checking": "Checking ticket…",
+      "checkedInOf": "Checked in of {{total}}",
+      "last": "Last: {{tier}} · {{name}}",
+      "noScansTitle": "No scans yet",
+      "noScansBody": "Your last entry shows here",
+      "enterCode": "Enter code",
+      "sound": "Scan sounds",
+      "cameraTitle": "Camera access needed",
+      "cameraBody": "Tikly uses the camera only to read ticket QR codes at the gate.",
+      "allowCamera": "Allow camera",
+      "openSettings": "Open settings",
+      "checkFailed": "Couldn’t check this ticket",
+      "notAssigned": "Event not found",
+      "notAssignedBody": "This event isn’t in your gate assignments."
+    },
+    "manual": {
+      "title": "Enter ticket code",
+      "body": "Use the code printed under the QR when it won’t scan.",
+      "label": "Ticket code",
+      "placeholder": "TK-XXXX-XX",
+      "check": "Check ticket"
+    },
+    "result": {
+      "valid": "Valid",
+      "validSubtitle": "First entry · Let them in",
+      "alreadyIn": "Already in",
+      "alreadyInSubtitle": "Checked in at {{time}} · {{ago}}",
+      "alreadyInFallback": "This ticket was already used",
+      "invalid": "Invalid",
+      "wrongEventSubtitle": "Wrong event · Do not let in",
+      "cancelledSubtitle": "Ticket cancelled · Do not let in",
+      "unknownSubtitle": "Not a Tikly ticket · Do not let in",
+      "ticketOf": "{{tier}} · Ticket {{index}} of {{total}}",
+      "checkedInBy": "Checked in {{time}} by {{staff}}",
+      "lastEntryAtGate": "Last entry: {{gate}} by {{staff}} · {{count}} re-entries",
+      "lastEntry": "Last entry by {{staff}} · {{count}} re-entries",
+      "otherEventEyebrow": "{{tier}} · Ticket for another event",
+      "otherEventEyebrowShort": "Ticket for another event",
+      "askForTicket": "Ask the guest for their {{event}} ticket.",
+      "cancelledLine": "This ticket was refunded or cancelled.",
+      "unknownEyebrow": "Code not recognised",
+      "unknownHeading": "No matching ticket",
+      "unknownLine": "Check the code or ask for the ticket in the Tikly app.",
+      "minutesAgo": "{{minutes}} min ago",
+      "hoursAgo": "{{hours}} h {{minutes}} min ago",
+      "allowReentry": "Allow re-entry",
+      "reentryFailed": "Couldn’t record the re-entry",
+      "scanNext": "Scan next",
+      "backIn": "Back to camera in {{seconds}} s",
+      "beepPlayed": "Beep played",
+      "yourCall": "Re-entry is your call",
+      "buzzPlayed": "Warning buzz played",
+      "errorPlayed": "Error tone played",
+      "doNotAdmit": "Do not let in",
+      "missing": "Scan result not available"
     }
   }
 }
