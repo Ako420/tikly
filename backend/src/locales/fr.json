@@ -27,11 +27,15 @@
     "GOOGLE_ACCOUNT_MISMATCH": "Cet e-mail est déjà lié à un autre compte Google.",
     "GOOGLE_SIGNUP_INCOMPLETE": "Choisissez un type de compte et saisissez votre numéro de téléphone pour terminer l'inscription.",
     "EVENT_NOT_EDITABLE": "Cet événement ne peut plus être modifié.",
+    "EVENT_ALREADY_STARTED": "Cet événement a déjà commencé. Modifiez ses dates avant de le soumettre.",
+    "EVENT_NOT_CANCELLABLE": "Seuls les événements publiés et non terminés peuvent être annulés.",
+    "INVALID_CATEGORY": "Cette catégorie n'existe pas.",
     "EVENT_NEEDS_TIERS": "Ajoutez au moins une catégorie de billets avant de soumettre l'événement.",
     "EVENT_NOT_PUBLISHED": "Cet événement n'est pas ouvert à la vente.",
     "SALES_CLOSED": "La vente de billets pour cette catégorie est terminée.",
     "TIER_SOLD_OUT": "Cette catégorie de billets est épuisée.",
     "TIER_EXISTS": "Cet événement a déjà une catégorie de billets avec ce nom.",
+    "TIER_SALES_END_AFTER_START": "Une catégorie de billets reste en vente après la nouvelle heure de début. Modifiez d'abord cette catégorie.",
     "MAX_TICKETS_EXCEEDED": "Vous pouvez acheter au maximum 10 billets par commande.",
     "ORDER_EXPIRED": "Cette commande a expiré. Veuillez recommencer.",
     "PAYMENT_FAILED": "Le paiement n'a pas abouti. Veuillez réessayer.",
@@ -149,7 +153,8 @@
         "maxLength": "Le pays doit contenir au maximum {max} caractères."
       },
       "startAt": {
-        "required": "Indiquez la date et l'heure de début."
+        "required": "Indiquez la date et l'heure de début.",
+        "future": "L'événement doit commencer dans le futur."
       },
       "endAt": {
         "required": "Indiquez la date et l'heure de fin.",

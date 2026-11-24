@@ -56,6 +56,9 @@ const eventSchema = new Schema(
 );
 
 eventSchema.pre<EventDoc>('validate', function () {
+  if (this.isModified('startAt') && this.startAt && this.startAt <= new Date()) {
+    this.invalidate('startAt', 'validation.event.startAt.future');
+  }
   if (this.startAt && this.endAt && this.endAt <= this.startAt) {
     this.invalidate('endAt', 'validation.event.endAt.afterStart');
   }

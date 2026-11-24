@@ -25,3 +25,16 @@ export const JWT_ISSUER = 'tikly';
 export const ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
 export const REFRESH_TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60;
 export const PASSWORD_MAX_BYTES = 72;
+
+export const DEFAULT_EVENT_CATEGORIES = [
+  { key: 'concert', en: 'Concert', fr: 'Concert' },
+  { key: 'festival', en: 'Festival', fr: 'Festival' },
+  { key: 'conference', en: 'Conference', fr: 'Conférence' },
+  { key: 'workshop', en: 'Workshop', fr: 'Atelier' },
+  { key: 'sport', en: 'Sport', fr: 'Sport' },
+  { key: 'party', en: 'Party', fr: 'Soirée' },
+  { key: 'exhibition', en: 'Exhibition', fr: 'Exposition' },
+  { key: 'religious', en: 'Religious', fr: 'Religieux' },
+  { key: 'other', en: 'Other', fr: 'Autre' },
+] as const;
+export const PUBLISHED_EDITABLE_EVENT_FIELDS = ['description', 'coverUrl'] as const;

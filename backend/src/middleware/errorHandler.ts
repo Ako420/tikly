@@ -1,10 +1,11 @@
-import type { ErrorRequestHandler, Request, Response } from 'express';
+import type { ErrorRequestHandler, Response } from 'express';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { MulterError } from 'multer';
 import { ZodError } from 'zod';
 import { AppError } from '../util/AppError';
 import { hasTranslation, t } from '../util/i18n';
+import { requestLanguage } from '../util/requestLanguage';
 import { logger } from '../lib/logger';
 import type { Language } from '../types/enums';
 
@@ -19,11 +20,6 @@ const DUPLICATE_CODES: Record<string, string> = {
   'staffId,eventId': 'STAFF_ALREADY_ASSIGNED',
   'targetId,authorId': 'REVIEW_EXISTS',
 };
-
-function resolveLanguage(req: Request): Language {
-  if (req.user?.language) return req.user.language;
-  return req.acceptsLanguages('en', 'fr') === 'fr' ? 'fr' : 'en';
-}
 
 function translateKey(key: string, lang: Language, params: Record<string, unknown> = {}) {
   return hasTranslation(key, 'en') ? t(key, lang, params) : key;
@@ -88,7 +84,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return next(err);
   }
 
-  const lang = resolveLanguage(req);
+  const lang = requestLanguage(req);
 
   if (err instanceof AppError) return send(res, err.statusCode, err.code, lang, err.details ?? null);
   if (err instanceof ZodError) return send(res, 400, 'VALIDATION_ERROR', lang, zodFieldErrors(err, lang));

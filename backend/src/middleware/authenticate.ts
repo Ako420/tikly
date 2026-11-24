@@ -20,3 +20,6 @@ export const authenticate: RequestHandler = async (req, _res, next) => {
   };
   next();
 };
+
+export const optionalAuthenticate: RequestHandler = (req, res, next) =>
+  req.headers.authorization ? authenticate(req, res, next) : next();
