@@ -1,10 +1,12 @@
 import type { RequestHandler } from 'express';
+import { BookingModel } from '../model/booking.model';
 import { EventModel } from '../model/event.model';
 import { ProviderModel } from '../model/provider.model';
 import { ServiceModel } from '../model/service.model';
 import { StaffAssignmentModel } from '../model/staffAssignment.model';
 import { TicketTierModel } from '../model/ticketTier.model';
 import { UserModel } from '../model/user.model';
+import { partyOf } from '../service/booking.service';
 import { AppError } from '../util/AppError';
 
 export const requireEventOwner: RequestHandler = async (req, _res, next) => {
@@ -56,5 +58,15 @@ export const requireServiceOwner: RequestHandler = async (req, _res, next) => {
   const owns = await ProviderModel.exists({ _id: service.providerId, userId: req.user!.id });
   if (!owns) throw AppError.forbidden();
   req.service = service;
+  next();
+};
+
+export const requireBookingParty: RequestHandler = async (req, _res, next) => {
+  const booking = await BookingModel.findById(req.params.id);
+  if (!booking) throw AppError.notFound();
+  const party = await partyOf(booking, req.user!);
+  if (!party) throw AppError.notFound();
+  req.booking = booking;
+  req.bookingParty = party;
   next();
 };

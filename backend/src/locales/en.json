@@ -55,6 +55,10 @@
     "BOOKING_NOT_PAYABLE": "This booking cannot be paid right now.",
     "BOOKING_NOT_LINKABLE": "Only an accepted or paid booking of yours for this event can be linked.",
     "BOOKING_ALREADY_LINKED": "This booking is already linked to a budget line.",
+    "BOOKING_NOT_PENDING": "This booking has already been answered.",
+    "BOOKING_NOT_CANCELLABLE": "Only bookings that are not paid yet can be cancelled.",
+    "BOOKING_PAYMENT_PENDING": "A payment for this booking is in progress. Confirm it on your phone or wait a few minutes.",
+    "BOOKING_NOT_COMPLETABLE": "A booking can be marked as done only once it is paid and its end date has passed.",
     "SLOT_SOLD_OUT": "No display slots of this type are left.",
     "REVIEW_NOT_ALLOWED": "You cannot review this yet.",
     "REVIEW_EXISTS": "You have already left a review.",
@@ -484,7 +488,8 @@
         "required": "The booking must be linked to an order."
       },
       "startDate": {
-        "required": "Set the start date of the booking."
+        "required": "Set the start date of the booking.",
+        "future": "The booking must start in the future."
       },
       "endDate": {
         "required": "Set the end date of the booking.",
@@ -492,11 +497,13 @@
       },
       "quantity": {
         "required": "Enter the quantity to book.",
-        "min": "Book at least {min}."
+        "min": "Book at least {min}.",
+        "max": "You can book at most {max}."
       },
       "amount": {
         "required": "Set the final price before accepting the booking.",
-        "min": "The price cannot be negative."
+        "min": "The price cannot be negative.",
+        "minPayment": "The price must be at least {min} XAF, the mobile money minimum."
       },
       "note": {
         "maxLength": "The note must be at most {max} characters."

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { accessRouter, eventCheckinRouter } from './access.router';
 import { authRouter } from './auth.router';
+import { bookingRouter } from './booking.router';
 import { categoryRouter, eventRouter, organizerEventRouter } from './event.router';
 import { healthRouter } from './health.router';
 import { myOrderRouter, orderRouter } from './order.router';
@@ -36,3 +37,4 @@ apiRouter.use('/staff/events', staffEventsRouter);
 apiRouter.use('/access', accessRouter);
 apiRouter.use('/providers', providerRouter);
 apiRouter.use('/services', serviceRouter);
+apiRouter.use('/bookings', bookingRouter);

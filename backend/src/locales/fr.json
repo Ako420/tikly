@@ -55,6 +55,10 @@
     "BOOKING_NOT_PAYABLE": "Cette réservation ne peut pas être payée pour le moment.",
     "BOOKING_NOT_LINKABLE": "Seule une de vos réservations acceptée ou payée pour cet événement peut être liée.",
     "BOOKING_ALREADY_LINKED": "Cette réservation est déjà liée à une ligne du budget.",
+    "BOOKING_NOT_PENDING": "Cette réservation a déjà reçu une réponse.",
+    "BOOKING_NOT_CANCELLABLE": "Seules les réservations non encore payées peuvent être annulées.",
+    "BOOKING_PAYMENT_PENDING": "Un paiement pour cette réservation est en cours. Confirmez-le sur votre téléphone ou patientez quelques minutes.",
+    "BOOKING_NOT_COMPLETABLE": "Une réservation ne peut être marquée comme terminée qu’une fois payée et après sa date de fin.",
     "SLOT_SOLD_OUT": "Il ne reste plus d'emplacement d'exposition de ce type.",
     "REVIEW_NOT_ALLOWED": "Vous ne pouvez pas encore laisser d'avis.",
     "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
@@ -484,7 +488,8 @@
         "required": "La réservation doit être liée à une commande."
       },
       "startDate": {
-        "required": "Indiquez la date de début de la réservation."
+        "required": "Indiquez la date de début de la réservation.",
+        "future": "La réservation doit commencer dans le futur."
       },
       "endDate": {
         "required": "Indiquez la date de fin de la réservation.",
@@ -492,11 +497,13 @@
       },
       "quantity": {
         "required": "Saisissez la quantité à réserver.",
-        "min": "Réservez au moins {min}."
+        "min": "Réservez au moins {min}.",
+        "max": "Vous pouvez réserver au plus {max}."
       },
       "amount": {
         "required": "Fixez le prix final avant d'accepter la réservation.",
-        "min": "Le prix ne peut pas être négatif."
+        "min": "Le prix ne peut pas être négatif.",
+        "minPayment": "Le prix doit être d’au moins {min} XAF, le minimum du mobile money."
       },
       "note": {
         "maxLength": "La note doit contenir au maximum {max} caractères."

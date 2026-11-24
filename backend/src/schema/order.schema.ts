@@ -14,6 +14,8 @@ export const createTicketOrderBody = z.object({
   phone: camPhone,
 });
 
+export const createBookingOrderBody = z.object({ bookingId: objectId, phone: camPhone });
+
 export const listMyOrdersQuery = pageQuery.extend({
   type: z.enum(ORDER_TYPES, 'validation.order.type.invalid').optional(),
   status: z.enum(ORDER_STATUSES, 'validation.order.status.invalid').optional(),
@@ -29,4 +31,5 @@ export const purchaseHeaders = z.object({
 export const webhookParams = z.object({ provider: z.string().max(30) });
 
 export type CreateTicketOrderBody = z.infer<typeof createTicketOrderBody>;
+export type CreateBookingOrderBody = z.infer<typeof createBookingOrderBody>;
 export type ListMyOrdersQuery = z.infer<typeof listMyOrdersQuery>;

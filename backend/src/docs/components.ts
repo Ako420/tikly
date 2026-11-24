@@ -8,6 +8,7 @@ import {
   ORDER_STATUSES,
   ORDER_TYPES,
   PAYMENT_PROVIDERS,
+  BOOKING_STATUSES,
   ROLES,
   SERVICE_CATEGORIES,
   SERVICE_UNITS,
@@ -539,5 +540,60 @@ export const ProviderEarnings = registry.register(
     commission: xaf(40000).openapi({ description: 'Tikly commission.' }),
     net: xaf(360000).openapi({ description: 'Your share.' }),
     refunded: xaf(0),
+  }),
+);
+
+export const BookingView = registry.register(
+  'Booking',
+  z.object({
+    id: id('6743a1f2c9e77b0012ab34d1'),
+    status: z.enum(BOOKING_STATUSES).openapi({
+      description:
+        'requested → accepted (provider set the price) → paid → completed. Also declined (by the provider) or cancelled (by the organizer, before payment).',
+    }),
+    startDate: dateTime('2026-12-19T08:00:00.000Z'),
+    endDate: dateTime('2026-12-20T23:00:00.000Z'),
+    quantity: z.number().int().openapi({ example: 2 }),
+    amount: xaf(50000).nullable().openapi({ description: 'Final price set by the provider on accept; null before.' }),
+    note: z.string().optional().openapi({ example: 'Set up near the main stage, please.' }),
+    declineReason: z.string().optional(),
+    service: z
+      .object({
+        id: id('6743a1f2c9e77b0012ab34d0'),
+        category: z.enum(SERVICE_CATEGORIES),
+        title: bilingual('Canopy 5×10 m with setup', 'Bâche 5×10 m avec montage'),
+        unit: z.enum(SERVICE_UNITS),
+        price: xaf(25000).openapi({ description: 'The listed price, for reference.' }),
+        photo: z.string().nullable(),
+      })
+      .nullable(),
+    provider: z
+      .object({
+        id: id(),
+        businessName: z.string().openapi({ example: 'Akwa Events Hire' }),
+        phone: z.string().openapi({ example: '+237677123456' }),
+        whatsapp: z.string().optional(),
+      })
+      .nullable(),
+    organizer: z
+      .object({
+        id: id(),
+        name: z.string().openapi({ example: 'Ama Ngono' }),
+        phone: z.string().openapi({ example: '+237690000001' }),
+      })
+      .nullable(),
+    event: z
+      .object({
+        id: id(),
+        title: bilingual('Douala Jazz Night', 'Nuit du jazz de Douala'),
+        startAt: dateTime(),
+        city: z.string().openapi({ example: 'Douala' }),
+      })
+      .nullable(),
+    payment: z
+      .object({ orderId: id(), status: z.enum(ORDER_STATUSES) })
+      .nullable()
+      .openapi({ description: 'The latest payment attempt, if any.' }),
+    ...timestamps,
   }),
 );
