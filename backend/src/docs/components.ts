@@ -4,6 +4,7 @@ import {
   EVENT_STATUSES,
   GUEST_SOURCES,
   LANGUAGES,
+  NOTIFICATION_TYPES,
   ORDER_ITEM_MODELS,
   ORDER_STATUSES,
   ORDER_TYPES,
@@ -19,7 +20,7 @@ import {
   USER_STATUSES,
   VERIFICATION_STATUSES,
 } from '../types/enums';
-import { registry } from './registry';
+import { PageMeta, registry } from './registry';
 
 const id = (example = '6743a1f2c9e77b0012ab34cd') => z.string().openapi({ example });
 const dateTime = (example = '2026-12-20T17:00:00.000Z') => z.iso.datetime().openapi({ example });
@@ -670,3 +671,28 @@ export const ReviewView = registry.register(
     createdAt: dateTime(),
   }),
 );
+
+export const NotificationView = registry.register(
+  'Notification',
+  z.object({
+    id: id(),
+    type: z.enum(NOTIFICATION_TYPES),
+    title: z.string().openapi({ example: 'Booking accepted' }),
+    body: z.string().openapi({ example: 'Pay 50 000 XAF to confirm your booking.' }),
+    data: z.record(z.string(), z.string()).openapi({
+      example: {
+        notificationId: '6743a1f2c9e77b0012ab34d9',
+        type: 'booking_accepted',
+        bookingId: '6743a1f2c9e77b0012ab34d1',
+      },
+      description: 'Same as the push `data`: ids to open the right screen.',
+    }),
+    read: z.boolean(),
+    readAt: dateTime().nullable(),
+    createdAt: dateTime(),
+  }),
+);
+
+export const NotificationPageMeta = PageMeta.extend({
+  unread: z.number().int().openapi({ example: 3, description: 'Unread notifications in total, for the badge.' }),
+});

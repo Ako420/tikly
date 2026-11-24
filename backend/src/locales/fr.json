@@ -693,5 +693,89 @@
     "holder": "Titulaire",
     "free": "Gratuit",
     "scan": "Présentez ce QR code à l'entrée. Ne le partagez pas : chaque billet n'entre qu'une fois."
+  },
+  "notifications": {
+    "common": {
+      "reason": "Motif : {reason}",
+      "action": "Ouvrir Tikly",
+      "greeting": "Bonjour {name},"
+    },
+    "account_welcome": {
+      "title": "Bienvenue sur Tikly",
+      "body": "Votre compte est prêt."
+    },
+    "password_reset": {
+      "title": "Réinitialisation du mot de passe",
+      "body": "Utilisez le lien reçu par e-mail pour choisir un nouveau mot de passe."
+    },
+    "event_pending": {
+      "title": "Nouvel événement à valider",
+      "body": "« {event} » attend votre validation."
+    },
+    "event_approved": {
+      "title": "Votre événement est en ligne",
+      "body": "« {event} » est publié et les billets sont en vente."
+    },
+    "event_rejected": {
+      "title": "Votre événement n’a pas été validé",
+      "body": "« {event} » doit être modifié avant publication. {reason}"
+    },
+    "event_cancelled": {
+      "title": "Événement annulé",
+      "body": "« {event} » a été annulé. {reason}"
+    },
+    "ticket_purchased": {
+      "title": "Vos billets sont prêts",
+      "body": "{tickets} pour « {event} ». Présentez le QR code à l’entrée."
+    },
+    "ticket_refunded": {
+      "title": "Remboursement en cours",
+      "body": "{amount} est en cours de renvoi sur votre compte mobile money."
+    },
+    "reminder_24h": {
+      "title": "« {event} », c’est demain",
+      "body": "Début {when} à {where}. Préparez vos billets."
+    },
+    "provider_pending": {
+      "title": "Nouvelle entreprise à vérifier",
+      "body": "{businessName} a envoyé ses documents pour vérification."
+    },
+    "provider_verified": {
+      "title": "Votre entreprise est vérifiée",
+      "body": "Vous pouvez maintenant proposer vos services sur Tikly."
+    },
+    "provider_rejected": {
+      "title": "Vérification refusée",
+      "body": "Mettez à jour vos documents et renvoyez-les. {reason}"
+    },
+    "booking_requested": {
+      "title": "Nouvelle demande de réservation",
+      "body": "{quantity} × {service} à partir du {date}. Acceptez ou refusez-la dans Tikly."
+    },
+    "booking_accepted": {
+      "title": "Réservation acceptée",
+      "body": "Payez {amount} pour confirmer votre réservation."
+    },
+    "booking_declined": {
+      "title": "Réservation refusée",
+      "body": "Le prestataire ne peut pas honorer votre réservation. {reason}"
+    },
+    "booking_cancelled": {
+      "title": "Réservation annulée",
+      "body": "L’organisateur a annulé une réservation.",
+      "refunded": "La réservation a été annulée avant l’arrivée de votre paiement. {amount} vous est renvoyé."
+    },
+    "booking_paid": {
+      "title": "Réservation payée",
+      "body": "{amount} a été payé pour une réservation. Préparez la prestation."
+    },
+    "slot_booked": {
+      "title": "Emplacement réservé",
+      "body": "{exhibitor} a réservé {quantity} × {slots} pour « {event} »."
+    },
+    "slot_refunded": {
+      "title": "Remboursement en cours",
+      "body": "Les emplacements étaient complets avant l’arrivée de votre paiement. {amount} vous est renvoyé."
+    }
   }
 }

@@ -693,5 +693,89 @@
     "holder": "Holder",
     "free": "Free",
     "scan": "Show this QR code at the entrance. Do not share it: each ticket gets in once."
+  },
+  "notifications": {
+    "common": {
+      "reason": "Reason: {reason}",
+      "action": "Open Tikly",
+      "greeting": "Hello {name},"
+    },
+    "account_welcome": {
+      "title": "Welcome to Tikly",
+      "body": "Your account is ready."
+    },
+    "password_reset": {
+      "title": "Password reset requested",
+      "body": "Use the link in your email to choose a new password."
+    },
+    "event_pending": {
+      "title": "New event to review",
+      "body": "“{event}” is waiting for your approval."
+    },
+    "event_approved": {
+      "title": "Your event is live",
+      "body": "“{event}” is now published and tickets are on sale."
+    },
+    "event_rejected": {
+      "title": "Your event was not approved",
+      "body": "“{event}” needs changes before it can be published. {reason}"
+    },
+    "event_cancelled": {
+      "title": "Event cancelled",
+      "body": "“{event}” has been cancelled. {reason}"
+    },
+    "ticket_purchased": {
+      "title": "Your tickets are ready",
+      "body": "{tickets} for “{event}”. Show the QR code at the entrance."
+    },
+    "ticket_refunded": {
+      "title": "Refund on its way",
+      "body": "{amount} is being sent back to your mobile money account."
+    },
+    "reminder_24h": {
+      "title": "“{event}” is tomorrow",
+      "body": "It starts {when} at {where}. Have your tickets ready."
+    },
+    "provider_pending": {
+      "title": "New business to verify",
+      "body": "{businessName} sent documents for verification."
+    },
+    "provider_verified": {
+      "title": "Your business is verified",
+      "body": "You can now list your services on Tikly."
+    },
+    "provider_rejected": {
+      "title": "Business verification refused",
+      "body": "Update your documents and send them again. {reason}"
+    },
+    "booking_requested": {
+      "title": "New booking request",
+      "body": "{quantity} × {service} from {date}. Accept or decline it in Tikly."
+    },
+    "booking_accepted": {
+      "title": "Booking accepted",
+      "body": "Pay {amount} to confirm your booking."
+    },
+    "booking_declined": {
+      "title": "Booking declined",
+      "body": "The provider cannot take your booking. {reason}"
+    },
+    "booking_cancelled": {
+      "title": "Booking cancelled",
+      "body": "The organizer cancelled a booking.",
+      "refunded": "The booking was cancelled before your payment arrived. {amount} is being sent back."
+    },
+    "booking_paid": {
+      "title": "Booking paid",
+      "body": "{amount} was paid for a booking. Get ready to deliver."
+    },
+    "slot_booked": {
+      "title": "Display slot booked",
+      "body": "{exhibitor} booked {quantity} × {slots} at “{event}”."
+    },
+    "slot_refunded": {
+      "title": "Refund on its way",
+      "body": "The slots sold out before your payment arrived. {amount} is being sent back."
+    }
   }
 }

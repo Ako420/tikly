@@ -6,6 +6,7 @@ export default defineConfig({
     include: ['test/**/*.test.ts'],
     exclude: ['test/live/**'],
     globalSetup: ['test/globalSetup.ts'],
+    setupFiles: ['test/setup.ts'],
     hookTimeout: 120_000,
     env: {
       NODE_ENV: 'test',

@@ -17,6 +17,7 @@ import './service.docs';
 import './booking.docs';
 import './slot.docs';
 import './review.docs';
+import './notification.docs';
 
 const DESCRIPTION = `
 REST API shared by the Tikly web app (Next.js) and mobile app (Expo).
@@ -59,6 +60,7 @@ const TAGS = [
   'Bookings',
   'Exhibitor slots',
   'Reviews',
+  'Notifications',
 ];
 
 let document: ReturnType<OpenApiGeneratorV31['generateDocument']> | undefined;
