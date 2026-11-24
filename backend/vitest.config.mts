@@ -8,6 +8,7 @@ export default defineConfig({
     globalSetup: ['test/globalSetup.ts'],
     setupFiles: ['test/setup.ts'],
     hookTimeout: 120_000,
+    testTimeout: 20_000,
     env: {
       NODE_ENV: 'test',
       MONGO_URI: 'mongodb://127.0.0.1:1/tests-must-use-the-memory-server',

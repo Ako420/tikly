@@ -72,6 +72,11 @@
     "TICKET_NOT_VALID": "This ticket was cancelled or refunded.",
     "RATE_LIMITED": "Too many attempts. Please wait a minute and try again.",
     "SERVICE_UNAVAILABLE": "The service is temporarily unavailable. Please try again in a moment.",
+    "EVENT_NOT_PENDING": "Only events waiting for review can be approved or rejected.",
+    "EVENT_STATUS_LOCKED": "Only published events can be suspended, and only suspended events can be published again.",
+    "PROVIDER_ALREADY_VERIFIED": "This business is already verified.",
+    "PROVIDER_ALREADY_REJECTED": "This business has already been rejected.",
+    "CANNOT_CHANGE_OWN_STATUS": "You cannot change the status of your own account.",
     "INTERNAL": "Something went wrong on our side. Please try again later."
   },
   "validation": {
@@ -608,7 +613,9 @@
         "fr": {
           "required": "Each category needs a French name."
         },
-        "duplicate": "Two categories cannot share the same key."
+        "duplicate": "Two categories cannot share the same key.",
+        "min": "Keep at least {min} category.",
+        "max": "You can have at most {max} categories."
       }
     },
     "access": {
@@ -723,6 +730,10 @@
     "event_cancelled": {
       "title": "Event cancelled",
       "body": "“{event}” has been cancelled. {reason}"
+    },
+    "event_suspended": {
+      "title": "Your event was suspended",
+      "body": "“{event}” is hidden from the public for now. Contact support to find out more."
     },
     "ticket_purchased": {
       "title": "Your tickets are ready",

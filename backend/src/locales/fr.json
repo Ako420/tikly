@@ -72,6 +72,11 @@
     "TICKET_NOT_VALID": "Ce billet a été annulé ou remboursé.",
     "RATE_LIMITED": "Trop de tentatives. Patientez une minute puis réessayez.",
     "SERVICE_UNAVAILABLE": "Le service est momentanément indisponible. Veuillez réessayer dans un instant.",
+    "EVENT_NOT_PENDING": "Seuls les événements en attente de validation peuvent être approuvés ou refusés.",
+    "EVENT_STATUS_LOCKED": "Seul un événement publié peut être suspendu, et seul un événement suspendu peut être republié.",
+    "PROVIDER_ALREADY_VERIFIED": "Cette entreprise est déjà vérifiée.",
+    "PROVIDER_ALREADY_REJECTED": "Cette entreprise a déjà été refusée.",
+    "CANNOT_CHANGE_OWN_STATUS": "Vous ne pouvez pas changer le statut de votre propre compte.",
     "INTERNAL": "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard."
   },
   "validation": {
@@ -608,7 +613,9 @@
         "fr": {
           "required": "Chaque catégorie doit avoir un nom en français."
         },
-        "duplicate": "Deux catégories ne peuvent pas avoir la même clé."
+        "duplicate": "Deux catégories ne peuvent pas avoir la même clé.",
+        "min": "Gardez au moins {min} catégorie.",
+        "max": "Vous pouvez avoir au plus {max} catégories."
       }
     },
     "access": {
@@ -723,6 +730,10 @@
     "event_cancelled": {
       "title": "Événement annulé",
       "body": "« {event} » a été annulé. {reason}"
+    },
+    "event_suspended": {
+      "title": "Votre événement est suspendu",
+      "body": "« {event} » est masqué au public pour le moment. Contactez le support pour en savoir plus."
     },
     "ticket_purchased": {
       "title": "Vos billets sont prêts",

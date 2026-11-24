@@ -16,7 +16,7 @@ import { cancelTickets } from '@/features/tickets/ticketActions';
 import { shareTicketsPdf } from '@/features/tickets/ticketPdf';
 import { useTicketBundle } from '@/features/tickets/useMyTickets';
 import { useScanBrightness } from '@/features/tickets/useScanBrightness';
-import { activeTickets, cancellableTickets, refundFor } from '@/features/tickets/types';
+import { activeTickets, cancellableTickets, isPastBundle, refundFor, ticketPrice } from '@/features/tickets/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { formatMoney } from '@/lib/money';
@@ -77,7 +77,7 @@ export default function TicketDetail() {
       await refresh();
       setCancelOpen(false);
       setIndex(0);
-      Alert.alert(t('myTickets.cancel.doneTitle'), t('myTickets.cancel.doneBody', { amount: formatMoney(refundFor(bundle.unitPrice ?? 0)) }));
+      Alert.alert(t('myTickets.cancel.doneTitle'), t('myTickets.cancel.doneBody', { amount: formatMoney(refundFor(ticketPrice(bundle, ticket))) }));
       if (total <= 1) router.back();
     } catch (caught) {
       setCancelError(errorMessage(caught));
@@ -93,6 +93,16 @@ export default function TicketDetail() {
       icon: 'calendar-outline',
       onPress: () => router.push({ pathname: '/events/[id]', params: { id: bundle.event.id } }),
     },
+    ...(bundle.checkedInAt && isPastBundle(bundle, now)
+      ? [
+          {
+            key: 'review',
+            label: t('myTickets.detail.rateEvent'),
+            icon: 'star-outline' as const,
+            onPress: () => router.push({ pathname: '/tickets/[bundleId]/review', params: { bundleId: bundle.id } }),
+          },
+        ]
+      : []),
     ...(refundable.length > 0
       ? [{ key: 'cancel', label: t('myTickets.detail.cancelTicket'), icon: 'close-circle-outline' as const, destructive: true, onPress: () => setCancelOpen(true) }]
       : []),

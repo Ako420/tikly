@@ -48,7 +48,13 @@ export const refundCutoff = (bundle: TicketBundle) => new Date(bundle.event.star
 
 export const refundFor = (unitPrice: number) => Math.floor((unitPrice * REFUND_PERCENT) / 100);
 
+const beforeCutoff = (bundle: TicketBundle, now: number) => !!bundle.unitPrice && now < refundCutoff(bundle);
+
 export const cancellableTickets = (bundle: TicketBundle, now = Date.now()) =>
-  bundle.unitPrice && !isCancelledBundle(bundle) && now < refundCutoff(bundle)
-    ? activeTickets(bundle).filter((ticket) => ticket.status !== 'checked_in')
-    : [];
+  isCancelledBundle(bundle)
+    ? []
+    : activeTickets(bundle).filter((ticket) =>
+        ticket.refundable ?? (beforeCutoff(bundle, now) && ticket.status !== 'checked_in' && !ticket.checkedIn),
+      );
+
+export const ticketPrice = (bundle: TicketBundle, ticket?: IssuedTicket) => ticket?.price ?? bundle.unitPrice ?? 0;

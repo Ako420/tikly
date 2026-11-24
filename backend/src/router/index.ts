@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { accessRouter, eventCheckinRouter } from './access.router';
+import { adminRouter } from './admin.router';
 import { authRouter } from './auth.router';
 import { bookingRouter } from './booking.router';
 import { categoryRouter, eventRouter, organizerEventRouter } from './event.router';
@@ -55,3 +56,4 @@ apiRouter.use('/bookings', bookingRouter);
 apiRouter.use('/slots', slotRouter);
 apiRouter.use('/exhibitor', exhibitorRouter);
 apiRouter.use('/me/notifications', myNotificationRouter);
+apiRouter.use('/admin', adminRouter);

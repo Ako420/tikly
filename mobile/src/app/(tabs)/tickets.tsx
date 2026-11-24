@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
 import { PastTicketCard } from '@/components/tickets/PastTicketCard';
 import { TicketListCard } from '@/components/tickets/TicketListCard';
@@ -24,6 +24,14 @@ export default function Tickets() {
   const { upcoming, past, loading, error, refresh } = useMyTickets();
   const [segment, setSegment] = useState<Segment>('upcoming');
   const bundles = segment === 'upcoming' ? upcoming : past;
+  const focusedOnce = useRef(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (focusedOnce.current) refresh();
+      focusedOnce.current = true;
+    }, [refresh]),
+  );
 
   const empty = loading ? (
     <View className="flex-1 items-center justify-center py-16">

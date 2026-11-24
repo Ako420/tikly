@@ -79,7 +79,20 @@
       "notFoundTitle": "Ticket not found",
       "pdfFailed": "Couldn’t create the PDF. Please try again.",
       "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes.",
+      "rateEvent": "Rate this event",
       "cancelTicket": "Cancel a ticket"
+    },
+    "refund": {
+      "action": "Cancel this ticket",
+      "confirmTitle": "Cancel ticket {{code}}?",
+      "confirmBody": "You will get a 50% refund of {{amount}} to the Mobile Money number used for payment. This cannot be undone.",
+      "confirmFree": "This free ticket will be cancelled. This cannot be undone.",
+      "keep": "Keep ticket",
+      "confirm": "Cancel ticket",
+      "doneTitle": "Ticket cancelled",
+      "doneBody": "{{amount}} is on its way to your Mobile Money account.",
+      "doneNoRefund": "Your ticket has been cancelled.",
+      "failedTitle": "Couldn’t cancel the ticket"
     },
     "pastCount": "Past · {{count}}",
     "cancel": {
@@ -241,7 +254,14 @@
     "home": "Home",
     "explore": "Explore",
     "tickets": "Tickets",
-    "profile": "Profile"
+    "profile": "Profile",
+    "marketplace": "Services",
+    "bookings": "Bookings",
+    "requests": "Requests",
+    "listings": "Services",
+    "earnings": "Earnings",
+    "slot-events": "Events",
+    "my-slots": "My slots"
   },
   "events": {
     "searchPlaceholder": "Search events or venues",
@@ -378,7 +398,11 @@
     "from": "From",
     "price": "Price",
     "unavailable": "Tickets",
-    "getTickets": "Get tickets"
+    "getTickets": "Get tickets",
+    "reviews": "Reviews",
+    "seeReviews": "See all",
+    "noReviews": "No reviews yet",
+    "reviewsHint": "What attendees thought of this event"
   },
   "checkout": {
     "step": "Step {{step}} of {{total}}",
@@ -464,6 +488,7 @@
       "comingUp": "Coming up",
       "opensAt": "{{date}} · Scanning opens {{time}}",
       "lockedHint": "Scanning has not opened yet",
+      "lockedBody": "Scanning opens {{when}}.",
       "logout": "Log out of scanner",
       "loadFailed": "Couldn’t load your events",
       "emptyTitle": "No events assigned",
@@ -487,6 +512,13 @@
       "checkFailed": "Couldn’t check this ticket",
       "notAssigned": "Event not found",
       "notAssignedBody": "This event isn’t in your gate assignments."
+    },
+    "manual": {
+      "title": "Enter ticket code",
+      "body": "Use the code printed under the QR when it won’t scan.",
+      "label": "Ticket code",
+      "placeholder": "TK-XXXX-XX",
+      "check": "Check ticket"
     },
     "result": {
       "valid": "Valid",
@@ -586,6 +618,19 @@
   "reviews": {
     "eyebrow": "Your review",
     "title": "How was {{event}}?",
+    "count": "{{count}} reviews",
+    "starsLabel": "{{count}} out of 5 stars",
+    "write": "Write a review",
+    "composeTitle": "How was it?",
+    "composeHint": "Only attendees who checked in can review, once the event is over.",
+    "commentPlaceholder": "Tell other fans what it was like",
+    "ratingRequired": "Pick a rating from 1 to 5 stars.",
+    "submit": "Post review",
+    "thanks": "Thanks for your review!",
+    "emptyTitle": "No reviews yet",
+    "emptyBody": "Reviews appear here after the event ends.",
+    "errorTitle": "Couldn’t load reviews",
+    "retry": "Try again",
     "checkedIn": "You checked in on {{date}}",
     "ratingLabel": "Rating",
     "starLabel": "{{count}} stars",
@@ -608,8 +653,187 @@
       "entry": "Entry was quick"
     },
     "commentLabel": "Your comment",
-    "commentPlaceholder": "Tell other fans what it was like",
     "shownAs": "Shown on the event page as “{{name}}”",
     "post": "Post review"
+  },
+  "marketplace": {
+    "eyebrow": "Verified providers",
+    "title": "Services",
+    "searchPlaceholder": "Halls, chairs, sound…",
+    "anyCity": "Any city",
+    "allCities": "all cities",
+    "anyPrice": "Any price",
+    "under": "Under {{price}}",
+    "results": "{{count}} services",
+    "resultsIn": "{{category}} in {{city}} · {{count}}",
+    "emptyTitle": "No services found",
+    "emptyBody": "Try another category, city or price.",
+    "loadFailed": "Couldn’t load this",
+    "retry": "Try again",
+    "units": {
+      "per_day": "/ day",
+      "per_item": "/ item",
+      "per_event": "/ event"
+    },
+    "categories": {
+      "hall": "Halls",
+      "chairs": "Chairs",
+      "canopy": "Canopies",
+      "sound": "Sound",
+      "catering": "Catering",
+      "decoration": "Decoration",
+      "other": "Other"
+    },
+    "status": {
+      "accepted": "Accepted",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    },
+    "detail": {
+      "notFound": "Service not available",
+      "share": "Share",
+      "about": "About",
+      "contact": "Talk to the provider",
+      "call": "Call",
+      "request": "Request booking"
+    },
+    "request": {
+      "eyebrow": "Booking request",
+      "title": "Request these {{category}}",
+      "whichEvent": "For which event?",
+      "noEvent": "Not linked to an event",
+      "dates": "Dates",
+      "from": "From",
+      "to": "To",
+      "quantity": "Quantity",
+      "message": "Message to the provider",
+      "messagePlaceholder": "Guests, setup time, anything they should know",
+      "estimateDays": "{{price}} × {{quantity}} × {{days}} days",
+      "estimateItems": "{{price}} × {{quantity}}",
+      "payLater": "You only pay after {{provider}} accepts",
+      "send": "Send request",
+      "estimateDay": "{{price}} × {{quantity}} × 1 day"
+    },
+    "bookings": {
+      "title": "Bookings",
+      "unknown": "Service",
+      "counts": {
+        "toPay": "To pay",
+        "waiting": "Waiting",
+        "paid": "Paid"
+      },
+      "pay": "Pay {{amount}}",
+      "payHint": "Pay soon to keep the dates · tap to cancel",
+      "waiting": "{{when}} · waiting for reply",
+      "paid": "Paid {{amount}} · {{when}}",
+      "completed": "Completed · {{amount}} · {{when}}",
+      "declined": "Declined",
+      "declinedReason": "Declined: {{reason}}",
+      "findSimilar": "Find similar",
+      "cancelTitle": "Cancel this booking?",
+      "keep": "Keep",
+      "cancel": "Cancel booking",
+      "emptyTitle": "No bookings yet",
+      "emptyBody": "Request a service from the Services tab."
+    }
+  },
+  "provider": {
+    "verification": {
+      "verified": "Verified provider",
+      "pending": "Verification pending",
+      "rejected": "Verification rejected"
+    },
+    "verificationBanner": {
+      "pending": "An admin is reviewing your documents. Your services appear once you’re verified.",
+      "rejected": "Your verification was rejected. Update your documents to apply again."
+    },
+    "setup": {
+      "title": "Set up your business",
+      "body": "Your business profile and verification documents aren’t on file yet."
+    },
+    "monthEarnings": "{{month}} earnings",
+    "vsLastMonth": "{{change}} vs last month",
+    "afterFee": "after {{percent}}% platform fee",
+    "paidBookings": "{{count}} paid bookings",
+    "newRequests": "New requests",
+    "newCount": "{{count}} new",
+    "noRequestsTitle": "No new requests",
+    "noRequestsBody": "Booking requests from organizers show up here.",
+    "nextJob": "Next confirmed job",
+    "accept": {
+      "action": "Accept",
+      "title": "Accept and set the price",
+      "amount": "Total to charge ({{currency}})",
+      "hint": "The organizer pays this amount on Tikly.",
+      "confirm": "Accept booking",
+      "amountRequired": "Enter an amount."
+    },
+    "decline": {
+      "action": "Decline",
+      "title": "Decline this request?",
+      "keep": "Keep",
+      "confirm": "Decline"
+    },
+    "listings": {
+      "eyebrow": "Your catalogue",
+      "title": "My services",
+      "emptyTitle": "No services listed",
+      "emptyBody": "Services you list appear here once you’re verified."
+    },
+    "earnings": {
+      "eyebrow": "Payouts",
+      "title": "Earnings",
+      "net": "Your share",
+      "periods": {
+        "month": "This month",
+        "year": "This year",
+        "all": "All time"
+      },
+      "rows": {
+        "gross": "Gross bookings",
+        "commission": "Platform fee",
+        "refunded": "Refunded",
+        "paidBookings": "Paid bookings"
+      }
+    }
+  },
+  "exhibitor": {
+    "role": "Exhibitor",
+    "eventsTitle": "Events with open slots",
+    "left": "{{count}} slots left",
+    "onlyLeft": "Only {{count}} left",
+    "slotLeft": "{{count}} left",
+    "from": "From {{price}}",
+    "seeSlots": "See slots",
+    "emptyTitle": "No open slots right now",
+    "emptyBody": "Events selling exhibitor slots will show up here.",
+    "bookEyebrow": "Book a slot",
+    "chooseTitle": "Choose your stand",
+    "noSlotsTitle": "No slots for this event",
+    "noSlotsBody": "The organizer hasn’t opened any slots yet.",
+    "listedNote": "{{name}} will be listed under Exhibitors on the event page. The organizer assigns stand numbers.",
+    "pickStand": "Pick a stand",
+    "bookAndPay": "Book and pay",
+    "mySlotsTitle": "My slots",
+    "paid": "Paid {{amount}}",
+    "pending": "Payment pending",
+    "mySlotsEmptyTitle": "No slots booked",
+    "mySlotsEmptyBody": "Book a stand from the Events tab."
+  },
+  "pay": {
+    "title": "Pay with Mobile Money",
+    "payAmount": "Pay {{amount}}",
+    "pendingTitle": "Approve on your phone",
+    "pendingBody": "Confirm the {{method}} prompt, or dial {{code}} if it doesn’t appear.",
+    "checkNow": "I’ve approved, check now",
+    "paidTitle": "Payment received",
+    "paidBody": {
+      "booking": "The provider has been notified and the dates are yours.",
+      "slot": "Your stand is booked. You’ll be listed on the event page."
+    },
+    "failedTitle": "Payment didn’t go through",
+    "failedBody": "No money was taken. You can try again.",
+    "tryAgain": "Try again",
+    "done": "Done"
   }
 }

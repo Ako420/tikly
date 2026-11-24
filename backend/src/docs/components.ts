@@ -696,3 +696,101 @@ export const NotificationView = registry.register(
 export const NotificationPageMeta = PageMeta.extend({
   unread: z.number().int().openapi({ example: 3, description: 'Unread notifications in total, for the badge.' }),
 });
+
+const Person = z
+  .object({
+    id: id(),
+    name: z.string().openapi({ example: 'Ama Ngono' }),
+    email: z.string().optional().openapi({ example: 'ama@example.cm' }),
+    phone: z.string().openapi({ example: '+237677123456' }),
+  })
+  .nullable();
+
+export const AdminEvent = registry.register('AdminEvent', Event.extend({ organizer: Person }));
+
+export const AdminProvider = registry.register('AdminProvider', ProviderProfile.extend({ user: Person }));
+
+export const AdminProviderDetail = registry.register(
+  'AdminProviderDetail',
+  ProviderProfile.extend({
+    user: Person,
+    documents: z.array(
+      z.object({
+        publicId: z.string().openapi({ example: 'documents/niu_scan_x81kq' }),
+        url: z.string().openapi({ description: 'Signed link to open the document. Valid for 10 minutes.' }),
+        expiresAt: dateTime(),
+      }),
+    ),
+    services: z.array(ServiceItem),
+  }),
+);
+
+export const AdminReview = registry.register(
+  'AdminReview',
+  z.object({
+    id: id(),
+    target: z.enum(['event', 'provider']),
+    targetId: id(),
+    authorId: id(),
+    rating: z.number().int(),
+    comment: z.string().optional(),
+    hidden: z.boolean(),
+    targetRating: z.object({ ratingAvg: z.number().openapi({ example: 4.5 }), ratingCount: z.number().int() }),
+    ...timestamps,
+  }),
+);
+
+const stream = z.object({
+  payments: z.number().int().openapi({ example: 120 }),
+  gross: xaf(1800000),
+  commission: xaf(180000),
+  payees: xaf(1620000).openapi({ description: 'Share owed to organizers or providers.' }),
+  refunded: xaf(15000),
+});
+
+export const AdminStats = registry.register(
+  'AdminStats',
+  z.object({
+    from: dateTime('2026-11-01T00:00:00.000Z').nullable(),
+    to: dateTime('2026-11-30T23:59:59.000Z').nullable(),
+    users: z
+      .record(z.string(), z.number().int())
+      .openapi({
+        example: { attendee: 1200, organizer: 40, provider: 25, exhibitor: 18, staff: 30, admin: 2, total: 1315 },
+      }),
+    events: z
+      .record(z.string(), z.number().int())
+      .openapi({
+        example: {
+          draft: 5,
+          pending: 3,
+          published: 20,
+          rejected: 1,
+          cancelled: 1,
+          completed: 14,
+          suspended: 0,
+          total: 44,
+        },
+      }),
+    ticketsSold: z
+      .number()
+      .int()
+      .openapi({ example: 3400, description: 'Valid or scanned tickets issued in the period.' }),
+    revenue: z.object({
+      ticket: stream,
+      service: stream,
+      slot: stream,
+      total: z.object({ gross: xaf(2500000), commission: xaf(250000), refunded: xaf(15000) }),
+    }),
+  }),
+);
+
+export const Settings = registry.register(
+  'Settings',
+  z.object({
+    commission: z
+      .object({ ticket: z.number(), service: z.number(), slot: z.number() })
+      .openapi({ example: { ticket: 10, service: 10, slot: 10 }, description: 'Percent kept by Tikly per stream.' }),
+    categories: z.array(Category),
+  }),
+);

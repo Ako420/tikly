@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import type { IssuedTicket } from '@/features/orders/types';
 import { useTicketFormatter } from '@/features/tickets/formatTicket';
-import { refundCutoff, refundFor, REFUND_CUTOFF_HOURS, REFUND_PERCENT, type TicketBundle } from '@/features/tickets/types';
+import { refundCutoff, refundFor, REFUND_CUTOFF_HOURS, REFUND_PERCENT, ticketPrice, type TicketBundle } from '@/features/tickets/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/cn';
 import { formatDayMonthTime } from '@/lib/dates';
@@ -35,7 +35,7 @@ export function CancelTicketSheet({ bundle, tickets, visible, cancelling, error,
   const format = useTicketFormatter();
   const [selectedId, setSelectedId] = useState(tickets[0]?.id);
   const selected = tickets.find((ticket) => ticket.id === selectedId) ?? tickets[0];
-  const price = bundle.unitPrice ?? 0;
+  const price = ticketPrice(bundle, selected);
   const refund = refundFor(price);
   const method = bundle.payment ? t(`payments.methods.${bundle.payment.method}`) : t('myTickets.cancel.yourMomo');
   const tierLabel = format.tier(bundle);
