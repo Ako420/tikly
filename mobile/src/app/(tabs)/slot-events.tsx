@@ -1,5 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useRef } from 'react';
 import { FlatList, Image, RefreshControl, View } from 'react-native';
 import { ListFallback } from '@/components/marketplace/LoadingList';
 import { ScreenTitle } from '@/components/marketplace/ScreenTitle';
@@ -24,6 +25,15 @@ export default function SlotEvents() {
   const format = useMarketplaceFormat();
   const events = useAsync(() => exhibitorApi.events(), 'slot-events');
   const items = events.data ?? [];
+  const { reload } = events;
+  const focusedOnce = useRef(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (focusedOnce.current) reload();
+      focusedOnce.current = true;
+    }, [reload]),
+  );
 
   const renderEvent = (event: SlotEvent) => {
     const few = event.slotsAvailable <= FEW_LEFT;

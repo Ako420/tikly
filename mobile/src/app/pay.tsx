@@ -21,7 +21,7 @@ import { formatMoney } from '@/lib/money';
 import { isCameroonMobile, toLocalCameroonNumber } from '@/lib/validation';
 import { useTheme } from '@/theme';
 
-type Params = { kind: PayKind; ref: string; qty?: string; amount: string; title: string; subtitle?: string };
+type Params = { kind: PayKind; ref: string; qty?: string; amount: string; title: string; subtitle?: string; order?: string };
 
 export default function Pay() {
   const params = useLocalSearchParams<Params>();
@@ -49,11 +49,27 @@ export default function Pay() {
   const status = order?.status;
   const done = () => router.dismissTo(homeRouteFor(user) as '/home');
 
+  const existingOrder = params.order;
+
+  useEffect(() => {
+    if (!existingOrder) return;
+    let active = true;
+    ordersApi
+      .getOrder(existingOrder)
+      .then((next) => active && next.status === 'pending' && setOrder(next))
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, [existingOrder]);
+
   const refresh = useCallback(async () => {
     if (!order) return;
     try {
       setOrder(await ordersApi.getOrder(order.id));
-    } catch {}
+    } catch {
+      return;
+    }
   }, [order]);
 
   useEffect(() => {

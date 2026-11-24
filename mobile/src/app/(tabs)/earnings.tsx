@@ -41,7 +41,7 @@ export default function Earnings() {
     <Screen edges={['top']}>
       <ScrollView
         contentContainerClassName="gap-5 px-6 pb-8 pt-3"
-        refreshControl={<RefreshControl refreshing={false} onRefresh={earnings.reload} tintColor={colors.accentText} />}
+        refreshControl={<RefreshControl refreshing={earnings.loading && Boolean(earnings.data)} onRefresh={earnings.reload} tintColor={colors.accentText} />}
       >
         <ScreenTitle eyebrow={t('provider.earnings.eyebrow')} title={t('provider.earnings.title')} />
         <SegmentedControl

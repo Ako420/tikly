@@ -239,7 +239,7 @@ export default function BookingRequest() {
           <View className="flex-row items-center justify-between rounded-2xl border border-border bg-surface-raised p-3.5">
             <Text variant="bodySm" tone="secondary" className="flex-1">
               {service.unit === 'per_day'
-                ? t('marketplace.request.estimateDays', { price: formatMoney(service.price), quantity, days })
+                ? t(days === 1 ? 'marketplace.request.estimateDay' : 'marketplace.request.estimateDays', { price: formatMoney(service.price), quantity, days })
                 : t('marketplace.request.estimateItems', { price: formatMoney(service.price), quantity })}
             </Text>
             <Text variant="amountLg">{formatMoney(estimate)}</Text>

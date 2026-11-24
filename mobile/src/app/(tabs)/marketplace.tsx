@@ -70,7 +70,7 @@ export default function Marketplace() {
       {services.data ? (
         <Text variant="captionStrong" tone="secondary">
           {category
-            ? t('marketplace.resultsIn', { count: total, category: format.category(category).toLowerCase(), city: city ?? t('marketplace.allCities') })
+            ? t('marketplace.resultsIn', { count: total, category: format.category(category), city: city ?? t('marketplace.allCities') })
             : t('marketplace.results', { count: total })}
         </Text>
       ) : null}

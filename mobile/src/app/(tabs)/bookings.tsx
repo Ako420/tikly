@@ -58,6 +58,7 @@ export default function Bookings() {
         amount: String(booking.amount ?? 0),
         title: label(booking),
         subtitle: `${providerName(booking)} · ${format.range(booking.startDate, booking.endDate)}`,
+        ...(booking.payment?.status === 'pending' && { order: booking.payment.orderId }),
       },
     });
 

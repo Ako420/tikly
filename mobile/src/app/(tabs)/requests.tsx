@@ -110,7 +110,7 @@ function Dashboard({ provider }: { provider: MyProvider }) {
     <>
       <ScrollView
         contentContainerClassName="gap-5 px-6 pb-8 pt-3"
-        refreshControl={<RefreshControl refreshing={false} onRefresh={reloadAll} tintColor={colors.accentText} />}
+        refreshControl={<RefreshControl refreshing={bookings.loading && Boolean(bookings.data)} onRefresh={reloadAll} tintColor={colors.accentText} />}
       >
         <View className="flex-row items-center gap-3">
           <Avatar name={provider.businessName} size="md" />

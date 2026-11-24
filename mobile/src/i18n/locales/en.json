@@ -597,7 +597,7 @@
     "anyPrice": "Any price",
     "under": "Under {{price}}",
     "results": "{{count}} services",
-    "resultsIn": "{{count}} {{category}} in {{city}}",
+    "resultsIn": "{{category}} in {{city}} · {{count}}",
     "emptyTitle": "No services found",
     "emptyBody": "Try another category, city or price.",
     "loadFailed": "Couldn’t load this",
@@ -643,7 +643,8 @@
       "estimateDays": "{{price}} × {{quantity}} × {{days}} days",
       "estimateItems": "{{price}} × {{quantity}}",
       "payLater": "You only pay after {{provider}} accepts",
-      "send": "Send request"
+      "send": "Send request",
+      "estimateDay": "{{price}} × {{quantity}} × 1 day"
     },
     "bookings": {
       "title": "Bookings",

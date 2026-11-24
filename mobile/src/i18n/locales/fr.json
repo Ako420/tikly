@@ -597,7 +597,7 @@
     "anyPrice": "Tous les prix",
     "under": "Moins de {{price}}",
     "results": "{{count}} services",
-    "resultsIn": "{{count}} · {{category}} à {{city}}",
+    "resultsIn": "{{category}} à {{city}} · {{count}}",
     "emptyTitle": "Aucun service trouvé",
     "emptyBody": "Essayez une autre catégorie, ville ou un autre prix.",
     "loadFailed": "Chargement impossible",
@@ -643,7 +643,8 @@
       "estimateDays": "{{price}} × {{quantity}} × {{days}} jours",
       "estimateItems": "{{price}} × {{quantity}}",
       "payLater": "Vous ne payez qu’après acceptation de {{provider}}",
-      "send": "Envoyer la demande"
+      "send": "Envoyer la demande",
+      "estimateDay": "{{price}} × {{quantity}} × 1 jour"
     },
     "bookings": {
       "title": "Réservations",
