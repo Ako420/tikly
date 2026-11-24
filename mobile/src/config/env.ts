@@ -1,0 +1,4 @@
+export const env = {
+  apiUrl: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1',
+  webUrl: process.env.EXPO_PUBLIC_WEB_URL ?? 'http://localhost:3000',
+};

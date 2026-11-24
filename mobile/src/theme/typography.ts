@@ -19,6 +19,8 @@ export const typography = {
   subtitle: { fontFamily: fontFamily.bold, fontSize: 15, lineHeight: 20 },
   subheading: { fontFamily: fontFamily.bold, fontSize: 16, lineHeight: 22 },
   amount: { fontFamily: fontFamily.extrabold, fontSize: 16, lineHeight: 20 },
+  amountLg: { fontFamily: fontFamily.extrabold, fontSize: 20, lineHeight: 26 },
+  itemTitle: { fontFamily: fontFamily.semibold, fontSize: 15, lineHeight: 20 },
   body: { fontFamily: fontFamily.regular, fontSize: 16, lineHeight: 24 },
   bodySm: { fontFamily: fontFamily.regular, fontSize: 14, lineHeight: 20 },
   bodySmStrong: { fontFamily: fontFamily.semibold, fontSize: 14, lineHeight: 20 },
@@ -27,6 +29,8 @@ export const typography = {
   button: { fontFamily: fontFamily.bold, fontSize: 16, lineHeight: 20 },
   label: { fontFamily: fontFamily.bold, fontSize: 13, lineHeight: 18 },
   caption: { fontFamily: fontFamily.regular, fontSize: 13, lineHeight: 18 },
+  captionStrong: { fontFamily: fontFamily.semibold, fontSize: 13, lineHeight: 18 },
+  captionSm: { fontFamily: fontFamily.regular, fontSize: 12, lineHeight: 16 },
   eyebrow: {
     fontFamily: fontFamily.bold,
     fontSize: 12,

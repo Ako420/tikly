@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { isInCurrentMonth } from '@/lib/dates';
+import { getSampleEventDetails } from './sampleEventDetails';
 import { sampleEvents } from './sampleEvents';
 import { localize, type EventCategory, type EventSummary } from './types';
 import type { Language } from '@/i18n/I18nProvider';
@@ -33,6 +34,10 @@ export function filterEvents(events: EventSummary[], filters: EventFilters, lang
         event.venue.toLowerCase().includes(query),
     )
     .sort(byStart(filters.sort ?? 'soonest'));
+}
+
+export function useEventDetails(id: string | undefined) {
+  return useMemo(() => (id ? getSampleEventDetails(id) : undefined), [id]);
 }
 
 export function useEvents(filters: EventFilters, language: Language) {

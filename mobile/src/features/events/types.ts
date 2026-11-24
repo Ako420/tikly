@@ -20,4 +20,61 @@ export type EventSummary = {
   featured?: boolean;
 };
 
-export const localize = (text: LocalizedText, language: Language) => text[language] ?? text.en ?? text.fr ?? '';
+export type TierName = 'standard' | 'vip' | 'vvip';
+
+export type TicketTier = {
+  id: string;
+  name: TierName;
+  perk: LocalizedText;
+  price: number;
+  remaining: number;
+  salesEndAt: string;
+};
+
+export type LineupArtist = {
+  id: string;
+  name: string;
+  role: LocalizedText;
+  photoUrl: string;
+  headliner?: boolean;
+};
+
+export type UpdateTag = 'lineup' | 'location' | 'info';
+
+export type EventUpdate = {
+  id: string;
+  tag: UpdateTag;
+  postedAt: string;
+  body: LocalizedText;
+  photoUrl?: string;
+  place?: { name: string; address: string };
+  likes: number;
+  comments: number;
+};
+
+export type AgendaItem = {
+  id: string;
+  day: number;
+  startAt: string;
+  title: LocalizedText;
+  location: LocalizedText;
+};
+
+export type EventDetails = EventSummary & {
+  endAt: string;
+  tagline?: LocalizedText;
+  gallery: string[];
+  rating?: { average: number; count: number };
+  area: string;
+  address: { label: string; line: string; pin?: string };
+  organizer: { name: string; verified: boolean; eventsCount: number };
+  tiers: TicketTier[];
+  lineup: LineupArtist[];
+  lineupTotal: number;
+  about: LocalizedText;
+  updates: EventUpdate[];
+  updatesTotal: number;
+  agenda: AgendaItem[];
+};
+
+export const localize =(text: LocalizedText, language: Language) => text[language] ?? text.en ?? text.fr ?? '';

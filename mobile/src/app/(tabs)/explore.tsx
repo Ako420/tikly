@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { FlatList, Pressable, ScrollView, View } from 'react-native';
 import { EventResultCard } from '@/components/events/EventResultCard';
@@ -116,7 +116,7 @@ export default function Explore() {
         }
         renderItem={({ item }) => (
           <View className="px-6">
-            <EventResultCard event={item} />
+            <EventResultCard event={item} onPress={() => router.push({ pathname: '/events/[id]', params: { id: item.id } })} />
           </View>
         )}
         ListEmptyComponent={

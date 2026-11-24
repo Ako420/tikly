@@ -109,7 +109,9 @@ export default function Home() {
               decelerationRate="fast"
               contentContainerClassName="px-6"
               ItemSeparatorComponent={() => <View style={{ width: FEATURED_GAP }} />}
-              renderItem={({ item }) => <FeaturedEventCard event={item} />}
+              renderItem={({ item }) => (
+                <FeaturedEventCard event={item} onPress={() => router.push({ pathname: '/events/[id]', params: { id: item.id } })} />
+              )}
             />
           </View>
         ) : null}
@@ -123,7 +125,11 @@ export default function Home() {
           {events.length > 0 ? (
             <View className="gap-3">
               {events.map((event) => (
-                <EventRow key={event.id} event={event} />
+                <EventRow
+                  key={event.id}
+                  event={event}
+                  onPress={() => router.push({ pathname: '/events/[id]', params: { id: event.id } })}
+                />
               ))}
             </View>
           ) : (

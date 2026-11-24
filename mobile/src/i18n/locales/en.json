@@ -6,7 +6,10 @@
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "seeAll": "See all",
-    "clear": "Clear"
+    "clear": "Clear",
+    "country": "Cameroon",
+    "increase": "Add one",
+    "decrease": "Remove one"
   },
   "splash": {
     "tagline": "Events · Tickets · Entry",
@@ -21,7 +24,13 @@
     "title": "Tickets",
     "emptyTitle": "No tickets yet",
     "emptyBody": "Tickets you buy appear here with their QR code.",
-    "browse": "Find an event"
+    "browse": "Find an event",
+    "stock": {
+      "left": "{{count}} left",
+      "onlyLeft": "Only {{count}} left",
+      "soldOut": "Sold out",
+      "salesClosed": "Sales closed"
+    }
   },
   "onboarding": {
     "getStarted": "Get started",
@@ -164,6 +173,16 @@
         "plural": "Expos",
         "singular": "Expo"
       }
+    },
+    "photoCount": "Photo {{index}} of {{total}}",
+    "like": "Like",
+    "openInMaps": "Open {{place}} in maps",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied",
+    "updateTags": {
+      "lineup": "Lineup",
+      "location": "Location",
+      "info": "Info"
     }
   },
   "home": {
@@ -195,5 +214,52 @@
   "profile": {
     "title": "Profile",
     "signOut": "Sign out"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutes": "{{count}} min ago",
+    "hours": "{{count}} h ago",
+    "yesterday": "Yesterday",
+    "days": "{{count}} days ago"
+  },
+  "eventDetails": {
+    "notFoundTitle": "Event not found",
+    "notFoundBody": "It may have been cancelled or removed.",
+    "rating": "Rated {{average}} out of 5 from {{count}} reviews",
+    "days": "{{count}} days",
+    "viewOnMap": "View on map",
+    "organizerMeta": "Organizer · {{count}} events",
+    "tickets": "Tickets",
+    "salesEnd": "Sales end {{date}}",
+    "lineup": "Lineup",
+    "seeAllCount": "See all {{count}}",
+    "about": "About",
+    "readMore": "Read more",
+    "readLess": "Show less",
+    "updates": "Updates",
+    "noUpdates": "No updates in this category yet.",
+    "agendaDay": "Agenda · Day {{day}}",
+    "fullAgenda": "Full agenda",
+    "location": "Location",
+    "wouriRiver": "Wouri River",
+    "directions": "Get directions",
+    "copyAddress": "Copy address",
+    "addressCopied": "Address copied",
+    "bringYourPeople": "Bring your people",
+    "from": "From",
+    "price": "Price",
+    "unavailable": "Tickets",
+    "getTickets": "Get tickets"
+  },
+  "checkout": {
+    "step": "Step {{step}} of {{total}}",
+    "chooseTickets": "Choose your tickets",
+    "rules": "Max {{max}} tickets per order. Tickets are personal and can’t be transferred. Seats are held for 10 minutes at payment.",
+    "noneSelected": "No tickets yet",
+    "continue": "Continue"
+  },
+  "errors": {
+    "network": "Can’t reach tikly right now. Check your connection and try again.",
+    "generic": "Something went wrong. Please try again."
   }
 }

@@ -6,7 +6,10 @@
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
     "seeAll": "Tout voir",
-    "clear": "Effacer"
+    "clear": "Effacer",
+    "country": "Cameroun",
+    "increase": "Ajouter un",
+    "decrease": "Retirer un"
   },
   "splash": {
     "tagline": "Événements · Billets · Entrée",
@@ -21,7 +24,13 @@
     "title": "Billets",
     "emptyTitle": "Pas encore de billets",
     "emptyBody": "Les billets que vous achetez apparaissent ici avec leur code QR.",
-    "browse": "Trouver un événement"
+    "browse": "Trouver un événement",
+    "stock": {
+      "left": "Encore {{count}}",
+      "onlyLeft": "Plus que {{count}}",
+      "soldOut": "Complet",
+      "salesClosed": "Ventes terminées"
+    }
   },
   "onboarding": {
     "getStarted": "Commencer",
@@ -164,6 +173,16 @@
         "plural": "Salons",
         "singular": "Salon"
       }
+    },
+    "photoCount": "Photo {{index}} sur {{total}}",
+    "like": "J’aime",
+    "openInMaps": "Ouvrir {{place}} dans Maps",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Copié",
+    "updateTags": {
+      "lineup": "Programme",
+      "location": "Lieu",
+      "info": "Infos"
     }
   },
   "home": {
@@ -195,5 +214,52 @@
   "profile": {
     "title": "Profil",
     "signOut": "Se déconnecter"
+  },
+  "time": {
+    "justNow": "À l’instant",
+    "minutes": "Il y a {{count}} min",
+    "hours": "Il y a {{count}} h",
+    "yesterday": "Hier",
+    "days": "Il y a {{count}} jours"
+  },
+  "eventDetails": {
+    "notFoundTitle": "Événement introuvable",
+    "notFoundBody": "Il a peut-être été annulé ou retiré.",
+    "rating": "Noté {{average}} sur 5 par {{count}} avis",
+    "days": "{{count}} jours",
+    "viewOnMap": "Voir sur la carte",
+    "organizerMeta": "Organisateur · {{count}} événements",
+    "tickets": "Billets",
+    "salesEnd": "Fin des ventes le {{date}}",
+    "lineup": "Programme",
+    "seeAllCount": "Voir les {{count}}",
+    "about": "À propos",
+    "readMore": "Lire la suite",
+    "readLess": "Réduire",
+    "updates": "Actualités",
+    "noUpdates": "Pas encore d’actualité dans cette catégorie.",
+    "agendaDay": "Programme · Jour {{day}}",
+    "fullAgenda": "Tout le programme",
+    "location": "Lieu",
+    "wouriRiver": "Fleuve Wouri",
+    "directions": "Itinéraire",
+    "copyAddress": "Copier l’adresse",
+    "addressCopied": "Adresse copiée",
+    "bringYourPeople": "Invitez vos proches",
+    "from": "À partir de",
+    "price": "Prix",
+    "unavailable": "Billets",
+    "getTickets": "Prendre des billets"
+  },
+  "checkout": {
+    "step": "Étape {{step}} sur {{total}}",
+    "chooseTickets": "Choisissez vos billets",
+    "rules": "{{max}} billets maximum par commande. Les billets sont nominatifs et non transférables. Vos places sont réservées 10 minutes pendant le paiement.",
+    "noneSelected": "Aucun billet",
+    "continue": "Continuer"
+  },
+  "errors": {
+    "network": "Impossible de joindre tikly pour le moment. Vérifiez votre connexion et réessayez.",
+    "generic": "Une erreur est survenue. Veuillez réessayer."
   }
 }

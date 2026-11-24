@@ -6,10 +6,11 @@ type SectionHeaderProps = {
   title: string;
   actionLabel?: string;
   onAction?: () => void;
+  note?: string;
   className?: string;
 };
 
-export function SectionHeader({ title, actionLabel, onAction, className }: SectionHeaderProps) {
+export function SectionHeader({ title, actionLabel, onAction, note, className }: SectionHeaderProps) {
   return (
     <View className={cn('flex-row items-end justify-between gap-3', className)}>
       <Text variant="sectionTitle" accessibilityRole="header" className="flex-1" numberOfLines={1}>
@@ -21,6 +22,10 @@ export function SectionHeader({ title, actionLabel, onAction, className }: Secti
             {actionLabel}
           </Text>
         </Pressable>
+      ) : note ? (
+        <Text variant="caption" tone="muted">
+          {note}
+        </Text>
       ) : null}
     </View>
   );
