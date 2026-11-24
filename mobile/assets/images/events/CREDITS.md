@@ -31,3 +31,13 @@ football-1 https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Les_support
 football-2 https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ouverture_CAN_%281%29.jpg/1280px-Ouverture_CAN_%281%29.jpg
 football-3 https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Stade_Omnisports_Paul_Biya%2C_Olemb%C3%A9%2C_Yaound%C3%A9.jpg/1280px-Stade_Omnisports_Paul_Biya%2C_Olemb%C3%A9%2C_Yaound%C3%A9.jpg
 ```
+
+## Onboarding images (`assets/images/onboarding/`)
+
+Free under the Unsplash License (no attribution required; credited on the slide anyway).
+
+| File | Author | Source |
+|---|---|---|
+| discover.jpg | Bemnet Mesfin (Addis Ababa) | https://unsplash.com/photos/EoYbJ7x7-WU |
+| pay.jpg | Segun Osunyomi (Nigeria) | https://unsplash.com/photos/SyZAgFOKgho |
+| entry.jpg | Babarinde Tosin (Ilorin durbar, Nigeria) | https://unsplash.com/photos/Dc0BX6H9QjM |

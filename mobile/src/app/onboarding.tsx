@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   FlatList,
   View,
@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/Button';
 import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { PagerDots } from '@/components/ui/PagerDots';
 import { useTranslation } from '@/i18n/I18nProvider';
+import { useRedirectIfSignedIn } from '@/features/auth/useRedirectIfSignedIn';
 import { ThemeScope } from '@/theme';
 
 type SlideKey = 'discover' | 'pay' | 'entry';
@@ -29,37 +30,44 @@ type Slide = {
   credit?: ImageCredit;
 };
 
-const WELCOME_PHOTO: ImageSourcePropType = require('../../assets/images/events/cimfest-1.jpg');
-
-const WELCOME_CREDIT: ImageCredit = {
-  label: 'Photo: Kekiwiyi · CC BY-SA 4.0',
-  url: 'https://commons.wikimedia.org/wiki/File:Asaba_at_CIMFEST.jpg',
-};
+const AUTOPLAY_INTERVAL_MS = 4500;
 
 const slides: Slide[] = [
   {
     key: 'discover',
-    image: WELCOME_PHOTO,
-    credit: WELCOME_CREDIT,
+    image: require('../../assets/images/onboarding/discover.jpg'),
+    credit: { label: 'Photo: Bemnet Mesfin · Unsplash', url: 'https://unsplash.com/photos/EoYbJ7x7-WU' },
   },
   {
     key: 'pay',
-    image: WELCOME_PHOTO,
-    credit: WELCOME_CREDIT,
+    image: require('../../assets/images/onboarding/pay.jpg'),
+    credit: { label: 'Photo: Segun Osunyomi · Unsplash', url: 'https://unsplash.com/photos/SyZAgFOKgho' },
   },
   {
     key: 'entry',
-    image: WELCOME_PHOTO,
-    credit: WELCOME_CREDIT,
+    image: require('../../assets/images/onboarding/entry.jpg'),
+    credit: { label: 'Photo: Babarinde Tosin · Unsplash', url: 'https://unsplash.com/photos/Dc0BX6H9QjM' },
   },
 ];
 
 export default function Onboarding() {
   const { t } = useTranslation();
+  useRedirectIfSignedIn();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const listRef = useRef<FlatList<Slide>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    if (isDragging) return;
+    const timer = setTimeout(() => {
+      const next = (activeIndex + 1) % slides.length;
+      listRef.current?.scrollToIndex({ index: next, animated: next !== 0 });
+      setActiveIndex(next);
+    }, AUTOPLAY_INTERVAL_MS);
+    return () => clearTimeout(timer);
+  }, [activeIndex, isDragging]);
 
   const previews: Record<SlideKey, ReactNode> = {
     discover: (
@@ -116,6 +124,8 @@ export default function Onboarding() {
         bounces={false}
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
+        onScrollBeginDrag={() => setIsDragging(true)}
+        onScrollEndDrag={() => setIsDragging(false)}
         scrollEventThrottle={16}
         getItemLayout={(_, index) => ({ length: width, offset: width * index, index })}
         style={{ flex: 1 }}

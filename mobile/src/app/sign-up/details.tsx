@@ -18,6 +18,7 @@ import { isSignUpRole } from '@/features/auth/roles';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { toApiError, useApiErrorMessage } from '@/lib/api';
 import { isCameroonMobile, isEmail, MIN_PASSWORD_LENGTH, toInternationalCameroonNumber } from '@/lib/validation';
+import { useRedirectIfSignedIn } from '@/features/auth/useRedirectIfSignedIn';
 import { useTheme } from '@/theme';
 
 type Field = 'name' | 'email' | 'phone' | 'password' | 'terms';
@@ -39,6 +40,7 @@ export default function SignUpDetails() {
   const [formError, setFormError] = useState<string>();
   const [googleLoading, setGoogleLoading] = useState(false);
   const { signUp, signInWithGoogle } = useAuth();
+  useRedirectIfSignedIn();
   const errorMessage = useApiErrorMessage();
 
   const emailRef = useRef<TextFieldHandle>(null);
