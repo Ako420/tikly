@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Linking, View, useWindowDimensions } from 'react-native';
+import { Linking, View } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import type { EventDetails } from '@/features/events/types';
@@ -27,7 +27,6 @@ type PaymentSuccessViewProps = {
 export function PaymentSuccessView({ order, event, onViewTickets }: PaymentSuccessViewProps) {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const { width } = useWindowDimensions();
   const format = useEventFormatter();
   const tierLabel = t(`tickets.tiers.${order.tierName}`);
   const title = format.title(event);
@@ -69,7 +68,6 @@ export function PaymentSuccessView({ order, event, onViewTickets }: PaymentSucce
         coverUrl={event.coverUrl}
         tierLabel={tierLabel}
         tickets={order.tickets}
-        width={width - 48}
       />
 
       <Text variant="caption" tone="muted" className="text-center">
