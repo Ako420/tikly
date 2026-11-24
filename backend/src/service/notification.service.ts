@@ -29,6 +29,11 @@ const REMINDER_WINDOW_MS = (24 * 60 + 15) * 60 * 1000;
 const EMAILED_ELSEWHERE: NotificationType[] = ['ticket_purchased'];
 const inFlight = new Set<Promise<unknown>>();
 
+type Bilingual = { en?: string | null; fr?: string | null };
+
+const pickText = (text: Bilingual | null | undefined, lang: Language) =>
+  (lang === 'fr' ? text?.fr || text?.en : text?.en || text?.fr) ?? '';
+
 const titleIn = (event: EventInfo | undefined, lang: Language) =>
   (lang === 'fr' ? event?.title?.fr || event?.title?.en : event?.title?.en || event?.title?.fr) ?? '';
 
@@ -48,6 +53,7 @@ export function renderNotification(notification: NotificationLike, lang: Languag
     date: payload.startDate ? formatDateTime(String(payload.startDate), lang) : '',
     slots: Array.isArray(payload.slots) ? payload.slots.join(', ') : '',
     reason: payload.reason ? t('notifications.common.reason', lang, { reason: payload.reason }) : '',
+    postTitle: pickText(payload.post as Bilingual | undefined, lang),
   };
   if (typeof payload.refunded === 'number') vars.amount = formatXaf(payload.refunded);
   const bodyKey = type === 'booking_cancelled' && typeof payload.refunded === 'number' ? 'refunded' : 'body';
@@ -73,10 +79,13 @@ const pushData = (notification: NotificationLike) => {
     notificationId: String(notification._id),
     type: notification.type,
     ...(notification.eventId && { eventId: String(notification.eventId) }),
-    ...(['bookingId', 'orderId', 'providerId', 'ticketId'] as const).reduce<Record<string, string>>((ids, key) => {
-      if (payload[key]) ids[key] = String(payload[key]);
-      return ids;
-    }, {}),
+    ...(['bookingId', 'orderId', 'providerId', 'ticketId', 'postId'] as const).reduce<Record<string, string>>(
+      (ids, key) => {
+        if (payload[key]) ids[key] = String(payload[key]);
+        return ids;
+      },
+      {},
+    ),
   };
 };
 

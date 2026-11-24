@@ -5,6 +5,7 @@ import './health.docs';
 import './auth.docs';
 import './upload.docs';
 import './event.docs';
+import './post.docs';
 import './tier.docs';
 import './planning.docs';
 import './order.docs';
@@ -46,6 +47,7 @@ const TAGS = [
   'Auth',
   'Uploads',
   'Events',
+  'Event posts',
   'Ticket tiers',
   'Planning: budget',
   'Planning: checklist',

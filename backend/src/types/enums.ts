@@ -64,6 +64,9 @@ export type SlotBookingStatus = (typeof SLOT_BOOKING_STATUSES)[number];
 export const REVIEW_TARGETS = ['event', 'provider'] as const;
 export type ReviewTarget = (typeof REVIEW_TARGETS)[number];
 
+export const POST_TYPES = ['update', 'speaker', 'promo'] as const;
+export type PostType = (typeof POST_TYPES)[number];
+
 export const NOTIFICATION_CHANNELS = ['push', 'email'] as const;
 export type NotificationChannel = (typeof NOTIFICATION_CHANNELS)[number];
 
@@ -75,6 +78,7 @@ export const NOTIFICATION_TYPES = [
   'event_rejected',
   'event_cancelled',
   'event_suspended',
+  'event_post',
   'ticket_purchased',
   'ticket_refunded',
   'reminder_24h',

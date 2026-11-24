@@ -77,6 +77,8 @@
     "PROVIDER_ALREADY_VERIFIED": "Cette entreprise est déjà vérifiée.",
     "PROVIDER_ALREADY_REJECTED": "Cette entreprise a déjà été refusée.",
     "CANNOT_CHANGE_OWN_STATUS": "Vous ne pouvez pas changer le statut de votre propre compte.",
+    "POST_NOTIFY_NOT_PUBLISHED": "Les détenteurs de billets ne peuvent être prévenus qu’une fois l’événement publié.",
+    "POST_NOTIFY_LIMIT": "Vous pouvez prévenir les détenteurs de billets au plus 3 fois par jour. Publiez sans les prévenir.",
     "INTERNAL": "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard."
   },
   "validation": {
@@ -625,6 +627,40 @@
       "lookup": {
         "required": "Saisissez un code de billet ou un numéro de téléphone."
       }
+    },
+    "post": {
+      "authorId": {
+        "required": "La publication doit avoir un auteur."
+      },
+      "type": {
+        "required": "Choisissez le type de publication.",
+        "invalid": "Une publication est une actualité, un intervenant ou une promotion."
+      },
+      "title": {
+        "required": "Donnez un titre en anglais ou en français.",
+        "maxLength": "Le titre doit contenir au plus {max} caractères."
+      },
+      "body": {
+        "required": "Rédigez la publication en anglais ou en français.",
+        "maxLength": "La publication doit contenir au plus {max} caractères."
+      },
+      "images": {
+        "invalid": "Chaque image doit être une adresse web valide.",
+        "max": "Ajoutez au plus {max} images."
+      },
+      "speaker": {
+        "required": "Une publication d’intervenant doit indiquer son nom.",
+        "name": {
+          "required": "Saisissez le nom de l’intervenant.",
+          "maxLength": "Le nom de l’intervenant doit contenir au plus {max} caractères."
+        },
+        "role": {
+          "maxLength": "Le rôle de l’intervenant doit contenir au plus {max} caractères."
+        },
+        "photoUrl": {
+          "invalid": "La photo de l’intervenant doit être une adresse web valide."
+        }
+      }
     }
   },
   "email": {
@@ -734,6 +770,10 @@
     "event_suspended": {
       "title": "Votre événement est suspendu",
       "body": "« {event} » est masqué au public pour le moment. Contactez le support pour en savoir plus."
+    },
+    "event_post": {
+      "title": "Du nouveau pour « {event} »",
+      "body": "{postTitle}"
     },
     "ticket_purchased": {
       "title": "Vos billets sont prêts",

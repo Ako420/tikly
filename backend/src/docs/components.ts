@@ -8,6 +8,7 @@ import {
   ORDER_ITEM_MODELS,
   ORDER_STATUSES,
   ORDER_TYPES,
+  POST_TYPES,
   PAYMENT_PROVIDERS,
   BOOKING_STATUSES,
   ROLES,
@@ -792,5 +793,37 @@ export const Settings = registry.register(
       .object({ ticket: z.number(), service: z.number(), slot: z.number() })
       .openapi({ example: { ticket: 10, service: 10, slot: 10 }, description: 'Percent kept by Tikly per stream.' }),
     categories: z.array(Category),
+  }),
+);
+
+export const PostView = registry.register(
+  'Post',
+  z.object({
+    id: id(),
+    eventId: id(),
+    authorId: id(),
+    type: z.enum(POST_TYPES).openapi({
+      description: '`update` for news and changes, `speaker` to introduce a speaker or artist, `promo` for marketing.',
+    }),
+    title: bilingual('Meet our headliner', 'Découvrez notre tête d’affiche'),
+    body: bilingual('Manu Dibango Tribute Band closes the night.', 'Le Manu Dibango Tribute Band clôture la soirée.'),
+    images: z.array(z.string()).openapi({ example: ['https://res.cloudinary.com/demo/image/upload/events/band.jpg'] }),
+    speaker: z
+      .object({
+        name: z.string().openapi({ example: 'Charlotte Dipanda' }),
+        role: z.string().optional().openapi({ example: 'Singer-songwriter' }),
+        photoUrl: z.string().optional(),
+      })
+      .optional(),
+    pinned: z.boolean().openapi({ description: 'Pinned posts come first.' }),
+    notifiedAt: dateTime().optional().openapi({ description: 'When ticket holders were notified about it.' }),
+    ...timestamps,
+  }),
+);
+
+export const CreatedPost = registry.register(
+  'CreatedPost',
+  PostView.extend({
+    notified: z.number().int().openapi({ example: 240, description: 'Ticket holders notified (0 unless `notify`).' }),
   }),
 );

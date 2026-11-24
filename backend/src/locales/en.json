@@ -77,6 +77,8 @@
     "PROVIDER_ALREADY_VERIFIED": "This business is already verified.",
     "PROVIDER_ALREADY_REJECTED": "This business has already been rejected.",
     "CANNOT_CHANGE_OWN_STATUS": "You cannot change the status of your own account.",
+    "POST_NOTIFY_NOT_PUBLISHED": "Ticket holders can be notified only once the event is published.",
+    "POST_NOTIFY_LIMIT": "You can notify ticket holders at most 3 times a day. Publish this post without notifying them.",
     "INTERNAL": "Something went wrong on our side. Please try again later."
   },
   "validation": {
@@ -625,6 +627,40 @@
       "lookup": {
         "required": "Enter a ticket code or a phone number."
       }
+    },
+    "post": {
+      "authorId": {
+        "required": "The post must have an author."
+      },
+      "type": {
+        "required": "Choose the kind of post.",
+        "invalid": "A post must be an update, a speaker or a promotion."
+      },
+      "title": {
+        "required": "Give the post a title in English or French.",
+        "maxLength": "The title must be at most {max} characters."
+      },
+      "body": {
+        "required": "Write the post in English or French.",
+        "maxLength": "The post must be at most {max} characters."
+      },
+      "images": {
+        "invalid": "Each image must be a valid web address.",
+        "max": "Add at most {max} images."
+      },
+      "speaker": {
+        "required": "A speaker post needs the speaker’s name.",
+        "name": {
+          "required": "Enter the speaker’s name.",
+          "maxLength": "The speaker’s name must be at most {max} characters."
+        },
+        "role": {
+          "maxLength": "The speaker’s role must be at most {max} characters."
+        },
+        "photoUrl": {
+          "invalid": "The speaker photo must be a valid web address."
+        }
+      }
     }
   },
   "email": {
@@ -734,6 +770,10 @@
     "event_suspended": {
       "title": "Your event was suspended",
       "body": "“{event}” is hidden from the public for now. Contact support to find out more."
+    },
+    "event_post": {
+      "title": "News from “{event}”",
+      "body": "{postTitle}"
     },
     "ticket_purchased": {
       "title": "Your tickets are ready",
