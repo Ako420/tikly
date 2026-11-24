@@ -19,3 +19,9 @@ export const DOCUMENT_URL_TTL_SECONDS = 10 * 60;
 
 export const APP_TIME_ZONE = 'Africa/Douala';
 export const PASSWORD_RESET_MINUTES = 60;
+
+export const BCRYPT_ROUNDS = 12;
+export const JWT_ISSUER = 'tikly';
+export const ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
+export const REFRESH_TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60;
+export const PASSWORD_MAX_BYTES = 72;

@@ -60,6 +60,7 @@ userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { email:
 userSchema.index({ phone: 1 }, { unique: true });
 userSchema.index({ role: 1, status: 1 });
 userSchema.index({ organizerId: 1 }, { sparse: true });
+userSchema.index({ passwordResetTokenHash: 1 }, { sparse: true });
 
 export type User = InferSchemaType<typeof userSchema>;
 export type UserDoc = HydratedDocument<User>;

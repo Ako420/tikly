@@ -52,7 +52,8 @@ function zodFieldErrors(err: ZodError, lang: Language) {
   for (const issue of err.issues) {
     const path = issue.path.join('.') || '_';
     if (fields[path]) continue;
-    fields[path] = { code: issue.code, message: translateKey(issue.message, lang) };
+    const bounds = issue as { minimum?: unknown; maximum?: unknown };
+    fields[path] = { code: issue.code, message: translateKey(issue.message, lang, { min: bounds.minimum, max: bounds.maximum }) };
   }
   return fields;
 }

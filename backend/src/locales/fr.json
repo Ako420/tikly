@@ -17,7 +17,9 @@
     "EMAIL_TAKEN": "Un compte avec cette adresse e-mail existe déjà.",
     "PHONE_TAKEN": "Un compte avec ce numéro de téléphone existe déjà.",
     "INVALID_CREDENTIALS": "L'e-mail, le téléphone ou le mot de passe est incorrect.",
+    "RESET_TOKEN_INVALID": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
     "ACCOUNT_SUSPENDED": "Votre compte a été suspendu. Contactez le support.",
+    "ACCOUNT_DISABLED": "Ce compte a été désactivé.",
     "EVENT_NOT_EDITABLE": "Cet événement ne peut plus être modifié.",
     "EVENT_NEEDS_TIERS": "Ajoutez au moins une catégorie de billets avant de soumettre l'événement.",
     "EVENT_NOT_PUBLISHED": "Cet événement n'est pas ouvert à la vente.",
@@ -52,7 +54,8 @@
       "quantity": {
         "integer": "La quantité doit être un nombre entier."
       },
-      "invalidValue": "Cette valeur n'a pas le bon format."
+      "invalidValue": "Cette valeur n'a pas le bon format.",
+      "emptyUpdate": "Envoyez au moins un champ à modifier."
     },
     "user": {
       "name": {
@@ -85,6 +88,25 @@
       "organizerId": {
         "required": "Le personnel d'accueil doit être rattaché à un organisateur.",
         "notAllowed": "Seuls les comptes du personnel d'accueil peuvent être rattachés à un organisateur."
+      }
+    },
+    "auth": {
+      "password": {
+        "required": "Un mot de passe est requis.",
+        "minLength": "Votre mot de passe doit contenir au moins {min} caractères.",
+        "tooLong": "Votre mot de passe est trop long."
+      },
+      "identifier": {
+        "required": "Saisissez votre e-mail ou votre numéro de téléphone."
+      },
+      "refreshToken": {
+        "required": "Un jeton de rafraîchissement est requis."
+      },
+      "resetToken": {
+        "required": "Le jeton de réinitialisation est manquant."
+      },
+      "pushToken": {
+        "invalid": "Ce jeton n'est pas un jeton de notification Expo valide."
       }
     },
     "event": {

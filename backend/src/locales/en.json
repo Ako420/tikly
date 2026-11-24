@@ -17,7 +17,9 @@
     "EMAIL_TAKEN": "An account with this email already exists.",
     "PHONE_TAKEN": "An account with this phone number already exists.",
     "INVALID_CREDENTIALS": "The email, phone or password is incorrect.",
+    "RESET_TOKEN_INVALID": "This reset link is invalid or has expired. Request a new one.",
     "ACCOUNT_SUSPENDED": "Your account has been suspended. Contact support.",
+    "ACCOUNT_DISABLED": "This account has been disabled.",
     "EVENT_NOT_EDITABLE": "This event can no longer be edited.",
     "EVENT_NEEDS_TIERS": "Add at least one ticket tier before submitting the event.",
     "EVENT_NOT_PUBLISHED": "This event is not open for sale.",
@@ -52,7 +54,8 @@
       "quantity": {
         "integer": "Quantity must be a whole number."
       },
-      "invalidValue": "This value has the wrong format."
+      "invalidValue": "This value has the wrong format.",
+      "emptyUpdate": "Send at least one field to update."
     },
     "user": {
       "name": {
@@ -85,6 +88,25 @@
       "organizerId": {
         "required": "Gate staff must belong to an organizer.",
         "notAllowed": "Only gate staff accounts can belong to an organizer."
+      }
+    },
+    "auth": {
+      "password": {
+        "required": "A password is required.",
+        "minLength": "Your password must be at least {min} characters.",
+        "tooLong": "Your password is too long."
+      },
+      "identifier": {
+        "required": "Enter your email or phone number."
+      },
+      "refreshToken": {
+        "required": "A refresh token is required."
+      },
+      "resetToken": {
+        "required": "The reset token is missing."
+      },
+      "pushToken": {
+        "invalid": "This push token is not a valid Expo push token."
       }
     },
     "event": {
