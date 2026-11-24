@@ -36,6 +36,10 @@
     "TIER_SOLD_OUT": "This ticket tier is sold out.",
     "TIER_EXISTS": "This event already has a ticket tier with that name.",
     "TIER_SALES_END_AFTER_START": "A ticket tier stops selling after the new start time. Change the tier first.",
+    "SALES_END_AFTER_EVENT_START": "Ticket sales must end before the event starts.",
+    "TIER_PRICE_LOCKED": "The price cannot change once tickets of this tier are sold.",
+    "TIER_QUANTITY_BELOW_SOLD": "The quantity cannot be lower than the tickets already sold or reserved.",
+    "TIER_IN_USE": "This tier has sold or reserved tickets and cannot be deleted.",
     "MAX_TICKETS_EXCEEDED": "You can buy at most 10 tickets per order.",
     "ORDER_EXPIRED": "This order has expired. Please start again.",
     "PAYMENT_FAILED": "The payment did not go through. Please try again.",
@@ -179,12 +183,14 @@
       },
       "price": {
         "required": "Set a price for this tier.",
-        "min": "The price cannot be negative."
+        "min": "The price cannot be negative.",
+        "max": "The price can be at most {max} XAF."
       },
       "quantity": {
         "required": "Set how many tickets this tier has.",
         "min": "A tier needs at least {min} ticket.",
-        "belowSold": "The quantity cannot be lower than the tickets already sold or reserved."
+        "belowSold": "The quantity cannot be lower than the tickets already sold or reserved.",
+        "max": "A tier can have at most {max} tickets."
       },
       "reserved": {
         "min": "Reserved tickets cannot be negative."
@@ -193,7 +199,8 @@
         "min": "Sold tickets cannot be negative."
       },
       "salesEndAt": {
-        "required": "Set when ticket sales end."
+        "required": "Set when ticket sales end.",
+        "future": "Ticket sales must end in the future."
       }
     },
     "order": {

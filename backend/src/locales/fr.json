@@ -36,6 +36,10 @@
     "TIER_SOLD_OUT": "Cette catégorie de billets est épuisée.",
     "TIER_EXISTS": "Cet événement a déjà une catégorie de billets avec ce nom.",
     "TIER_SALES_END_AFTER_START": "Une catégorie de billets reste en vente après la nouvelle heure de début. Modifiez d'abord cette catégorie.",
+    "SALES_END_AFTER_EVENT_START": "La vente des billets doit se terminer avant le début de l'événement.",
+    "TIER_PRICE_LOCKED": "Le prix ne peut plus changer une fois des billets de cette catégorie vendus.",
+    "TIER_QUANTITY_BELOW_SOLD": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés.",
+    "TIER_IN_USE": "Cette catégorie a des billets vendus ou réservés et ne peut pas être supprimée.",
     "MAX_TICKETS_EXCEEDED": "Vous pouvez acheter au maximum 10 billets par commande.",
     "ORDER_EXPIRED": "Cette commande a expiré. Veuillez recommencer.",
     "PAYMENT_FAILED": "Le paiement n'a pas abouti. Veuillez réessayer.",
@@ -179,12 +183,14 @@
       },
       "price": {
         "required": "Fixez un prix pour cette catégorie.",
-        "min": "Le prix ne peut pas être négatif."
+        "min": "Le prix ne peut pas être négatif.",
+        "max": "Le prix peut être au maximum de {max} XAF."
       },
       "quantity": {
         "required": "Indiquez le nombre de billets de cette catégorie.",
         "min": "Une catégorie doit avoir au moins {min} billet.",
-        "belowSold": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés."
+        "belowSold": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés.",
+        "max": "Une catégorie peut avoir au maximum {max} billets."
       },
       "reserved": {
         "min": "Les billets réservés ne peuvent pas être négatifs."
@@ -193,7 +199,8 @@
         "min": "Les billets vendus ne peuvent pas être négatifs."
       },
       "salesEndAt": {
-        "required": "Indiquez la date de fin des ventes."
+        "required": "Indiquez la date de fin des ventes.",
+        "future": "La fin de la vente doit être dans le futur."
       }
     },
     "order": {

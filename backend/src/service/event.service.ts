@@ -25,36 +25,13 @@ import { skipFor } from '../util/pagination';
 import { exactInsensitive } from '../util/regex';
 import { notifyAdmins, notifyUsers } from './notification.service';
 import { assertCategory } from './setting.service';
+import { toTierView } from './tier.service';
 
 type Viewer = { id: string; role: Role } | undefined;
-type TierLike = {
-  _id: Types.ObjectId;
-  name: string;
-  price: number;
-  quantity: number;
-  sold: number;
-  reserved: number;
-  salesEndAt: Date;
-};
 
 const PUBLIC_STATUSES: EventStatus[] = ['published', 'completed'];
 const EDITABLE_STATUSES: EventStatus[] = ['draft', 'rejected'];
 const BILINGUAL_FIELDS = ['title', 'description'] as const;
-
-const available = (tier: TierLike) => Math.max(0, tier.quantity - tier.sold - tier.reserved);
-
-function toTierView(tier: TierLike, now = new Date()) {
-  const left = available(tier);
-  return {
-    id: String(tier._id),
-    name: tier.name,
-    price: tier.price,
-    quantity: tier.quantity,
-    available: left,
-    salesEndAt: tier.salesEndAt,
-    onSale: left > 0 && tier.salesEndAt > now,
-  };
-}
 
 const titleIn = (event: { title?: { en?: string | null; fr?: string | null } | null }, lang: Language) =>
   (lang === 'fr' ? event.title?.fr || event.title?.en : event.title?.en || event.title?.fr) ?? '';
