@@ -17,3 +17,4 @@ export * from './slotBooking.model';
 export * from './review.model';
 export * from './notification.model';
 export * from './setting.model';
+export * from './post.model';

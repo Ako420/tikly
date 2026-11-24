@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express';
 import { BookingModel } from '../model/booking.model';
 import { EventModel } from '../model/event.model';
+import { PostModel } from '../model/post.model';
 import { ProviderModel } from '../model/provider.model';
 import { ServiceModel } from '../model/service.model';
 import { SlotModel } from '../model/slot.model';
@@ -79,6 +80,17 @@ export const requireSlotOwner: RequestHandler = async (req, _res, next) => {
   if (!event) throw AppError.notFound();
   if (req.user!.role !== 'admin' && String(event.organizerId) !== req.user!.id) throw AppError.forbidden();
   req.slot = slot;
+  req.event = event;
+  next();
+};
+
+export const requirePostOwner: RequestHandler = async (req, _res, next) => {
+  const post = await PostModel.findById(req.params.id);
+  if (!post) throw AppError.notFound();
+  const event = await EventModel.findById(post.eventId);
+  if (!event) throw AppError.notFound();
+  if (req.user!.role !== 'admin' && String(event.organizerId) !== req.user!.id) throw AppError.forbidden();
+  req.post = post;
   req.event = event;
   next();
 };
