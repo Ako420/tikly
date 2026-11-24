@@ -1,8 +1,9 @@
 import { View } from 'react-native';
+import { PreviewCard } from '@/components/ui/PreviewCard';
 import { Text } from '@/components/ui/Text';
 import { cn } from '@/lib/cn';
 import { CURRENCY, formatAmount } from '@/lib/money';
-import { ThemeScope, useTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 type TicketPreviewProps = {
   eyebrow: string;
@@ -13,21 +14,12 @@ type TicketPreviewProps = {
   className?: string;
 };
 
-const shadows = {
-  light: '0px 16px 32px -12px rgba(20, 10, 69, 0.22)',
-  dark: '0px 18px 40px -12px rgba(0, 0, 0, 0.45)',
-};
-
 export function TicketPreview({ eyebrow, title, venue, tier, price, className }: TicketPreviewProps) {
-  const { scheme, colors } = useTheme();
+  const { colors } = useTheme();
   const notch = { backgroundColor: colors.background };
 
   return (
-    <ThemeScope
-      scheme="light"
-      className={cn('h-24 flex-row rounded-card bg-surface-raised', className)}
-      style={{ boxShadow: shadows[scheme] }}
-    >
+    <PreviewCard className={cn('h-24 flex-row', className)}>
       <View className="flex-1 justify-center gap-1 pl-[18px] pr-3">
         <Text variant="overline" tone="accent" numberOfLines={1}>
           {eyebrow}
@@ -52,6 +44,6 @@ export function TicketPreview({ eyebrow, title, venue, tier, price, className }:
           {CURRENCY}
         </Text>
       </View>
-    </ThemeScope>
+    </PreviewCard>
   );
 }

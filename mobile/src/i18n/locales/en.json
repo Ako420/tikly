@@ -26,6 +26,26 @@
         "title": "Douala Business Expo",
         "venue": "Akwa Expo Hall"
       }
+    },
+    "pay": {
+      "eyebrow": "MTN MoMo · Orange Money",
+      "title": "Pay in seconds with Mobile Money",
+      "body": "Choose your tier. Seats are held for 10 minutes while you approve.",
+      "card": {
+        "title": "Approve payment",
+        "meta": "2 × VIP · MTN MoMo",
+        "holdLabel": "Seats held for"
+      }
+    },
+    "entry": {
+      "eyebrow": "QR entry · Reminders",
+      "title": "Your phone is your ticket",
+      "body": "Show your QR code at the gate. We remind you 24 hours before doors open.",
+      "card": {
+        "status": "Valid · Gate B",
+        "title": "Makossa Night Live",
+        "meta": "VIP · TK-7Q4M-21"
+      }
     }
   }
 }

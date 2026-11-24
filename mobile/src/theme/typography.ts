@@ -12,6 +12,7 @@ export const typography = {
   wordmark: { fontFamily: fontFamily.extrabold, fontSize: 24, lineHeight: 30, letterSpacing: -0.6 },
   display: { fontFamily: fontFamily.extrabold, fontSize: 32, lineHeight: 36, letterSpacing: -0.8 },
   title: { fontFamily: fontFamily.extrabold, fontSize: 17, lineHeight: 20 },
+  subtitle: { fontFamily: fontFamily.bold, fontSize: 15, lineHeight: 20 },
   amount: { fontFamily: fontFamily.extrabold, fontSize: 16, lineHeight: 20 },
   body: { fontFamily: fontFamily.regular, fontSize: 16, lineHeight: 24 },
   button: { fontFamily: fontFamily.bold, fontSize: 16, lineHeight: 20 },
