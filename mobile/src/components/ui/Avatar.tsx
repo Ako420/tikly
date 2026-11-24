@@ -10,9 +10,12 @@ const initialsOf = (name: string) =>
     .filter((letter, index, letters) => index === 0 || index === letters.length - 1)
     .join('');
 
+const sizeClass = { sm: 'h-9 w-9', md: 'h-11 w-11', lg: 'h-[60px] w-[60px]' } as const;
+const textVariant = { sm: 'label', md: 'subtitle', lg: 'sectionTitle' } as const;
+
 type AvatarProps = {
   name: string;
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
   onPress?: () => void;
 };
 
@@ -23,9 +26,9 @@ export function Avatar({ name, size = 'md', onPress }: AvatarProps) {
       accessibilityLabel={name}
       onPress={onPress}
       disabled={!onPress}
-      className={cn('shrink-0 items-center justify-center rounded-full bg-primary', size === 'sm' ? 'h-9 w-9' : 'h-11 w-11')}
+      className={cn('shrink-0 items-center justify-center rounded-full bg-primary', sizeClass[size])}
     >
-      <Text variant={size === 'sm' ? 'label' : 'subtitle'} tone="onPrimary">
+      <Text variant={textVariant[size]} tone="onPrimary">
         {initialsOf(name)}
       </Text>
     </Pressable>

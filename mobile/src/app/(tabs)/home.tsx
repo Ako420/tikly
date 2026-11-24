@@ -9,14 +9,18 @@ import { Avatar } from '@/components/ui/Avatar';
 import { Chip } from '@/components/ui/Chip';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { IconButton } from '@/components/ui/IconButton';
+import { OptionSheet } from '@/components/ui/OptionSheet';
 import { Screen } from '@/components/ui/Screen';
 import { SearchField } from '@/components/ui/SearchField';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Text } from '@/components/ui/Text';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { ALL_CATEGORIES_ICON, categoryIcons } from '@/features/events/categories';
 import { sampleUser } from '@/features/events/sampleEvents';
 import { EVENT_CATEGORIES, type EventCategory } from '@/features/events/types';
 import { useEvents } from '@/features/events/useEvents';
+import { useNotifications } from '@/features/notifications/notificationStore';
+import { HOME_CITIES, setHomeCity, useHomeCity } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { useTheme } from '@/theme';
@@ -27,8 +31,12 @@ const FEATURED_COUNT = 5;
 export default function Home() {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const { user } = useAuth();
+  const city = useHomeCity();
+  const { unreadCount } = useNotifications();
+  const [cityOpen, setCityOpen] = useState(false);
   const [category, setCategory] = useState<EventCategory | undefined>();
-  const { data: events, loading, error, refetch } = useEvents({ city: sampleUser.city, category });
+  const { data: events, loading, error, refetch } = useEvents({ city, category });
   const featured = events.filter((event) => event.coverUrl).slice(0, FEATURED_COUNT);
   const errorMessage = useApiErrorMessage();
 
@@ -36,24 +44,25 @@ export default function Home() {
     <Screen edges={['top']}>
       <ScrollView contentContainerClassName="gap-[22px] pb-6" showsVerticalScrollIndicator={false}>
         <View className="h-14 flex-row items-center justify-between px-6">
-          <Pressable accessibilityRole="button" accessibilityLabel={t('home.changeCity')} className="gap-0.5">
+          <Pressable accessibilityRole="button" accessibilityLabel={t('home.changeCity')} onPress={() => setCityOpen(true)} className="gap-0.5">
             <Text variant="eyebrow" tone="accent">
               {t('home.yourCity')}
             </Text>
             <View className="flex-row items-center gap-1.5">
               <Ionicons name="location" size={18} color={colors.foreground} />
-              <Text variant="subheading">{`${sampleUser.city}, ${sampleUser.country}`}</Text>
+              <Text variant="subheading">{`${city}, ${sampleUser.country}`}</Text>
               <Ionicons name="chevron-down" size={16} color={colors.foregroundMuted} />
             </View>
           </Pressable>
           <View className="flex-row items-center gap-2.5">
             <IconButton
               size="lg"
-              badge
+              badge={unreadCount > 0}
+              onPress={() => router.push('/notifications')}
               accessibilityLabel={t('home.notifications')}
               icon={<Ionicons name="notifications-outline" size={22} color={colors.foreground} />}
             />
-            <Avatar name={sampleUser.name} onPress={() => router.navigate('/profile')} />
+            <Avatar name={user?.name ?? sampleUser.name} onPress={() => router.navigate('/profile')} />
           </View>
         </View>
 
@@ -127,7 +136,7 @@ export default function Home() {
 
         <View className="gap-3.5 px-6">
           <SectionHeader
-            title={t('home.comingUp', { city: sampleUser.city })}
+            title={t('home.comingUp', { city })}
             actionLabel={t('common.seeAll')}
             onAction={() => router.navigate('/explore')}
           />
@@ -162,6 +171,14 @@ export default function Home() {
           )}
         </View>
       </ScrollView>
+      <OptionSheet
+        visible={cityOpen}
+        title={t('profile.homeCity')}
+        options={HOME_CITIES.map((value) => ({ value, label: value }))}
+        value={city as (typeof HOME_CITIES)[number]}
+        onSelect={setHomeCity}
+        onClose={() => setCityOpen(false)}
+      />
     </Screen>
   );
 }

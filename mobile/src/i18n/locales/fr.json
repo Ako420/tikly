@@ -259,7 +259,39 @@
   },
   "profile": {
     "title": "Profil",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "preferences": "Préférences",
+    "account": "Compte",
+    "homeCity": "Ville",
+    "notifications": "Notifications",
+    "notificationChannels": "Push + e-mail",
+    "phone": "Numéro de téléphone et MoMo",
+    "changePassword": "Changer le mot de passe",
+    "help": "Aide et assistance",
+    "terms": "Conditions et confidentialité",
+    "logOut": "Se déconnecter",
+    "logIn": "Se connecter",
+    "roles": {
+      "staff": "Équipe d’accueil",
+      "admin": "Administrateur"
+    },
+    "edit": {
+      "title": "Modifier le profil",
+      "phone": "Numéro de téléphone et MoMo",
+      "phoneHint": "Utilisé pour les paiements et remboursements Mobile Money.",
+      "save": "Enregistrer"
+    },
+    "password": {
+      "title": "Changer le mot de passe",
+      "body": "Nous enverrons un lien de réinitialisation à {{email}}.",
+      "send": "Envoyer le lien",
+      "cancel": "Annuler",
+      "sentTitle": "Vérifiez vos e-mails",
+      "sentBody": "Si {{email}} correspond à un compte, un lien de réinitialisation arrive.",
+      "failed": "Impossible d’envoyer le lien",
+      "noEmailTitle": "Aucun e-mail sur ce compte",
+      "noEmailBody": "Ajoutez un e-mail à votre compte pour réinitialiser votre mot de passe."
+    }
   },
   "time": {
     "justNow": "À l’instant",
@@ -446,6 +478,46 @@
       "errorPlayed": "Son d’erreur joué",
       "doNotAdmit": "Refusez l’entrée",
       "missing": "Résultat du scan indisponible"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Tout marquer comme lu",
+    "newCount": "{{count}} nouvelles",
+    "today": "Aujourd’hui",
+    "earlier": "Plus tôt",
+    "unread": "Non lue",
+    "loadFailed": "Impossible de charger les notifications",
+    "emptyTitle": "Vous êtes à jour",
+    "emptyBody": "Rappels, paiements et nouvelles des événements apparaissent ici.",
+    "types": {
+      "reminder": {
+        "title": "{{event}} dans 24 heures",
+        "body": "{{date}}, {{time}} · {{venue}}. Votre billet est dans l’app."
+      },
+      "purchase": {
+        "title": "Paiement confirmé",
+        "body": "{{count}} billets {{tier}} pour {{event}} · {{amount}} via {{method}}."
+      },
+      "update": {
+        "title": "{{organizer}} a publié"
+      },
+      "cancelled": {
+        "title": "Événement annulé : {{event}}",
+        "body": "Remboursement intégral de {{amount}} envoyé sur votre numéro MoMo.",
+        "bodyNoRefund": "L’organisateur a annulé cet événement."
+      },
+      "refunded": {
+        "title": "Remboursement envoyé",
+        "body": "{{amount}} pour {{event}} arrive sur votre numéro MoMo."
+      },
+      "welcome": {
+        "title": "Bienvenue sur tikly",
+        "body": "Votre compte est prêt. Découvrez ce qui se passe à {{city}} cette semaine."
+      },
+      "generic": {
+        "title": "Nouvelle de tikly"
+      }
     }
   }
 }

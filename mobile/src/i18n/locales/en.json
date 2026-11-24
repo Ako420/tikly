@@ -259,7 +259,39 @@
   },
   "profile": {
     "title": "Profile",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "preferences": "Preferences",
+    "account": "Account",
+    "homeCity": "Home city",
+    "notifications": "Notifications",
+    "notificationChannels": "Push + email",
+    "phone": "Phone & MoMo number",
+    "changePassword": "Change password",
+    "help": "Help & support",
+    "terms": "Terms & privacy",
+    "logOut": "Log out",
+    "logIn": "Log in",
+    "roles": {
+      "staff": "Gate staff",
+      "admin": "Admin"
+    },
+    "edit": {
+      "title": "Edit profile",
+      "phone": "Phone & MoMo number",
+      "phoneHint": "Used for Mobile Money payments and refunds.",
+      "save": "Save changes"
+    },
+    "password": {
+      "title": "Change password",
+      "body": "We’ll email a reset link to {{email}}.",
+      "send": "Send link",
+      "cancel": "Cancel",
+      "sentTitle": "Check your email",
+      "sentBody": "If {{email}} has an account, a reset link is on its way.",
+      "failed": "Couldn’t send the reset link",
+      "noEmailTitle": "No email on this account",
+      "noEmailBody": "Add an email to your account to reset your password."
+    }
   },
   "time": {
     "justNow": "Just now",
@@ -446,6 +478,46 @@
       "errorPlayed": "Error tone played",
       "doNotAdmit": "Do not let in",
       "missing": "Scan result not available"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "newCount": "{{count}} new",
+    "today": "Today",
+    "earlier": "Earlier",
+    "unread": "Unread",
+    "loadFailed": "Couldn’t load notifications",
+    "emptyTitle": "You’re all caught up",
+    "emptyBody": "Reminders, payments and event updates show up here.",
+    "types": {
+      "reminder": {
+        "title": "{{event}} is in 24 hours",
+        "body": "{{date}}, {{time}} · {{venue}}. Your ticket is in the app."
+      },
+      "purchase": {
+        "title": "Payment confirmed",
+        "body": "{{count}} {{tier}} tickets for {{event}} · {{amount}} via {{method}}."
+      },
+      "update": {
+        "title": "{{organizer}} posted"
+      },
+      "cancelled": {
+        "title": "Event cancelled: {{event}}",
+        "body": "Full refund of {{amount}} sent to your MoMo number.",
+        "bodyNoRefund": "The organizer cancelled this event."
+      },
+      "refunded": {
+        "title": "Refund sent",
+        "body": "{{amount}} for {{event}} is on its way to your MoMo number."
+      },
+      "welcome": {
+        "title": "Welcome to tikly",
+        "body": "Your account is ready. Explore what’s on in {{city}} this week."
+      },
+      "generic": {
+        "title": "Update from tikly"
+      }
     }
   }
 }
