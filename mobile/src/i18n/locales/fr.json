@@ -261,11 +261,68 @@
     "chooseTickets": "Choisissez vos billets",
     "rules": "{{max}} billets maximum par commande. Les billets sont nominatifs et non transférables. Vos places sont réservées 10 minutes pendant le paiement.",
     "noneSelected": "Aucun billet",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "title": "Paiement",
+    "bookingFee": "Frais de réservation",
+    "total": "Total",
+    "payWith": "Payer avec",
+    "numberToCharge": "Numéro {{method}} à débiter",
+    "wrongNetwork": "Ce numéro n’est pas {{method}}. Choisissez l’autre réseau ou un autre numéro.",
+    "deliveryTo": "Les billets arrivent dans l’app et à",
+    "deliveryInApp": "Les billets arrivent dans l’app dès que le paiement est validé.",
+    "pay": "Payer {{amount}}",
+    "secureNote": "Paiement Mobile Money sécurisé · Sans carte",
+    "invalidTitle": "Choisissez d’abord vos billets",
+    "invalidBody": "Revenez en arrière et choisissez une catégorie et une quantité."
   },
   "errors": {
     "network": "Impossible de joindre tikly pour le moment. Vérifiez votre connexion et réessayez.",
     "generic": "Une erreur est survenue. Veuillez réessayer.",
     "retry": "Réessayer"
+  },
+  "payments": {
+    "methods": {
+      "mtn": "MTN MoMo",
+      "orange": "Orange Money"
+    },
+    "short": {
+      "mtn": "MoMo",
+      "orange": "Orange Money"
+    },
+    "notFoundTitle": "Commande introuvable",
+    "retryFailed": "Impossible de relancer le paiement",
+    "pending": {
+      "eyebrow": "En attente de validation",
+      "title": "Validez sur votre téléphone",
+      "body": "Nous avons envoyé une demande de {{amount}} au {{phone}}. Saisissez votre code {{method}} pour confirmer.",
+      "held": "{{count}} places {{tier}} réservées pendant",
+      "timeLeft": "Encore {{time}} pour valider",
+      "stepSent": "Demande de paiement envoyée",
+      "stepPin": "En attente de votre code",
+      "stepTickets": "Billets émis avec code QR",
+      "noPrompt": "Pas de notification ? Composez ",
+      "noPromptEnd": " pour valider les paiements en attente.",
+      "resend": "J’ai validé, vérifier",
+      "cancel": "Annuler le paiement"
+    },
+    "success": {
+      "title": "C’est réservé",
+      "body": "{{count}} billets {{tier}} enregistrés dans l’app et par e-mail.",
+      "ticketOf": "{{tier}} · Billet {{index}} sur {{total}}",
+      "qrLabel": "Code QR du billet {{code}}",
+      "paid": "{{amount}} payés avec {{method}} · Réf. {{reference}}",
+      "viewTickets": "Voir mes billets",
+      "addToCalendar": "Ajouter au calendrier"
+    },
+    "failed": {
+      "eyebrow": "Paiement non abouti",
+      "title": "Vos places ont été libérées",
+      "expiredBody": "La demande a expiré après 10 minutes sans votre code. Vous n’avez pas été débité.",
+      "declinedBody": "Le paiement a été refusé ou annulé. Vous n’avez pas été débité.",
+      "sellingFast": "{{tier}} part vite : plus que {{count}}. Réessayez maintenant pour réserver de nouvelles places.",
+      "retry": "Réessayer avec {{method}}",
+      "switch": "Payer avec {{method}}",
+      "backToEvent": "Retour à l’événement"
+    }
   }
 }
