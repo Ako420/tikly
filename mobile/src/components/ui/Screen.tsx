@@ -1,7 +1,9 @@
+import { StatusBar } from 'expo-status-bar';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cn } from '@/lib/cn';
+import { useTheme } from '@/theme';
 
 type ScreenProps = {
   children: ReactNode;
@@ -11,6 +13,7 @@ type ScreenProps = {
 
 export function Screen({ children, className, edges = ['top', 'bottom'] }: ScreenProps) {
   const insets = useSafeAreaInsets();
+  const { scheme } = useTheme();
 
   return (
     <View
@@ -20,6 +23,7 @@ export function Screen({ children, className, edges = ['top', 'bottom'] }: Scree
         paddingBottom: edges.includes('bottom') ? insets.bottom : 0,
       }}
     >
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       {children}
     </View>
   );

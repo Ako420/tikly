@@ -13,8 +13,13 @@ export const typography = {
   display: { fontFamily: fontFamily.extrabold, fontSize: 32, lineHeight: 36, letterSpacing: -0.8 },
   title: { fontFamily: fontFamily.extrabold, fontSize: 17, lineHeight: 20 },
   subtitle: { fontFamily: fontFamily.bold, fontSize: 15, lineHeight: 20 },
+  subheading: { fontFamily: fontFamily.bold, fontSize: 16, lineHeight: 22 },
   amount: { fontFamily: fontFamily.extrabold, fontSize: 16, lineHeight: 20 },
   body: { fontFamily: fontFamily.regular, fontSize: 16, lineHeight: 24 },
+  bodySm: { fontFamily: fontFamily.regular, fontSize: 14, lineHeight: 20 },
+  bodySmStrong: { fontFamily: fontFamily.semibold, fontSize: 14, lineHeight: 20 },
+  link: { fontFamily: fontFamily.bold, fontSize: 14, lineHeight: 20 },
+  input: { fontFamily: fontFamily.regular, fontSize: 16 },
   button: { fontFamily: fontFamily.bold, fontSize: 16, lineHeight: 20 },
   label: { fontFamily: fontFamily.bold, fontSize: 13, lineHeight: 18 },
   caption: { fontFamily: fontFamily.regular, fontSize: 13, lineHeight: 18 },
@@ -32,6 +37,7 @@ export const typography = {
     letterSpacing: 1.1,
     textTransform: 'uppercase',
   },
+  tag: { fontFamily: fontFamily.semibold, fontSize: 12, lineHeight: 16 },
   micro: { fontFamily: fontFamily.semibold, fontSize: 11, lineHeight: 14 },
 } satisfies Record<string, TextStyle>;
 

@@ -14,10 +14,15 @@ const lookup = (dictionary: Record<string, unknown>, key: string): string | unde
   return typeof value === 'string' ? value : undefined;
 };
 
+type TranslateParams = Record<string, string | number>;
+
+const interpolate = (template: string, params?: TranslateParams) =>
+  params ? template.replace(/\{\{(\w+)\}\}/g, (match, name: string) => (name in params ? String(params[name]) : match)) : template;
+
 type I18nValue = {
   language: Language;
   setLanguage: (language: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: TranslateParams) => string;
 };
 
 const I18nContext = createContext<I18nValue | null>(null);
@@ -26,7 +31,8 @@ export function I18nProvider({ children, initialLanguage = 'en' }: { children: R
   const [language, setLanguage] = useState<Language>(initialLanguage);
 
   const t = useCallback(
-    (key: string) => lookup(dictionaries[language], key) ?? lookup(dictionaries.en, key) ?? key,
+    (key: string, params?: TranslateParams) =>
+      interpolate(lookup(dictionaries[language], key) ?? lookup(dictionaries.en, key) ?? key, params),
     [language],
   );
 

@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useRef, useState, type ReactNode } from 'react';
 import {
@@ -140,8 +141,8 @@ export default function Onboarding() {
           getLabel={(index) => t(`onboarding.${slides[index].key}.eyebrow`)}
         />
         <View className="gap-3">
-          <Button label={t('onboarding.getStarted')} />
-          <Button label={t('onboarding.haveAccount')} variant="outline" />
+          <Button label={t('onboarding.getStarted')} onPress={() => router.push('/sign-up')} />
+          <Button label={t('onboarding.haveAccount')} variant="outline" onPress={() => router.push('/login')} />
         </View>
       </View>
     </View>

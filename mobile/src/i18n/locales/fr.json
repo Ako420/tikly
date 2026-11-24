@@ -1,7 +1,10 @@
 {
   "common": {
     "appName": "tikly",
-    "language": "Langue"
+    "language": "Langue",
+    "back": "Retour",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "splash": {
     "tagline": "Événements · Billets · Entrée",
@@ -46,6 +49,74 @@
         "title": "Makossa Night Live",
         "meta": "VIP · TK-7Q4M-21"
       }
+    }
+  },
+  "auth": {
+    "logIn": "Se connecter",
+    "continueWithGoogle": "Continuer avec Google",
+    "roles": {
+      "attendee": {
+        "title": "Participant",
+        "description": "Découvrez des événements et achetez des billets"
+      },
+      "organizer": {
+        "title": "Organisateur",
+        "description": "Créez des événements, vendez des billets, gérez l’entrée",
+        "tag": "Tableau de bord web"
+      },
+      "provider": {
+        "title": "Prestataire",
+        "description": "Louez salles, chaises, bâches et sonorisation",
+        "tag": "Vérification d’identité"
+      },
+      "exhibitor": {
+        "title": "Exposant",
+        "description": "Réservez des stands lors d’événements",
+        "tag": "Tableau de bord web"
+      }
+    },
+    "fields": {
+      "fullName": "Nom complet",
+      "email": "E-mail",
+      "phone": "Numéro de téléphone",
+      "password": "Mot de passe",
+      "identifier": "E-mail ou numéro de téléphone"
+    },
+    "signUp": {
+      "stepRole": "Étape 1 sur 2",
+      "roleTitle": "Comment utiliserez-vous tikly ?",
+      "roleBody": "Choisissez un rôle pour ce compte. Vous pourrez créer un autre compte plus tard.",
+      "continueAs": "Continuer en tant que {{role}}",
+      "stepDetails": "Étape 2 sur 2 · {{role}}",
+      "detailsTitle": "Créez votre compte",
+      "orEmail": "ou inscrivez-vous par e-mail",
+      "phoneHint": "Utilisez votre numéro MoMo ou Orange Money",
+      "passwordPlaceholder": "Au moins {{min}} caractères",
+      "termsPrefix": "J’accepte les ",
+      "terms": "Conditions",
+      "termsJoin": " et la ",
+      "privacy": "Politique de confidentialité",
+      "createAccount": "Créer le compte",
+      "haveAccount": "Vous avez déjà un compte ? "
+    },
+    "login": {
+      "eyebrow": "Ravi de vous revoir",
+      "title": "Bon retour",
+      "body": "Connectez-vous pour voir vos billets et vos prochains événements.",
+      "forgot": "Mot de passe oublié ?",
+      "or": "ou",
+      "gateStaff": "Agent d’accueil ? Connexion scanner",
+      "newHere": "Nouveau sur tikly ? ",
+      "createAccount": "Créer un compte"
+    },
+    "errors": {
+      "nameRequired": "Saisissez votre nom complet",
+      "emailInvalid": "Saisissez un e-mail comme nom@exemple.com",
+      "phoneInvalid": "Saisissez un numéro à 9 chiffres commençant par 6",
+      "passwordShort": "Utilisez au moins {{min}} caractères",
+      "termsRequired": "Acceptez les Conditions et la Politique de confidentialité pour continuer",
+      "identifierInvalid": "Saisissez votre e-mail ou un numéro à 9 chiffres",
+      "passwordRequired": "Saisissez votre mot de passe"
     }
   }
 }

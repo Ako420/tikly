@@ -1,7 +1,10 @@
 {
   "common": {
     "appName": "tikly",
-    "language": "Language"
+    "language": "Language",
+    "back": "Back",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "splash": {
     "tagline": "Events · Tickets · Entry",
@@ -46,6 +49,74 @@
         "title": "Makossa Night Live",
         "meta": "VIP · TK-7Q4M-21"
       }
+    }
+  },
+  "auth": {
+    "logIn": "Log in",
+    "continueWithGoogle": "Continue with Google",
+    "roles": {
+      "attendee": {
+        "title": "Attendee",
+        "description": "Discover events and buy tickets"
+      },
+      "organizer": {
+        "title": "Organizer",
+        "description": "Create events, sell tickets, run the gate",
+        "tag": "Web dashboard"
+      },
+      "provider": {
+        "title": "Service provider",
+        "description": "Rent out halls, chairs, canopies, sound",
+        "tag": "ID check"
+      },
+      "exhibitor": {
+        "title": "Exhibitor",
+        "description": "Book display slots at events",
+        "tag": "Web dashboard"
+      }
+    },
+    "fields": {
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone number",
+      "password": "Password",
+      "identifier": "Email or phone number"
+    },
+    "signUp": {
+      "stepRole": "Step 1 of 2",
+      "roleTitle": "How will you use tikly?",
+      "roleBody": "Pick one role for this account. You can create another account later.",
+      "continueAs": "Continue as {{role}}",
+      "stepDetails": "Step 2 of 2 · {{role}}",
+      "detailsTitle": "Create your account",
+      "orEmail": "or sign up with email",
+      "phoneHint": "Use your MoMo or Orange Money number",
+      "passwordPlaceholder": "At least {{min}} characters",
+      "termsPrefix": "I agree to the ",
+      "terms": "Terms",
+      "termsJoin": " and ",
+      "privacy": "Privacy Policy",
+      "createAccount": "Create account",
+      "haveAccount": "Already have an account? "
+    },
+    "login": {
+      "eyebrow": "Good to see you",
+      "title": "Welcome back",
+      "body": "Log in to see your tickets and upcoming events.",
+      "forgot": "Forgot password?",
+      "or": "or",
+      "gateStaff": "Gate staff? Open scanner login",
+      "newHere": "New to tikly? ",
+      "createAccount": "Create an account"
+    },
+    "errors": {
+      "nameRequired": "Enter your full name",
+      "emailInvalid": "Enter an email like name@example.com",
+      "phoneInvalid": "Enter a 9-digit number that starts with 6",
+      "passwordShort": "Use at least {{min}} characters",
+      "termsRequired": "Accept the Terms and Privacy Policy to continue",
+      "identifierInvalid": "Enter your email or a 9-digit phone number",
+      "passwordRequired": "Enter your password"
     }
   }
 }
