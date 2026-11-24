@@ -18,6 +18,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="home" />
       <Tabs.Screen name="explore" />
       <Tabs.Screen name="tickets" />
+      <Tabs.Screen name="my-events" />
       <Tabs.Screen name="marketplace" />
       <Tabs.Screen name="bookings" />
       <Tabs.Screen name="requests" />

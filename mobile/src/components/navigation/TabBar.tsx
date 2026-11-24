@@ -24,6 +24,7 @@ const tabIcons: Record<string, { active: IconName; inactive: IconName }> = {
   explore: { active: 'search', inactive: 'search-outline' },
   tickets: { active: 'ticket', inactive: 'ticket-outline' },
   profile: { active: 'person', inactive: 'person-outline' },
+  'my-events': { active: 'calendar', inactive: 'calendar-outline' },
   marketplace: { active: 'bag-handle', inactive: 'bag-handle-outline' },
   bookings: { active: 'clipboard', inactive: 'clipboard-outline' },
   requests: { active: 'file-tray-full', inactive: 'file-tray-full-outline' },

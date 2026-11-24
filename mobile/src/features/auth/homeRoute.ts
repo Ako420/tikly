@@ -2,14 +2,14 @@ import type { User, UserRole } from './api';
 
 const HOME_BY_ROLE: Partial<Record<UserRole, string>> = {
   staff: '/gate',
-  organizer: '/marketplace',
+  organizer: '/my-events',
   provider: '/requests',
   exhibitor: '/slot-events',
 };
 
 export const TABS_BY_ROLE: Partial<Record<UserRole, string[]>> = {
   attendee: ['home', 'explore', 'tickets', 'marketplace', 'profile'],
-  organizer: ['marketplace', 'bookings', 'profile'],
+  organizer: ['my-events', 'marketplace', 'bookings', 'profile'],
   provider: ['requests', 'listings', 'explore', 'marketplace', 'earnings', 'profile'],
   exhibitor: ['slot-events', 'my-slots', 'marketplace', 'profile'],
 };
