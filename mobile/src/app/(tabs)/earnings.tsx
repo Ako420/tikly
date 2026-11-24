@@ -9,6 +9,7 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 type Period = 'month' | 'year' | 'all';
@@ -21,6 +22,7 @@ const periodStart = (period: Period) => {
 };
 
 export default function Earnings() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const errorMessage = useApiErrorMessage();
@@ -40,7 +42,7 @@ export default function Earnings() {
   return (
     <Screen edges={['top']}>
       <ScrollView
-        contentContainerClassName="gap-5 px-6 pb-8 pt-3"
+        contentContainerClassName="gap-5 px-6 pb-8 pt-3" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         refreshControl={<RefreshControl refreshing={earnings.loading && Boolean(earnings.data)} onRefresh={earnings.reload} tintColor={colors.accentText} />}
       >
         <ScreenTitle eyebrow={t('provider.earnings.eyebrow')} title={t('provider.earnings.title')} />

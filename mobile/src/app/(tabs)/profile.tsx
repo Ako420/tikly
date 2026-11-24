@@ -17,12 +17,14 @@ import { isSignUpRole } from '@/features/auth/roles';
 import { HOME_CITIES, setHomeCity, useHomeCity } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { toLocalCameroonNumber } from '@/lib/validation';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 const formatPhone = (phone: string) =>
   toLocalCameroonNumber(phone).replace(/^(\d)(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5');
 
 export default function Profile() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { user, signOut, setUser } = useAuth();
@@ -45,7 +47,7 @@ export default function Profile() {
 
   return (
     <Screen edges={['top']}>
-      <ScrollView contentContainerClassName="gap-[18px] px-6 pb-8" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="gap-[18px] px-6 pb-8" contentContainerStyle={{ paddingBottom: tabBarSpace }} showsVerticalScrollIndicator={false}>
         <View className="h-14 justify-center">
           <Text variant="headline" accessibilityRole="header">
             {t('profile.title')}

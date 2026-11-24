@@ -14,11 +14,13 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { formatDateRange } from '@/lib/dates';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 const FEW_LEFT = 5;
 
 export default function SlotEvents() {
+  const tabBarSpace = useTabBarSpace();
   const { t, language } = useTranslation();
   const { colors } = useTheme();
   const { user } = useAuth();
@@ -75,6 +77,7 @@ export default function SlotEvents() {
           <ScreenTitle eyebrow={[user?.name, t('exhibitor.role')].filter(Boolean).join(' · ')} title={t('exhibitor.eventsTitle')} />
         }
         contentContainerClassName="gap-4 px-6 pb-8 pt-3"
+        contentContainerStyle={{ paddingBottom: tabBarSpace }}
         refreshControl={<RefreshControl refreshing={events.loading && items.length > 0} onRefresh={events.reload} tintColor={colors.accentText} />}
         renderItem={({ item }) => renderEvent(item)}
         ListEmptyComponent={

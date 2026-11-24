@@ -20,6 +20,7 @@ import { useApiErrorMessage } from '@/lib/api';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useNow } from '@/lib/useNow';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { palette, useTheme } from '@/theme';
 
 const monthStart = (offset = 0) => {
@@ -40,6 +41,7 @@ export default function ProviderRequests() {
 }
 
 function Dashboard({ provider }: { provider: MyProvider }) {
+  const tabBarSpace = useTabBarSpace();
   const { t, language } = useTranslation();
   const { colors } = useTheme();
   const format = useMarketplaceFormat();
@@ -109,7 +111,7 @@ function Dashboard({ provider }: { provider: MyProvider }) {
   return (
     <>
       <ScrollView
-        contentContainerClassName="gap-5 px-6 pb-8 pt-3"
+        contentContainerClassName="gap-5 px-6 pb-8 pt-3" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         refreshControl={<RefreshControl refreshing={bookings.loading && Boolean(bookings.data)} onRefresh={reloadAll} tintColor={colors.accentText} />}
       >
         <View className="flex-row items-center gap-3">

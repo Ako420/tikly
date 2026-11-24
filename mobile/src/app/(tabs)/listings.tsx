@@ -7,9 +7,11 @@ import { Screen } from '@/components/ui/Screen';
 import { marketplaceApi } from '@/features/marketplace/api';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useAsync } from '@/lib/useAsync';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 export default function Listings() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const services = useAsync(() => marketplaceApi.myServices(), 'my-services');
@@ -21,7 +23,7 @@ export default function Listings() {
         data={items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<ScreenTitle eyebrow={t('provider.listings.eyebrow')} title={t('provider.listings.title')} />}
-        contentContainerClassName="gap-3 px-6 pb-8 pt-3"
+        contentContainerClassName="gap-3 px-6 pb-8 pt-3" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         refreshControl={<RefreshControl refreshing={services.loading && items.length > 0} onRefresh={services.reload} tintColor={colors.accentText} />}
         renderItem={({ item }) => <ServiceCard service={item} onPress={() => router.push({ pathname: '/services/[id]', params: { id: item.id } })} />}
         ListEmptyComponent={

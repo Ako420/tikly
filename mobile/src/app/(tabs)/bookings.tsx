@@ -15,12 +15,14 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { useTheme } from '@/theme';
 
 const WAITING = ['requested'];
 const DONE = ['paid', 'completed'];
 
 export default function Bookings() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const format = useMarketplaceFormat();
@@ -167,7 +169,7 @@ export default function Bookings() {
         data={ordered}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={header}
-        contentContainerClassName="gap-3 px-6 pb-8 pt-2"
+        contentContainerClassName="gap-3 px-6 pb-8 pt-2" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         refreshControl={<RefreshControl refreshing={bookings.loading && items.length > 0} onRefresh={reload} tintColor={colors.accentText} />}
         renderItem={({ item }) => renderBooking(item)}
         ListEmptyComponent={

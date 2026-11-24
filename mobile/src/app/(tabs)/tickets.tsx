@@ -13,11 +13,13 @@ import { REMINDER_HOURS } from '@/features/tickets/types';
 import { useMyTickets } from '@/features/tickets/useMyTickets';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
+import { useTabBarSpace } from '@/components/navigation/TabBar';
 import { palette, useTheme } from '@/theme';
 
 type Segment = 'upcoming' | 'past';
 
 export default function Tickets() {
+  const tabBarSpace = useTabBarSpace();
   const { t } = useTranslation();
   const { colors } = useTheme();
   const errorMessage = useApiErrorMessage();
@@ -75,7 +77,7 @@ export default function Tickets() {
       <FlatList
         data={bundles}
         keyExtractor={(bundle) => bundle.id}
-        contentContainerClassName="grow gap-3.5 px-6 pb-6 pt-[18px]"
+        contentContainerClassName="grow gap-3.5 px-6 pb-6 pt-[18px]" contentContainerStyle={{ paddingBottom: tabBarSpace }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           env.useSampleData ? undefined : <RefreshControl refreshing={loading} onRefresh={refresh} tintColor={colors.accentText} />

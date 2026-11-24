@@ -1,12 +1,21 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { BlurView } from 'expo-blur';
+import * as Haptics from 'expo-haptics';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
-import type { ComponentProps } from 'react';
-import { Pressable, View } from 'react-native';
-import { Text } from '@/components/ui/Text';
+import { useEffect, useState, type ComponentProps } from 'react';
+import { Pressable, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { tabsFor } from '@/features/auth/homeRoute';
 import { useTranslation } from '@/i18n/I18nProvider';
-import { useTheme } from '@/theme';
+import { useTheme, withAlpha } from '@/theme';
 
 type IconName = ComponentProps<typeof Ionicons>['name'];
 
@@ -24,44 +33,180 @@ const tabIcons: Record<string, { active: IconName; inactive: IconName }> = {
   'my-slots': { active: 'storefront', inactive: 'storefront-outline' },
 };
 
+const BAR_HEIGHT = 64;
+const BAR_SIDE_GUTTER = 20;
+const NOTCH_SIZE = 74;
+const BUBBLE_SIZE = 54;
+const NOTCH_RISE = 26;
+const SPRING = { damping: 16, stiffness: 180, mass: 0.8 };
+
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, scheme } = useTheme();
   const { user } = useAuth();
   const visible = tabsFor(user?.role);
+  const routes = state.routes.filter((route) => visible.includes(route.name));
+  const activeRoute = state.routes[state.index];
+  const activeSlot = Math.max(
+    routes.findIndex((route) => route.key === activeRoute?.key),
+    0,
+  );
+
+  const [barWidth, setBarWidth] = useState(0);
+  const slotWidth = routes.length ? barWidth / routes.length : 0;
+  const offsetX = useSharedValue(0);
+  const pop = useSharedValue(1);
+
+  useEffect(() => {
+    if (!slotWidth) return;
+    offsetX.value = withSpring(slotWidth * activeSlot + slotWidth / 2, SPRING);
+    pop.value = withSequence(withTiming(0.7, { duration: 90 }), withSpring(1, SPRING));
+  }, [activeSlot, slotWidth, offsetX, pop]);
+
+  const notchStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: offsetX.value - NOTCH_SIZE / 2 }],
+  }));
+
+  const bubbleStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: offsetX.value - BUBBLE_SIZE / 2 }, { scale: pop.value }],
+  }));
+
+  const onLayout = (event: LayoutChangeEvent) => setBarWidth(event.nativeEvent.layout.width);
+  const activeIcons = tabIcons[activeRoute?.name ?? ''] ?? {
+    active: 'ellipse',
+    inactive: 'ellipse-outline',
+  };
 
   return (
     <View
-      className="flex-row items-start justify-around border-t border-border bg-surface-raised px-4 pt-2.5"
-      style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+      pointerEvents="box-none"
+      style={{
+        position: 'absolute',
+        left: BAR_SIDE_GUTTER,
+        right: BAR_SIDE_GUTTER,
+        bottom: Math.max(insets.bottom, 12),
+      }}
     >
-      {state.routes.map((route, index) => {
-        if (!visible.includes(route.name)) return null;
-        const focused = state.index === index;
-        const icons = tabIcons[route.name] ?? { active: 'ellipse', inactive: 'ellipse-outline' };
-        const color = focused ? colors.accentText : colors.foregroundMuted;
-        const label = t(`tabs.${route.name}`);
+      <View
+        onLayout={onLayout}
+        style={{
+          height: BAR_HEIGHT,
+          borderRadius: BAR_HEIGHT / 2,
+          overflow: 'hidden',
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: withAlpha(colors.foreground, 0.18),
+          shadowColor: '#000',
+          shadowOpacity: 0.25,
+          shadowRadius: 18,
+          shadowOffset: { width: 0, height: 8 },
+          elevation: 12,
+        }}
+      >
+        <BlurView
+          intensity={60}
+          tint={scheme === 'dark' ? 'dark' : 'light'}
+          style={StyleSheet.absoluteFill}
+        />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: withAlpha(colors.surfaceRaised, 0.72) }]} />
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 16,
+            right: 16,
+            height: 1,
+            backgroundColor: withAlpha(colors.onPrimary, 0.25),
+          }}
+        />
+        <View className="flex-1 flex-row items-center">
+          {routes.map((route, slot) => {
+            const focused = slot === activeSlot;
+            const icons = tabIcons[route.name] ?? {
+              active: 'ellipse',
+              inactive: 'ellipse-outline',
+            };
+            const label = t(`tabs.${route.name}`);
 
-        return (
-          <Pressable
-            key={route.key}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: focused }}
-            accessibilityLabel={label}
-            onPress={() => {
-              const event = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-              if (!focused && !event.defaultPrevented) navigateToTab(route.key);
-            }}
-            onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
-            className="max-w-[72px] flex-1 items-center gap-1"
+            return (
+              <Pressable
+                key={route.key}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: focused }}
+                accessibilityLabel={label}
+                onPress={() => {
+                  const event = emitter.emit({
+                    type: 'tabPress',
+                    target: route.key,
+                    canPreventDefault: true,
+                  });
+                  if (!focused && !event.defaultPrevented) {
+                    Haptics.selectionAsync();
+                    navigateToTab(route.key);
+                  }
+                }}
+                onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
+                className="h-full flex-1 items-center justify-center"
+              >
+                <Ionicons
+                  name={icons.inactive}
+                  size={23}
+                  color={colors.foregroundMuted}
+                  style={{ opacity: focused ? 0 : 1 }}
+                />
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+
+      {barWidth ? (
+        <>
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              {
+                position: 'absolute',
+                left: 0,
+                top: -NOTCH_RISE - (NOTCH_SIZE - BUBBLE_SIZE) / 2,
+                width: NOTCH_SIZE,
+                height: NOTCH_SIZE,
+                borderRadius: NOTCH_SIZE / 2,
+                backgroundColor: colors.background,
+              },
+              notchStyle,
+            ]}
+          />
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              {
+                position: 'absolute',
+                left: 0,
+                top: -NOTCH_RISE,
+                width: BUBBLE_SIZE,
+                height: BUBBLE_SIZE,
+                borderRadius: BUBBLE_SIZE / 2,
+                backgroundColor: colors.accent,
+                alignItems: 'center',
+                justifyContent: 'center',
+                shadowColor: colors.accent,
+                shadowOpacity: 0.55,
+                shadowRadius: 14,
+                shadowOffset: { width: 0, height: 4 },
+                elevation: 10,
+              },
+              bubbleStyle,
+            ]}
           >
-            <Ionicons name={focused ? icons.active : icons.inactive} size={24} color={color} />
-            <Text variant="tag" numberOfLines={1} style={{ color }}>
-              {label}
-            </Text>
-          </Pressable>
-        );
-      })}
+            <Ionicons name={activeIcons.active} size={24} color={colors.onAccent} />
+          </Animated.View>
+        </>
+      ) : null}
     </View>
   );
+}
+
+export function useTabBarSpace() {
+  const insets = useSafeAreaInsets();
+  return Math.max(insets.bottom, 12) + BAR_HEIGHT + 24;
 }
