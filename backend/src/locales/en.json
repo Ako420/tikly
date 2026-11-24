@@ -20,6 +20,12 @@
     "RESET_TOKEN_INVALID": "This reset link is invalid or has expired. Request a new one.",
     "ACCOUNT_SUSPENDED": "Your account has been suspended. Contact support.",
     "ACCOUNT_DISABLED": "This account has been disabled.",
+    "GOOGLE_NOT_CONFIGURED": "Google sign-in is not available right now.",
+    "GOOGLE_TOKEN_INVALID": "Google sign-in failed. Please try again.",
+    "GOOGLE_EMAIL_UNVERIFIED": "Your Google account email is not verified.",
+    "GOOGLE_NOT_ALLOWED": "This account cannot sign in with Google. Use your password.",
+    "GOOGLE_ACCOUNT_MISMATCH": "This email is already linked to a different Google account.",
+    "GOOGLE_SIGNUP_INCOMPLETE": "Choose an account type and enter your phone number to finish signing up.",
     "EVENT_NOT_EDITABLE": "This event can no longer be edited.",
     "EVENT_NEEDS_TIERS": "Add at least one ticket tier before submitting the event.",
     "EVENT_NOT_PUBLISHED": "This event is not open for sale.",
@@ -107,6 +113,9 @@
       },
       "pushToken": {
         "invalid": "This push token is not a valid Expo push token."
+      },
+      "idToken": {
+        "required": "The Google sign-in token is missing."
       }
     },
     "event": {

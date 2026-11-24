@@ -1,16 +1,18 @@
 import bcrypt from 'bcrypt';
 import { env } from '../config/env';
 import { ACCESS_TOKEN_TTL_SECONDS, BCRYPT_ROUNDS, PASSWORD_RESET_MINUTES } from '../config/constants';
+import { verifyGoogleIdToken } from '../lib/google';
 import { sendMail, type MailTemplate, type TemplateData } from '../lib/mailer';
 import { UserModel, type UserDoc } from '../model/user.model';
 import type {
   ForgotPasswordBody,
+  GoogleBody,
   LoginBody,
   RegisterBody,
   ResetPasswordBody,
   UpdateMeBody,
 } from '../schema/auth.schema';
-import type { Language, Role, UserStatus } from '../types/enums';
+import { SELF_SIGNUP_ROLES, type Language, type Role, type UserStatus } from '../types/enums';
 import { assertActive } from '../util/accountStatus';
 import { AppError } from '../util/AppError';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../util/jwt';
@@ -58,6 +60,48 @@ export async function login({ identifier, password }: LoginBody) {
   if (!user || !matches) throw AppError.unauthorized('INVALID_CREDENTIALS');
   assertActive(user.status as UserStatus);
   return startSession(user);
+}
+
+const canUseGoogle = (role: string) => (SELF_SIGNUP_ROLES as readonly string[]).includes(role);
+
+export async function signInWithGoogle(input: GoogleBody) {
+  const profile = await verifyGoogleIdToken(input.idToken);
+
+  const linked = await UserModel.findOne({ googleId: profile.googleId });
+  if (linked) {
+    assertActive(linked.status as UserStatus);
+    return { ...(await startSession(linked)), isNewUser: false };
+  }
+
+  const byEmail = await UserModel.findOne({ email: profile.email });
+  if (byEmail) {
+    if (!canUseGoogle(byEmail.role)) throw AppError.forbidden('GOOGLE_NOT_ALLOWED');
+    if (byEmail.googleId) throw AppError.conflict('GOOGLE_ACCOUNT_MISMATCH');
+    assertActive(byEmail.status as UserStatus);
+    const result = await UserModel.updateOne(
+      { _id: byEmail._id, googleId: { $exists: false } },
+      { googleId: profile.googleId },
+    );
+    if (result.modifiedCount === 0) throw AppError.conflict('GOOGLE_ACCOUNT_MISMATCH');
+    byEmail.googleId = profile.googleId;
+    return { ...(await startSession(byEmail)), isNewUser: false };
+  }
+
+  const missing = [!input.role && 'role', !input.phone && 'phone'].filter(Boolean);
+  if (!input.role || !input.phone) {
+    throw AppError.badRequest('GOOGLE_SIGNUP_INCOMPLETE', { missing, email: profile.email, name: profile.name });
+  }
+  const language = input.language ?? 'en';
+  const user = await UserModel.create({
+    name: profile.name,
+    email: profile.email,
+    phone: input.phone,
+    role: input.role,
+    language,
+    googleId: profile.googleId,
+  });
+  sendInBackground(profile.email, 'account_welcome', language, { name: user.name, role: input.role });
+  return { ...(await startSession(user)), isNewUser: true };
 }
 
 export async function refresh(refreshToken: string) {

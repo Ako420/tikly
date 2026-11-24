@@ -20,6 +20,12 @@
     "RESET_TOKEN_INVALID": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
     "ACCOUNT_SUSPENDED": "Votre compte a été suspendu. Contactez le support.",
     "ACCOUNT_DISABLED": "Ce compte a été désactivé.",
+    "GOOGLE_NOT_CONFIGURED": "La connexion avec Google n'est pas disponible pour le moment.",
+    "GOOGLE_TOKEN_INVALID": "La connexion avec Google a échoué. Veuillez réessayer.",
+    "GOOGLE_EMAIL_UNVERIFIED": "L'adresse e-mail de votre compte Google n'est pas vérifiée.",
+    "GOOGLE_NOT_ALLOWED": "Ce compte ne peut pas se connecter avec Google. Utilisez votre mot de passe.",
+    "GOOGLE_ACCOUNT_MISMATCH": "Cet e-mail est déjà lié à un autre compte Google.",
+    "GOOGLE_SIGNUP_INCOMPLETE": "Choisissez un type de compte et saisissez votre numéro de téléphone pour terminer l'inscription.",
     "EVENT_NOT_EDITABLE": "Cet événement ne peut plus être modifié.",
     "EVENT_NEEDS_TIERS": "Ajoutez au moins une catégorie de billets avant de soumettre l'événement.",
     "EVENT_NOT_PUBLISHED": "Cet événement n'est pas ouvert à la vente.",
@@ -107,6 +113,9 @@
       },
       "pushToken": {
         "invalid": "Ce jeton n'est pas un jeton de notification Expo valide."
+      },
+      "idToken": {
+        "required": "Le jeton de connexion Google est manquant."
       }
     },
     "event": {

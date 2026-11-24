@@ -63,6 +63,13 @@ export const updateMeBody = z
 
 export const pushTokenBody = z.object({ token: expoPushToken });
 
+export const googleBody = z.object({
+  idToken: requiredString('validation.auth.idToken.required'),
+  role: z.enum(SELF_SIGNUP_ROLES, 'validation.user.role.invalid').optional(),
+  phone: camPhone.optional(),
+  language: language.optional(),
+});
+
 export type RegisterBody = z.infer<typeof registerBody>;
 export type LoginBody = z.infer<typeof loginBody>;
 export type RefreshBody = z.infer<typeof refreshBody>;
@@ -71,3 +78,4 @@ export type ForgotPasswordBody = z.infer<typeof forgotPasswordBody>;
 export type ResetPasswordBody = z.infer<typeof resetPasswordBody>;
 export type UpdateMeBody = z.infer<typeof updateMeBody>;
 export type PushTokenBody = z.infer<typeof pushTokenBody>;
+export type GoogleBody = z.infer<typeof googleBody>;

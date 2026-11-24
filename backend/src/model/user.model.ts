@@ -24,7 +24,17 @@ const userSchema = new Schema(
       trim: true,
       match: [PHONE_REGEX, 'validation.user.phone.invalid'],
     },
-    passwordHash: { type: String, required: [true, 'validation.user.passwordHash.required'], select: false },
+    passwordHash: {
+      type: String,
+      required: [
+        function (this: { googleId?: string | null }) {
+          return !this.googleId;
+        },
+        'validation.user.passwordHash.required',
+      ],
+      select: false,
+    },
+    googleId: { type: String, trim: true },
     role: {
       type: String,
       enum: { values: ROLES, message: 'validation.user.role.invalid' },
@@ -52,12 +62,15 @@ const userSchema = new Schema(
 
 userSchema.pre<UserDoc>('validate', function () {
   if (this.role !== 'staff' && !this.email) this.invalidate('email', 'validation.user.email.required');
-  if (this.role === 'staff' && !this.organizerId) this.invalidate('organizerId', 'validation.user.organizerId.required');
-  if (this.role !== 'staff' && this.organizerId) this.invalidate('organizerId', 'validation.user.organizerId.notAllowed');
+  if (this.role === 'staff' && !this.organizerId)
+    this.invalidate('organizerId', 'validation.user.organizerId.required');
+  if (this.role !== 'staff' && this.organizerId)
+    this.invalidate('organizerId', 'validation.user.organizerId.notAllowed');
 });
 
 userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { email: { $type: 'string' } } });
 userSchema.index({ phone: 1 }, { unique: true });
+userSchema.index({ googleId: 1 }, { unique: true, partialFilterExpression: { googleId: { $type: 'string' } } });
 userSchema.index({ role: 1, status: 1 });
 userSchema.index({ organizerId: 1 }, { sparse: true });
 userSchema.index({ passwordResetTokenHash: 1 }, { sparse: true });

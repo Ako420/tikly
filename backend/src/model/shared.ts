@@ -4,7 +4,7 @@ export const PHONE_REGEX = /^(\+?237)?6\d{8}$/;
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const URL_REGEX = /^https?:\/\/\S+$/;
 
-const HIDDEN_FIELDS = ['__v', 'passwordHash', 'refreshTokenHash', 'passwordResetTokenHash', 'passwordResetExpiresAt'];
+const HIDDEN_FIELDS = ['__v', 'passwordHash', 'googleId', 'refreshTokenHash', 'passwordResetTokenHash', 'passwordResetExpiresAt'];
 
 export const schemaOptions = {
   timestamps: true,

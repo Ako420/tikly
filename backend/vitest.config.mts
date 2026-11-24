@@ -12,6 +12,7 @@ export default defineConfig({
       MONGO_URI: 'mongodb://127.0.0.1:1/tests-must-use-the-memory-server',
       JWT_ACCESS_SECRET: 'tests-access-secret-that-is-at-least-32-chars',
       JWT_REFRESH_SECRET: 'tests-refresh-secret-that-is-at-least-32-chars',
+      GOOGLE_CLIENT_IDS: 'web.apps.googleusercontent.com, android.apps.googleusercontent.com,ios.apps.googleusercontent.com',
       CLOUDINARY_CLOUD_NAME: 'tests-must-mock-cloudinary',
       CLOUDINARY_API_KEY: '000000000000000',
       CLOUDINARY_API_SECRET: 'tests-must-mock-cloudinary-secret',

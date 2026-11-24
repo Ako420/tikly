@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express';
 import type {
   ForgotPasswordBody,
+  GoogleBody,
   LoginBody,
   LogoutBody,
   PushTokenBody,
@@ -18,6 +19,12 @@ export const register: RequestHandler = async (req, res) => {
 
 export const login: RequestHandler = async (req, res) => {
   ok(res, await authService.login(req.body as LoginBody));
+};
+
+export const google: RequestHandler = async (req, res) => {
+  const { isNewUser, ...session } = await authService.signInWithGoogle(req.body as GoogleBody);
+  if (isNewUser) created(res, { ...session, isNewUser });
+  else ok(res, { ...session, isNewUser });
 };
 
 export const refresh: RequestHandler = async (req, res) => {

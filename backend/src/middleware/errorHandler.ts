@@ -14,6 +14,7 @@ type BodyParserError = Error & { type: string; status?: number };
 const DUPLICATE_CODES: Record<string, string> = {
   email: 'EMAIL_TAKEN',
   phone: 'PHONE_TAKEN',
+  googleId: 'GOOGLE_ACCOUNT_MISMATCH',
   'eventId,name': 'TIER_EXISTS',
   'staffId,eventId': 'STAFF_ALREADY_ASSIGNED',
   'targetId,authorId': 'REVIEW_EXISTS',

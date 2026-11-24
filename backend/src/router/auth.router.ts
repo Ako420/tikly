@@ -9,6 +9,7 @@ export const authRouter = Router();
 
 authRouter.post('/register', authLimiter, validate({ body: s.registerBody }), ctrl.register);
 authRouter.post('/login', authLimiter, validate({ body: s.loginBody }), ctrl.login);
+authRouter.post('/google', authLimiter, validate({ body: s.googleBody }), ctrl.google);
 authRouter.post('/refresh', validate({ body: s.refreshBody }), ctrl.refresh);
 authRouter.post('/logout', authenticate, validate({ body: s.logoutBody }), ctrl.logout);
 authRouter.post('/forgot-password', authLimiter, validate({ body: s.forgotPasswordBody }), ctrl.forgotPassword);
