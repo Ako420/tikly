@@ -13,6 +13,12 @@ export default defineConfig({
       CLOUDINARY_CLOUD_NAME: 'tests-must-mock-cloudinary',
       CLOUDINARY_API_KEY: '000000000000000',
       CLOUDINARY_API_SECRET: 'tests-must-mock-cloudinary-secret',
+      APP_WEB_URL: 'https://tikly.test',
+      SMTP_HOST: 'smtp.tests-must-mock-mail.invalid',
+      SMTP_PORT: '587',
+      SMTP_USER: 'tests@tikly.test',
+      SMTP_PASS: 'tests-must-mock-mail',
+      MAIL_FROM: 'Tikly <tests@tikly.test>',
     },
   },
 });

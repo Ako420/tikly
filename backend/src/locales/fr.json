@@ -12,6 +12,7 @@
     "FILE_TOO_LARGE": "Le fichier est trop volumineux. Les images peuvent faire jusqu’à 5 Mo et les documents jusqu’à 10 Mo.",
     "INVALID_FILE_TYPE": "Ce type de fichier n’est pas autorisé. Utilisez JPEG, PNG ou WebP pour les images, et PDF, JPEG ou PNG pour les documents.",
     "UPLOAD_FAILED": "Le fichier n’a pas pu être enregistré. Veuillez réessayer.",
+    "MAIL_FAILED": "L’e-mail n’a pas pu être envoyé. Veuillez réessayer plus tard.",
     "DUPLICATE": "Cet enregistrement existe déjà.",
     "EMAIL_TAKEN": "Un compte avec cette adresse e-mail existe déjà.",
     "PHONE_TAKEN": "Un compte avec ce numéro de téléphone existe déjà.",
@@ -531,6 +532,68 @@
         },
         "duplicate": "Deux catégories ne peuvent pas avoir la même clé."
       }
+    }
+  },
+  "email": {
+    "layout": {
+      "footer": "Vous recevez cet e-mail parce que vous avez un compte Tikly.",
+      "linkFallback": "Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :"
+    },
+    "common": {
+      "event": "Événement",
+      "when": "Quand",
+      "where": "Où",
+      "total": "Total payé",
+      "viewTickets": "Voir mes billets",
+      "ticketsOne": "{count} billet",
+      "ticketsMany": "{count} billets"
+    },
+    "roles": {
+      "attendee": "participant",
+      "organizer": "organisateur",
+      "provider": "prestataire de services",
+      "exhibitor": "exposant",
+      "staff": "personnel d’accueil",
+      "admin": "administrateur"
+    },
+    "tiers": {
+      "standard": "Billet Standard",
+      "vip": "Billet VIP",
+      "vvip": "Billet VVIP"
+    },
+    "account_welcome": {
+      "subject": "Bienvenue sur Tikly",
+      "heading": "Bienvenue, {name} !",
+      "intro": "Votre compte Tikly est prêt. Vous êtes inscrit en tant que {role}.",
+      "next": {
+        "attendee": "Découvrez les événements près de chez vous, achetez vos billets avec Mobile Money ou Orange Money et gardez vos billets QR dans l’application.",
+        "organizer": "Créez votre premier événement, ajoutez des catégories de billets et planifiez votre budget, votre liste de tâches, vos invités et votre programme. Soumettez-le pour validation quand vous êtes prêt.",
+        "provider": "Ajoutez les informations de votre entreprise et vos documents de vérification. Vos services apparaissent dans les annonces dès qu’un administrateur a vérifié votre entreprise.",
+        "exhibitor": "Parcourez les événements avec des emplacements d’exposition libres et réservez l’espace dont vous avez besoin.",
+        "staff": "Connectez-vous à l’application Tikly en mode scanner pour contrôler les billets aux événements qui vous sont attribués.",
+        "admin": "Examinez les événements et les vérifications de prestataires en attente depuis votre tableau de bord."
+      },
+      "action": "Ouvrir Tikly"
+    },
+    "password_reset": {
+      "subject": "Réinitialisez votre mot de passe Tikly",
+      "heading": "Bonjour {name},",
+      "intro": "Nous avons reçu une demande de réinitialisation du mot de passe de votre compte Tikly.",
+      "expiry": "Ce lien expire dans {minutes} minutes.",
+      "ignore": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Votre mot de passe reste inchangé.",
+      "action": "Choisir un nouveau mot de passe"
+    },
+    "ticket_purchased": {
+      "subject": "Vos billets pour {event}",
+      "heading": "Merci, {name} !",
+      "intro": "Votre paiement a été accepté. Voici vos {tickets} pour {event}.",
+      "attachment": "Chaque billet est joint en PDF avec son code QR. Présentez-le sur votre téléphone ou sur papier à l’entrée."
+    },
+    "reminder_24h": {
+      "subject": "Demain : {event}",
+      "heading": "À demain, {name} !",
+      "intro": "{event} commence dans environ 24 heures. Vous avez {tickets}.",
+      "tip": "Préparez votre code QR à l’entrée pour entrer plus vite."
     }
   }
 }

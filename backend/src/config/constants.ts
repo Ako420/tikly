@@ -16,3 +16,6 @@ export const DOCUMENT_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png'
 export const UPLOAD_FIELD = 'file';
 export const UPLOAD_FOLDERS = { events: 'events', services: 'services', documents: 'documents' } as const;
 export const DOCUMENT_URL_TTL_SECONDS = 10 * 60;
+
+export const APP_TIME_ZONE = 'Africa/Douala';
+export const PASSWORD_RESET_MINUTES = 60;
