@@ -1,7 +1,7 @@
 import { env } from '@/config/env';
 import { eventsApi } from '@/features/events/api';
 import { ApiError } from '@/lib/api';
-import { newIdempotencyKey, ordersApi, toIssuedTickets, toOrderStatus, type ApiOrder } from './api';
+import { newIdempotencyKey, ordersApi, toIssuedTickets, toOrderStatus, withQrTokens, type ApiOrder } from './api';
 import { detectPaymentMethod } from './paymentMethods';
 import { sampleOrders } from './sampleOrders';
 import { RESERVATION_MINUTES, type CreateTicketOrderInput, type TicketOrder } from './types';
@@ -47,7 +47,7 @@ async function contextFromOrder(order: ApiOrder): Promise<OrderContext> {
 }
 
 async function loadOrder(orderId: string, request: (id: string) => Promise<ApiOrder>) {
-  const order = await request(orderId);
+  const order = await withQrTokens(await request(orderId));
   let context = contexts.get(orderId);
   if (!context) {
     context = await contextFromOrder(order);
@@ -87,7 +87,9 @@ export async function createTicketOrder(input: CreateTicketOrderInput): Promise<
       input.holderName,
     );
   }
-  const order = await ordersApi.createTicketOrder(input, input.idempotencyKey ?? newIdempotencyKey());
+  const order = await withQrTokens(
+    await ordersApi.createTicketOrder(input, input.idempotencyKey ?? newIdempotencyKey()),
+  );
   contexts.set(order.id, context);
   return fromApi(order, context);
 }

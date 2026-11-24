@@ -2,47 +2,61 @@ import type { LocalizedText, TierName } from '@/features/events/types';
 import { api } from '@/lib/api';
 import type { TicketBundle } from './types';
 
-type ApiTicketOrder = {
+type ApiMyTicket = {
   id: string;
+  code: string;
+  qrToken: string;
+  status: 'valid' | 'checked_in' | 'cancelled' | 'refunded';
+  orderId: string;
+  holderName?: string;
+  tier: { id: string; name: TierName };
+  event: {
+    id: string;
+    title: LocalizedText;
+    startAt: string;
+    endAt?: string;
+    venue: string;
+    city: string;
+    coverUrl?: string;
+  } | null;
   createdAt: string;
-  event: { id: string; title: LocalizedText; startAt: string; venue: string; city: string } | null;
-  tickets: { id: string; code: string; tierId: string; qrToken?: string; holderName?: string }[];
 };
 
-type ApiTier = { id: string; name: TierName };
+const PAGE_LIMIT = 100;
+const HIDDEN_STATUSES: ApiMyTicket['status'][] = ['cancelled', 'refunded'];
 
-const MAX_ORDERS = 50;
-
-async function tierNames(eventIds: string[]) {
-  const entries = await Promise.all(
-    eventIds.map(async (eventId) => {
-      const tiers = await api.get<ApiTier[]>(`/events/${eventId}/tiers`).catch(() => [] as ApiTier[]);
-      return tiers.map((tier) => [tier.id, tier.name] as const);
-    }),
-  );
-  return new Map(entries.flat());
-}
+const listTickets = (when: 'upcoming' | 'past') =>
+  api.get<ApiMyTicket[]>('/me/tickets', { params: { when, limit: PAGE_LIMIT } });
 
 export async function listMyTicketBundles(holderName: string): Promise<TicketBundle[]> {
-  const { items } = await api.get<{ items: ApiTicketOrder[] }>('/me/orders', {
-    params: { type: 'ticket', status: 'paid', limit: MAX_ORDERS },
-  });
-  const orders = items.filter((order) => order.event && order.tickets.length > 0);
-  const names = await tierNames([...new Set(orders.map((order) => order.event!.id))]);
+  const [upcoming, past] = await Promise.all([listTickets('upcoming'), listTickets('past')]);
+  const bundles = new Map<string, TicketBundle>();
 
-  return orders.map((order) => {
-    const event = order.event!;
-    return {
-      id: order.id,
-      event: { id: event.id, title: event.title, startAt: event.startAt, venue: event.venue, city: event.city },
-      tierName: names.get(order.tickets[0].tierId) ?? 'standard',
-      purchasedAt: order.createdAt,
-      tickets: order.tickets.map((ticket) => ({
-        id: ticket.id,
-        code: ticket.code,
-        qrToken: ticket.qrToken ?? '',
-        holderName: ticket.holderName ?? holderName,
-      })),
+  for (const ticket of [...upcoming, ...past]) {
+    if (!ticket.event || !ticket.qrToken || HIDDEN_STATUSES.includes(ticket.status)) continue;
+    const bundle = bundles.get(ticket.orderId) ?? {
+      id: ticket.orderId,
+      event: {
+        id: ticket.event.id,
+        title: ticket.event.title,
+        startAt: ticket.event.startAt,
+        endAt: ticket.event.endAt,
+        venue: ticket.event.venue,
+        city: ticket.event.city,
+        coverUrl: ticket.event.coverUrl,
+      },
+      tierName: ticket.tier.name,
+      purchasedAt: ticket.createdAt,
+      tickets: [],
     };
-  });
+    bundle.tickets.push({
+      id: ticket.id,
+      code: ticket.code,
+      qrToken: ticket.qrToken,
+      holderName: ticket.holderName ?? holderName,
+    });
+    bundles.set(ticket.orderId, bundle);
+  }
+
+  return [...bundles.values()];
 }

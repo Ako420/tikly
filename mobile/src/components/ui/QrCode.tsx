@@ -27,13 +27,14 @@ function darkRuns(row: Uint8Array): Run[] {
 
 export function QrCode({ value, size, accessibilityLabel }: QrCodeProps) {
   const rows = useMemo(() => {
+    if (!value) return [];
     const { modules } = create(value, { errorCorrectionLevel: 'M' });
     return Array.from({ length: modules.size }, (_, index) =>
       darkRuns(modules.data.subarray(index * modules.size, (index + 1) * modules.size)),
     );
   }, [value]);
 
-  const cell = size / rows.length;
+  const cell = rows.length > 0 ? size / rows.length : 0;
 
   return (
     <View accessible accessibilityRole="image" accessibilityLabel={accessibilityLabel} style={{ width: size, height: size, backgroundColor: palette.white }}>
