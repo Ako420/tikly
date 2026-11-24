@@ -43,7 +43,10 @@
     "TIER_IN_USE": "This tier has sold or reserved tickets and cannot be deleted.",
     "MAX_TICKETS_EXCEEDED": "You can buy at most 10 tickets per order.",
     "ORDER_EXPIRED": "This order has expired. Please start again.",
+    "IDEMPOTENCY_KEY_REUSED": "This Idempotency-Key was already used for a different purchase. Use a new key.",
     "PAYMENT_FAILED": "The payment did not go through. Please try again.",
+    "PAYMENT_PROVIDER_ERROR": "The payment service did not respond. No money was taken. Please try again.",
+    "PAYOUTS_NOT_CONFIGURED": "Payouts are not set up yet.",
     "REFUND_WINDOW_CLOSED": "It is too late to cancel this ticket.",
     "TICKET_NOT_REFUNDABLE": "This ticket cannot be refunded.",
     "PROVIDER_NOT_VERIFIED": "Your business must be verified before you can list services.",
@@ -188,7 +191,8 @@
       "price": {
         "required": "Set a price for this tier.",
         "min": "The price cannot be negative.",
-        "max": "The price can be at most {max} XAF."
+        "max": "The price can be at most {max} XAF.",
+        "minPaid": "A paid ticket must cost at least 100 XAF."
       },
       "quantity": {
         "required": "Set how many tickets this tier has.",
@@ -250,6 +254,9 @@
       },
       "expiresAt": {
         "required": "A pending order must have an expiry time."
+      },
+      "idempotencyKey": {
+        "invalid": "The Idempotency-Key must be 8 to 100 letters, digits, - or _."
       }
     },
     "ticket": {
@@ -642,5 +649,8 @@
       "intro": "{event} starts in about 24 hours. You have {tickets}.",
       "tip": "Have your QR code ready at the entrance to get in faster."
     }
+  },
+  "messages": {
+    "paymentPrompt": "Confirm the payment on your phone."
   }
 }

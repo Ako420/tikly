@@ -43,7 +43,10 @@
     "TIER_IN_USE": "Cette catégorie a des billets vendus ou réservés et ne peut pas être supprimée.",
     "MAX_TICKETS_EXCEEDED": "Vous pouvez acheter au maximum 10 billets par commande.",
     "ORDER_EXPIRED": "Cette commande a expiré. Veuillez recommencer.",
+    "IDEMPOTENCY_KEY_REUSED": "Cette Idempotency-Key a déjà servi pour un autre achat. Utilisez une nouvelle clé.",
     "PAYMENT_FAILED": "Le paiement n'a pas abouti. Veuillez réessayer.",
+    "PAYMENT_PROVIDER_ERROR": "Le service de paiement n'a pas répondu. Aucun montant n'a été prélevé. Veuillez réessayer.",
+    "PAYOUTS_NOT_CONFIGURED": "Les reversements ne sont pas encore configurés.",
     "REFUND_WINDOW_CLOSED": "Il est trop tard pour annuler ce billet.",
     "TICKET_NOT_REFUNDABLE": "Ce billet ne peut pas être remboursé.",
     "PROVIDER_NOT_VERIFIED": "Votre entreprise doit être vérifiée avant de publier des services.",
@@ -188,7 +191,8 @@
       "price": {
         "required": "Fixez un prix pour cette catégorie.",
         "min": "Le prix ne peut pas être négatif.",
-        "max": "Le prix peut être au maximum de {max} XAF."
+        "max": "Le prix peut être au maximum de {max} XAF.",
+        "minPaid": "Un billet payant doit coûter au moins 100 XAF."
       },
       "quantity": {
         "required": "Indiquez le nombre de billets de cette catégorie.",
@@ -250,6 +254,9 @@
       },
       "expiresAt": {
         "required": "Une commande en attente doit avoir une date d'expiration."
+      },
+      "idempotencyKey": {
+        "invalid": "L'Idempotency-Key doit contenir de 8 à 100 lettres, chiffres, - ou _."
       }
     },
     "ticket": {
@@ -642,5 +649,8 @@
       "intro": "{event} commence dans environ 24 heures. Vous avez {tickets}.",
       "tip": "Préparez votre code QR à l’entrée pour entrer plus vite."
     }
+  },
+  "messages": {
+    "paymentPrompt": "Confirmez le paiement sur votre téléphone."
   }
 }

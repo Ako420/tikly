@@ -228,8 +228,10 @@ describe('PATCH /tiers/:id', () => {
     const { event } = await ownerWithEvent();
     const tier = await createTier(event._id);
     const other = await createUser('organizer');
-    expect((await request(app).patch(`${api}/tiers/${tier.id}`).set(other.auth).send({ price: 1 })).status).toBe(403);
-    expect((await request(app).patch(`${api}/tiers/${objectId()}`).set(other.auth).send({ price: 1 })).status).toBe(
+    expect((await request(app).patch(`${api}/tiers/${tier.id}`).set(other.auth).send({ price: 1000 })).status).toBe(
+      403,
+    );
+    expect((await request(app).patch(`${api}/tiers/${objectId()}`).set(other.auth).send({ price: 1000 })).status).toBe(
       404,
     );
     expect((await request(app).patch(`${api}/tiers/${tier.id}`).set(other.auth).send({})).status).toBe(400);
