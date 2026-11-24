@@ -5,10 +5,13 @@ import type { CreateTicketOrderInput, IssuedTicket, OrderStatus } from './types'
 export type ApiOrder = {
   id: string;
   status: 'pending' | 'paid' | 'failed' | 'expired' | 'refunded';
+  eventId?: string;
+  items: { refId: string; refModel: string; quantity: number; unitPrice: number }[];
   amount: number;
+  phone?: string;
   expiresAt: string;
   createdAt?: string;
-  payment?: { provider: string; externalRef: string; message?: string };
+  payment?: { provider: string; externalRef: string; status?: string; message?: string | null } | null;
   tickets?: { id: string; code: string; qrToken: string; holderName?: string }[];
 };
 
@@ -22,14 +25,21 @@ export const toIssuedTickets = (order: ApiOrder, holderName: string): IssuedTick
     holderName: ticket.holderName ?? holderName,
   }));
 
+export const newIdempotencyKey = () =>
+  globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
+
 export const ordersApi = {
-  createTicketOrder: (input: CreateTicketOrderInput) =>
-    api.post<ApiOrder>('/orders/tickets', {
-      eventId: input.eventId,
-      tierId: input.tierId,
-      quantity: input.quantity,
-      phone: toInternationalCameroonNumber(input.phone),
-    }),
+  createTicketOrder: (input: CreateTicketOrderInput, idempotencyKey: string) =>
+    api.post<ApiOrder>(
+      '/orders/tickets',
+      {
+        eventId: input.eventId,
+        tierId: input.tierId,
+        quantity: input.quantity,
+        phone: toInternationalCameroonNumber(input.phone),
+      },
+      { headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
   getOrder: (orderId: string) => api.get<ApiOrder>(`/orders/${orderId}`),
   verifyOrder: (orderId: string) => api.post<ApiOrder>(`/orders/${orderId}/verify`),
 };

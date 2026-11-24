@@ -1,7 +1,8 @@
 import { env } from '@/config/env';
-import { getSampleEventDetails } from '@/features/events/sampleEventDetails';
+import { eventsApi } from '@/features/events/api';
 import { ApiError } from '@/lib/api';
-import { ordersApi, toIssuedTickets, toOrderStatus, type ApiOrder } from './api';
+import { newIdempotencyKey, ordersApi, toIssuedTickets, toOrderStatus, type ApiOrder } from './api';
+import { detectPaymentMethod } from './paymentMethods';
 import { sampleOrders } from './sampleOrders';
 import { RESERVATION_MINUTES, type CreateTicketOrderInput, type TicketOrder } from './types';
 
@@ -22,9 +23,41 @@ const fromApi = (order: ApiOrder, context: OrderContext): TicketOrder => ({
   tickets: toIssuedTickets(order, context.holderName),
 });
 
-function buildContext(input: CreateTicketOrderInput): OrderContext {
-  const tier = getSampleEventDetails(input.eventId)?.tiers.find((item) => item.id === input.tierId);
+async function findTier(eventId: string, tierId: string) {
+  const tier = (await eventsApi.tiers(eventId)).find((item) => item.id === tierId);
   if (!tier) throw new ApiError('NOT_FOUND', 'Ticket tier not found', 404);
+  return tier;
+}
+
+async function contextFromOrder(order: ApiOrder): Promise<OrderContext> {
+  const item = order.items[0];
+  if (!order.eventId || !item) throw new ApiError('NOT_FOUND', 'Order not found', 404);
+  const tier = await findTier(order.eventId, item.refId);
+  const phone = order.phone ?? '';
+  return {
+    eventId: order.eventId,
+    tierId: item.refId,
+    tierName: tier.name,
+    quantity: item.quantity,
+    unitPrice: item.unitPrice,
+    phone,
+    method: detectPaymentMethod(phone) ?? 'mtn',
+    holderName: '',
+  };
+}
+
+async function loadOrder(orderId: string, request: (id: string) => Promise<ApiOrder>) {
+  const order = await request(orderId);
+  let context = contexts.get(orderId);
+  if (!context) {
+    context = await contextFromOrder(order);
+    contexts.set(orderId, context);
+  }
+  return fromApi(order, context);
+}
+
+async function buildContext(input: CreateTicketOrderInput): Promise<OrderContext> {
+  const tier = await findTier(input.eventId, input.tierId);
   return {
     eventId: input.eventId,
     tierId: input.tierId,
@@ -38,7 +71,7 @@ function buildContext(input: CreateTicketOrderInput): OrderContext {
 }
 
 export async function createTicketOrder(input: CreateTicketOrderInput): Promise<TicketOrder> {
-  const context = buildContext(input);
+  const context = await buildContext(input);
   if (env.useSampleData) {
     const now = Date.now();
     return sampleOrders.save(
@@ -54,7 +87,7 @@ export async function createTicketOrder(input: CreateTicketOrderInput): Promise<
       input.holderName,
     );
   }
-  const order = await ordersApi.createTicketOrder(input);
+  const order = await ordersApi.createTicketOrder(input, input.idempotencyKey ?? newIdempotencyKey());
   contexts.set(order.id, context);
   return fromApi(order, context);
 }
@@ -65,14 +98,10 @@ export async function getTicketOrder(orderId: string): Promise<TicketOrder> {
     if (!order) throw new ApiError('NOT_FOUND', 'Order not found', 404);
     return order;
   }
-  const context = contexts.get(orderId);
-  if (!context) throw new ApiError('NOT_FOUND', 'Order not found', 404);
-  return fromApi(await ordersApi.getOrder(orderId), context);
+  return loadOrder(orderId, ordersApi.getOrder);
 }
 
 export async function verifyTicketOrder(orderId: string): Promise<TicketOrder> {
   if (env.useSampleData) return getTicketOrder(orderId);
-  const context = contexts.get(orderId);
-  if (!context) throw new ApiError('NOT_FOUND', 'Order not found', 404);
-  return fromApi(await ordersApi.verifyOrder(orderId), context);
+  return loadOrder(orderId, ordersApi.verifyOrder);
 }
