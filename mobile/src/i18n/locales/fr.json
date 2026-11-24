@@ -11,7 +11,8 @@
     "increase": "Ajouter un",
     "decrease": "Retirer un",
     "loading": "Chargement",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "close": "Fermer"
   },
   "splash": {
     "tagline": "Événements · Billets · Entrée",
@@ -363,6 +364,88 @@
       "retry": "Réessayer avec {{method}}",
       "switch": "Payer avec {{method}}",
       "backToEvent": "Retour à l’événement"
+    }
+  },
+  "gate": {
+    "tag": "Contrôle",
+    "events": {
+      "eyebrow": "Équipe d’accueil · {{name}}",
+      "title": "Vos événements",
+      "assignedBy": "Assigné par {{organizer}}",
+      "live": "En cours",
+      "meta": "{{date}} · Ouverture {{time}} · {{area}}",
+      "ofTotal": "/ {{total}} entrés",
+      "checkedInLabel": "{{count}} entrés sur {{total}}",
+      "mine": "Vous avez scanné {{count}}",
+      "start": "Commencer le scan",
+      "comingUp": "À venir",
+      "opensAt": "{{date}} · Scan dès {{time}}",
+      "lockedHint": "Le scan n’est pas encore ouvert",
+      "lockedBody": "Le scan ouvre {{when}}.",
+      "logout": "Quitter le scanner",
+      "loadFailed": "Impossible de charger vos événements",
+      "emptyTitle": "Aucun événement assigné",
+      "emptyBody": "Demandez à l’organisateur de vous ajouter à l’équipe d’accueil."
+    },
+    "scanner": {
+      "close": "Fermer le scanner",
+      "torch": "Lampe torche",
+      "hint": "Visez le QR code du billet",
+      "checking": "Vérification du billet…",
+      "checkedInOf": "Entrés sur {{total}}",
+      "last": "Dernier : {{tier}} · {{name}}",
+      "noScansTitle": "Aucun scan",
+      "noScansBody": "Votre dernière entrée s’affiche ici",
+      "enterCode": "Saisir le code",
+      "sound": "Sons du scanner",
+      "cameraTitle": "Accès à l’appareil photo requis",
+      "cameraBody": "Tikly utilise l’appareil photo uniquement pour lire les QR codes des billets.",
+      "allowCamera": "Autoriser l’appareil photo",
+      "openSettings": "Ouvrir les réglages",
+      "checkFailed": "Impossible de vérifier ce billet",
+      "notAssigned": "Événement introuvable",
+      "notAssignedBody": "Cet événement ne fait pas partie de vos affectations."
+    },
+    "manual": {
+      "title": "Saisir le code du billet",
+      "body": "Utilisez le code imprimé sous le QR s’il ne se scanne pas.",
+      "label": "Code du billet",
+      "placeholder": "TK-XXXX-XX",
+      "check": "Vérifier le billet"
+    },
+    "result": {
+      "valid": "Valide",
+      "validSubtitle": "Première entrée · Laissez passer",
+      "alreadyIn": "Déjà entré",
+      "alreadyInSubtitle": "Entré à {{time}} · {{ago}}",
+      "alreadyInFallback": "Ce billet a déjà été utilisé",
+      "invalid": "Invalide",
+      "wrongEventSubtitle": "Mauvais événement · Refusez l’entrée",
+      "cancelledSubtitle": "Billet annulé · Refusez l’entrée",
+      "unknownSubtitle": "Pas un billet Tikly · Refusez l’entrée",
+      "ticketOf": "{{tier}} · Billet {{index}} sur {{total}}",
+      "checkedInBy": "Entré à {{time}} par {{staff}}",
+      "lastEntryAtGate": "Dernière entrée : {{gate}} par {{staff}} · {{count}} ré-entrées",
+      "lastEntry": "Dernière entrée par {{staff}} · {{count}} ré-entrées",
+      "otherEventEyebrow": "{{tier}} · Billet d’un autre événement",
+      "otherEventEyebrowShort": "Billet d’un autre événement",
+      "askForTicket": "Demandez à la personne son billet pour {{event}}.",
+      "cancelledLine": "Ce billet a été remboursé ou annulé.",
+      "unknownEyebrow": "Code non reconnu",
+      "unknownHeading": "Aucun billet correspondant",
+      "unknownLine": "Vérifiez le code ou demandez le billet dans l’app Tikly.",
+      "minutesAgo": "il y a {{minutes}} min",
+      "hoursAgo": "il y a {{hours}} h {{minutes}} min",
+      "allowReentry": "Autoriser la ré-entrée",
+      "reentryFailed": "Impossible d’enregistrer la ré-entrée",
+      "scanNext": "Scanner le suivant",
+      "backIn": "Retour au scan dans {{seconds}} s",
+      "beepPlayed": "Bip joué",
+      "yourCall": "La ré-entrée est votre décision",
+      "buzzPlayed": "Alerte jouée",
+      "errorPlayed": "Son d’erreur joué",
+      "doNotAdmit": "Refusez l’entrée",
+      "missing": "Résultat du scan indisponible"
     }
   }
 }

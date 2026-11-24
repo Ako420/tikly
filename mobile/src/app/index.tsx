@@ -5,13 +5,14 @@ import { LogoMark } from '@/components/brand/LogoMark';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { homeRouteFor } from '@/features/auth/homeRoute';
 import { useTranslation } from '@/i18n/I18nProvider';
 
 const SPLASH_DURATION_MS = 1800;
 
 export default function Splash() {
   const { t } = useTranslation();
-  const { status } = useAuth();
+  const { status, user } = useAuth();
   const [minimumElapsed, setMinimumElapsed] = useState(false);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export default function Splash() {
 
   useEffect(() => {
     if (!minimumElapsed || status === 'loading') return;
-    router.replace(status === 'signedIn' ? '/home' : '/onboarding');
-  }, [minimumElapsed, status]);
+    router.replace(status === 'signedIn' ? homeRouteFor(user) : '/onboarding');
+  }, [minimumElapsed, status, user]);
 
   return (
     <Screen>

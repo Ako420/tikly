@@ -3,20 +3,10 @@ import { env } from '@/config/env';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { sampleUser } from '@/features/events/sampleEvents';
 import { toApiError, type ApiError } from '@/lib/api';
+import { useNow } from '@/lib/useNow';
 import { listMyTicketBundles } from './api';
 import { ticketWallet } from './ticketWallet';
 import { isPastBundle, type TicketBundle } from './types';
-
-const CLOCK_TICK_MS = 60 * 1000;
-
-function useNow() {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), CLOCK_TICK_MS);
-    return () => clearInterval(timer);
-  }, []);
-  return now;
-}
 
 const byStart = (a: TicketBundle, b: TicketBundle) => a.event.startAt.localeCompare(b.event.startAt);
 
