@@ -4,7 +4,7 @@ import { cn } from '@/lib/cn';
 import { useTheme } from '@/theme';
 import { Text } from './Text';
 
-type ButtonVariant = 'primary' | 'outline' | 'secondary';
+type ButtonVariant = 'primary' | 'outline' | 'secondary' | 'danger';
 type ButtonSize = 'lg' | 'md';
 
 type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
@@ -21,6 +21,7 @@ const containerClass: Record<ButtonVariant, string> = {
   primary: 'bg-action',
   outline: 'border-[1.5px] border-outline',
   secondary: 'border border-border bg-surface-raised',
+  danger: 'bg-danger',
 };
 
 const sizeClass: Record<ButtonSize, string> = {
@@ -59,11 +60,11 @@ export function Button({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'primary' ? colors.onAction : colors.foreground} />
+        <ActivityIndicator color={variant === 'primary' ? colors.onAction : variant === 'danger' ? colors.onDanger : colors.foreground} />
       ) : (
         <>
           {icon}
-          <Text variant={size === 'md' ? 'itemTitle' : 'button'} tone={variant === 'primary' ? 'onAction' : 'primary'}>
+          <Text variant={size === 'md' ? 'itemTitle' : 'button'} tone={variant === 'primary' ? 'onAction' : variant === 'danger' ? 'onDanger' : 'primary'}>
             {label}
           </Text>
         </>

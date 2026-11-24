@@ -1,6 +1,6 @@
 import { sampleEvents, sampleUser } from '@/features/events/sampleEvents';
 import type { TierName } from '@/features/events/types';
-import type { CheckIn, GateEvent, OtherEvent, ScanOutcome, ScannedTicket } from './types';
+import type { CheckIn, GateEvent, LookupQuery, OtherEvent, ScanOutcome, ScannedTicket } from './types';
 
 const HOUR = 60 * 60 * 1000;
 
@@ -52,7 +52,9 @@ const gateEvents: GateEvent[] = [
   },
 ];
 
-type SampleTicket = ScannedTicket & { eventId: string; status: 'valid' | 'checked_in' | 'cancelled'; qrToken: string };
+type SampleTicket = ScannedTicket & { eventId: string; status: 'valid' | 'checked_in' | 'cancelled'; qrToken: string; buyerPhone: string };
+
+const SAMPLE_BUYER_PHONE = '+237677123456';
 
 const ticket = (
   id: string,
@@ -72,6 +74,7 @@ const ticket = (
   checkIns,
   status: checkIns.length > 0 ? 'checked_in' : 'valid',
   qrToken: `${id}.${code}`,
+  buyerPhone: holderName === sampleUser.name ? SAMPLE_BUYER_PHONE : '+237699001122',
 });
 
 const tickets: SampleTicket[] = [
@@ -95,7 +98,8 @@ const findTicket = (value: string) => {
   return tickets.find((item) => item.qrToken === raw || normalize(item.code) === code || item.id === raw);
 };
 
-const publicTicket = ({ id, code, tier, holderName, position, checkIns }: SampleTicket): ScannedTicket => ({
+const publicTicket = ({ id, code, tier, holderName, position, checkIns, status }: SampleTicket): ScannedTicket => ({
+  status,
   id,
   code,
   tier,
@@ -127,6 +131,12 @@ export const sampleGate = {
       gateEvent.scannedByMe += 1;
     }
     return { ...base, result: 'VALID', ticket: publicTicket(found) };
+  },
+  lookup(eventId: string, query: LookupQuery): ScannedTicket[] {
+    const matches = tickets.filter((item) =>
+      item.eventId === eventId && ('code' in query ? normalize(item.code) === normalize(query.code) : item.buyerPhone === query.phone),
+    );
+    return matches.map(publicTicket);
   },
   reentry(ticketId: string, staffName: string) {
     const found = tickets.find((item) => item.id === ticketId);

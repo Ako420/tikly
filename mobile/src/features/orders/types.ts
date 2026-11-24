@@ -4,11 +4,14 @@ export type PaymentMethod = 'mtn' | 'orange';
 
 export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired';
 
+export type TicketStatus = 'valid' | 'checked_in' | 'refunded' | 'cancelled';
+
 export type IssuedTicket = {
   id: string;
   code: string;
   qrToken: string;
   holderName: string;
+  status?: TicketStatus;
 };
 
 export type TicketOrder = {

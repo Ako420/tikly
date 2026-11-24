@@ -38,7 +38,14 @@
   "myTickets": {
     "title": "My tickets",
     "upcoming": "Upcoming · {{count}}",
-    "past": "Past",
+    "past": {
+      "checkedIn": "Checked in {{time}}",
+      "rate": "Rate this event",
+      "youRated": "You rated {{rating}}/{{max}}",
+      "refunded": "Refunded {{amount}}",
+      "cancelledByOrganizer": "Cancelled by organizer",
+      "cancelledByYou": "Cancelled by you"
+    },
     "reminder": "We’ll remind you by push and email {{hours}} hours before each event.",
     "when": {
       "today": "Today",
@@ -71,7 +78,24 @@
       "qrUnavailable": "Your QR code will appear here shortly.",
       "notFoundTitle": "Ticket not found",
       "pdfFailed": "Couldn’t create the PDF. Please try again.",
-      "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes."
+      "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes.",
+      "cancelTicket": "Cancel a ticket"
+    },
+    "pastCount": "Past · {{count}}",
+    "cancel": {
+      "title": "Cancel this ticket?",
+      "body": "You get {{percent}}% of the price back on {{method}} within 24 hours. This can’t be undone.",
+      "yourMomo": "your Mobile Money number",
+      "ticketLabel": "{{tier}} · Ticket {{index}}",
+      "price": "Ticket price",
+      "fee": "Cancellation ({{percent}}%)",
+      "youGet": "You get back",
+      "to": "To {{phone}}",
+      "cutoff": "Cancellations close {{when}} ({{hours}} h before doors)",
+      "confirm": "Cancel and refund {{amount}}",
+      "keep": "Keep my ticket",
+      "doneTitle": "Ticket cancelled",
+      "doneBody": "{{amount}} is on its way to your Mobile Money number."
     }
   },
   "onboarding": {
@@ -440,7 +464,6 @@
       "comingUp": "Coming up",
       "opensAt": "{{date}} · Scanning opens {{time}}",
       "lockedHint": "Scanning has not opened yet",
-      "lockedBody": "Scanning opens {{when}}.",
       "logout": "Log out of scanner",
       "loadFailed": "Couldn’t load your events",
       "emptyTitle": "No events assigned",
@@ -464,13 +487,6 @@
       "checkFailed": "Couldn’t check this ticket",
       "notAssigned": "Event not found",
       "notAssignedBody": "This event isn’t in your gate assignments."
-    },
-    "manual": {
-      "title": "Enter ticket code",
-      "body": "Use the code printed under the QR when it won’t scan.",
-      "label": "Ticket code",
-      "placeholder": "TK-XXXX-XX",
-      "check": "Check ticket"
     },
     "result": {
       "valid": "Valid",
@@ -505,6 +521,26 @@
       "errorPlayed": "Error tone played",
       "doNotAdmit": "Do not let in",
       "missing": "Scan result not available"
+    },
+    "lookup": {
+      "title": "Find a ticket",
+      "body": "When a QR won’t scan, search by code or the buyer’s phone.",
+      "byCode": "Ticket code",
+      "byPhone": "Buyer phone",
+      "codeLabel": "Ticket code",
+      "phoneLabel": "Buyer phone",
+      "codePlaceholder": "TK-XXXX-XX",
+      "phonePlaceholder": "6 77 12 34 56",
+      "resultsHeader": "{{count}} tickets · {{name}}",
+      "notIn": "Not checked in",
+      "inAt": "In at {{time}}",
+      "checkedIn": "Checked in",
+      "cancelled": "Cancelled",
+      "checkInNow": "Check in now",
+      "noneTitle": "No tickets found",
+      "noneBody": "Check the code or phone number and try again.",
+      "idHint": "Ask for ID that matches the buyer’s name before checking in manually.",
+      "reentryRecorded": "Re-entry recorded at {{time}}"
     }
   },
   "notifications": {
@@ -546,5 +582,34 @@
         "title": "Update from tikly"
       }
     }
+  },
+  "reviews": {
+    "eyebrow": "Your review",
+    "title": "How was {{event}}?",
+    "checkedIn": "You checked in on {{date}}",
+    "ratingLabel": "Rating",
+    "starLabel": "{{count}} stars",
+    "tapToRate": "Tap a star to rate",
+    "ratingValue": "{{rating}} of {{max}} · {{label}}",
+    "labels": {
+      "1": "Not great",
+      "2": "Could be better",
+      "3": "Good night",
+      "4": "Great night",
+      "5": "Unforgettable"
+    },
+    "highlightsLabel": "What stood out? (optional)",
+    "highlights": {
+      "performers": "Performers",
+      "venue": "Venue",
+      "sound": "Sound",
+      "organisation": "Organisation",
+      "value": "Value for money",
+      "entry": "Entry was quick"
+    },
+    "commentLabel": "Your comment",
+    "commentPlaceholder": "Tell other fans what it was like",
+    "shownAs": "Shown on the event page as “{{name}}”",
+    "post": "Post review"
   }
 }

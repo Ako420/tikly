@@ -6,7 +6,9 @@ import { toApiError, type ApiError } from '@/lib/api';
 import { useNow } from '@/lib/useNow';
 import { listMyTicketBundles } from './api';
 import { ticketWallet } from './ticketWallet';
-import { isPastBundle, type TicketBundle } from './types';
+import { isCancelledBundle, isPastBundle, type TicketBundle } from './types';
+
+const awaitsRating = (bundle: TicketBundle) => !isCancelledBundle(bundle) && !!bundle.checkedInAt && !bundle.review;
 
 const byStart = (a: TicketBundle, b: TicketBundle) => a.event.startAt.localeCompare(b.event.startAt);
 
@@ -54,7 +56,7 @@ export function useMyTickets() {
   const { upcoming, past } = useMemo(
     () => ({
       upcoming: source.filter((bundle) => !isPastBundle(bundle, now)).sort(byStart),
-      past: source.filter((bundle) => isPastBundle(bundle, now)).sort((a, b) => byStart(b, a)),
+      past: source.filter((bundle) => isPastBundle(bundle, now)).sort((a, b) => Number(awaitsRating(b)) - Number(awaitsRating(a)) || byStart(b, a)),
     }),
     [source, now],
   );
@@ -69,7 +71,7 @@ export function useMyTickets() {
 }
 
 export function useTicketBundle(id: string | undefined) {
-  const { upcoming, past, loading, error } = useMyTickets();
+  const { upcoming, past, loading, error, refresh } = useMyTickets();
   const bundle = useMemo(() => [...upcoming, ...past].find((item) => item.id === id), [upcoming, past, id]);
-  return { bundle, loading, error };
+  return { bundle, loading, error, refresh };
 }

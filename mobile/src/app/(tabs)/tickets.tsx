@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
+import { PastTicketCard } from '@/components/tickets/PastTicketCard';
 import { TicketListCard } from '@/components/tickets/TicketListCard';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Screen } from '@/components/ui/Screen';
@@ -59,7 +60,7 @@ export default function Tickets() {
           onChange={setSegment}
           segments={[
             { value: 'upcoming', label: t('myTickets.upcoming', { count: upcoming.length }) },
-            { value: 'past', label: t('myTickets.past') },
+            { value: 'past', label: t('myTickets.pastCount', { count: past.length }) },
           ]}
         />
       </View>
@@ -84,8 +85,15 @@ export default function Tickets() {
           ) : undefined
         }
         ListEmptyComponent={<View className="flex-1 justify-center">{empty}</View>}
-        renderItem={({ item }) => (
-          <TicketListCard bundle={item} onPress={() => router.push({ pathname: '/tickets/[bundleId]', params: { bundleId: item.id } })} />
+        renderItem={({ item }) =>
+          segment === 'past' ? (
+            <PastTicketCard
+              bundle={item}
+              onOpen={() => router.push({ pathname: '/tickets/[bundleId]', params: { bundleId: item.id } })}
+              onRate={() => router.push({ pathname: '/tickets/[bundleId]/review', params: { bundleId: item.id } })}
+            />
+          ) : (
+            <TicketListCard bundle={item} onPress={() => router.push({ pathname: '/tickets/[bundleId]', params: { bundleId: item.id } })} />
         )}
       />
     </Screen>

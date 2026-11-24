@@ -4,7 +4,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { toApiError, type ApiError } from '@/lib/api';
 import { gateApi } from './api';
 import { sampleGate, sampleStaff } from './sampleGate';
-import type { GateEvent, ScanOutcome } from './types';
+import type { GateEvent, LookupQuery, ScanOutcome, ScannedTicket } from './types';
 
 type GateState = {
   events: GateEvent[];
@@ -54,7 +54,7 @@ async function scan(eventId: string, value: string, staffName: string, manual: b
         id: newScanId(),
         eventId,
         scannedAt: new Date().toISOString(),
-        ...(await (manual ? gateApi.lookup(eventId, value) : gateApi.scan(eventId, value))),
+        ...(await gateApi.scan(eventId, manual ? { code: value } : { qrToken: value })),
       };
 
   const outcomes = { ...state.outcomes, [outcome.id]: outcome };
@@ -72,16 +72,25 @@ async function scan(eventId: string, value: string, staffName: string, manual: b
   return outcome;
 }
 
+async function reentry(eventId: string, ticketId: string, staffName: string) {
+  if (env.useSampleData) sampleGate.reentry(ticketId, staffName);
+  else await gateApi.reentry(eventId, ticketId);
+}
+
 async function allowReentry(outcome: ScanOutcome, staffName: string) {
-  if (!outcome.ticket) return;
-  if (env.useSampleData) sampleGate.reentry(outcome.ticket.id, staffName);
-  else await gateApi.reentry(outcome.eventId, outcome.ticket.id);
+  if (outcome.ticket) await reentry(outcome.eventId, outcome.ticket.id, staffName);
+}
+
+async function lookup(eventId: string, query: LookupQuery): Promise<ScannedTicket[]> {
+  return env.useSampleData ? sampleGate.lookup(eventId, query) : gateApi.lookup(eventId, query);
 }
 
 export const gateStore = {
   loadEvents,
   scan,
   allowReentry,
+  reentry,
+  lookup,
   toggleSound: () => setState({ soundOn: !state.soundOn }),
 };
 

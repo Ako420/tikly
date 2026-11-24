@@ -12,9 +12,10 @@ type FormScreenProps = {
   children: ReactNode;
   contentClassName?: string;
   onBack?: () => void;
+  header?: ReactNode;
 };
 
-export function FormScreen({ children, contentClassName, onBack }: FormScreenProps) {
+export function FormScreen({ children, contentClassName, onBack, header }: FormScreenProps) {
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
 
   const revealFocused = useCallback(() => {
@@ -41,7 +42,7 @@ export function FormScreen({ children, contentClassName, onBack }: FormScreenPro
   return (
     <FormScrollContext.Provider value={value}>
       <Screen>
-        <NavBar onBack={onBack} />
+        {header ?? <NavBar onBack={onBack} />}
         <KeyboardAvoidingView className="flex-1" behavior="padding">
           <ScrollView
             ref={scrollRef}

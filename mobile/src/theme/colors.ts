@@ -24,6 +24,8 @@ export type SemanticColors = {
   valid: string;
   warning: string;
   invalid: string;
+  danger: string;
+  onDanger: string;
 };
 
 export const semanticColors: Record<ColorScheme, SemanticColors> = {
@@ -49,6 +51,8 @@ export const semanticColors: Record<ColorScheme, SemanticColors> = {
     valid: palette.green600,
     warning: palette.orange500,
     invalid: palette.red600,
+    danger: palette.red600,
+    onDanger: palette.white,
   },
   dark: {
     background: palette.violet950,
@@ -72,6 +76,8 @@ export const semanticColors: Record<ColorScheme, SemanticColors> = {
     valid: palette.green400,
     warning: palette.orange500,
     invalid: palette.red400,
+    danger: palette.red600,
+    onDanger: palette.white,
   },
 };
 

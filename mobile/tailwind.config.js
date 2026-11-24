@@ -27,6 +27,8 @@ module.exports = {
         valid: color('valid'),
         warning: color('warning'),
         invalid: color('invalid'),
+        danger: color('danger'),
+        'on-danger': color('on-danger'),
         mtn: '#ffcb05',
         'orange-money': '#ff7900',
       },

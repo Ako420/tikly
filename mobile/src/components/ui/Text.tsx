@@ -14,7 +14,8 @@ export type TextTone =
   | 'inverse'
   | 'valid'
   | 'warning'
-  | 'invalid';
+  | 'invalid'
+  | 'onDanger';
 
 const toneClass: Record<TextTone, string> = {
   primary: 'text-foreground',
@@ -29,6 +30,7 @@ const toneClass: Record<TextTone, string> = {
   valid: 'text-valid',
   warning: 'text-warning',
   invalid: 'text-invalid',
+  onDanger: 'text-on-danger',
 };
 
 export type TextProps = NativeTextProps & {

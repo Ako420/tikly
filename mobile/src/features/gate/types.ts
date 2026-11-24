@@ -25,8 +25,11 @@ export type ScannedTicket = {
   tier: TierName;
   holderName: string;
   position?: { index: number; total: number };
+  status?: 'valid' | 'checked_in' | 'cancelled' | 'refunded';
   checkIns: CheckIn[];
 };
+
+export type LookupQuery = { code: string } | { phone: string };
 
 export type OtherEvent = { title: LocalizedText; startAt: string; venue: string };
 

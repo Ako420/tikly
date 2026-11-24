@@ -1,6 +1,6 @@
 import type { LocalizedText, TierName } from '@/features/events/types';
 import { api } from '@/lib/api';
-import type { CheckIn, GateEvent, ScanResult, ScannedTicket } from './types';
+import type { CheckIn, GateEvent, LookupQuery, ScanResult, ScannedTicket } from './types';
 
 type ApiGateEvent = {
   id: string;
@@ -16,7 +16,14 @@ type ApiGateEvent = {
   scannedByMe?: number;
 };
 
-type ApiScanTicket = { id: string; code: string; tier: TierName; holderName: string; checkIns?: CheckIn[] };
+type ApiScanTicket = {
+  id: string;
+  code: string;
+  tier: TierName | null;
+  holderName: string;
+  status?: ScannedTicket['status'];
+  checkIns?: (Omit<CheckIn, 'staffName'> & { staffName: string | null })[];
+};
 
 type ApiScanResponse = { result: ScanResult; ticket?: ApiScanTicket };
 
@@ -37,18 +44,24 @@ const toGateEvent = (event: ApiGateEvent): GateEvent => ({
   scannedByMe: event.scannedByMe ?? 0,
 });
 
-const toTicket = (ticket?: ApiScanTicket): ScannedTicket | undefined =>
-  ticket && { id: ticket.id, code: ticket.code, tier: ticket.tier, holderName: ticket.holderName, checkIns: ticket.checkIns ?? [] };
+const toScanned = (ticket: ApiScanTicket): ScannedTicket => ({
+  id: ticket.id,
+  code: ticket.code,
+  tier: ticket.tier ?? 'standard',
+  holderName: ticket.holderName,
+  status: ticket.status,
+  checkIns: (ticket.checkIns ?? []).map((checkIn) => ({ ...checkIn, staffName: checkIn.staffName ?? '' })),
+});
+
+const toTicket = (ticket?: ApiScanTicket) => (ticket ? toScanned(ticket) : undefined);
 
 export const gateApi = {
   events: async () => (await api.get<ApiGateEvent[]>('/staff/events')).map(toGateEvent),
-  scan: async (eventId: string, qrToken: string) => {
-    const response = await api.post<ApiScanResponse>('/access/scan', { eventId, qrToken });
+  scan: async (eventId: string, ticket: { qrToken: string } | { code: string }) => {
+    const response = await api.post<ApiScanResponse>('/access/scan', { eventId, ...ticket });
     return { result: response.result, ticket: toTicket(response.ticket) };
   },
-  lookup: async (eventId: string, code: string) => {
-    const response = await api.get<ApiScanResponse>('/access/lookup', { params: { eventId, code } });
-    return { result: response.result, ticket: toTicket(response.ticket) };
-  },
+  lookup: async (eventId: string, query: LookupQuery) =>
+    (await api.get<ApiScanTicket[]>('/access/lookup', { params: { eventId, ...query } })).map(toScanned),
   reentry: (eventId: string, ticketId: string) => api.post<unknown>(`/access/tickets/${ticketId}/reentry`, { eventId }),
 };

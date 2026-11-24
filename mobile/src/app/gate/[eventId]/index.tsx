@@ -6,7 +6,6 @@ import { StatusBar } from 'expo-status-bar';
 import { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, Pressable, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ManualCodeSheet } from '@/components/gate/ManualCodeSheet';
 import { Viewfinder } from '@/components/gate/Viewfinder';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -54,7 +53,6 @@ export default function GateScanner() {
   const [focused, setFocused] = useState(false);
   const [torch, setTorch] = useState(false);
   const [checking, setChecking] = useState(false);
-  const [manualOpen, setManualOpen] = useState(false);
   const busy = useRef(false);
   const lastRead = useRef({ value: '', at: 0 });
 
@@ -70,13 +68,12 @@ export default function GateScanner() {
   );
 
   const check = useCallback(
-    async (value: string, manual: boolean) => {
+    async (value: string) => {
       if (!eventId || busy.current) return;
       busy.current = true;
       setChecking(true);
       try {
-        const outcome = await gateStore.scan(eventId, value, staff.name, manual);
-        setManualOpen(false);
+        const outcome = await gateStore.scan(eventId, value, staff.name, false);
         router.push({ pathname: '/gate/[eventId]/result', params: { eventId, scanId: outcome.id } });
       } catch (caught) {
         busy.current = false;
@@ -93,7 +90,7 @@ export default function GateScanner() {
       const now = Date.now();
       if (data === lastRead.current.value && now - lastRead.current.at < SCAN_COOLDOWN_MS) return;
       lastRead.current = { value: data, at: now };
-      check(data, false);
+      check(data);
     },
     [check],
   );
@@ -122,7 +119,7 @@ export default function GateScanner() {
           facing="back"
           enableTorch={torch}
           barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
-          onBarcodeScanned={checking || manualOpen ? undefined : onBarcode}
+          onBarcodeScanned={checking ? undefined : onBarcode}
         />
       ) : null}
       <View className="absolute inset-0" style={{ backgroundColor: OVERLAY }} />
@@ -206,7 +203,7 @@ export default function GateScanner() {
             className="flex-1"
             label={t('gate.scanner.enterCode')}
             icon={<Ionicons name="keypad-outline" size={20} color={palette.amber400} />}
-            onPress={() => setManualOpen(true)}
+            onPress={() => router.push({ pathname: '/gate/[eventId]/lookup', params: { eventId: event.id } })}
           />
           <Pressable
             accessibilityRole="switch"
@@ -221,7 +218,6 @@ export default function GateScanner() {
         </View>
       </View>
 
-      <ManualCodeSheet visible={manualOpen} checking={checking} onClose={() => setManualOpen(false)} onSubmit={(code) => check(code, true)} />
     </ThemeScope>
   );
 }

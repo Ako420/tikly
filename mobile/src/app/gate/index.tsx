@@ -33,7 +33,7 @@ export default function GateEvents() {
   const startScanning = (event: GateEvent) => router.push({ pathname: '/gate/[eventId]', params: { eventId: event.id } });
 
   const showOpensAt = (event: GateEvent) =>
-    Alert.alert(format.title(event.title), t('gate.events.lockedBody', { when: format.upcomingMeta(event) }));
+    Alert.alert(format.title(event.title), format.upcomingMeta(event));
 
   const logOut = async () => {
     if (user) await signOut();

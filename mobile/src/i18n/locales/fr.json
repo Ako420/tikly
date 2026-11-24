@@ -38,7 +38,14 @@
   "myTickets": {
     "title": "Mes billets",
     "upcoming": "À venir · {{count}}",
-    "past": "Passés",
+    "past": {
+      "checkedIn": "Entré à {{time}}",
+      "rate": "Noter cet événement",
+      "youRated": "Votre note : {{rating}}/{{max}}",
+      "refunded": "Remboursé {{amount}}",
+      "cancelledByOrganizer": "Annulé par l’organisateur",
+      "cancelledByYou": "Annulé par vous"
+    },
     "reminder": "Nous vous rappellerons par notification et par e-mail {{hours}} heures avant chaque événement.",
     "when": {
       "today": "Aujourd’hui",
@@ -71,7 +78,24 @@
       "qrUnavailable": "Votre QR code apparaîtra ici sous peu.",
       "notFoundTitle": "Billet introuvable",
       "pdfFailed": "Impossible de créer le PDF. Veuillez réessayer.",
-      "notFoundBody": "Ce billet n’est pas sur cet appareil. Retrouvez vos billets dans Mes billets."
+      "notFoundBody": "Ce billet n’est pas sur cet appareil. Retrouvez vos billets dans Mes billets.",
+      "cancelTicket": "Annuler un billet"
+    },
+    "pastCount": "Passés · {{count}}",
+    "cancel": {
+      "title": "Annuler ce billet ?",
+      "body": "Vous récupérez {{percent}} % du prix sur {{method}} sous 24 heures. C’est définitif.",
+      "yourMomo": "votre numéro Mobile Money",
+      "ticketLabel": "{{tier}} · Billet {{index}}",
+      "price": "Prix du billet",
+      "fee": "Annulation ({{percent}} %)",
+      "youGet": "Vous récupérez",
+      "to": "Vers {{phone}}",
+      "cutoff": "Annulations possibles jusqu’au {{when}} ({{hours}} h avant l’ouverture)",
+      "confirm": "Annuler et rembourser {{amount}}",
+      "keep": "Garder mon billet",
+      "doneTitle": "Billet annulé",
+      "doneBody": "{{amount}} arrive sur votre numéro Mobile Money."
     }
   },
   "onboarding": {
@@ -440,7 +464,6 @@
       "comingUp": "À venir",
       "opensAt": "{{date}} · Scan dès {{time}}",
       "lockedHint": "Le scan n’est pas encore ouvert",
-      "lockedBody": "Le scan ouvre {{when}}.",
       "logout": "Quitter le scanner",
       "loadFailed": "Impossible de charger vos événements",
       "emptyTitle": "Aucun événement assigné",
@@ -464,13 +487,6 @@
       "checkFailed": "Impossible de vérifier ce billet",
       "notAssigned": "Événement introuvable",
       "notAssignedBody": "Cet événement ne fait pas partie de vos affectations."
-    },
-    "manual": {
-      "title": "Saisir le code du billet",
-      "body": "Utilisez le code imprimé sous le QR s’il ne se scanne pas.",
-      "label": "Code du billet",
-      "placeholder": "TK-XXXX-XX",
-      "check": "Vérifier le billet"
     },
     "result": {
       "valid": "Valide",
@@ -505,6 +521,26 @@
       "errorPlayed": "Son d’erreur joué",
       "doNotAdmit": "Refusez l’entrée",
       "missing": "Résultat du scan indisponible"
+    },
+    "lookup": {
+      "title": "Trouver un billet",
+      "body": "Si un QR ne se scanne pas, cherchez par code ou par téléphone de l’acheteur.",
+      "byCode": "Code du billet",
+      "byPhone": "Téléphone",
+      "codeLabel": "Code du billet",
+      "phoneLabel": "Téléphone de l’acheteur",
+      "codePlaceholder": "TK-XXXX-XX",
+      "phonePlaceholder": "6 77 12 34 56",
+      "resultsHeader": "{{count}} billets · {{name}}",
+      "notIn": "Pas encore entré",
+      "inAt": "Entré à {{time}}",
+      "checkedIn": "Entré",
+      "cancelled": "Annulé",
+      "checkInNow": "Faire entrer",
+      "noneTitle": "Aucun billet trouvé",
+      "noneBody": "Vérifiez le code ou le numéro et réessayez.",
+      "idHint": "Demandez une pièce d’identité au nom de l’acheteur avant une entrée manuelle.",
+      "reentryRecorded": "Ré-entrée enregistrée à {{time}}"
     }
   },
   "notifications": {
@@ -546,5 +582,34 @@
         "title": "Nouvelle de tikly"
       }
     }
+  },
+  "reviews": {
+    "eyebrow": "Votre avis",
+    "title": "Comment était {{event}} ?",
+    "checkedIn": "Entré le {{date}}",
+    "ratingLabel": "Note",
+    "starLabel": "{{count}} étoiles",
+    "tapToRate": "Touchez une étoile pour noter",
+    "ratingValue": "{{rating}} sur {{max}} · {{label}}",
+    "labels": {
+      "1": "Décevant",
+      "2": "Peut mieux faire",
+      "3": "Bonne soirée",
+      "4": "Super soirée",
+      "5": "Inoubliable"
+    },
+    "highlightsLabel": "Qu’avez-vous aimé ? (facultatif)",
+    "highlights": {
+      "performers": "Artistes",
+      "venue": "Lieu",
+      "sound": "Son",
+      "organisation": "Organisation",
+      "value": "Rapport qualité-prix",
+      "entry": "Entrée rapide"
+    },
+    "commentLabel": "Votre commentaire",
+    "commentPlaceholder": "Racontez l’ambiance aux autres fans",
+    "shownAs": "Affiché sur la page de l’événement sous « {{name}} »",
+    "post": "Publier l’avis"
   }
 }

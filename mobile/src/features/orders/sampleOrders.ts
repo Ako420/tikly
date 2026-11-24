@@ -54,6 +54,8 @@ export const sampleOrders = {
         event: ticketWallet.sampleEvent(next.eventId),
         tierName: next.tierName,
         tickets: next.tickets,
+        unitPrice: next.unitPrice,
+        payment: { method: next.method, phone: next.phone },
         purchasedAt: new Date().toISOString(),
       });
     }
