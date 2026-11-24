@@ -56,11 +56,7 @@ describe('POST /auth/google', () => {
     await signUp();
     expect(verifyIdToken).toHaveBeenCalledWith({
       idToken: 'id-token',
-      audience: [
-        'web.apps.googleusercontent.com',
-        'android.apps.googleusercontent.com',
-        'ios.apps.googleusercontent.com',
-      ],
+      audience: ['android.apps.googleusercontent.com', 'web.apps.googleusercontent.com'],
     });
   });
 

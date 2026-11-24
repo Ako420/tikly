@@ -7,9 +7,7 @@ export type GoogleProfile = { googleId: string; email: string; name: string };
 
 const client = new OAuth2Client();
 
-const audiences = env.GOOGLE_CLIENT_IDS.split(',')
-  .map((id) => id.trim())
-  .filter(Boolean);
+const audiences = [env.GOOGLE_APP_CLIENT_ID, env.GOOGLE_WEB_CLIENT_ID].filter(Boolean);
 
 export async function verifyGoogleIdToken(idToken: string): Promise<GoogleProfile> {
   if (audiences.length === 0) throw AppError.serviceUnavailable('GOOGLE_NOT_CONFIGURED');

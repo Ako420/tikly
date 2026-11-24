@@ -27,6 +27,8 @@ export type RegisterInput = {
   language: Language;
 };
 
+export type GoogleSignInInput = { idToken: string; role?: SignUpRole; phone?: string; language?: string };
+
 export type LoginInput = { identifier: string; password: string };
 
 export type UpdateProfileInput = Partial<Pick<User, 'name' | 'phone' | 'language'>>;
@@ -35,6 +37,7 @@ const noAuth = { skipAuth: true };
 
 export const authApi = {
   register: (input: RegisterInput) => api.post<Session>('/auth/register', input, noAuth),
+  google: (input: GoogleSignInInput) => api.post<Session>('/auth/google', input, noAuth),
   login: (input: LoginInput) => api.post<Session>('/auth/login', input, noAuth),
   logout: () => api.post<null>('/auth/logout', {}),
   me: () => api.get<User>('/auth/me'),

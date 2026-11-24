@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { onSessionExpired, setApiLanguage, tokenStorage } from '@/lib/api';
-import { authApi, type LoginInput, type RegisterInput, type Session, type User } from './api';
+import { getGoogleIdToken } from './google';
+import { authApi, type GoogleSignInInput, type LoginInput, type RegisterInput, type Session, type User } from './api';
 
 type AuthStatus = 'loading' | 'signedIn' | 'signedOut';
 
@@ -10,6 +11,7 @@ type AuthValue = {
   user: User | null;
   signIn: (input: LoginInput) => Promise<User>;
   signUp: (input: RegisterInput) => Promise<User>;
+  signInWithGoogle: (input?: Omit<GoogleSignInInput, 'idToken'>) => Promise<User>;
   signOut: () => Promise<void>;
   setUser: (user: User) => void;
 };
@@ -81,6 +83,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = useCallback(async (input: LoginInput) => startSession(await authApi.login(input)), [startSession]);
   const signUp = useCallback(async (input: RegisterInput) => startSession(await authApi.register(input)), [startSession]);
 
+  const signInWithGoogle = useCallback(
+    async (input: Omit<GoogleSignInInput, 'idToken'> = {}) =>
+      startSession(await authApi.google({ ...input, idToken: await getGoogleIdToken() })),
+    [startSession],
+  );
+
   const signOut = useCallback(async () => {
     await authApi.logout().catch(() => undefined);
     await tokenStorage.clear();
@@ -88,8 +96,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [reset]);
 
   const value = useMemo(
-    () => ({ status, user, signIn, signUp, signOut, setUser }),
-    [status, user, signIn, signUp, signOut, setUser],
+    () => ({ status, user, signIn, signUp, signInWithGoogle, signOut, setUser }),
+    [status, user, signIn, signUp, signInWithGoogle, signOut, setUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

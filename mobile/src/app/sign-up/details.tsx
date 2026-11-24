@@ -1,4 +1,3 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Divider } from '@/components/ui/Divider';
 import { FormScreen } from '@/components/ui/FormScreen';
+import { GoogleLogo } from '@/components/ui/GoogleLogo';
 import { LinkPrompt } from '@/components/ui/LinkPrompt';
 import { PhonePrefix } from '@/components/ui/PhonePrefix';
 import { ScreenHeading } from '@/components/ui/ScreenHeading';
@@ -13,6 +13,7 @@ import { Text } from '@/components/ui/Text';
 import { TextField, type TextFieldHandle } from '@/components/ui/TextField';
 import { homeRouteFor } from '@/features/auth/homeRoute';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { GoogleSignInCancelled } from '@/features/auth/google';
 import { isSignUpRole } from '@/features/auth/roles';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { toApiError, useApiErrorMessage } from '@/lib/api';
@@ -36,7 +37,8 @@ export default function SignUpDetails() {
   const [submitting, setSubmitting] = useState(false);
   const [serverErrors, setServerErrors] = useState<Partial<Record<Field, string>>>({});
   const [formError, setFormError] = useState<string>();
-  const { signUp } = useAuth();
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const { signUp, signInWithGoogle } = useAuth();
   const errorMessage = useApiErrorMessage();
 
   const emailRef = useRef<TextFieldHandle>(null);
@@ -89,6 +91,27 @@ export default function SignUpDetails() {
     }
   };
 
+  const handleGoogle = async () => {
+    if (googleLoading) return;
+    if (errors.phone || errors.terms) {
+      setServerErrors({ phone: errors.phone, terms: errors.terms });
+      return;
+    }
+    setFormError(undefined);
+    setGoogleLoading(true);
+    try {
+      const user = await signInWithGoogle({ role, phone: toInternationalCameroonNumber(phone), language });
+      router.replace(homeRouteFor(user));
+    } catch (error) {
+      if (error instanceof GoogleSignInCancelled) return;
+      const apiError = toApiError(error);
+      if (apiError.code === 'PHONE_TAKEN') setServerErrors({ phone: apiError.message });
+      else setFormError(errorMessage(apiError));
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <FormScreen contentClassName="gap-4 pt-1">
       <ScreenHeading
@@ -99,7 +122,9 @@ export default function SignUpDetails() {
         <Button
           variant="outline"
           label={t('auth.continueWithGoogle')}
-          icon={<AntDesign name="google" size={20} color={colors.foreground} />}
+          icon={<GoogleLogo />}
+          loading={googleLoading}
+          onPress={handleGoogle}
         />
         <Divider label={t('auth.signUp.orEmail')} />
       </View>

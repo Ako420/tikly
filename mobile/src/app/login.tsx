@@ -1,4 +1,3 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from 'expo-router';
@@ -6,6 +5,7 @@ import { useMemo, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { Divider } from '@/components/ui/Divider';
+import { GoogleLogo } from '@/components/ui/GoogleLogo';
 import { FormScreen } from '@/components/ui/FormScreen';
 import { LinkPrompt } from '@/components/ui/LinkPrompt';
 import { PillButton } from '@/components/ui/PillButton';
@@ -13,16 +13,17 @@ import { ScreenHeading } from '@/components/ui/ScreenHeading';
 import { Text } from '@/components/ui/Text';
 import { TextField, type TextFieldHandle } from '@/components/ui/TextField';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { GoogleSignInCancelled } from '@/features/auth/google';
 import { homeRouteFor } from '@/features/auth/homeRoute';
 import { useTranslation } from '@/i18n/I18nProvider';
-import { useApiErrorMessage } from '@/lib/api';
+import { toApiError, useApiErrorMessage } from '@/lib/api';
 import { isCameroonMobile, isEmail, toInternationalCameroonNumber } from '@/lib/validation';
 import { useTheme } from '@/theme';
 
 type Field = 'identifier' | 'password';
 
 export default function Login() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { colors } = useTheme();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +31,8 @@ export default function Login() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string>();
   const passwordRef = useRef<TextFieldHandle>(null);
-  const { signIn } = useAuth();
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const { signIn, signInWithGoogle } = useAuth();
   const errorMessage = useApiErrorMessage();
 
   const errors = useMemo(() => {
@@ -55,6 +57,26 @@ export default function Login() {
       setFormError(errorMessage(error));
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    if (googleLoading) return;
+    setFormError(undefined);
+    setGoogleLoading(true);
+    try {
+      const user = await signInWithGoogle({ language });
+      router.replace(homeRouteFor(user));
+    } catch (error) {
+      if (error instanceof GoogleSignInCancelled) return;
+      const apiError = toApiError(error);
+      if (apiError.code === 'GOOGLE_SIGNUP_INCOMPLETE') {
+        router.push('/sign-up');
+        return;
+      }
+      setFormError(errorMessage(apiError));
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -114,7 +136,9 @@ export default function Login() {
         <Button
           variant="outline"
           label={t('auth.continueWithGoogle')}
-          icon={<AntDesign name="google" size={20} color={colors.foreground} />}
+          icon={<GoogleLogo />}
+          loading={googleLoading}
+          onPress={handleGoogle}
         />
       </View>
       <View className="mt-auto items-center gap-4 pt-2">
