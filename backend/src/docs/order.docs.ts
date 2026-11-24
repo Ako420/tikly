@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { idParam } from '../schema/common.schema';
 import * as s from '../schema/order.schema';
+import { createSlotOrderBody } from '../schema/slot.schema';
 import { Order } from './components';
 import { route } from './registry';
 
@@ -78,6 +79,40 @@ route({
   errors: {
     404: ['NOT_FOUND'],
     409: ['BOOKING_NOT_PAYABLE', 'BOOKING_PAYMENT_PENDING', 'IDEMPOTENCY_KEY_REUSED'],
+    429: ['RATE_LIMITED'],
+    502: ['PAYMENT_PROVIDER_ERROR'],
+  },
+});
+
+route({
+  method: 'post',
+  path: '/orders/slots',
+  tag,
+  summary: 'Book and pay display slots',
+  description: [
+    'Holds the slots for 10 minutes and sends the payment prompt, like tickets. Once paid, the slot booking is confirmed at once and the organizer is notified (EXH-2, EXH-3).',
+    'Payment is split between the organizer and Tikly using the slot commission. Free slots are confirmed immediately.',
+    'Send an `Idempotency-Key` exactly as for tickets.',
+    limited,
+  ].join('\n\n'),
+  roles: ['exhibitor'],
+  body: createSlotOrderBody.openapi('CreateSlotOrderBody', {
+    example: { slotId: '6743a1f2c9e77b0012ab34d2', quantity: 1, phone: '670000000' },
+  }),
+  headers: z.object({
+    'idempotency-key': z
+      .string()
+      .optional()
+      .openapi({ example: '7f3c2a9e-4b1d-4c8e-9a2f-1d2e3f4a5b6c', description: '8–100 letters, digits, - or _.' }),
+  }),
+  status: 201,
+  response: Order,
+  responseDescription: 'Order created',
+  alsoStatus: { status: 200, description: 'Same Idempotency-Key as an earlier purchase: that order is returned' },
+  errors: {
+    400: ['EVENT_NOT_PUBLISHED'],
+    404: ['NOT_FOUND'],
+    409: ['SLOT_SOLD_OUT', 'SLOT_SALES_CLOSED', 'IDEMPOTENCY_KEY_REUSED'],
     429: ['RATE_LIMITED'],
     502: ['PAYMENT_PROVIDER_ERROR'],
   },

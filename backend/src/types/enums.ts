@@ -86,5 +86,6 @@ export const NOTIFICATION_TYPES = [
   'booking_cancelled',
   'booking_paid',
   'slot_booked',
+  'slot_refunded',
 ] as const;
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number];

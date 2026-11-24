@@ -60,6 +60,10 @@
     "BOOKING_PAYMENT_PENDING": "Un paiement pour cette réservation est en cours. Confirmez-le sur votre téléphone ou patientez quelques minutes.",
     "BOOKING_NOT_COMPLETABLE": "Une réservation ne peut être marquée comme terminée qu’une fois payée et après sa date de fin.",
     "SLOT_SOLD_OUT": "Il ne reste plus d'emplacement d'exposition de ce type.",
+    "SLOT_SALES_CLOSED": "Cet événement a commencé : ses emplacements ne peuvent plus être réservés.",
+    "SLOT_PRICE_LOCKED": "Le prix ne peut plus changer une fois des emplacements de ce type réservés.",
+    "SLOT_QUANTITY_BELOW_BOOKED": "La quantité ne peut pas être inférieure aux emplacements déjà réservés ou en attente.",
+    "SLOT_IN_USE": "Cet emplacement a des réservations et ne peut pas être supprimé.",
     "REVIEW_NOT_ALLOWED": "Vous ne pouvez pas encore laisser d'avis.",
     "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
     "STAFF_ALREADY_ASSIGNED": "Ce membre du personnel est déjà affecté à l'événement.",
@@ -525,12 +529,14 @@
       },
       "price": {
         "required": "Fixez un prix pour l'emplacement.",
-        "min": "Le prix ne peut pas être négatif."
+        "min": "Le prix ne peut pas être négatif.",
+        "minPaid": "Un emplacement payant doit coûter au moins 100 XAF."
       },
       "quantity": {
         "required": "Indiquez combien d'emplacements de ce type sont disponibles.",
         "min": "Proposez au moins {min} emplacement.",
-        "belowBooked": "La quantité ne peut pas être inférieure aux emplacements déjà réservés."
+        "belowBooked": "La quantité ne peut pas être inférieure aux emplacements déjà réservés.",
+        "max": "Proposez au plus {max} emplacements d’un même type."
       }
     },
     "slotBooking": {
@@ -545,7 +551,8 @@
       },
       "quantity": {
         "required": "Indiquez combien d'emplacements réserver.",
-        "min": "Réservez au moins {min} emplacement."
+        "min": "Réservez au moins {min} emplacement.",
+        "max": "Vous pouvez réserver au plus {max} emplacements à la fois."
       },
       "status": {
         "invalid": "Ce statut de réservation d'emplacement n'existe pas."

@@ -11,6 +11,7 @@ import {
   BOOKING_STATUSES,
   ROLES,
   SERVICE_CATEGORIES,
+  SLOT_BOOKING_STATUSES,
   SERVICE_UNITS,
   TICKET_STATUSES,
   TIER_NAMES,
@@ -153,18 +154,21 @@ export const AgendaItem = registry.register(
   }),
 );
 
+export const Exhibitor = registry.register(
+  'Exhibitor',
+  z.object({
+    name: z.string().openapi({ example: 'Kmer Crafts' }),
+    slot: z.string().openapi({ example: 'Stand A' }),
+    quantity: z.number().int().openapi({ example: 1 }),
+  }),
+);
+
 export const EventDetail = registry.register(
   'EventDetail',
   Event.extend({
     tiers: z.array(Tier),
     agenda: z.array(AgendaItem),
-    exhibitors: z.array(
-      z.object({
-        name: z.string().openapi({ example: 'Kmer Crafts' }),
-        slot: z.string().openapi({ example: 'Stand A' }),
-        quantity: z.number().int(),
-      }),
-    ),
+    exhibitors: z.array(Exhibitor),
   }),
 );
 
@@ -595,5 +599,63 @@ export const BookingView = registry.register(
       .nullable()
       .openapi({ description: 'The latest payment attempt, if any.' }),
     ...timestamps,
+  }),
+);
+
+export const SlotView = registry.register(
+  'Slot',
+  z.object({
+    id: id('6743a1f2c9e77b0012ab34d2'),
+    eventId: id(),
+    label: z.string().openapi({ example: 'Stand A' }),
+    size: z.string().optional().openapi({ example: '3 × 3 m, with a table' }),
+    price: xaf(30000),
+    quantity: z.number().int().openapi({ example: 10 }),
+    available: z.number().int().openapi({ example: 4, description: 'quantity − booked − reserved.' }),
+  }),
+);
+
+export const OwnerSlot = registry.register(
+  'OwnerSlot',
+  SlotView.extend({
+    booked: z.number().int().openapi({ example: 5 }),
+    reserved: z.number().int().openapi({ example: 1, description: 'Held by orders waiting for payment.' }),
+  }),
+);
+
+export const ExhibitorEvent = registry.register(
+  'ExhibitorEvent',
+  Event.extend({
+    slotsAvailable: z.number().int().openapi({ example: 6 }),
+    slotPriceFrom: xaf(30000).nullable().openapi({ description: 'Cheapest slot type that still has room.' }),
+  }),
+);
+
+export const SlotBookingView = registry.register(
+  'SlotBooking',
+  z.object({
+    id: id(),
+    status: z.enum(SLOT_BOOKING_STATUSES),
+    quantity: z.number().int().openapi({ example: 1 }),
+    orderId: id(),
+    slot: z.object({ id: id(), label: z.string(), size: z.string().optional(), price: xaf(30000) }).nullable(),
+    event: z
+      .object({
+        id: id(),
+        title: bilingual('Douala Jazz Night', 'Nuit du jazz de Douala'),
+        startAt: dateTime(),
+        venue: z.string(),
+        city: z.string(),
+      })
+      .nullable(),
+    exhibitor: z
+      .object({
+        id: id(),
+        name: z.string().openapi({ example: 'Kmer Crafts' }),
+        email: z.string().optional(),
+        phone: z.string().openapi({ example: '+237690000002' }),
+      })
+      .nullable(),
+    createdAt: dateTime(),
   }),
 );

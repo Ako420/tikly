@@ -60,6 +60,10 @@
     "BOOKING_PAYMENT_PENDING": "A payment for this booking is in progress. Confirm it on your phone or wait a few minutes.",
     "BOOKING_NOT_COMPLETABLE": "A booking can be marked as done only once it is paid and its end date has passed.",
     "SLOT_SOLD_OUT": "No display slots of this type are left.",
+    "SLOT_SALES_CLOSED": "This event has started, so its display slots can no longer be booked.",
+    "SLOT_PRICE_LOCKED": "The price cannot change once slots of this type are booked.",
+    "SLOT_QUANTITY_BELOW_BOOKED": "The quantity cannot be lower than the slots already booked or reserved.",
+    "SLOT_IN_USE": "This slot has booked or reserved places and cannot be deleted.",
     "REVIEW_NOT_ALLOWED": "You cannot review this yet.",
     "REVIEW_EXISTS": "You have already left a review.",
     "STAFF_ALREADY_ASSIGNED": "This staff member is already assigned to the event.",
@@ -525,12 +529,14 @@
       },
       "price": {
         "required": "Set a price for the slot.",
-        "min": "The price cannot be negative."
+        "min": "The price cannot be negative.",
+        "minPaid": "A paid slot must cost at least 100 XAF."
       },
       "quantity": {
         "required": "Set how many slots of this type are available.",
         "min": "Offer at least {min} slot.",
-        "belowBooked": "The quantity cannot be lower than the slots already booked or reserved."
+        "belowBooked": "The quantity cannot be lower than the slots already booked or reserved.",
+        "max": "Offer at most {max} slots of one type."
       }
     },
     "slotBooking": {
@@ -545,7 +551,8 @@
       },
       "quantity": {
         "required": "Enter how many slots to book.",
-        "min": "Book at least {min} slot."
+        "min": "Book at least {min} slot.",
+        "max": "You can book at most {max} slots at once."
       },
       "status": {
         "invalid": "This slot booking status does not exist."
