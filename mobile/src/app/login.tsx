@@ -90,7 +90,13 @@ export default function Login() {
           onSubmitEditing={handleSubmit}
         />
         <View className="items-end">
-          <Pressable accessibilityRole="link" hitSlop={8}>
+          <Pressable
+            accessibilityRole="link"
+            hitSlop={8}
+            onPress={() =>
+              router.push({ pathname: '/forgot-password', params: isEmail(identifier.trim()) ? { email: identifier.trim() } : {} })
+            }
+          >
             <Text variant="link" tone="accent">
               {t('auth.login.forgot')}
             </Text>

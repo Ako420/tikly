@@ -40,4 +40,5 @@ export const authApi = {
   me: () => api.get<User>('/auth/me'),
   updateMe: (input: UpdateProfileInput) => api.patch<User>('/auth/me', input),
   forgotPassword: (email: string) => api.post<null>('/auth/forgot-password', { email }, noAuth),
+  resetPassword: (token: string, password: string) => api.post<null>('/auth/reset-password', { token, password }, noAuth),
 };

@@ -174,6 +174,43 @@
       "termsRequired": "Accept the Terms and Privacy Policy to continue",
       "identifierInvalid": "Enter your email or a 9-digit phone number",
       "passwordRequired": "Enter your password"
+    },
+    "reset": {
+      "eyebrow": "Reset password",
+      "title": "Forgot your password?",
+      "body": "Enter the email on your account. We’ll send a reset link that works for {{hours}} hour.",
+      "send": "Send reset link",
+      "remembered": "Remembered it? ",
+      "backToLogin": "Back to log in",
+      "sentEyebrow": "Link sent",
+      "sentTitle": "Check your inbox",
+      "sentBody": "We sent a reset link to {{email}}. It expires in {{hours}} hour.",
+      "openEmail": "Open email app",
+      "resendIn": "Resend link in {{time}}",
+      "resend": "Resend link",
+      "resent": "A new link is on its way.",
+      "wrongEmail": "Wrong email? ",
+      "changeIt": "Change it",
+      "newEyebrow": "Almost done",
+      "newTitle": "Set a new password",
+      "newBody": "Use at least {{min}} characters. You’ll be logged in on this phone.",
+      "newBodyNoLogin": "Use at least {{min}} characters, then log in with your new password.",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password",
+      "mismatch": "Passwords don’t match",
+      "match": "Passwords match",
+      "saveAndLogIn": "Save and log in",
+      "save": "Save password",
+      "invalidTitle": "This link doesn’t work",
+      "invalidBody": "Open the latest reset link from your email, or request a new one.",
+      "requestNew": "Request a new link",
+      "strength": {
+        "0": "Enter a password",
+        "1": "Too short",
+        "2": "Fair password",
+        "3": "Good password",
+        "4": "Strong password"
+      }
     }
   },
   "tabs": {
@@ -280,17 +317,6 @@
       "phone": "Phone & MoMo number",
       "phoneHint": "Used for Mobile Money payments and refunds.",
       "save": "Save changes"
-    },
-    "password": {
-      "title": "Change password",
-      "body": "We’ll email a reset link to {{email}}.",
-      "send": "Send link",
-      "cancel": "Cancel",
-      "sentTitle": "Check your email",
-      "sentBody": "If {{email}} has an account, a reset link is on its way.",
-      "failed": "Couldn’t send the reset link",
-      "noEmailTitle": "No email on this account",
-      "noEmailBody": "Add an email to your account to reset your password."
     },
     "guest": "Guest"
   },

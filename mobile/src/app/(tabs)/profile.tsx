@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Linking, Pressable, ScrollView, View } from 'react-native';
+import { Linking, Pressable, ScrollView, View } from 'react-native';
 import { EditProfileSheet } from '@/components/profile/EditProfileSheet';
 import { SettingsGroup, SettingsRow } from '@/components/profile/SettingsGroup';
 import { Avatar } from '@/components/ui/Avatar';
@@ -11,12 +11,11 @@ import { OptionSheet } from '@/components/ui/OptionSheet';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { env } from '@/config/env';
-import { authApi, type UserRole } from '@/features/auth/api';
+import type { UserRole } from '@/features/auth/api';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { isSignUpRole } from '@/features/auth/roles';
 import { HOME_CITIES, setHomeCity, useHomeCity } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
-import { useApiErrorMessage } from '@/lib/api';
 import { toLocalCameroonNumber } from '@/lib/validation';
 import { useTheme } from '@/theme';
 
@@ -27,7 +26,6 @@ export default function Profile() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { user, signOut, setUser } = useAuth();
-  const errorMessage = useApiErrorMessage();
   const city = useHomeCity();
   const [cityOpen, setCityOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -37,27 +35,8 @@ export default function Profile() {
 
   const requireSignIn = (action: () => void) => () => (user ? action() : router.push('/login'));
 
-  const changePassword = () => {
-    if (!user?.email) {
-      Alert.alert(t('profile.password.noEmailTitle'), t('profile.password.noEmailBody'));
-      return;
-    }
-    const email = user.email;
-    Alert.alert(t('profile.password.title'), t('profile.password.body', { email }), [
-      { text: t('profile.password.cancel'), style: 'cancel' },
-      {
-        text: t('profile.password.send'),
-        onPress: async () => {
-          try {
-            await authApi.forgotPassword(email);
-            Alert.alert(t('profile.password.sentTitle'), t('profile.password.sentBody', { email }));
-          } catch (caught) {
-            Alert.alert(t('profile.password.failed'), errorMessage(caught));
-          }
-        },
-      },
-    ]);
-  };
+  const changePassword = () =>
+    router.push({ pathname: '/forgot-password', params: user?.email ? { email: user.email } : {} });
 
   const logOut = async () => {
     if (user) await signOut();
