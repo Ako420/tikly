@@ -27,11 +27,20 @@
     "GOOGLE_ACCOUNT_MISMATCH": "Cet e-mail est déjà lié à un autre compte Google.",
     "GOOGLE_SIGNUP_INCOMPLETE": "Choisissez un type de compte et saisissez votre numéro de téléphone pour terminer l'inscription.",
     "EVENT_NOT_EDITABLE": "Cet événement ne peut plus être modifié.",
+    "EVENT_ALREADY_STARTED": "Cet événement a déjà commencé. Modifiez ses dates avant de le soumettre.",
+    "EVENT_NOT_CANCELLABLE": "Seuls les événements publiés et non terminés peuvent être annulés.",
+    "AGENDA_OUTSIDE_EVENT": "Les sessions de l'agenda doivent avoir lieu pendant l'événement.",
+    "INVALID_CATEGORY": "Cette catégorie n'existe pas.",
     "EVENT_NEEDS_TIERS": "Ajoutez au moins une catégorie de billets avant de soumettre l'événement.",
     "EVENT_NOT_PUBLISHED": "Cet événement n'est pas ouvert à la vente.",
     "SALES_CLOSED": "La vente de billets pour cette catégorie est terminée.",
     "TIER_SOLD_OUT": "Cette catégorie de billets est épuisée.",
     "TIER_EXISTS": "Cet événement a déjà une catégorie de billets avec ce nom.",
+    "TIER_SALES_END_AFTER_START": "Une catégorie de billets reste en vente après la nouvelle heure de début. Modifiez d'abord cette catégorie.",
+    "SALES_END_AFTER_EVENT_START": "La vente des billets doit se terminer avant le début de l'événement.",
+    "TIER_PRICE_LOCKED": "Le prix ne peut plus changer une fois des billets de cette catégorie vendus.",
+    "TIER_QUANTITY_BELOW_SOLD": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés.",
+    "TIER_IN_USE": "Cette catégorie a des billets vendus ou réservés et ne peut pas être supprimée.",
     "MAX_TICKETS_EXCEEDED": "Vous pouvez acheter au maximum 10 billets par commande.",
     "ORDER_EXPIRED": "Cette commande a expiré. Veuillez recommencer.",
     "PAYMENT_FAILED": "Le paiement n'a pas abouti. Veuillez réessayer.",
@@ -40,6 +49,8 @@
     "PROVIDER_NOT_VERIFIED": "Votre entreprise doit être vérifiée avant de publier des services.",
     "PROVIDER_EXISTS": "Vous avez déjà un profil d'entreprise.",
     "BOOKING_NOT_PAYABLE": "Cette réservation ne peut pas être payée pour le moment.",
+    "BOOKING_NOT_LINKABLE": "Seule une de vos réservations acceptée ou payée pour cet événement peut être liée.",
+    "BOOKING_ALREADY_LINKED": "Cette réservation est déjà liée à une ligne du budget.",
     "SLOT_SOLD_OUT": "Il ne reste plus d'emplacement d'exposition de ce type.",
     "REVIEW_NOT_ALLOWED": "Vous ne pouvez pas encore laisser d'avis.",
     "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
@@ -55,7 +66,8 @@
         "required": "Un événement est requis."
       },
       "amount": {
-        "integer": "Les montants doivent être en francs entiers (XAF), sans décimales."
+        "integer": "Les montants doivent être en francs entiers (XAF), sans décimales.",
+        "max": "Les montants peuvent être au maximum de {max} XAF."
       },
       "quantity": {
         "integer": "La quantité doit être un nombre entier."
@@ -149,7 +161,8 @@
         "maxLength": "Le pays doit contenir au maximum {max} caractères."
       },
       "startAt": {
-        "required": "Indiquez la date et l'heure de début."
+        "required": "Indiquez la date et l'heure de début.",
+        "future": "L'événement doit commencer dans le futur."
       },
       "endAt": {
         "required": "Indiquez la date et l'heure de fin.",
@@ -174,12 +187,14 @@
       },
       "price": {
         "required": "Fixez un prix pour cette catégorie.",
-        "min": "Le prix ne peut pas être négatif."
+        "min": "Le prix ne peut pas être négatif.",
+        "max": "Le prix peut être au maximum de {max} XAF."
       },
       "quantity": {
         "required": "Indiquez le nombre de billets de cette catégorie.",
         "min": "Une catégorie doit avoir au moins {min} billet.",
-        "belowSold": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés."
+        "belowSold": "La quantité ne peut pas être inférieure aux billets déjà vendus ou réservés.",
+        "max": "Une catégorie peut avoir au maximum {max} billets."
       },
       "reserved": {
         "min": "Les billets réservés ne peuvent pas être négatifs."
@@ -188,7 +203,8 @@
         "min": "Les billets vendus ne peuvent pas être négatifs."
       },
       "salesEndAt": {
-        "required": "Indiquez la date de fin des ventes."
+        "required": "Indiquez la date de fin des ventes.",
+        "future": "La fin de la vente doit être dans le futur."
       }
     },
     "order": {

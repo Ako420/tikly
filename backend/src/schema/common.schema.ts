@@ -1,3 +1,4 @@
+import './openapi';
 import { Types } from 'mongoose';
 import { z } from 'zod';
 
@@ -10,6 +11,7 @@ export const normalizePhone = (value: string) => {
 
 export const objectId = z.string().refine((value) => Types.ObjectId.isValid(value), 'validation.common.invalidValue');
 export const idParam = z.object({ id: objectId });
+export const eventIdParam = z.object({ eventId: objectId });
 
 export const pageQuery = z.object({
   page: z.coerce.number().int().min(1).default(1),
