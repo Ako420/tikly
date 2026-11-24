@@ -9,10 +9,13 @@ import {
   ORDER_TYPES,
   PAYMENT_PROVIDERS,
   ROLES,
+  SERVICE_CATEGORIES,
+  SERVICE_UNITS,
   TICKET_STATUSES,
   TIER_NAMES,
   TRANSACTION_STATUSES,
   USER_STATUSES,
+  VERIFICATION_STATUSES,
 } from '../types/enums';
 import { registry } from './registry';
 
@@ -443,5 +446,98 @@ export const CheckinCounts = registry.register(
     totals: z.object({ sold: z.number().int(), checkedIn: z.number().int(), reentries: z.number().int() }),
     lastCheckInAt: dateTime().nullable(),
     generatedAt: dateTime(),
+  }),
+);
+
+export const ProviderProfile = registry.register(
+  'ProviderProfile',
+  z.object({
+    id: id(),
+    userId: id('6743a1f2c9e77b0012ab34ce'),
+    businessName: z.string().openapi({ example: 'Akwa Events Hire' }),
+    description: z.string().optional().openapi({ example: 'Chairs, canopies and sound for events in Douala.' }),
+    city: z.string().openapi({ example: 'Douala' }),
+    country: z.string().openapi({ example: 'Cameroon' }),
+    phone: z.string().openapi({ example: '+237677123456' }),
+    whatsapp: z.string().optional().openapi({ example: '+237690123456' }),
+    documents: z.array(z.string()).openapi({
+      example: ['documents/niu_scan_x81kq'],
+      description: 'Private document ids from POST /uploads/document. Only admins can open them.',
+    }),
+    verification: z.enum(VERIFICATION_STATUSES).openapi({
+      description: 'Services are listed only while `verified`.',
+    }),
+    rejectionReason: z.string().optional().openapi({ description: 'Set when `rejected`. Show it to the provider.' }),
+    ratingAvg: z.number().openapi({ example: 4.6 }),
+    ratingCount: z.number().int().openapi({ example: 18 }),
+    ...timestamps,
+  }),
+);
+
+const providerSummaryShape = {
+  id: id(),
+  businessName: z.string().openapi({ example: 'Akwa Events Hire' }),
+  city: z.string().openapi({ example: 'Douala' }),
+  ratingAvg: z.number().openapi({ example: 4.6 }),
+  ratingCount: z.number().int().openapi({ example: 18 }),
+};
+
+export const ProviderSummary = registry.register('ProviderSummary', z.object(providerSummaryShape));
+
+export const ProviderContact = registry.register(
+  'ProviderContact',
+  z.object({
+    ...providerSummaryShape,
+    description: z.string().optional(),
+    country: z.string().openapi({ example: 'Cameroon' }),
+    phone: z
+      .string()
+      .openapi({ example: '+237677123456', description: 'Call to book directly (directory mode, SRV-5).' }),
+    whatsapp: z
+      .string()
+      .optional()
+      .openapi({ example: '+237690123456', description: 'Open https://wa.me/<number without +>.' }),
+  }),
+);
+
+export const ServiceItem = registry.register(
+  'Service',
+  z.object({
+    id: id('6743a1f2c9e77b0012ab34d0'),
+    providerId: id(),
+    category: z.enum(SERVICE_CATEGORIES),
+    title: bilingual('Canopy 5×10 m with setup', 'Bâche 5×10 m avec montage'),
+    description: z.string().optional().openapi({ example: 'White canopy, delivered and set up the day before.' }),
+    photos: z.array(z.string()).openapi({ example: ['https://res.cloudinary.com/demo/image/upload/services/c1.jpg'] }),
+    city: z.string().openapi({ example: 'Douala' }),
+    price: xaf(25000),
+    unit: z.enum(SERVICE_UNITS).openapi({ description: 'What `price` covers: one day, one item or the whole event.' }),
+    active: z.boolean().openapi({ description: 'False once deleted or switched off by an admin.' }),
+    ...timestamps,
+  }),
+);
+
+export const ServiceListItem = registry.register(
+  'ServiceListItem',
+  ServiceItem.extend({ provider: ProviderSummary.nullable() }),
+);
+
+export const ServiceDetail = registry.register('ServiceDetail', ServiceItem.extend({ provider: ProviderContact }));
+
+export const PublicProvider = registry.register(
+  'PublicProvider',
+  ProviderContact.extend({ services: z.array(ServiceItem) }),
+);
+
+export const ProviderEarnings = registry.register(
+  'ProviderEarnings',
+  z.object({
+    from: dateTime('2026-11-01T00:00:00.000Z').nullable(),
+    to: dateTime('2026-11-30T23:59:59.000Z').nullable(),
+    paidBookings: z.number().int().openapi({ example: 4 }),
+    gross: xaf(400000).openapi({ description: 'What organizers paid.' }),
+    commission: xaf(40000).openapi({ description: 'Tikly commission.' }),
+    net: xaf(360000).openapi({ description: 'Your share.' }),
+    refunded: xaf(0),
   }),
 );

@@ -79,7 +79,8 @@
         "integer": "La quantité doit être un nombre entier."
       },
       "invalidValue": "Cette valeur n'a pas le bon format.",
-      "emptyUpdate": "Envoyez au moins un champ à modifier."
+      "emptyUpdate": "Envoyez au moins un champ à modifier.",
+      "dateRange": "La date de début doit précéder la date de fin."
     },
     "user": {
       "name": {
@@ -425,7 +426,9 @@
         "invalid": "Saisissez un numéro WhatsApp valide, par ex. 6XXXXXXXX."
       },
       "documents": {
-        "required": "Téléversez au moins un document de vérification."
+        "required": "Téléversez au moins un document de vérification.",
+        "invalid": "Chaque document doit avoir été envoyé avec POST /uploads/document.",
+        "max": "Vous pouvez joindre au plus {max} documents."
       },
       "verification": {
         "invalid": "Ce statut de vérification n'existe pas."
@@ -451,7 +454,8 @@
         "maxLength": "La description doit contenir au maximum {max} caractères."
       },
       "photos": {
-        "invalid": "Chaque photo doit être une adresse web valide."
+        "invalid": "Chaque photo doit être une adresse web valide.",
+        "max": "Vous pouvez ajouter au plus {max} photos."
       },
       "city": {
         "required": "Indiquez la ville où le service est proposé.",
@@ -464,6 +468,9 @@
       "unit": {
         "required": "Choisissez comment le prix est facturé.",
         "invalid": "Le prix doit être par jour, par article ou par événement."
+      },
+      "priceRange": {
+        "invalid": "Le prix minimum ne peut pas dépasser le prix maximum."
       }
     },
     "booking": {

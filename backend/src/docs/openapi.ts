@@ -12,6 +12,8 @@ import './payment.docs';
 import './ticket.docs';
 import './staff.docs';
 import './access.docs';
+import './provider.docs';
+import './service.docs';
 
 const DESCRIPTION = `
 REST API shared by the Tikly web app (Next.js) and mobile app (Expo).
@@ -49,6 +51,8 @@ const TAGS = [
   'Tickets',
   'Staff',
   'Access control',
+  'Providers',
+  'Services',
 ];
 
 let document: ReturnType<OpenApiGeneratorV31['generateDocument']> | undefined;

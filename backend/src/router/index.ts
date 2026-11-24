@@ -8,6 +8,8 @@ import { paymentRouter } from './payment.router';
 import { eventStaffRouter, organizerStaffRouter, staffEventsRouter } from './staff.router';
 import { myTicketRouter, ticketRouter } from './ticket.router';
 import { planningRouter } from './planning.router';
+import { providerRouter } from './provider.router';
+import { serviceRouter } from './service.router';
 import { eventTierRouter, tierRouter } from './tier.router';
 import { uploadRouter } from './upload.router';
 
@@ -32,3 +34,5 @@ apiRouter.use('/me/tickets', myTicketRouter);
 apiRouter.use('/organizer/staff', organizerStaffRouter);
 apiRouter.use('/staff/events', staffEventsRouter);
 apiRouter.use('/access', accessRouter);
+apiRouter.use('/providers', providerRouter);
+apiRouter.use('/services', serviceRouter);

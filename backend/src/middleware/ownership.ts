@@ -1,5 +1,7 @@
 import type { RequestHandler } from 'express';
 import { EventModel } from '../model/event.model';
+import { ProviderModel } from '../model/provider.model';
+import { ServiceModel } from '../model/service.model';
 import { StaffAssignmentModel } from '../model/staffAssignment.model';
 import { TicketTierModel } from '../model/ticketTier.model';
 import { UserModel } from '../model/user.model';
@@ -45,5 +47,14 @@ export const requireEventAccess: RequestHandler = async (req, _res, next) => {
     if (!assigned) throw AppError.forbidden('NOT_ASSIGNED_TO_EVENT');
   }
   req.event = event;
+  next();
+};
+
+export const requireServiceOwner: RequestHandler = async (req, _res, next) => {
+  const service = await ServiceModel.findOne({ _id: req.params.id, active: true });
+  if (!service) throw AppError.notFound();
+  const owns = await ProviderModel.exists({ _id: service.providerId, userId: req.user!.id });
+  if (!owns) throw AppError.forbidden();
+  req.service = service;
   next();
 };
