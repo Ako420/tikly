@@ -375,3 +375,73 @@ export const TicketCancellation = registry.register(
 );
 
 export const PdfFile = z.string().openapi({ type: 'string', format: 'binary' });
+
+const StaffEvent = z.object({
+  id: id(),
+  title: bilingual('Douala Jazz Night', 'Nuit du jazz de Douala'),
+  startAt: dateTime(),
+  endAt: dateTime('2026-12-20T21:00:00.000Z'),
+  venue: z.string(),
+  city: z.string(),
+  status: z.enum(EVENT_STATUSES),
+});
+
+export const StaffMember = registry.register(
+  'StaffMember',
+  User.extend({ events: z.array(StaffEvent).openapi({ description: 'Events this staff member is assigned to.' }) }),
+);
+
+export const AssignedEvent = registry.register(
+  'AssignedEvent',
+  StaffEvent.extend({ today: z.boolean().openapi({ description: 'Happening within a day of now; listed first.' }) }),
+);
+
+export const Assignment = registry.register('Assignment', z.object({ staffId: id(), eventId: id() }));
+
+export const GateTicket = registry.register(
+  'GateTicket',
+  z.object({
+    id: id(),
+    code: z.string().openapi({ example: 'EVT-7K2M-9QX' }),
+    status: z.enum(TICKET_STATUSES),
+    tier: z.enum(TIER_NAMES).nullable(),
+    holderName: z.string().openapi({ example: 'Ama N.', description: 'First name and initial only.' }),
+    checkIns: z.array(
+      z.object({
+        at: dateTime(),
+        type: z.enum(['entry', 'reentry']),
+        note: z.string().optional(),
+        staffName: z.string().nullable().openapi({ example: 'Gate 1' }),
+      }),
+    ),
+  }),
+);
+
+export const ScanOutcome = registry.register(
+  'ScanOutcome',
+  z.object({
+    result: z.enum(['VALID', 'ALREADY_CHECKED_IN', 'INVALID', 'WRONG_EVENT', 'CANCELLED']).openapi({
+      description:
+        'VALID: first entry, now checked in (green). ALREADY_CHECKED_IN: show the earlier check-in time (orange). INVALID, WRONG_EVENT, CANCELLED: refuse (red). UI-4.',
+    }),
+    ticket: GateTicket.optional().openapi({ description: 'Missing for INVALID and WRONG_EVENT.' }),
+  }),
+);
+
+export const CheckinCounts = registry.register(
+  'CheckinCounts',
+  z.object({
+    tiers: z.array(
+      z.object({
+        id: id(),
+        name: z.enum(TIER_NAMES),
+        sold: z.number().int(),
+        checkedIn: z.number().int(),
+        reentries: z.number().int(),
+      }),
+    ),
+    totals: z.object({ sold: z.number().int(), checkedIn: z.number().int(), reentries: z.number().int() }),
+    lastCheckInAt: dateTime().nullable(),
+    generatedAt: dateTime(),
+  }),
+);

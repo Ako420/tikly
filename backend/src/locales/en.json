@@ -60,6 +60,8 @@
     "REVIEW_EXISTS": "You have already left a review.",
     "STAFF_ALREADY_ASSIGNED": "This staff member is already assigned to the event.",
     "NOT_ASSIGNED_TO_EVENT": "You are not assigned to this event.",
+    "TICKET_NOT_CHECKED_IN": "This ticket has not entered yet. Scan it as a normal entry.",
+    "TICKET_NOT_VALID": "This ticket was cancelled or refunded.",
     "RATE_LIMITED": "Too many attempts. Please wait a minute and try again.",
     "SERVICE_UNAVAILABLE": "The service is temporarily unavailable. Please try again in a moment.",
     "INTERNAL": "Something went wrong on our side. Please try again later."
@@ -586,6 +588,14 @@
           "required": "Each category needs a French name."
         },
         "duplicate": "Two categories cannot share the same key."
+      }
+    },
+    "access": {
+      "scan": {
+        "required": "Send the scanned QR code or the ticket code."
+      },
+      "lookup": {
+        "required": "Enter a ticket code or a phone number."
       }
     }
   },

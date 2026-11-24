@@ -60,6 +60,8 @@
     "REVIEW_EXISTS": "Vous avez déjà laissé un avis.",
     "STAFF_ALREADY_ASSIGNED": "Ce membre du personnel est déjà affecté à l'événement.",
     "NOT_ASSIGNED_TO_EVENT": "Vous n'êtes pas affecté à cet événement.",
+    "TICKET_NOT_CHECKED_IN": "Ce billet n'est pas encore entré. Scannez-le comme une entrée normale.",
+    "TICKET_NOT_VALID": "Ce billet a été annulé ou remboursé.",
     "RATE_LIMITED": "Trop de tentatives. Patientez une minute puis réessayez.",
     "SERVICE_UNAVAILABLE": "Le service est momentanément indisponible. Veuillez réessayer dans un instant.",
     "INTERNAL": "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard."
@@ -586,6 +588,14 @@
           "required": "Chaque catégorie doit avoir un nom en français."
         },
         "duplicate": "Deux catégories ne peuvent pas avoir la même clé."
+      }
+    },
+    "access": {
+      "scan": {
+        "required": "Envoyez le QR code scanné ou le code du billet."
+      },
+      "lookup": {
+        "required": "Saisissez un code de billet ou un numéro de téléphone."
       }
     }
   },
