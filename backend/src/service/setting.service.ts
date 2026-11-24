@@ -1,5 +1,6 @@
-import { DEFAULT_EVENT_CATEGORIES } from '../config/constants';
+import { DEFAULT_COMMISSION_PERCENT, DEFAULT_EVENT_CATEGORIES } from '../config/constants';
 import { SettingModel } from '../model/setting.model';
+import type { OrderType } from '../types/enums';
 import { AppError } from '../util/AppError';
 
 export type Category = { key: string; en: string; fr: string };
@@ -16,4 +17,9 @@ export async function assertCategory(key: string) {
   const categories = await getCategories();
   const allowed = categories.map((category) => category.key);
   if (!allowed.includes(key)) throw AppError.badRequest('INVALID_CATEGORY', { allowed });
+}
+
+export async function getCommissionRate(type: OrderType): Promise<number> {
+  const settings = await SettingModel.findOne().select('commission').lean();
+  return settings?.commission?.[type] ?? DEFAULT_COMMISSION_PERCENT[type];
 }

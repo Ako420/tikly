@@ -4,8 +4,14 @@ import {
   EVENT_STATUSES,
   GUEST_SOURCES,
   LANGUAGES,
+  ORDER_ITEM_MODELS,
+  ORDER_STATUSES,
+  ORDER_TYPES,
+  PAYMENT_PROVIDERS,
   ROLES,
+  TICKET_STATUSES,
   TIER_NAMES,
+  TRANSACTION_STATUSES,
   USER_STATUSES,
 } from '../types/enums';
 import { registry } from './registry';
@@ -268,3 +274,64 @@ export const Health = registry.register(
 );
 
 export const Empty = z.null().openapi({ description: 'No data.' });
+
+export const Order = registry.register(
+  'Order',
+  z.object({
+    id: id(),
+    type: z.enum(ORDER_TYPES),
+    status: z.enum(ORDER_STATUSES).openapi({
+      description:
+        '`pending` until the payment settles, then `paid`. `failed` when declined, `expired` when unpaid after 10 minutes (stock released), `refunded` when money went back.',
+    }),
+    buyerId: id(),
+    payeeId: id(),
+    eventId: id().optional(),
+    items: z.array(
+      z.object({
+        refId: id(),
+        refModel: z.enum(ORDER_ITEM_MODELS),
+        quantity: z.number().int().openapi({ example: 2 }),
+        unitPrice: xaf(15000),
+      }),
+    ),
+    amount: xaf(30000),
+    phone: z.string().optional().openapi({ example: '+237670000000' }),
+    expiresAt: dateTime('2026-11-24T10:20:00.000Z').optional(),
+    paidAt: dateTime().optional(),
+    event: z
+      .object({
+        id: id(),
+        title: bilingual('Douala Jazz Night', 'Nuit du jazz de Douala'),
+        startAt: dateTime(),
+        venue: z.string(),
+        city: z.string(),
+      })
+      .nullable(),
+    payment: z
+      .object({
+        provider: z.enum(PAYMENT_PROVIDERS),
+        externalRef: z.string().openapi({ example: 'aBcD1234' }),
+        status: z.enum(TRANSACTION_STATUSES),
+        message: z.string().nullable().openapi({
+          example: 'Confirm the payment on your phone.',
+          description: 'Shown while pending, in the user’s language.',
+        }),
+      })
+      .nullable()
+      .openapi({ description: 'Null for free orders.' }),
+    tickets: z
+      .array(
+        z.object({
+          id: id(),
+          code: z.string().openapi({ example: 'EVT-7K2M-9QX' }),
+          tierId: id(),
+          status: z.enum(TICKET_STATUSES),
+        }),
+      )
+      .openapi({ description: 'Filled once a ticket order is paid.' }),
+    ...timestamps,
+  }),
+);
+
+export const WebhookAck = z.object({ received: z.literal(true) });
