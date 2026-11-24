@@ -8,9 +8,10 @@ const HOME_BY_ROLE: Partial<Record<UserRole, string>> = {
 };
 
 export const TABS_BY_ROLE: Partial<Record<UserRole, string[]>> = {
+  attendee: ['home', 'explore', 'tickets', 'marketplace', 'profile'],
   organizer: ['marketplace', 'bookings', 'profile'],
-  provider: ['requests', 'listings', 'earnings', 'profile'],
-  exhibitor: ['slot-events', 'my-slots', 'profile'],
+  provider: ['requests', 'listings', 'marketplace', 'earnings', 'profile'],
+  exhibitor: ['slot-events', 'my-slots', 'marketplace', 'profile'],
 };
 
 export const ATTENDEE_TABS = ['home', 'explore', 'tickets', 'profile'];
