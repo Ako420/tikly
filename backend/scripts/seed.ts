@@ -7,7 +7,18 @@ import { uploadPrivateDocument, uploadPublicImage } from '../src/lib/cloudinary'
 import { Types } from 'mongoose';
 import { createQrToken } from '../src/util/qrToken';
 import { ticketCode } from '../src/util/ticketCode';
-import { EventModel, OrderModel, ProviderModel, PostModel, ServiceModel, SlotModel, StaffAssignmentModel, TicketModel, TicketTierModel, UserModel } from '../src/model';
+import {
+  EventModel,
+  OrderModel,
+  ProviderModel,
+  PostModel,
+  ServiceModel,
+  SlotModel,
+  StaffAssignmentModel,
+  TicketModel,
+  TicketTierModel,
+  UserModel,
+} from '../src/model';
 import { POSTS } from './seedPosts.data';
 import type { ServiceCategory, ServiceUnit } from '../src/types/enums';
 
@@ -50,7 +61,8 @@ const EVENTS: EventSeed[] = [
       fr: 'La superstar camerounaise Ko-C revient à la maison pour une soirée de tubes, de « Bolo Bolo » à ses derniers singles, avec des invités spéciaux et un orchestre live.',
     },
     category: 'concert',
-    coverSource: 'https://sportsandculturenetwork.com/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-17-at-12.46.40.jpeg',
+    coverSource:
+      'https://sportsandculturenetwork.com/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-17-at-12.46.40.jpeg',
     venue: 'Stade de la Réunification, Bépanda',
     city: 'Douala',
     startAt: '2026-12-19T18:00:00+01:00',
@@ -105,7 +117,8 @@ const EVENTS: EventSeed[] = [
       fr: 'La voix d’or du Cameroun, Charlotte Dipanda, en concert live avec ses musiciens, revisitant ses albums de « Mispa » à « Dipita ».',
     },
     category: 'concert',
-    coverSource: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/CharlotteDipanda.jpg/960px-CharlotteDipanda.jpg',
+    coverSource:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/CharlotteDipanda.jpg/960px-CharlotteDipanda.jpg',
     venue: 'Palais Polyvalent des Sports',
     city: 'Yaoundé',
     startAt: '2027-02-14T20:00:00+01:00',
@@ -191,14 +204,17 @@ const EVENTS: EventSeed[] = [
     slots: festivalSlots,
   },
   {
-    title: { en: "Cameroon International Music Festival (CIMFEST)", fr: "Cameroon International Music Festival (CIMFEST)" },
+    title: {
+      en: 'Cameroon International Music Festival (CIMFEST)',
+      fr: 'Cameroon International Music Festival (CIMFEST)',
+    },
     description: {
-      en: "Four days of live concerts, DJ battles, a music-tech hackathon, master classes and a sponsor village at Molyko stadium in Buea.",
-      fr: "Quatre jours de concerts live, battles de DJ, hackathon musique et tech, master classes et village des sponsors au stade de Molyko à Buea.",
+      en: 'Four days of live concerts, DJ battles, a music-tech hackathon, master classes and a sponsor village at Molyko stadium in Buea.',
+      fr: 'Quatre jours de concerts live, battles de DJ, hackathon musique et tech, master classes et village des sponsors au stade de Molyko à Buea.',
     },
     category: 'festival',
-    coverSource: "https://ayatickets.fr/uploads/events/8d4f29166742f9c401be6b48208b0a8c.png",
-    venue: "Molyko Omnisport Stadium",
+    coverSource: 'https://ayatickets.fr/uploads/events/8d4f29166742f9c401be6b48208b0a8c.png',
+    venue: 'Molyko Omnisport Stadium',
     city: 'Buea',
     startAt: '2026-12-10T16:00:00+01:00',
     durationHours: 78,
@@ -210,14 +226,14 @@ const EVENTS: EventSeed[] = [
     slots: festivalSlots,
   },
   {
-    title: { en: "Écrans Noirs Film Festival", fr: "Festival Écrans Noirs" },
+    title: { en: 'Écrans Noirs Film Festival', fr: 'Festival Écrans Noirs' },
     description: {
-      en: "Central Africa’s leading film festival: screenings of African features and shorts, master classes and the Écran d’Or award night.",
-      fr: "Le grand festival de cinéma d’Afrique centrale : projections de longs et courts métrages africains, master classes et soirée de l’Écran d’Or.",
+      en: 'Central Africa’s leading film festival: screenings of African features and shorts, master classes and the Écran d’Or award night.',
+      fr: 'Le grand festival de cinéma d’Afrique centrale : projections de longs et courts métrages africains, master classes et soirée de l’Écran d’Or.',
     },
     category: 'film',
-    coverSource: "https://www.ecransnoirs.org/wp-content/uploads/2026/09/affiche-Ecrans-Noirs-30.jpg",
-    venue: "Palais des Congrès",
+    coverSource: 'https://www.ecransnoirs.org/wp-content/uploads/2026/09/affiche-Ecrans-Noirs-30.jpg',
+    venue: 'Palais des Congrès',
     city: 'Yaoundé',
     startAt: '2027-01-20T18:00:00+01:00',
     durationHours: 170,
@@ -228,14 +244,14 @@ const EVENTS: EventSeed[] = [
     slots: concertSlots.slice(0, 2),
   },
   {
-    title: { en: "Canal 2’Or Awards Night", fr: "Soirée Canal 2’Or" },
+    title: { en: 'Canal 2’Or Awards Night', fr: 'Soirée Canal 2’Or' },
     description: {
-      en: "The biggest night of Cameroonian TV, film and music: red carpet, live performances and the Canal 2’Or awards.",
-      fr: "La plus grande soirée de la télé, du cinéma et de la musique camerounaise : tapis rouge, prestations live et remise des Canal 2’Or.",
+      en: 'The biggest night of Cameroonian TV, film and music: red carpet, live performances and the Canal 2’Or awards.',
+      fr: 'La plus grande soirée de la télé, du cinéma et de la musique camerounaise : tapis rouge, prestations live et remise des Canal 2’Or.',
     },
     category: 'awards',
-    coverSource: "https://cameroun24.net/images/news/canal2or-2026-laureats_670.jpg",
-    venue: "Palais des Congrès",
+    coverSource: 'https://cameroun24.net/images/news/canal2or-2026-laureats_670.jpg',
+    venue: 'Palais des Congrès',
     city: 'Yaoundé',
     startAt: '2026-12-12T19:00:00+01:00',
     durationHours: 6,
@@ -247,14 +263,14 @@ const EVENTS: EventSeed[] = [
     slots: concertSlots.slice(0, 2),
   },
   {
-    title: { en: "Yaoundé en Fête (YA-FE)", fr: "Yaoundé en Fête (YA-FE)" },
+    title: { en: 'Yaoundé en Fête (YA-FE)', fr: 'Yaoundé en Fête (YA-FE)' },
     description: {
-      en: "The end-of-year family festival in Yaoundé: fun fair rides, concerts every night, food court and New Year’s Eve countdown.",
-      fr: "Le festival familial de fin d’année à Yaoundé : manèges, concerts tous les soirs, espace restauration et compte à rebours du Nouvel An.",
+      en: 'The end-of-year family festival in Yaoundé: fun fair rides, concerts every night, food court and New Year’s Eve countdown.',
+      fr: 'Le festival familial de fin d’année à Yaoundé : manèges, concerts tous les soirs, espace restauration et compte à rebours du Nouvel An.',
     },
     category: 'festival',
-    coverSource: "https://grena.cm/uploads/events/6756f7cd76134702208414.jpg",
-    venue: "Esplanade du Palais des Congrès",
+    coverSource: 'https://grena.cm/uploads/events/6756f7cd76134702208414.jpg',
+    venue: 'Esplanade du Palais des Congrès',
     city: 'Yaoundé',
     startAt: '2026-12-20T14:00:00+01:00',
     durationHours: 370,
@@ -287,14 +303,16 @@ const PROVIDERS: ProviderSeed[] = [
   {
     user: { name: 'Golden Hall Bonapriso', email: 'goldenhall@tikly.demo', phone: '+237670000101' },
     businessName: 'Golden Hall Bonapriso',
-    description: 'Air-conditioned reception hall in the heart of Bonapriso for weddings, galas and corporate dinners. Seats up to 500 guests.',
+    description:
+      'Air-conditioned reception hall in the heart of Bonapriso for weddings, galas and corporate dinners. Seats up to 500 guests.',
     city: 'Douala',
     whatsapp: '+237670000101',
     services: [
       {
         category: 'hall',
         title: { en: 'Reception hall (500 guests)', fr: 'Salle de réception (500 invités)' },
-        description: 'Full-day hire including tables, air conditioning, backup generator, parking and on-site security.',
+        description:
+          'Full-day hire including tables, air conditioning, backup generator, parking and on-site security.',
         price: 750000,
         unit: 'per_day',
         photos: [
@@ -315,7 +333,8 @@ const PROVIDERS: ProviderSeed[] = [
       {
         category: 'chairs',
         title: { en: 'Crystal & Chiavari chairs', fr: 'Chaises cristal & Chiavari' },
-        description: 'Transparent Napoleon and gold Chiavari chairs with cushions. Delivery and collection included from 100 chairs.',
+        description:
+          'Transparent Napoleon and gold Chiavari chairs with cushions. Delivery and collection included from 100 chairs.',
         price: 500,
         unit: 'per_item',
         photos: [
@@ -327,7 +346,8 @@ const PROVIDERS: ProviderSeed[] = [
       {
         category: 'canopy',
         title: { en: 'Event canopies & marquees', fr: 'Bâches et chapiteaux événementiels' },
-        description: 'Pagoda tents (5x5 m) and long marquees with side walls, draping in your colours and setup by our crew.',
+        description:
+          'Pagoda tents (5x5 m) and long marquees with side walls, draping in your colours and setup by our crew.',
         price: 35000,
         unit: 'per_item',
         photos: [
@@ -341,14 +361,16 @@ const PROVIDERS: ProviderSeed[] = [
   {
     user: { name: 'Mboa Sound System', email: 'mboasound@tikly.demo', phone: '+237670000103' },
     businessName: 'Mboa Sound System',
-    description: 'Professional sound, stage and lighting for concerts, festivals and weddings, with experienced engineers and DJs.',
+    description:
+      'Professional sound, stage and lighting for concerts, festivals and weddings, with experienced engineers and DJs.',
     city: 'Douala',
     whatsapp: '+237670000103',
     services: [
       {
         category: 'sound',
         title: { en: 'Concert stage sound & lights', fr: 'Sonorisation et éclairage de scène' },
-        description: 'Line-array PA, monitors, mixing desk, stage lighting and two sound engineers for outdoor events up to 5,000 people.',
+        description:
+          'Line-array PA, monitors, mixing desk, stage lighting and two sound engineers for outdoor events up to 5,000 people.',
         price: 1200000,
         unit: 'per_event',
         photos: [
@@ -369,14 +391,16 @@ const PROVIDERS: ProviderSeed[] = [
   {
     user: { name: 'Saveurs du Littoral', email: 'saveurs.littoral@tikly.demo', phone: '+237670000104' },
     businessName: 'Saveurs du Littoral Traiteur',
-    description: 'Caterer specialised in Cameroonian and continental buffets: ndolé, poulet DG, grilled fish, pastries and drinks service.',
+    description:
+      'Caterer specialised in Cameroonian and continental buffets: ndolé, poulet DG, grilled fish, pastries and drinks service.',
     city: 'Douala',
     whatsapp: '+237670000104',
     services: [
       {
         category: 'catering',
         title: { en: 'Wedding & event buffet', fr: 'Buffet mariage et événement' },
-        description: 'Full buffet with starters, three main dishes, dessert and waiting staff. Price per guest, minimum 50 guests.',
+        description:
+          'Full buffet with starters, three main dishes, dessert and waiting staff. Price per guest, minimum 50 guests.',
         price: 8000,
         unit: 'per_item',
         photos: [
@@ -389,14 +413,16 @@ const PROVIDERS: ProviderSeed[] = [
   {
     user: { name: 'Élégance Déco Events', email: 'elegance.deco@tikly.demo', phone: '+237670000105' },
     businessName: 'Élégance Déco Events',
-    description: 'Wedding and event decoration: table settings, floral arrangements, traditional and modern stage backdrops.',
+    description:
+      'Wedding and event decoration: table settings, floral arrangements, traditional and modern stage backdrops.',
     city: 'Douala',
     whatsapp: '+237670000105',
     services: [
       {
         category: 'decoration',
         title: { en: 'Hall & table decoration', fr: 'Décoration de salle et de tables' },
-        description: 'Complete decoration of the venue: centrepieces, flowers, chair covers, draping and a themed stage backdrop.',
+        description:
+          'Complete decoration of the venue: centrepieces, flowers, chair covers, draping and a themed stage backdrop.',
         price: 450000,
         unit: 'per_event',
         photos: [
@@ -410,14 +436,16 @@ const PROVIDERS: ProviderSeed[] = [
   {
     user: { name: 'Numerix Media', email: 'numerix.media@tikly.demo', phone: '+237670000106' },
     businessName: 'Numerix Media Studio',
-    description: 'Event photography and videography: weddings, concerts and corporate events, with photo books and same-day highlights.',
+    description:
+      'Event photography and videography: weddings, concerts and corporate events, with photo books and same-day highlights.',
     city: 'Yaoundé',
     whatsapp: '+237670000106',
     services: [
       {
         category: 'other',
         title: { en: 'Event photography & video', fr: 'Photographie et vidéo événementielle' },
-        description: 'Two photographers and one videographer for the whole day, 300+ edited photos and a 5-minute highlight film.',
+        description:
+          'Two photographers and one videographer for the whole day, 300+ edited photos and a 5-minute highlight film.',
         price: 350000,
         unit: 'per_event',
         photos: [
@@ -458,7 +486,10 @@ async function fetchImage(url: string, attempt = 1): Promise<Buffer> {
 
 let passwordHash: Promise<string> | undefined;
 
-async function upsertUser(user: { name: string; email: string; phone: string }, role: 'organizer' | 'provider' | 'exhibitor' | 'attendee') {
+async function upsertUser(
+  user: { name: string; email: string; phone: string },
+  role: 'organizer' | 'provider' | 'exhibitor' | 'attendee',
+) {
   const existing = await UserModel.findOne({ email: user.email });
   if (existing) return existing;
   passwordHash ??= bcrypt.hash(DEMO_PASSWORD, BCRYPT_ROUNDS);
@@ -643,28 +674,27 @@ async function seedPosts(organizerId: unknown) {
 const DEMO_ATTENDEE = { name: 'Demo Attendee', email: 'attendee@tikly.demo', phone: '+237670000401' };
 const DEMO_TICKETS = 3;
 
-async function seedDemoTickets(organizerId: unknown) {
-  const event = await EventModel.findOne({ organizerId, 'title.en': TODAY_EVENT_TITLE });
-  const tier = event && (await TicketTierModel.findOne({ eventId: event._id, name: 'standard' }));
-  if (!event || !tier) {
-    console.error(`fail  tickets: "${TODAY_EVENT_TITLE}" or its standard tier not found`);
-    return;
-  }
-  const attendee = await upsertUser(DEMO_ATTENDEE, 'attendee');
-  const owned = await TicketModel.countDocuments({ eventId: event._id, holderId: attendee._id });
-  const missing = DEMO_TICKETS - owned;
-  if (missing <= 0) {
-    console.log(`tickets ${attendee.email} already holds ${owned} for ${TODAY_EVENT_TITLE}`);
-    return;
-  }
+async function giveTickets(
+  event: { _id: Types.ObjectId; organizerId?: unknown },
+  tier: { _id: Types.ObjectId; price: number },
+  holder: { _id: Types.ObjectId; phone: string; email?: string | null; name: string },
+  wanted: number,
+) {
+  const owned = await TicketModel.countDocuments({
+    eventId: event._id,
+    holderId: holder._id,
+    status: { $in: ['valid', 'checked_in'] },
+  });
+  const missing = wanted - owned;
+  if (missing <= 0) return;
   const order = await OrderModel.create({
     type: 'ticket',
-    buyerId: attendee._id,
+    buyerId: holder._id,
     payeeId: event.organizerId,
     eventId: event._id,
     items: [{ refId: tier._id, refModel: 'TicketTier', quantity: missing, unitPrice: tier.price }],
     amount: tier.price * missing,
-    phone: DEMO_ATTENDEE.phone,
+    phone: holder.phone,
     status: 'paid',
     paidAt: new Date(),
   });
@@ -677,12 +707,31 @@ async function seedDemoTickets(organizerId: unknown) {
       orderId: order._id,
       eventId: event._id,
       tierId: tier._id,
-      holderId: attendee._id,
+      holderId: holder._id,
     };
   });
   await TicketModel.insertMany(tickets);
   await TicketTierModel.updateOne({ _id: tier._id }, { $inc: { sold: missing } });
-  console.log(`tickets ${attendee.email} +${missing}: ${tickets.map((ticket) => ticket.code).join(', ')}`);
+  console.log(`tickets ${holder.email ?? holder.name} +${missing}: ${tickets.map((ticket) => ticket.code).join(', ')}`);
+}
+
+async function seedDemoTickets(organizerId: unknown) {
+  const event = await EventModel.findOne({ organizerId, 'title.en': TODAY_EVENT_TITLE });
+  const tier = event && (await TicketTierModel.findOne({ eventId: event._id, name: 'standard' }));
+  if (!event || !tier) {
+    console.error(`fail  tickets: "${TODAY_EVENT_TITLE}" or its standard tier not found`);
+    return;
+  }
+  const demo = await upsertUser(DEMO_ATTENDEE, 'attendee');
+  const attendees = await UserModel.find({ role: 'attendee' });
+  for (const attendee of attendees) {
+    try {
+      await giveTickets(event, tier, attendee, attendee._id.equals(demo._id) ? DEMO_TICKETS : 1);
+    } catch (err) {
+      console.error(`fail  tickets ${attendee.email ?? attendee.name}:`, err instanceof Error ? err.message : err);
+    }
+  }
+  console.log(`tickets every attendee (${attendees.length}) holds a ${TODAY_EVENT_TITLE} ticket`);
 }
 
 async function main() {
