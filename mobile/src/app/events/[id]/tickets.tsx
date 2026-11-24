@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Image, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TierSelectorCard } from '@/components/tickets/TierSelectorCard';
-import { EmptyState } from '@/components/ui/EmptyState';
 import { IconButton } from '@/components/ui/IconButton';
 import { Screen } from '@/components/ui/Screen';
 import { StickyActionBar } from '@/components/ui/StickyActionBar';
 import { Text } from '@/components/ui/Text';
 import { useEventFormatter } from '@/features/events/formatEvent';
 import { MAX_TICKETS_PER_ORDER } from '@/features/events/tierStock';
+import { EventLoadState } from '@/components/events/EventLoadState';
 import { useEventDetails } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { formatDateRange } from '@/lib/dates';
@@ -21,28 +21,15 @@ type Selection = { tierId: string; quantity: number } | null;
 
 export default function SelectTickets() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const event = useEventDetails(id);
+  const eventResource = useEventDetails(id);
+  const event = eventResource.data;
   const { t, language } = useTranslation();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const format = useEventFormatter();
   const [selection, setSelection] = useState<Selection>(null);
 
-  if (!event) {
-    return (
-      <Screen>
-        <View className="flex-1 justify-center">
-          <EmptyState
-            icon="ticket-outline"
-            title={t('eventDetails.notFoundTitle')}
-            body={t('eventDetails.notFoundBody')}
-            actionLabel={t('common.back')}
-            onAction={() => router.back()}
-          />
-        </View>
-      </Screen>
-    );
-  }
+  if (!event) return <EventLoadState resource={eventResource} icon="ticket-outline" />;
 
   const selectedTier = event.tiers.find((tier) => tier.id === selection?.tierId);
   const quantity = selection?.quantity ?? 0;
