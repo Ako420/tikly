@@ -835,5 +835,19 @@
     "failedBody": "Aucun montant n’a été prélevé. Vous pouvez réessayer.",
     "tryAgain": "Réessayer",
     "done": "Terminé"
+  },
+  "posts": {
+    "eyebrow": "Actus de l’événement",
+    "title": "Publications",
+    "pinned": "Épinglé",
+    "types": {
+      "update": "Info",
+      "speaker": "Artiste",
+      "promo": "Promo"
+    },
+    "emptyTitle": "Aucune publication",
+    "emptyBody": "L’organisateur n’a encore rien publié ici.",
+    "errorTitle": "Impossible de charger les publications",
+    "retry": "Réessayer"
   }
 }

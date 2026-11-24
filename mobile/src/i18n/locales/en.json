@@ -835,5 +835,19 @@
     "failedBody": "No money was taken. You can try again.",
     "tryAgain": "Try again",
     "done": "Done"
+  },
+  "posts": {
+    "eyebrow": "Event news",
+    "title": "Posts",
+    "pinned": "Pinned",
+    "types": {
+      "update": "Update",
+      "speaker": "Artist",
+      "promo": "Promo"
+    },
+    "emptyTitle": "No posts yet",
+    "emptyBody": "The organiser hasn’t posted anything here yet.",
+    "errorTitle": "Couldn’t load posts",
+    "retry": "Try again"
   }
 }
