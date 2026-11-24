@@ -7,7 +7,7 @@ import { useTheme, withAlpha } from '@/theme';
 export const HERO_HEIGHT = 440;
 const CREDIT_TOP = 150;
 
-export type ImageCredit = { label: string; url: string };
+export type ImageCredit = { url: string };
 
 type OnboardingSlideProps = {
   width: number;
@@ -42,15 +42,11 @@ export function OnboardingSlide({ width, image, eyebrow, title, body, preview, c
         {credit ? (
           <Pressable
             accessibilityRole="link"
-            accessibilityLabel={credit.label}
             onPress={() => Linking.openURL(credit.url)}
             hitSlop={6}
             className="absolute right-6 rounded-full px-2 py-0.5"
             style={{ top: CREDIT_TOP, backgroundColor: withAlpha(colors.media, 0.55) }}
           >
-            <Text variant="micro" tone="onMedia">
-              {credit.label}
-            </Text>
           </Pressable>
         ) : null}
         <View className="absolute bottom-[18px] left-7 right-7">{preview}</View>

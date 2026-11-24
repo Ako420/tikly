@@ -36,17 +36,17 @@ const slides: Slide[] = [
   {
     key: 'discover',
     image: require('../../assets/images/onboarding/discover.jpg'),
-    credit: { label: 'Photo: Bemnet Mesfin · Unsplash', url: 'https://unsplash.com/photos/EoYbJ7x7-WU' },
+    credit: { url: 'https://unsplash.com/photos/EoYbJ7x7-WU' },
   },
   {
     key: 'pay',
     image: require('../../assets/images/onboarding/pay.jpg'),
-    credit: { label: 'Photo: Segun Osunyomi · Unsplash', url: 'https://unsplash.com/photos/SyZAgFOKgho' },
+    credit: { url: 'https://unsplash.com/photos/SyZAgFOKgho' },
   },
   {
     key: 'entry',
     image: require('../../assets/images/onboarding/entry.jpg'),
-    credit: { label: 'Photo: Babarinde Tosin · Unsplash', url: 'https://unsplash.com/photos/Dc0BX6H9QjM' },
+    credit: {  url: 'https://unsplash.com/photos/Dc0BX6H9QjM' },
   },
 ];
 
