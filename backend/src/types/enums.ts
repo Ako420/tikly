@@ -74,6 +74,7 @@ export const NOTIFICATION_TYPES = [
   'event_approved',
   'event_rejected',
   'event_cancelled',
+  'event_suspended',
   'ticket_purchased',
   'ticket_refunded',
   'reminder_24h',
