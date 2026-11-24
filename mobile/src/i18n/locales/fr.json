@@ -9,7 +9,8 @@
     "clear": "Effacer",
     "country": "Cameroun",
     "increase": "Ajouter un",
-    "decrease": "Retirer un"
+    "decrease": "Retirer un",
+    "retry": "Réessayer"
   },
   "splash": {
     "tagline": "Événements · Billets · Entrée",
@@ -30,6 +31,45 @@
       "onlyLeft": "Plus que {{count}}",
       "soldOut": "Complet",
       "salesClosed": "Ventes terminées"
+    }
+  },
+  "myTickets": {
+    "title": "Mes billets",
+    "upcoming": "À venir · {{count}}",
+    "past": "Passés",
+    "reminder": "Nous vous rappellerons par notification et par e-mail {{hours}} heures avant chaque événement.",
+    "when": {
+      "today": "Aujourd’hui",
+      "tomorrow": "Demain",
+      "inDays": "Dans {{count}} jours",
+      "live": "En cours",
+      "ended": "Terminé"
+    },
+    "quantity": "{{count}} × {{tier}}",
+    "show": "Afficher",
+    "view": "Voir",
+    "open": "{{title}}, {{when}}, {{quantity}}. Ouvrir les billets",
+    "emptyPastTitle": "Aucun événement passé",
+    "emptyPastBody": "Les événements auxquels vous avez assisté apparaîtront ici.",
+    "loadFailed": "Impossible de charger vos billets",
+    "detail": {
+      "brightness": "Luminosité augmentée pour le scan",
+      "eyebrow": "{{date}} · Ouverture {{time}}",
+      "holder": "Titulaire",
+      "tier": "Catégorie",
+      "entrance": "Entrée",
+      "entranceDefault": "Entrée principale",
+      "ticketOf": "Billet {{index}} sur {{total}}",
+      "swipeHint": " · glissez pour le suivant",
+      "downloadPdf": "Télécharger le PDF",
+      "calendar": "Calendrier",
+      "more": "Plus d’options",
+      "viewEvent": "Voir l’événement",
+      "cancel": "Annuler",
+      "qrUnavailable": "Votre QR code apparaîtra ici sous peu.",
+      "notFoundTitle": "Billet introuvable",
+      "pdfFailed": "Impossible de créer le PDF. Veuillez réessayer.",
+      "notFoundBody": "Ce billet n’est pas sur cet appareil. Retrouvez vos billets dans Mes billets."
     }
   },
   "onboarding": {

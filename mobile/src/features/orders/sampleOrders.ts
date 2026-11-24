@@ -1,3 +1,4 @@
+import { ticketWallet } from '@/features/tickets/ticketWallet';
 import { toLocalCameroonNumber } from '@/lib/validation';
 import type { IssuedTicket, TicketOrder } from './types';
 
@@ -45,7 +46,17 @@ export const sampleOrders = {
     const order = orders.get(orderId);
     if (!order) return undefined;
     const next = advance(order);
-    if (next !== order) orders.set(orderId, next);
+    if (next === order) return next;
+    orders.set(orderId, next);
+    if (next.status === 'paid') {
+      ticketWallet.add({
+        id: next.id,
+        event: ticketWallet.sampleEvent(next.eventId),
+        tierName: next.tierName,
+        tickets: next.tickets,
+        purchasedAt: new Date().toISOString(),
+      });
+    }
     return next;
   },
   newId: () => `ord-${Date.now().toString(36)}${randomBlock(4).toLowerCase()}`,
