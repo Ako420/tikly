@@ -11,6 +11,7 @@ import { PhonePrefix } from '@/components/ui/PhonePrefix';
 import { ScreenHeading } from '@/components/ui/ScreenHeading';
 import { Text } from '@/components/ui/Text';
 import { TextField, type TextFieldHandle } from '@/components/ui/TextField';
+import { homeRouteFor } from '@/features/auth/homeRoute';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { isSignUpRole } from '@/features/auth/roles';
 import { useTranslation } from '@/i18n/I18nProvider';
@@ -72,7 +73,7 @@ export default function SignUpDetails() {
         role,
         language,
       });
-      router.replace('/home');
+      router.replace(homeRouteFor({ role }));
     } catch (error) {
       const apiError = toApiError(error);
       const fields: Partial<Record<Field, string>> = {};

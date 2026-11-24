@@ -230,7 +230,14 @@
     "home": "Accueil",
     "explore": "Explorer",
     "tickets": "Billets",
-    "profile": "Profil"
+    "profile": "Profil",
+    "marketplace": "Services",
+    "bookings": "Réservations",
+    "requests": "Demandes",
+    "listings": "Services",
+    "earnings": "Revenus",
+    "slot-events": "Événements",
+    "my-slots": "Mes stands"
   },
   "events": {
     "searchPlaceholder": "Rechercher un événement ou un lieu",
@@ -580,5 +587,184 @@
     "emptyBody": "Les avis apparaissent ici après l’événement.",
     "errorTitle": "Impossible de charger les avis",
     "retry": "Réessayer"
+  },
+  "marketplace": {
+    "eyebrow": "Prestataires vérifiés",
+    "title": "Services",
+    "searchPlaceholder": "Salles, chaises, sono…",
+    "anyCity": "Toutes les villes",
+    "allCities": "toutes les villes",
+    "anyPrice": "Tous les prix",
+    "under": "Moins de {{price}}",
+    "results": "{{count}} services",
+    "resultsIn": "{{count}} · {{category}} à {{city}}",
+    "emptyTitle": "Aucun service trouvé",
+    "emptyBody": "Essayez une autre catégorie, ville ou un autre prix.",
+    "loadFailed": "Chargement impossible",
+    "retry": "Réessayer",
+    "units": {
+      "per_day": "/ jour",
+      "per_item": "/ unité",
+      "per_event": "/ événement"
+    },
+    "categories": {
+      "hall": "Salles",
+      "chairs": "Chaises",
+      "canopy": "Bâches",
+      "sound": "Sono",
+      "catering": "Traiteur",
+      "decoration": "Décoration",
+      "other": "Autre"
+    },
+    "status": {
+      "accepted": "Acceptée",
+      "paid": "Payée",
+      "cancelled": "Annulée"
+    },
+    "detail": {
+      "notFound": "Service indisponible",
+      "share": "Partager",
+      "about": "À propos",
+      "contact": "Contacter le prestataire",
+      "call": "Appeler",
+      "request": "Demander une réservation"
+    },
+    "request": {
+      "eyebrow": "Demande de réservation",
+      "title": "Réserver : {{category}}",
+      "whichEvent": "Pour quel événement ?",
+      "noEvent": "Sans événement",
+      "dates": "Dates",
+      "from": "Du",
+      "to": "Au",
+      "quantity": "Quantité",
+      "message": "Message au prestataire",
+      "messagePlaceholder": "Invités, heure d’installation, détails utiles",
+      "estimateDays": "{{price}} × {{quantity}} × {{days}} jours",
+      "estimateItems": "{{price}} × {{quantity}}",
+      "payLater": "Vous ne payez qu’après acceptation de {{provider}}",
+      "send": "Envoyer la demande"
+    },
+    "bookings": {
+      "title": "Réservations",
+      "unknown": "Service",
+      "counts": {
+        "toPay": "À payer",
+        "waiting": "En attente",
+        "paid": "Payées"
+      },
+      "pay": "Payer {{amount}}",
+      "payHint": "Payez vite pour garder les dates · touchez pour annuler",
+      "waiting": "{{when}} · en attente de réponse",
+      "paid": "Payé {{amount}} · {{when}}",
+      "completed": "Terminée · {{amount}} · {{when}}",
+      "declined": "Refusée",
+      "declinedReason": "Refusée : {{reason}}",
+      "findSimilar": "Voir d’autres",
+      "cancelTitle": "Annuler cette réservation ?",
+      "keep": "Garder",
+      "cancel": "Annuler",
+      "emptyTitle": "Aucune réservation",
+      "emptyBody": "Demandez un service depuis l’onglet Services."
+    }
+  },
+  "provider": {
+    "verification": {
+      "verified": "Prestataire vérifié",
+      "pending": "Vérification en cours",
+      "rejected": "Vérification refusée"
+    },
+    "verificationBanner": {
+      "pending": "Un administrateur examine vos documents. Vos services apparaîtront après vérification.",
+      "rejected": "Votre vérification a été refusée. Mettez à jour vos documents pour réessayer."
+    },
+    "setup": {
+      "title": "Configurez votre activité",
+      "body": "Votre profil professionnel et vos documents ne sont pas encore enregistrés."
+    },
+    "monthEarnings": "Revenus de {{month}}",
+    "vsLastMonth": "{{change}} vs mois dernier",
+    "afterFee": "après {{percent}} % de commission",
+    "paidBookings": "{{count}} réservations payées",
+    "newRequests": "Nouvelles demandes",
+    "newCount": "{{count}} nouv.",
+    "noRequestsTitle": "Aucune nouvelle demande",
+    "noRequestsBody": "Les demandes des organisateurs apparaissent ici.",
+    "nextJob": "Prochaine prestation",
+    "accept": {
+      "action": "Accepter",
+      "title": "Accepter et fixer le prix",
+      "amount": "Montant total ({{currency}})",
+      "hint": "L’organisateur paie ce montant sur Tikly.",
+      "confirm": "Accepter la réservation",
+      "amountRequired": "Saisissez un montant."
+    },
+    "decline": {
+      "action": "Refuser",
+      "title": "Refuser cette demande ?",
+      "keep": "Garder",
+      "confirm": "Refuser"
+    },
+    "listings": {
+      "eyebrow": "Votre catalogue",
+      "title": "Mes services",
+      "emptyTitle": "Aucun service",
+      "emptyBody": "Vos services apparaîtront ici une fois vérifié."
+    },
+    "earnings": {
+      "eyebrow": "Paiements",
+      "title": "Revenus",
+      "net": "Votre part",
+      "periods": {
+        "month": "Ce mois",
+        "year": "Cette année",
+        "all": "Tout"
+      },
+      "rows": {
+        "gross": "Montant brut",
+        "commission": "Commission",
+        "refunded": "Remboursé",
+        "paidBookings": "Réservations payées"
+      }
+    }
+  },
+  "exhibitor": {
+    "role": "Exposant",
+    "eventsTitle": "Événements avec stands",
+    "left": "{{count}} stands restants",
+    "onlyLeft": "Plus que {{count}}",
+    "slotLeft": "{{count}} restants",
+    "from": "Dès {{price}}",
+    "seeSlots": "Voir les stands",
+    "emptyTitle": "Aucun stand disponible",
+    "emptyBody": "Les événements proposant des stands apparaîtront ici.",
+    "bookEyebrow": "Réserver un stand",
+    "chooseTitle": "Choisissez votre stand",
+    "noSlotsTitle": "Aucun stand pour cet événement",
+    "noSlotsBody": "L’organisateur n’a pas encore ouvert de stands.",
+    "listedNote": "{{name}} figurera parmi les exposants sur la page de l’événement. L’organisateur attribue les numéros de stand.",
+    "pickStand": "Choisissez un stand",
+    "bookAndPay": "Réserver et payer",
+    "mySlotsTitle": "Mes stands",
+    "paid": "Payé {{amount}}",
+    "pending": "Paiement en attente",
+    "mySlotsEmptyTitle": "Aucun stand réservé",
+    "mySlotsEmptyBody": "Réservez un stand depuis l’onglet Événements."
+  },
+  "pay": {
+    "title": "Payer par Mobile Money",
+    "payAmount": "Payer {{amount}}",
+    "pendingTitle": "Validez sur votre téléphone",
+    "pendingBody": "Confirmez la demande {{method}}, ou composez {{code}} si elle n’apparaît pas.",
+    "checkNow": "J’ai validé, vérifier",
+    "paidTitle": "Paiement reçu",
+    "paidBody": {
+      "booking": "Le prestataire est prévenu et les dates sont réservées.",
+      "slot": "Votre stand est réservé. Vous figurerez sur la page de l’événement."
+    },
+    "failedTitle": "Paiement non abouti",
+    "failedBody": "Aucun montant n’a été prélevé. Vous pouvez réessayer.",
+    "tryAgain": "Réessayer",
+    "done": "Terminé"
   }
 }
