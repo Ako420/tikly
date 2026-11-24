@@ -174,6 +174,43 @@
       "termsRequired": "Acceptez les Conditions et la Politique de confidentialité pour continuer",
       "identifierInvalid": "Saisissez votre e-mail ou un numéro à 9 chiffres",
       "passwordRequired": "Saisissez votre mot de passe"
+    },
+    "reset": {
+      "eyebrow": "Réinitialisation",
+      "title": "Mot de passe oublié ?",
+      "body": "Saisissez l’e-mail de votre compte. Nous enverrons un lien valable {{hours}} heure.",
+      "send": "Envoyer le lien",
+      "remembered": "Vous vous en souvenez ? ",
+      "backToLogin": "Retour à la connexion",
+      "sentEyebrow": "Lien envoyé",
+      "sentTitle": "Vérifiez votre boîte",
+      "sentBody": "Nous avons envoyé un lien à {{email}}. Il expire dans {{hours}} heure.",
+      "openEmail": "Ouvrir la messagerie",
+      "resendIn": "Renvoyer le lien dans {{time}}",
+      "resend": "Renvoyer le lien",
+      "resent": "Un nouveau lien est en route.",
+      "wrongEmail": "Mauvais e-mail ? ",
+      "changeIt": "Le modifier",
+      "newEyebrow": "Presque fini",
+      "newTitle": "Nouveau mot de passe",
+      "newBody": "Au moins {{min}} caractères. Vous serez connecté sur ce téléphone.",
+      "newBodyNoLogin": "Au moins {{min}} caractères, puis connectez-vous avec votre nouveau mot de passe.",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "mismatch": "Les mots de passe ne correspondent pas",
+      "match": "Les mots de passe correspondent",
+      "saveAndLogIn": "Enregistrer et se connecter",
+      "save": "Enregistrer",
+      "invalidTitle": "Ce lien ne fonctionne pas",
+      "invalidBody": "Ouvrez le dernier lien reçu par e-mail ou demandez-en un nouveau.",
+      "requestNew": "Demander un nouveau lien",
+      "strength": {
+        "0": "Saisissez un mot de passe",
+        "1": "Trop court",
+        "2": "Mot de passe moyen",
+        "3": "Bon mot de passe",
+        "4": "Mot de passe fort"
+      }
     }
   },
   "tabs": {
@@ -259,7 +296,29 @@
   },
   "profile": {
     "title": "Profil",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "preferences": "Préférences",
+    "account": "Compte",
+    "homeCity": "Ville",
+    "notifications": "Notifications",
+    "notificationChannels": "Push + e-mail",
+    "phone": "Numéro de téléphone et MoMo",
+    "changePassword": "Changer le mot de passe",
+    "help": "Aide et assistance",
+    "terms": "Conditions et confidentialité",
+    "logOut": "Se déconnecter",
+    "logIn": "Se connecter",
+    "roles": {
+      "staff": "Équipe d’accueil",
+      "admin": "Administrateur"
+    },
+    "edit": {
+      "title": "Modifier le profil",
+      "phone": "Numéro de téléphone et MoMo",
+      "phoneHint": "Utilisé pour les paiements et remboursements Mobile Money.",
+      "save": "Enregistrer"
+    },
+    "guest": "Invité"
   },
   "time": {
     "justNow": "À l’instant",
@@ -446,6 +505,46 @@
       "errorPlayed": "Son d’erreur joué",
       "doNotAdmit": "Refusez l’entrée",
       "missing": "Résultat du scan indisponible"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Tout marquer comme lu",
+    "newCount": "{{count}} nouvelles",
+    "today": "Aujourd’hui",
+    "earlier": "Plus tôt",
+    "unread": "Non lue",
+    "loadFailed": "Impossible de charger les notifications",
+    "emptyTitle": "Vous êtes à jour",
+    "emptyBody": "Rappels, paiements et nouvelles des événements apparaissent ici.",
+    "types": {
+      "reminder": {
+        "title": "{{event}} dans 24 heures",
+        "body": "{{date}}, {{time}} · {{venue}}. Votre billet est dans l’app."
+      },
+      "purchase": {
+        "title": "Paiement confirmé",
+        "body": "{{count}} billets {{tier}} pour {{event}} · {{amount}} via {{method}}."
+      },
+      "update": {
+        "title": "{{organizer}} a publié"
+      },
+      "cancelled": {
+        "title": "Événement annulé : {{event}}",
+        "body": "Remboursement intégral de {{amount}} envoyé sur votre numéro MoMo.",
+        "bodyNoRefund": "L’organisateur a annulé cet événement."
+      },
+      "refunded": {
+        "title": "Remboursement envoyé",
+        "body": "{{amount}} pour {{event}} arrive sur votre numéro MoMo."
+      },
+      "welcome": {
+        "title": "Bienvenue sur tikly",
+        "body": "Votre compte est prêt. Découvrez ce qui se passe à {{city}} cette semaine."
+      },
+      "generic": {
+        "title": "Nouvelle de tikly"
+      }
     }
   }
 }
