@@ -14,9 +14,11 @@ import { SearchField } from '@/components/ui/SearchField';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Text } from '@/components/ui/Text';
 import { ALL_CATEGORIES_ICON, categoryIcons } from '@/features/events/categories';
-import { sampleUser } from '@/features/events/sampleEvents';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { DEFAULT_LOCATION } from '@/features/events/location';
 import { EVENT_CATEGORIES, type EventCategory } from '@/features/events/types';
 import { useEvents } from '@/features/events/useEvents';
+import { useUnreadCount } from '@/features/notifications/useUnreadCount';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { useTheme } from '@/theme';
@@ -27,8 +29,10 @@ const FEATURED_COUNT = 5;
 export default function Home() {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const { user } = useAuth();
+  const unread = useUnreadCount();
   const [category, setCategory] = useState<EventCategory | undefined>();
-  const { data: events, loading, error, refetch } = useEvents({ city: sampleUser.city, category });
+  const { data: events, loading, error, refetch } = useEvents({ city: DEFAULT_LOCATION.city, category });
   const featured = events.filter((event) => event.coverUrl).slice(0, FEATURED_COUNT);
   const errorMessage = useApiErrorMessage();
 
@@ -42,18 +46,18 @@ export default function Home() {
             </Text>
             <View className="flex-row items-center gap-1.5">
               <Ionicons name="location" size={18} color={colors.foreground} />
-              <Text variant="subheading">{`${sampleUser.city}, ${sampleUser.country}`}</Text>
+              <Text variant="subheading">{`${DEFAULT_LOCATION.city}, ${DEFAULT_LOCATION.country}`}</Text>
               <Ionicons name="chevron-down" size={16} color={colors.foregroundMuted} />
             </View>
           </Pressable>
           <View className="flex-row items-center gap-2.5">
             <IconButton
               size="lg"
-              badge
+              badge={unread > 0}
               accessibilityLabel={t('home.notifications')}
               icon={<Ionicons name="notifications-outline" size={22} color={colors.foreground} />}
             />
-            <Avatar name={sampleUser.name} onPress={() => router.navigate('/profile')} />
+            <Avatar name={user?.name ?? ''} onPress={() => router.navigate('/profile')} />
           </View>
         </View>
 
@@ -127,7 +131,7 @@ export default function Home() {
 
         <View className="gap-3.5 px-6">
           <SectionHeader
-            title={t('home.comingUp', { city: sampleUser.city })}
+            title={t('home.comingUp', { city: DEFAULT_LOCATION.city })}
             actionLabel={t('common.seeAll')}
             onAction={() => router.navigate('/explore')}
           />

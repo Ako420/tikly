@@ -7,15 +7,15 @@ import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/AuthProvider';
-import { sampleUser } from '@/features/events/sampleEvents';
+import { DEFAULT_LOCATION } from '@/features/events/location';
 import { useTranslation } from '@/i18n/I18nProvider';
 
 export default function Profile() {
   const { t } = useTranslation();
   const { user, signOut } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
-  const name = user?.name ?? sampleUser.name;
-  const contact = user?.email ?? user?.phone ?? `${sampleUser.city}, ${sampleUser.country}`;
+  const name = user?.name ?? '';
+  const contact = user?.email ?? user?.phone ?? `${DEFAULT_LOCATION.city}, ${DEFAULT_LOCATION.country}`;
 
   const handleSignOut = async () => {
     setSigningOut(true);

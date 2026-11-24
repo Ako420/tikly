@@ -9,7 +9,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Screen } from '@/components/ui/Screen';
 import { SearchField, type SearchFieldHandle } from '@/components/ui/SearchField';
 import { Text } from '@/components/ui/Text';
-import { sampleUser } from '@/features/events/sampleEvents';
+import { DEFAULT_LOCATION } from '@/features/events/location';
 import { useEvents, type EventSort } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
@@ -22,7 +22,7 @@ export default function Explore() {
   const searchRef = useRef<SearchFieldHandle>(null);
 
   const [query, setQuery] = useState('');
-  const [city, setCity] = useState<string | undefined>(sampleUser.city);
+  const [city, setCity] = useState<string | undefined>(DEFAULT_LOCATION.city);
   const [thisMonth, setThisMonth] = useState(false);
   const [sort, setSort] = useState<EventSort>('soonest');
 
