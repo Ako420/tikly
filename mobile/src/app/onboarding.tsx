@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Logo } from '@/components/brand/Logo';
-import { OnboardingSlide } from '@/components/onboarding/OnboardingSlide';
+import { OnboardingSlide, type ImageCredit } from '@/components/onboarding/OnboardingSlide';
 import { PaymentPreview } from '@/components/payments/PaymentPreview';
 import { QrTicketPreview } from '@/components/tickets/QrTicketPreview';
 import { TicketPreview } from '@/components/tickets/TicketPreview';
@@ -26,26 +26,31 @@ type SlideKey = 'discover' | 'pay' | 'entry';
 type Slide = {
   key: SlideKey;
   image: ImageSourcePropType;
+  credit?: ImageCredit;
+};
+
+const WELCOME_PHOTO: ImageSourcePropType = require('../../assets/images/events/cimfest-1.jpg');
+
+const WELCOME_CREDIT: ImageCredit = {
+  label: 'Photo: Kekiwiyi · CC BY-SA 4.0',
+  url: 'https://commons.wikimedia.org/wiki/File:Asaba_at_CIMFEST.jpg',
 };
 
 const slides: Slide[] = [
   {
     key: 'discover',
-    image: {
-      uri: 'https://cdn.wonder.so/images/01a20a1c-76f1-7172-82d3-2a99389b8276/6688e779c148f3bce252968f73fa93e1dc1dd9a259ee5263b0d0e9145c7aee67.jpg',
-    },
+    image: WELCOME_PHOTO,
+    credit: WELCOME_CREDIT,
   },
   {
     key: 'pay',
-    image: {
-      uri: 'https://cdn.wonder.so/images/01a20a1c-76f1-7172-82d3-2a99389b8276/e740ddb664a8c9fe45c384b49792bceb3cc5cc5e6ea1f8d052e3d5448c676fa3.jpg',
-    },
+    image: WELCOME_PHOTO,
+    credit: WELCOME_CREDIT,
   },
   {
     key: 'entry',
-    image: {
-      uri: 'https://cdn.wonder.so/images/01a20a1c-76f1-7172-82d3-2a99389b8276/92fa07fde108a44066582116092c219fddbee624a541985b59a5b24a6382f7f4.jpg',
-    },
+    image: WELCOME_PHOTO,
+    credit: WELCOME_CREDIT,
   },
 ];
 
@@ -118,6 +123,7 @@ export default function Onboarding() {
           <OnboardingSlide
             width={width}
             image={item.image}
+            credit={item.credit}
             eyebrow={t(`onboarding.${item.key}.eyebrow`)}
             title={t(`onboarding.${item.key}.title`)}
             body={t(`onboarding.${item.key}.body`)}
