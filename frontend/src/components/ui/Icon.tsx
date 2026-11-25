@@ -30,7 +30,15 @@ const PATHS = {
   view: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z',
   edit: 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
   check: 'M5 12l5 5L20 7',
-} as const;
+  hall: 'M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6M9 11h.01M15 11h.01',
+  chairs: 'M7 4h10v8H7zM5 12h14v3H5zM7 15v5M17 15v5',
+  canopy: 'M2 10l10-6 10 6zM5 10v10M19 10v10M12 10v10',
+  sound: 'M7 3h10v18H7zM12 17a3 3 0 100-6 3 3 0 000 6zM12 7h.01',
+  catering: 'M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10M17 3c-1.7 0-3 2-3 5s1 4 3 4v9',
+  decoration: 'M12 8a3 3 0 100 6 3 3 0 000-6zM12 2v3M12 17v5M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1',
+  other: 'M5 12h.01M12 12h.01M19 12h.01',
+  phone: 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z',
+  whatsapp: 'M3 21l1.6-4.7A9 9 0 1112 21a9 9 0 01-4.3-1.1zM9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 1a5 5 0 01-2.5-2.5l1-1-1-2z',} as const;
 
 export type IconName = keyof typeof PATHS;
 

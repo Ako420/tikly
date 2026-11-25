@@ -13,7 +13,7 @@ const NAV: { href: string; label: string; icon: IconName; ready?: boolean }[] = 
   { href: '/organizer', label: 'Overview', icon: 'dashboard', ready: true },
   { href: '/organizer/events', label: 'Events', icon: 'events', ready: true },
   { href: '/organizer/orders', label: 'Orders & attendees', icon: 'orders', ready: true },
-  { href: '/organizer/marketplace', label: 'Marketplace', icon: 'marketplace' },
+  { href: '/organizer/marketplace', label: 'Marketplace', icon: 'marketplace', ready: true },
   { href: '/organizer/staff', label: 'Gate staff', icon: 'staff' },
   { href: '/organizer/reviews', label: 'Reviews', icon: 'reviews' },
 ];

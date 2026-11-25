@@ -1,20 +1,36 @@
 import "server-only";
 import type { NextRequest } from "next/server";
-import { apiRequest, API_URL } from "@/lib/api";
+import { ApiError, apiRequest, API_URL } from "@/lib/api";
 import { clearSession, getAccessToken, getRefreshToken, saveTokens } from "./session";
 import type { Session } from "./types";
 
 type Context = { params: Promise<{ path: string[] }> };
 
+type Tokens = Session["tokens"];
+
+const SHARED_REFRESH_MS = 60_000;
+const refreshes = new Map<string, Promise<Tokens>>();
+
+function sharedRefresh(refreshToken: string) {
+  let pending = refreshes.get(refreshToken);
+  if (!pending) {
+    pending = apiRequest<Pick<Session, "tokens">>("/auth/refresh", { body: { refreshToken } }).then(({ tokens }) => tokens);
+    refreshes.set(refreshToken, pending);
+    const forget = () => setTimeout(() => refreshes.delete(refreshToken), SHARED_REFRESH_MS);
+    pending.then(forget, forget);
+  }
+  return pending;
+}
+
 async function refreshAccessToken() {
   const refreshToken = await getRefreshToken();
   if (!refreshToken) return undefined;
   try {
-    const { tokens } = await apiRequest<Pick<Session, "tokens">>("/auth/refresh", { body: { refreshToken } });
+    const tokens = await sharedRefresh(refreshToken);
     await saveTokens(tokens);
     return tokens.accessToken;
-  } catch {
-    await clearSession();
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 401) await clearSession();
     return undefined;
   }
 }
@@ -26,7 +42,7 @@ async function forward(request: NextRequest, { params }: Context) {
 
   const send = (token: string | undefined) => {
     const headers = new Headers({ Accept: "application/json" });
-    for (const name of ["content-type", "accept-language"]) {
+    for (const name of ["content-type", "accept-language", "idempotency-key"]) {
       const value = request.headers.get(name);
       if (value) headers.set(name, value);
     }

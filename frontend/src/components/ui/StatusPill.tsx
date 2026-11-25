@@ -6,6 +6,7 @@ const TONES = {
   warning: 'bg-warning text-white',
   invalid: 'bg-invalid text-white',
   neutral: 'bg-surface text-fg-secondary border border-border',
+  info: 'bg-primary-subtle text-primary',
 } as const;
 
 export type PillTone = keyof typeof TONES;

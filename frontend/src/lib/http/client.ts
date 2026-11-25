@@ -6,6 +6,7 @@ type RequestOptions = {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   body?: unknown;
   params?: Record<string, string | number | undefined>;
+  headers?: Record<string, string>;
 };
 
 type Envelope<T> = { success: true; data: T; meta?: Record<string, unknown> };
@@ -19,7 +20,7 @@ function buildUrl(path: string, params?: RequestOptions['params']) {
 }
 
 async function send<T>(path: string, options: RequestOptions): Promise<{ status: number; body: Envelope<T> | unknown }> {
-  const headers: Record<string, string> = { Accept: 'application/json' };
+  const headers: Record<string, string> = { Accept: 'application/json', ...options.headers };
   if (options.body !== undefined) headers['Content-Type'] = 'application/json';
   const isForm = options.body instanceof FormData;
   if (isForm) delete headers['Content-Type'];
