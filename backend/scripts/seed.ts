@@ -25,6 +25,7 @@ import type { ServiceCategory, ServiceUnit } from '../src/types/enums';
 const DEMO_PASSWORD = process.env.SEED_DEMO_PASSWORD ?? 'TiklyDemo#2026';
 
 const DEMO_ORGANIZER = { name: 'Demo Organiser', email: 'organiser@tikly.demo', phone: '+237670000001' };
+const DEMO_ADMIN = { name: 'Demo Admin', email: 'admin@tikly.demo', phone: '+237670000901' };
 
 type TierSeed = { name: 'standard' | 'vip' | 'vvip'; price: number; quantity: number };
 type SlotSeed = { label: string; size: string; price: number; quantity: number };
@@ -488,7 +489,7 @@ let passwordHash: Promise<string> | undefined;
 
 async function upsertUser(
   user: { name: string; email: string; phone: string },
-  role: 'organizer' | 'provider' | 'exhibitor' | 'attendee',
+  role: 'organizer' | 'provider' | 'exhibitor' | 'attendee' | 'admin',
 ) {
   const existing = await UserModel.findOne({ email: user.email });
   if (existing) return existing;
@@ -738,6 +739,8 @@ async function main() {
   await connectDb();
   const organizer = await upsertUser(DEMO_ORGANIZER, 'organizer');
   console.log(`organiser ${organizer.email} (${organizer.id})`);
+  const admin = await upsertUser(DEMO_ADMIN, 'admin');
+  console.log(`admin ${admin.email}`);
   for (const seed of EVENTS) {
     try {
       await seedEvent(organizer._id, seed);
