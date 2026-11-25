@@ -1,3 +1,5 @@
+import { providerPagesEn, providerPagesFr } from "./providerPages";
+
 export const LOCALES = ["en", "fr"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "en";
@@ -6,6 +8,7 @@ export const isLocale = (value: unknown): value is Locale =>
   typeof value === "string" && (LOCALES as readonly string[]).includes(value);
 
 const en = {
+  providerPages: providerPagesEn,
   languageName: "English",
   languageLabel: "Language",
   brand: {
@@ -199,6 +202,7 @@ const en = {
 export type Dictionary = typeof en;
 
 const fr: Dictionary = {
+  providerPages: providerPagesFr,
   languageName: "Français",
   languageLabel: "Langue",
   brand: {

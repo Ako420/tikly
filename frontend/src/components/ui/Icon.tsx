@@ -33,6 +33,15 @@ const PATHS = {
   bookings: 'M3 8h18v12H3zM8 8V5h8v3M3 13h18M10 13v2h4v-2',
   wallet: 'M4 7h15v13H4zM4 7l11-3v3M15 12.5h4v3h-4z',
   business: 'M4 21V4h9v17M13 9h7v12M2 21h20M7 8h3M7 12h3M7 16h3M16 13h1M16 17h1',
+  chair: 'M7 3h10v8H7zM5 11h14v3H5zM7 14v7M17 14v7',
+  tent: 'M12 4L3 20h18zM12 4v16M8.5 20L12 13l3.5 7',
+  speaker: 'M6 3h12v18H6zM12 16a3 3 0 100-6 3 3 0 000 6zM12 7h.01',
+  utensils: 'M7 3v8a2 2 0 002 2v8M11 3v8a2 2 0 01-2 2M17 21V3c-2 1-3 4-3 7h3',
+  sparkle: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z',
+  more: 'M5 12h.01M12 12h.01M19 12h.01',
+  trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3',
+  document: 'M6 3h8l4 4v14H6zM14 3v4h4M9 13h6M9 17h6',
+  star: 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',
 } as const;
 
 export type IconName = keyof typeof PATHS;
