@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const SESSION_COOKIE = "tikly_refresh";
 const GUEST_ONLY = ["/login", "/signup"];
+const PROTECTED = ["/dashboard", "/organizer", "/provider"];
 
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
@@ -15,7 +16,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  if (!signedIn && (pathname.startsWith("/dashboard") || pathname.startsWith("/organizer"))) {
+  if (!signedIn && PROTECTED.some((prefix) => pathname.startsWith(prefix))) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", `${pathname}${search}`);
     return NextResponse.redirect(loginUrl);
@@ -25,5 +26,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup", "/dashboard/:path*", "/organizer/:path*"],
+  matcher: ["/", "/login", "/signup", "/dashboard/:path*", "/organizer/:path*", "/provider/:path*"],
 };
