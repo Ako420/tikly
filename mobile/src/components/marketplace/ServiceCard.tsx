@@ -1,11 +1,12 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Image, Pressable, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import { useMarketplaceFormat } from '@/features/marketplace/format';
 import type { ServiceListItem } from '@/features/marketplace/types';
 import { formatMoney } from '@/lib/money';
 import { useTheme } from '@/theme';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { CATEGORY_ICONS } from './CategoryGrid';
 
 export function ServiceCard({ service, onPress }: { service: ServiceListItem; onPress: () => void }) {
@@ -16,7 +17,7 @@ export function ServiceCard({ service, onPress }: { service: ServiceListItem; on
   const provider = service.provider;
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={`${title}, ${formatMoney(service.price)} ${format.unit(service.unit)}`}
       onPress={onPress}
@@ -55,6 +56,6 @@ export function ServiceCard({ service, onPress }: { service: ServiceListItem; on
           </Text>
         </View>
       </View>
-    </Pressable>
+    </PressableScale>
   );
 }

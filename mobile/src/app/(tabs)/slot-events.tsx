@@ -15,6 +15,7 @@ import { formatDateRange } from '@/lib/dates';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const FEW_LEFT = 5;
@@ -71,6 +72,7 @@ export default function SlotEvents() {
   return (
     <Screen edges={['top']}>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={

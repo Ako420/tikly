@@ -14,6 +14,7 @@ import { useEvents, type EventSort } from '@/features/events/useEvents';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 export default function Explore() {
@@ -65,6 +66,7 @@ export default function Explore() {
       </View>
 
       <FlatList
+        CellRendererComponent={EnterCell}
         data={results}
         keyExtractor={(event) => event.id}
         keyboardShouldPersistTaps="handled"

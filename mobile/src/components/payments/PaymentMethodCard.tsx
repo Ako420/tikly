@@ -1,9 +1,10 @@
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import { paymentMethods } from '@/features/orders/paymentMethods';
 import type { PaymentMethod } from '@/features/orders/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/cn';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { PaymentMethodBadge } from './PaymentMethodBadge';
 
 type PaymentMethodCardProps = {
@@ -17,7 +18,7 @@ export function PaymentMethodCard({ method, selected, onPress }: PaymentMethodCa
   const name = t(`payments.methods.${method}`);
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="radio"
       accessibilityState={{ checked: selected }}
       accessibilityLabel={`${name}, ${paymentMethods[method].prefixesLabel}`}
@@ -42,6 +43,6 @@ export function PaymentMethodCard({ method, selected, onPress }: PaymentMethodCa
           {paymentMethods[method].prefixesLabel}
         </Text>
       </View>
-    </Pressable>
+    </PressableScale>
   );
 }

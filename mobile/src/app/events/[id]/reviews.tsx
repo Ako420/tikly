@@ -16,6 +16,7 @@ import { useEventDetails } from '@/features/events/useEvents';
 import { useEventReviews } from '@/features/reviews/useEventReviews';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 export default function EventReviewsScreen() {
@@ -96,6 +97,7 @@ export default function EventReviewsScreen() {
       </View>
       <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <FlatList
+          CellRendererComponent={EnterCell}
           data={reviews.items}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={header}

@@ -6,6 +6,7 @@ import { useEventFormatter } from '@/features/events/formatEvent';
 import type { EventSummary } from '@/features/events/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { palette, ThemeScope, withAlpha } from '@/theme';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { DateBadge } from './DateBadge';
 
 export const FEATURED_CARD_WIDTH = 300;
@@ -22,7 +23,7 @@ export function FeaturedEventCard({ event, onPress }: FeaturedEventCardProps) {
   const badge = format.dateBadge(event);
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={`${title}, ${format.dateTime(event)}, ${event.venue}, ${format.price(event)}`}
       onPress={onPress}
@@ -69,6 +70,6 @@ export function FeaturedEventCard({ event, onPress }: FeaturedEventCardProps) {
           </View>
         </View>
       </ThemeScope>
-    </Pressable>
+    </PressableScale>
   );
 }

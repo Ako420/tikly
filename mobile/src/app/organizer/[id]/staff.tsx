@@ -16,6 +16,7 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { toApiError, useApiErrorMessage } from '@/lib/api';
 import { useAsync } from '@/lib/useAsync';
 import { isCameroonMobile, toInternationalCameroonNumber, toLocalCameroonNumber } from '@/lib/validation';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const PASSWORD_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
@@ -180,6 +181,7 @@ export default function GateStaff() {
         <View className="w-10" />
       </View>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={assigned}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={header}

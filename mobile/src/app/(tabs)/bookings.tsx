@@ -16,6 +16,7 @@ import { useApiErrorMessage } from '@/lib/api';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const WAITING = ['requested'];
@@ -166,6 +167,7 @@ export default function Bookings() {
   return (
     <Screen edges={['top']}>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={ordered}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={header}

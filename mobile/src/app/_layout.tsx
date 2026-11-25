@@ -1,4 +1,3 @@
-import '@/lib/ignoreLogs';
 import '../global.css';
 import { PlusJakartaSans_400Regular } from '@expo-google-fonts/plus-jakarta-sans/400Regular';
 import { PlusJakartaSans_600SemiBold } from '@expo-google-fonts/plus-jakarta-sans/600SemiBold';
@@ -20,7 +19,23 @@ function AppStack() {
 
   return (
     <>
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }} />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.background },
+          animation: 'slide_from_right',
+          animationDuration: 280,
+          gestureEnabled: true,
+        }}
+      >
+        <Stack.Screen name="index" options={{ animation: 'fade' }} />
+        <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
+        <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
+        <Stack.Screen name="events/[id]/checkout" options={{ animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="pay" options={{ animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="orders/[orderId]" options={{ animation: 'fade_from_bottom' }} />
+        <Stack.Screen name="gate/[eventId]/result" options={{ animation: 'fade', animationDuration: 180 }} />
+      </Stack>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
     </>
   );

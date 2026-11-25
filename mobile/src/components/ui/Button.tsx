@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
-import { ActivityIndicator, Pressable, type PressableProps } from 'react-native';
+import { ActivityIndicator, type PressableProps } from 'react-native';
 import { cn } from '@/lib/cn';
 import { useTheme } from '@/theme';
+import { haptic } from '@/lib/motion';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { Text } from './Text';
 
 type ButtonVariant = 'primary' | 'outline' | 'secondary' | 'danger';
@@ -38,13 +40,14 @@ export function Button({
   fullWidth = true,
   disabled,
   className,
+  onPress,
   ...props
 }: ButtonProps) {
   const { colors } = useTheme();
   const inactive = disabled || loading;
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityState={{ disabled: !!inactive, busy: !!loading }}
       disabled={inactive}
@@ -56,8 +59,11 @@ export function Button({
         disabled && 'opacity-50',
         className,
       )}
-      style={({ pressed }) => (pressed ? { opacity: 0.85 } : null)}
       {...props}
+      onPress={(event) => {
+        if (variant === 'primary' || variant === 'danger') haptic.tap();
+        onPress?.(event);
+      }}
     >
       {loading ? (
         <ActivityIndicator color={variant === 'primary' ? colors.onAction : variant === 'danger' ? colors.onDanger : colors.foreground} />
@@ -69,6 +75,6 @@ export function Button({
           </Text>
         </>
       )}
-    </Pressable>
+    </PressableScale>
   );
 }

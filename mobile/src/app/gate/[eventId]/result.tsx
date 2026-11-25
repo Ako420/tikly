@@ -3,6 +3,19 @@ import { useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ActivityIndicator, Alert, Pressable, View } from 'react-native';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  ReduceMotion,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withSpring,
+  withTiming,
+  ZoomIn,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/Text';
 import { playScanFeedback, toneFor, type FeedbackTone } from '@/features/gate/feedback';
@@ -13,6 +26,7 @@ import { AUTO_RETURN_SECONDS, type ScanOutcome } from '@/features/gate/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { cn } from '@/lib/cn';
+import { DURATION, EASE_OUT, SPRING } from '@/lib/motion';
 import { palette, ThemeScope } from '@/theme';
 
 type Look = { background: string; foreground: string; icon: ReactNode; statusBar: 'light' | 'dark' };
@@ -75,6 +89,57 @@ function ResultButton({
         </View>
       )}
     </Pressable>
+  );
+}
+
+const BADGE_SIZE = 148;
+const rise = (delay: number) => FadeInDown.delay(delay).duration(DURATION.slow).easing(EASE_OUT).reduceMotion(ReduceMotion.System);
+
+function ResultBadge({ tone, icon }: { tone: FeedbackTone; icon: ReactNode }) {
+  const reduceMotion = useReducedMotion();
+  const ring = useSharedValue(0);
+  const shake = useSharedValue(0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    ring.value = withDelay(120, withTiming(1, { duration: 700, easing: EASE_OUT }));
+    if (tone === 'error') {
+      shake.value = withDelay(
+        260,
+        withSequence(
+          withTiming(-12, { duration: 50 }),
+          withTiming(12, { duration: 70 }),
+          withTiming(-8, { duration: 60 }),
+          withTiming(8, { duration: 60 }),
+          withSpring(0, SPRING.press),
+        ),
+      );
+    }
+  }, [reduceMotion, ring, shake, tone]);
+
+  const ringStyle = useAnimatedStyle(() => ({
+    opacity: 0.55 * (1 - ring.value),
+    transform: [{ scale: 1 + ring.value * 0.9 }],
+  }));
+
+  const shakeStyle = useAnimatedStyle(() => ({ transform: [{ translateX: shake.value }] }));
+
+  return (
+    <View className="mb-3 items-center justify-center" style={{ width: BADGE_SIZE, height: BADGE_SIZE }}>
+      <Animated.View
+        pointerEvents="none"
+        className="absolute rounded-full bg-white"
+        style={[{ width: BADGE_SIZE, height: BADGE_SIZE }, ringStyle]}
+      />
+      <Animated.View
+        entering={ZoomIn.springify().damping(SPRING.bouncy.damping).stiffness(SPRING.bouncy.stiffness).reduceMotion(ReduceMotion.System)}
+        style={shakeStyle}
+      >
+        <View className="items-center justify-center rounded-full bg-white" style={{ width: BADGE_SIZE, height: BADGE_SIZE }}>
+          {icon}
+        </View>
+      </Animated.View>
+    </View>
   );
 }
 
@@ -212,36 +277,40 @@ function ResultContent({ outcome }: { outcome: ScanOutcome }) {
 
       <View className="flex-1 justify-center gap-5" accessibilityLiveRegion="assertive">
         <View className="items-center gap-3">
-          <View className="mb-3 h-[148px] w-[148px] items-center justify-center rounded-full bg-white">{look.icon}</View>
-          <Text variant="resultTitle" className="text-center" style={fg} accessibilityRole="header">
-            {copy.title}
-          </Text>
-          <Text variant="titleLg" className="text-center" style={fg}>
-            {copy.subtitle}
-          </Text>
+          <ResultBadge tone={tone} icon={look.icon} />
+          <Animated.View entering={rise(140)} className="items-center gap-3">
+            <Text variant="resultTitle" className="text-center" style={fg} accessibilityRole="header">
+              {copy.title}
+            </Text>
+            <Text variant="titleLg" className="text-center" style={fg}>
+              {copy.subtitle}
+            </Text>
+          </Animated.View>
         </View>
 
-        <ThemeScope scheme="light" className="gap-1.5 rounded-[20px] bg-surface-raised p-[18px]">
-          {copy.eyebrow ? (
-            <Text variant="eyebrow" tone={tone === 'error' ? 'invalid' : 'accent'}>
-              {copy.eyebrow}
-            </Text>
-          ) : null}
-          {copy.heading ? <Text variant="sectionTitle">{copy.heading}</Text> : null}
-          {copy.meta ? (
-            <Text variant="bodySm" tone="muted">
-              {copy.meta}
-            </Text>
-          ) : null}
-          {copy.line ? (
-            <Text variant="bodySm" className="mt-1.5">
-              {copy.line}
-            </Text>
-          ) : null}
-        </ThemeScope>
+        <Animated.View entering={rise(240)}>
+          <ThemeScope scheme="light" className="gap-1.5 rounded-[20px] bg-surface-raised p-[18px]">
+            {copy.eyebrow ? (
+              <Text variant="eyebrow" tone={tone === 'error' ? 'invalid' : 'accent'}>
+                {copy.eyebrow}
+              </Text>
+            ) : null}
+            {copy.heading ? <Text variant="sectionTitle">{copy.heading}</Text> : null}
+            {copy.meta ? (
+              <Text variant="bodySm" tone="muted">
+                {copy.meta}
+              </Text>
+            ) : null}
+            {copy.line ? (
+              <Text variant="bodySm" className="mt-1.5">
+                {copy.line}
+              </Text>
+            ) : null}
+          </ThemeScope>
+        </Animated.View>
       </View>
 
-      <View className="gap-3">
+      <Animated.View entering={FadeIn.delay(320).duration(DURATION.base).reduceMotion(ReduceMotion.System)} className="gap-3">
         {outcome.result === 'ALREADY_CHECKED_IN' && outcome.ticket ? (
           <ResultButton
             variant="outline"
@@ -256,7 +325,7 @@ function ResultContent({ outcome }: { outcome: ScanOutcome }) {
         <Text variant="bodySmStrong" className="text-center" style={fg}>
           {footer.filter(Boolean).join(' · ')}
         </Text>
-      </View>
+      </Animated.View>
     </View>
   );
 }

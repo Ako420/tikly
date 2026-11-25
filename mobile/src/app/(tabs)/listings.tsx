@@ -8,6 +8,7 @@ import { marketplaceApi } from '@/features/marketplace/api';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useAsync } from '@/lib/useAsync';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 export default function Listings() {
@@ -20,6 +21,7 @@ export default function Listings() {
   return (
     <Screen edges={['top']}>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<ScreenTitle eyebrow={t('provider.listings.eyebrow')} title={t('provider.listings.title')} />}

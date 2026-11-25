@@ -1,5 +1,16 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  Easing,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { PaymentMethodBadge } from '@/components/payments/PaymentMethodBadge';
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
@@ -9,6 +20,7 @@ import { useCountdown } from '@/features/orders/useTicketOrder';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/cn';
 import { formatMoney } from '@/lib/money';
+import { EASE_OUT } from '@/lib/motion';
 import { toLocalCameroonNumber } from '@/lib/validation';
 import { palette, useTheme } from '@/theme';
 
@@ -47,17 +59,65 @@ function Step({ state, label }: { state: 'done' | 'active' | 'upcoming'; label: 
   );
 }
 
+const URGENT_MS = 60 * 1000;
+
+function WaitingRing() {
+  const reduceMotion = useReducedMotion();
+  const wave = useSharedValue(0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    wave.value = withRepeat(withTiming(1, { duration: 1800, easing: EASE_OUT }), -1, false);
+  }, [reduceMotion, wave]);
+
+  const style = useAnimatedStyle(() => ({
+    opacity: 0.7 * (1 - wave.value),
+    transform: [{ scale: 0.75 + wave.value * 0.6 }],
+  }));
+
+  return <Animated.View pointerEvents="none" className="absolute h-[132px] w-[132px] rounded-full border-2 border-warning" style={style} />;
+}
+
+function useTimerPulse(urgent: boolean) {
+  const reduceMotion = useReducedMotion();
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    if (urgent && !reduceMotion) {
+      scale.value = withRepeat(withSequence(withTiming(1.08, { duration: 420 }), withTiming(1, { duration: 580 })), -1, false);
+    } else {
+      cancelAnimation(scale);
+      scale.value = withTiming(1, { duration: 120 });
+    }
+  }, [urgent, reduceMotion, scale]);
+
+  return useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+}
+
+function ProgressFill({ progress }: { progress: number }) {
+  const width = useSharedValue(progress);
+
+  useEffect(() => {
+    width.value = withTiming(progress, { duration: 1000, easing: Easing.linear });
+  }, [progress, width]);
+
+  const style = useAnimatedStyle(() => ({ width: `${width.value * 100}%` }));
+  return <Animated.View className="h-full rounded-full bg-accent-text" style={style} />;
+}
+
 export function PaymentPendingView({ order, verifying, onResend, onCancel }: PaymentPendingViewProps) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const countdown = useCountdown(order.expiresAt);
   const methodShort = t(`payments.short.${order.method}`);
   const progress = Math.min(1, countdown.remainingMs / (RESERVATION_MINUTES * 60 * 1000));
+  const timerStyle = useTimerPulse(countdown.remainingMs > 0 && countdown.remainingMs <= URGENT_MS);
 
   return (
     <View className="flex-1 gap-6 px-6 pb-6 pt-6">
       <View className="items-center">
         <View className="h-[180px] w-[180px] items-center justify-center rounded-full border border-border">
+          <WaitingRing />
           <View className="h-[132px] w-[132px] items-center justify-center rounded-full border border-warning/40">
             <View className="h-24 w-24 items-center justify-center rounded-full bg-accent">
               <Ionicons name="phone-portrait-outline" size={44} color={colors.onAccent} />
@@ -90,12 +150,14 @@ export function PaymentPendingView({ order, verifying, onResend, onCancel }: Pay
           <Text variant="bodySm" tone="secondary" className="flex-1">
             {t('payments.pending.held', { count: order.quantity, tier: t(`tickets.tiers.${order.tierName}`) })}
           </Text>
-          <Text variant="amountLg" tone="accent" accessibilityLabel={t('payments.pending.timeLeft', { time: countdown.label })}>
-            {countdown.label}
-          </Text>
+          <Animated.View style={timerStyle}>
+            <Text variant="amountLg" tone="accent" accessibilityLabel={t('payments.pending.timeLeft', { time: countdown.label })}>
+              {countdown.label}
+            </Text>
+          </Animated.View>
         </View>
         <View className="h-2 overflow-hidden rounded-full bg-background">
-          <View className="h-full rounded-full bg-accent-text" style={{ width: `${progress * 100}%` }} />
+          <ProgressFill progress={progress} />
         </View>
       </View>
 

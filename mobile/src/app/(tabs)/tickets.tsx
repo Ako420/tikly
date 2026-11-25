@@ -14,6 +14,7 @@ import { useMyTickets } from '@/features/tickets/useMyTickets';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { palette, useTheme } from '@/theme';
 
 type Segment = 'upcoming' | 'past';
@@ -75,6 +76,7 @@ export default function Tickets() {
         />
       </View>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={bundles}
         keyExtractor={(bundle) => bundle.id}
         contentContainerClassName="grow gap-3.5 px-6 pb-6 pt-[18px]" contentContainerStyle={{ paddingBottom: tabBarSpace }}

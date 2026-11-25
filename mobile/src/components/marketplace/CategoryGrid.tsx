@@ -1,10 +1,11 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import type { ComponentProps } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import { useMarketplaceFormat } from '@/features/marketplace/format';
 import type { ServiceCategory } from '@/features/marketplace/types';
 import { cn } from '@/lib/cn';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { useTheme } from '@/theme';
 
 type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
@@ -32,7 +33,7 @@ export function CategoryGrid({ selected, onSelect }: CategoryGridProps) {
       {GRID.map((category) => {
         const active = category === selected;
         return (
-          <Pressable
+          <PressableScale
             key={category}
             accessibilityRole="button"
             accessibilityState={{ selected: active }}
@@ -46,7 +47,7 @@ export function CategoryGrid({ selected, onSelect }: CategoryGridProps) {
             <Text variant="label" tone={active ? 'onAccent' : 'primary'}>
               {format.category(category)}
             </Text>
-          </Pressable>
+          </PressableScale>
         );
       })}
     </View>

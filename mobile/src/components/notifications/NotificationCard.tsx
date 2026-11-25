@@ -1,9 +1,10 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import { useNotificationFormatter } from '@/features/notifications/formatNotification';
 import type { AppNotification } from '@/features/notifications/types';
 import { useTranslation } from '@/i18n/I18nProvider';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { useTheme } from '@/theme';
 
 type NotificationCardProps = {
@@ -22,7 +23,7 @@ export function NotificationCard({ notification, now, onPress }: NotificationCar
   const when = format.when(notification.createdAt, now);
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={[unread ? t('notifications.unread') : null, title, body, when].filter(Boolean).join('. ')}
       onPress={onPress}
@@ -46,6 +47,6 @@ export function NotificationCard({ notification, now, onPress }: NotificationCar
         </Text>
       </View>
       {unread ? <View className="absolute right-4 top-4 h-2 w-2 rounded-full bg-accent" /> : null}
-    </Pressable>
+    </PressableScale>
   );
 }

@@ -1,8 +1,9 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import type { ComponentProps } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import { cn } from '@/lib/cn';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { useTheme } from '@/theme';
 
 type RoleCardProps = {
@@ -18,7 +19,7 @@ export function RoleCard({ icon, title, description, tag, selected, onPress }: R
   const { colors } = useTheme();
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="radio"
       accessibilityState={{ checked: selected }}
       accessibilityLabel={`${title}. ${description}`}
@@ -57,6 +58,6 @@ export function RoleCard({ icon, title, description, tag, selected, onPress }: R
           selected ? 'border-[6px] border-accent-text bg-background' : 'border-2 border-border',
         )}
       />
-    </Pressable>
+    </PressableScale>
   );
 }

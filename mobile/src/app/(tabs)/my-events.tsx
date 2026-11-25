@@ -19,6 +19,7 @@ import { formatDateRange } from '@/lib/dates';
 import { formatAmount, formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useNow } from '@/lib/useNow';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const ORDER = ['published', 'pending', 'rejected', 'draft', 'completed', 'cancelled', 'suspended'];
@@ -161,6 +162,7 @@ export default function MyEvents() {
   return (
     <Screen edges={['top']}>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={items}
         keyExtractor={(item) => item.event.id}
         ListHeaderComponent={
