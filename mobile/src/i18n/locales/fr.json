@@ -1,0 +1,854 @@
+{
+  "common": {
+    "appName": "tikly",
+    "language": "Langue",
+    "back": "Retour",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "seeAll": "Tout voir",
+    "clear": "Effacer",
+    "country": "Cameroun",
+    "increase": "Ajouter un",
+    "decrease": "Retirer un",
+    "loading": "Chargement",
+    "retry": "Réessayer",
+    "close": "Fermer"
+  },
+  "splash": {
+    "tagline": "Événements · Billets · Entrée",
+    "footer": "Conçu pour la CEMAC"
+  },
+  "tickets": {
+    "tiers": {
+      "standard": "Standard",
+      "vip": "VIP",
+      "vvip": "VVIP"
+    },
+    "title": "Billets",
+    "emptyTitle": "Pas encore de billets",
+    "emptyBody": "Les billets que vous achetez apparaissent ici avec leur code QR.",
+    "browse": "Trouver un événement",
+    "stock": {
+      "left": "Encore {{count}}",
+      "onlyLeft": "Plus que {{count}}",
+      "soldOut": "Complet",
+      "salesClosed": "Ventes terminées"
+    }
+  },
+  "myTickets": {
+    "title": "Mes billets",
+    "upcoming": "À venir · {{count}}",
+    "past": {
+      "checkedIn": "Entré à {{time}}",
+      "rate": "Noter cet événement",
+      "youRated": "Votre note : {{rating}}/{{max}}",
+      "refunded": "Remboursé {{amount}}",
+      "cancelledByOrganizer": "Annulé par l’organisateur",
+      "cancelledByYou": "Annulé par vous"
+    },
+    "reminder": "Nous vous rappellerons par notification et par e-mail {{hours}} heures avant chaque événement.",
+    "when": {
+      "today": "Aujourd’hui",
+      "tomorrow": "Demain",
+      "inDays": "Dans {{count}} jours",
+      "live": "En cours",
+      "ended": "Terminé"
+    },
+    "quantity": "{{count}} × {{tier}}",
+    "show": "Afficher",
+    "view": "Voir",
+    "open": "{{title}}, {{when}}, {{quantity}}. Ouvrir les billets",
+    "emptyPastTitle": "Aucun événement passé",
+    "emptyPastBody": "Les événements auxquels vous avez assisté apparaîtront ici.",
+    "loadFailed": "Impossible de charger vos billets",
+    "detail": {
+      "brightness": "Luminosité augmentée pour le scan",
+      "eyebrow": "{{date}} · Ouverture {{time}}",
+      "holder": "Titulaire",
+      "tier": "Catégorie",
+      "entrance": "Entrée",
+      "entranceDefault": "Entrée principale",
+      "ticketOf": "Billet {{index}} sur {{total}}",
+      "swipeHint": " · glissez pour le suivant",
+      "downloadPdf": "Télécharger le PDF",
+      "calendar": "Calendrier",
+      "more": "Plus d’options",
+      "viewEvent": "Voir l’événement",
+      "cancel": "Annuler",
+      "qrUnavailable": "Votre QR code apparaîtra ici sous peu.",
+      "notFoundTitle": "Billet introuvable",
+      "pdfFailed": "Impossible de créer le PDF. Veuillez réessayer.",
+      "notFoundBody": "Ce billet n’est pas sur cet appareil. Retrouvez vos billets dans Mes billets.",
+      "rateEvent": "Noter cet événement",
+      "cancelTicket": "Annuler un billet"
+    },
+    "refund": {
+      "action": "Annuler ce billet",
+      "confirmTitle": "Annuler le billet {{code}} ?",
+      "confirmBody": "Vous recevrez un remboursement de 50 %, soit {{amount}}, sur le numéro Mobile Money utilisé pour le paiement. Cette action est irréversible.",
+      "confirmFree": "Ce billet gratuit sera annulé. Cette action est irréversible.",
+      "keep": "Garder le billet",
+      "confirm": "Annuler le billet",
+      "doneTitle": "Billet annulé",
+      "doneBody": "{{amount}} est en route vers votre compte Mobile Money.",
+      "doneNoRefund": "Votre billet a été annulé.",
+      "failedTitle": "Impossible d’annuler le billet"
+    },
+    "pastCount": "Passés · {{count}}",
+    "cancel": {
+      "title": "Annuler ce billet ?",
+      "body": "Vous récupérez {{percent}} % du prix sur {{method}} sous 24 heures. C’est définitif.",
+      "yourMomo": "votre numéro Mobile Money",
+      "ticketLabel": "{{tier}} · Billet {{index}}",
+      "price": "Prix du billet",
+      "fee": "Annulation ({{percent}} %)",
+      "youGet": "Vous récupérez",
+      "to": "Vers {{phone}}",
+      "cutoff": "Annulations possibles jusqu’au {{when}} ({{hours}} h avant l’ouverture)",
+      "confirm": "Annuler et rembourser {{amount}}",
+      "keep": "Garder mon billet",
+      "doneTitle": "Billet annulé",
+      "doneBody": "{{amount}} arrive sur votre numéro Mobile Money."
+    }
+  },
+  "onboarding": {
+    "getStarted": "Commencer",
+    "haveAccount": "J’ai déjà un compte",
+    "discover": {
+      "eyebrow": "Tous les événements · Une app",
+      "title": "Tous les événements de votre ville, à portée de main",
+      "body": "Concerts, football, conférences, humour et salons. Réservez en quelques secondes.",
+      "ticket": {
+        "eyebrow": "Sam. 14 déc. · Douala",
+        "title": "Douala Business Expo",
+        "venue": "Akwa Expo Hall"
+      }
+    },
+    "pay": {
+      "eyebrow": "MTN MoMo · Orange Money",
+      "title": "Payez en quelques secondes avec Mobile Money",
+      "body": "Choisissez votre catégorie. Vos places sont réservées 10 minutes le temps de valider.",
+      "card": {
+        "title": "Validez le paiement",
+        "meta": "2 × VIP · MTN MoMo",
+        "holdLabel": "Places réservées pendant"
+      }
+    },
+    "entry": {
+      "eyebrow": "Entrée QR · Rappels",
+      "title": "Votre téléphone est votre billet",
+      "body": "Présentez votre code QR à l’entrée. Nous vous le rappelons 24 heures avant l’ouverture des portes.",
+      "card": {
+        "status": "Valide · Porte B",
+        "title": "Makossa Night Live",
+        "meta": "VIP · TK-7Q4M-21"
+      }
+    }
+  },
+  "auth": {
+    "logIn": "Se connecter",
+    "continueWithGoogle": "Continuer avec Google",
+    "roles": {
+      "attendee": {
+        "title": "Participant",
+        "description": "Découvrez des événements et achetez des billets"
+      },
+      "organizer": {
+        "title": "Organisateur",
+        "description": "Créez des événements, vendez des billets, gérez l’entrée",
+        "tag": "Tableau de bord web"
+      },
+      "provider": {
+        "title": "Prestataire",
+        "description": "Louez salles, chaises, bâches et sonorisation",
+        "tag": "Vérification d’identité"
+      },
+      "exhibitor": {
+        "title": "Exposant",
+        "description": "Réservez des stands lors d’événements",
+        "tag": "Tableau de bord web"
+      }
+    },
+    "fields": {
+      "fullName": "Nom complet",
+      "email": "E-mail",
+      "phone": "Numéro de téléphone",
+      "password": "Mot de passe",
+      "identifier": "E-mail ou numéro de téléphone"
+    },
+    "signUp": {
+      "stepRole": "Étape 1 sur 2",
+      "roleTitle": "Comment utiliserez-vous tikly ?",
+      "roleBody": "Choisissez un rôle pour ce compte. Vous pourrez créer un autre compte plus tard.",
+      "continueAs": "Continuer en tant que {{role}}",
+      "stepDetails": "Étape 2 sur 2 · {{role}}",
+      "detailsTitle": "Créez votre compte",
+      "orEmail": "ou inscrivez-vous par e-mail",
+      "phoneHint": "Utilisez votre numéro MoMo ou Orange Money",
+      "passwordPlaceholder": "Au moins {{min}} caractères",
+      "termsPrefix": "J’accepte les ",
+      "terms": "Conditions",
+      "termsJoin": " et la ",
+      "privacy": "Politique de confidentialité",
+      "createAccount": "Créer le compte",
+      "haveAccount": "Vous avez déjà un compte ? "
+    },
+    "login": {
+      "eyebrow": "Ravi de vous revoir",
+      "title": "Bon retour",
+      "body": "Connectez-vous pour voir vos billets et vos prochains événements.",
+      "forgot": "Mot de passe oublié ?",
+      "or": "ou",
+      "gateStaff": "Agent d’accueil ? Connexion scanner",
+      "newHere": "Nouveau sur tikly ? ",
+      "createAccount": "Créer un compte"
+    },
+    "errors": {
+      "nameRequired": "Saisissez votre nom complet",
+      "emailInvalid": "Saisissez un e-mail comme nom@exemple.com",
+      "phoneInvalid": "Saisissez un numéro à 9 chiffres commençant par 6",
+      "passwordShort": "Utilisez au moins {{min}} caractères",
+      "termsRequired": "Acceptez les Conditions et la Politique de confidentialité pour continuer",
+      "identifierInvalid": "Saisissez votre e-mail ou un numéro à 9 chiffres",
+      "passwordRequired": "Saisissez votre mot de passe"
+    },
+    "reset": {
+      "eyebrow": "Réinitialisation",
+      "title": "Mot de passe oublié ?",
+      "body": "Saisissez l’e-mail de votre compte. Nous enverrons un lien valable {{hours}} heure.",
+      "send": "Envoyer le lien",
+      "remembered": "Vous vous en souvenez ? ",
+      "backToLogin": "Retour à la connexion",
+      "sentEyebrow": "Lien envoyé",
+      "sentTitle": "Vérifiez votre boîte",
+      "sentBody": "Nous avons envoyé un lien à {{email}}. Il expire dans {{hours}} heure.",
+      "openEmail": "Ouvrir la messagerie",
+      "resendIn": "Renvoyer le lien dans {{time}}",
+      "resend": "Renvoyer le lien",
+      "resent": "Un nouveau lien est en route.",
+      "wrongEmail": "Mauvais e-mail ? ",
+      "changeIt": "Le modifier",
+      "newEyebrow": "Presque fini",
+      "newTitle": "Nouveau mot de passe",
+      "newBody": "Au moins {{min}} caractères. Vous serez connecté sur ce téléphone.",
+      "newBodyNoLogin": "Au moins {{min}} caractères, puis connectez-vous avec votre nouveau mot de passe.",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "mismatch": "Les mots de passe ne correspondent pas",
+      "match": "Les mots de passe correspondent",
+      "saveAndLogIn": "Enregistrer et se connecter",
+      "save": "Enregistrer",
+      "invalidTitle": "Ce lien ne fonctionne pas",
+      "invalidBody": "Ouvrez le dernier lien reçu par e-mail ou demandez-en un nouveau.",
+      "requestNew": "Demander un nouveau lien",
+      "strength": {
+        "0": "Saisissez un mot de passe",
+        "1": "Trop court",
+        "2": "Mot de passe moyen",
+        "3": "Bon mot de passe",
+        "4": "Mot de passe fort"
+      }
+    }
+  },
+  "tabs": {
+    "home": "Accueil",
+    "explore": "Explorer",
+    "tickets": "Billets",
+    "profile": "Profil",
+    "marketplace": "Services",
+    "bookings": "Réservations",
+    "requests": "Demandes",
+    "listings": "Mes services",
+    "earnings": "Revenus",
+    "slot-events": "Événements",
+    "my-slots": "Mes stands"
+  },
+  "events": {
+    "searchPlaceholder": "Rechercher un événement ou un lieu",
+    "fromPrice": "À partir de {{price}}",
+    "free": "Gratuit",
+    "sellingFast": "Ça part vite",
+    "share": "Partager l’événement",
+    "shareMessage": "{{title}} à {{venue}}, sur tikly",
+    "categories": {
+      "all": "Tout",
+      "concerts": {
+        "plural": "Concerts",
+        "singular": "Concert"
+      },
+      "sports": {
+        "plural": "Sports",
+        "singular": "Sport"
+      },
+      "conferences": {
+        "plural": "Conférences",
+        "singular": "Conférence"
+      },
+      "comedy": {
+        "plural": "Humour",
+        "singular": "Humour"
+      },
+      "festivals": {
+        "plural": "Festivals",
+        "singular": "Festival"
+      },
+      "expos": {
+        "plural": "Salons",
+        "singular": "Salon"
+      },
+      "other": {
+        "plural": "Autres",
+        "singular": "Événement"
+      }
+    },
+    "photoCount": "Photo {{index}} sur {{total}}",
+    "like": "J’aime",
+    "openInMaps": "Ouvrir {{place}} dans Maps",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Copié",
+    "updateTags": {
+      "lineup": "Programme",
+      "location": "Lieu",
+      "info": "Infos"
+    }
+  },
+  "home": {
+    "yourCity": "Votre ville",
+    "changeCity": "Changer de ville",
+    "notifications": "Notifications",
+    "title": "Quoi de neuf cette semaine ?",
+    "featured": "À la une cette semaine",
+    "comingUp": "Bientôt à {{city}}",
+    "emptyTitle": "Aucun événement dans cette catégorie",
+    "emptyBody": "Essayez une autre catégorie ou voyez tout ce qui se passe dans votre ville."
+  },
+  "explore": {
+    "title": "Explorer",
+    "filters": "Filtres",
+    "filtersCount": "Filtres · {{count}}",
+    "thisMonth": "Ce mois-ci",
+    "category": "Catégorie",
+    "price": "Prix",
+    "removeFilter": "Retirer le filtre {{filter}}",
+    "resultsOne": "{{count}} événement trouvé",
+    "resultsOther": "{{count}} événements trouvés",
+    "sortSoonest": "Les plus proches",
+    "sortLatest": "Les plus lointains",
+    "emptyTitle": "Aucun événement trouvé",
+    "emptyBody": "Essayez une autre recherche ou retirez un filtre.",
+    "clearFilters": "Effacer les filtres"
+  },
+  "profile": {
+    "title": "Profil",
+    "signOut": "Se déconnecter",
+    "preferences": "Préférences",
+    "account": "Compte",
+    "homeCity": "Ville",
+    "notifications": "Notifications",
+    "notificationChannels": "Push + e-mail",
+    "phone": "Numéro de téléphone et MoMo",
+    "changePassword": "Changer le mot de passe",
+    "help": "Aide et assistance",
+    "terms": "Conditions et confidentialité",
+    "logOut": "Se déconnecter",
+    "logIn": "Se connecter",
+    "roles": {
+      "staff": "Équipe d’accueil",
+      "admin": "Administrateur"
+    },
+    "edit": {
+      "title": "Modifier le profil",
+      "phone": "Numéro de téléphone et MoMo",
+      "phoneHint": "Utilisé pour les paiements et remboursements Mobile Money.",
+      "save": "Enregistrer"
+    },
+    "guest": "Invité"
+  },
+  "time": {
+    "justNow": "À l’instant",
+    "minutes": "Il y a {{count}} min",
+    "hours": "Il y a {{count}} h",
+    "yesterday": "Hier",
+    "days": "Il y a {{count}} jours"
+  },
+  "eventDetails": {
+    "notFoundTitle": "Événement introuvable",
+    "notFoundBody": "Il a peut-être été annulé ou retiré.",
+    "rating": "Noté {{average}} sur 5 par {{count}} avis",
+    "days": "{{count}} jours",
+    "viewOnMap": "Voir sur la carte",
+    "organizerMeta": "Organisateur · {{count}} événements",
+    "tickets": "Billets",
+    "salesEnd": "Fin des ventes le {{date}}",
+    "lineup": "Programme",
+    "seeAllCount": "Voir les {{count}}",
+    "about": "À propos",
+    "readMore": "Lire la suite",
+    "readLess": "Réduire",
+    "updates": "Actualités",
+    "noUpdates": "Pas encore d’actualité dans cette catégorie.",
+    "agendaDay": "Programme · Jour {{day}}",
+    "fullAgenda": "Tout le programme",
+    "location": "Lieu",
+    "wouriRiver": "Fleuve Wouri",
+    "directions": "Itinéraire",
+    "copyAddress": "Copier l’adresse",
+    "addressCopied": "Adresse copiée",
+    "bringYourPeople": "Invitez vos proches",
+    "from": "À partir de",
+    "price": "Prix",
+    "unavailable": "Billets",
+    "getTickets": "Prendre des billets",
+    "reviews": "Avis",
+    "seeReviews": "Tout voir",
+    "noReviews": "Pas encore d’avis",
+    "reviewsHint": "Ce que les participants en ont pensé"
+  },
+  "checkout": {
+    "step": "Étape {{step}} sur {{total}}",
+    "chooseTickets": "Choisissez vos billets",
+    "rules": "{{max}} billets maximum par commande. Les billets sont nominatifs et non transférables. Vos places sont réservées 10 minutes pendant le paiement.",
+    "noneSelected": "Aucun billet",
+    "continue": "Continuer",
+    "title": "Paiement",
+    "bookingFee": "Frais de réservation",
+    "total": "Total",
+    "payWith": "Payer avec",
+    "numberToCharge": "Numéro {{method}} à débiter",
+    "wrongNetwork": "Ce numéro n’est pas {{method}}. Choisissez l’autre réseau ou un autre numéro.",
+    "deliveryTo": "Les billets arrivent dans l’app et à",
+    "deliveryInApp": "Les billets arrivent dans l’app dès que le paiement est validé.",
+    "pay": "Payer {{amount}}",
+    "secureNote": "Paiement Mobile Money sécurisé · Sans carte",
+    "invalidTitle": "Choisissez d’abord vos billets",
+    "invalidBody": "Revenez en arrière et choisissez une catégorie et une quantité."
+  },
+  "errors": {
+    "network": "Impossible de joindre tikly pour le moment. Vérifiez votre connexion et réessayez.",
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "retry": "Réessayer"
+  },
+  "payments": {
+    "methods": {
+      "mtn": "MTN MoMo",
+      "orange": "Orange Money"
+    },
+    "short": {
+      "mtn": "MoMo",
+      "orange": "Orange Money"
+    },
+    "notFoundTitle": "Commande introuvable",
+    "retryFailed": "Impossible de relancer le paiement",
+    "pending": {
+      "eyebrow": "En attente de validation",
+      "title": "Validez sur votre téléphone",
+      "body": "Nous avons envoyé une demande de {{amount}} au {{phone}}. Saisissez votre code {{method}} pour confirmer.",
+      "held": "{{count}} places {{tier}} réservées pendant",
+      "timeLeft": "Encore {{time}} pour valider",
+      "stepSent": "Demande de paiement envoyée",
+      "stepPin": "En attente de votre code",
+      "stepTickets": "Billets émis avec code QR",
+      "noPrompt": "Pas de notification ? Composez ",
+      "noPromptEnd": " pour valider les paiements en attente.",
+      "resend": "J’ai validé, vérifier",
+      "cancel": "Annuler le paiement"
+    },
+    "success": {
+      "title": "C’est réservé",
+      "body": "{{count}} billets {{tier}} enregistrés dans l’app et par e-mail.",
+      "ticketOf": "{{tier}} · Billet {{index}} sur {{total}}",
+      "qrLabel": "Code QR du billet {{code}}",
+      "paid": "{{amount}} payés avec {{method}} · Réf. {{reference}}",
+      "viewTickets": "Voir mes billets",
+      "addToCalendar": "Ajouter au calendrier"
+    },
+    "failed": {
+      "eyebrow": "Paiement non abouti",
+      "title": "Vos places ont été libérées",
+      "expiredBody": "La demande a expiré après 10 minutes sans votre code. Vous n’avez pas été débité.",
+      "declinedBody": "Le paiement a été refusé ou annulé. Vous n’avez pas été débité.",
+      "sellingFast": "{{tier}} part vite : plus que {{count}}. Réessayez maintenant pour réserver de nouvelles places.",
+      "retry": "Réessayer avec {{method}}",
+      "switch": "Payer avec {{method}}",
+      "backToEvent": "Retour à l’événement"
+    }
+  },
+  "gate": {
+    "tag": "Contrôle",
+    "events": {
+      "eyebrow": "Équipe d’accueil · {{name}}",
+      "title": "Vos événements",
+      "assignedBy": "Assigné par {{organizer}}",
+      "live": "En cours",
+      "meta": "{{date}} · Ouverture {{time}} · {{area}}",
+      "ofTotal": "/ {{total}} entrés",
+      "checkedInLabel": "{{count}} entrés sur {{total}}",
+      "mine": "Vous avez scanné {{count}}",
+      "start": "Commencer le scan",
+      "comingUp": "À venir",
+      "opensAt": "{{date}} · Scan dès {{time}}",
+      "lockedHint": "Le scan n’est pas encore ouvert",
+      "lockedBody": "Le scan ouvre {{when}}.",
+      "logout": "Quitter le scanner",
+      "loadFailed": "Impossible de charger vos événements",
+      "emptyTitle": "Aucun événement assigné",
+      "emptyBody": "Demandez à l’organisateur de vous ajouter à l’équipe d’accueil."
+    },
+    "scanner": {
+      "close": "Fermer le scanner",
+      "torch": "Lampe torche",
+      "hint": "Visez le QR code du billet",
+      "checking": "Vérification du billet…",
+      "checkedInOf": "Entrés sur {{total}}",
+      "last": "Dernier : {{tier}} · {{name}}",
+      "noScansTitle": "Aucun scan",
+      "noScansBody": "Votre dernière entrée s’affiche ici",
+      "enterCode": "Saisir le code",
+      "sound": "Sons du scanner",
+      "cameraTitle": "Accès à l’appareil photo requis",
+      "cameraBody": "Tikly utilise l’appareil photo uniquement pour lire les QR codes des billets.",
+      "allowCamera": "Autoriser l’appareil photo",
+      "openSettings": "Ouvrir les réglages",
+      "checkFailed": "Impossible de vérifier ce billet",
+      "notAssigned": "Événement introuvable",
+      "notAssignedBody": "Cet événement ne fait pas partie de vos affectations."
+    },
+    "manual": {
+      "title": "Saisir le code du billet",
+      "body": "Utilisez le code imprimé sous le QR s’il ne se scanne pas.",
+      "label": "Code du billet",
+      "placeholder": "TK-XXXX-XX",
+      "check": "Vérifier le billet"
+    },
+    "result": {
+      "valid": "Valide",
+      "validSubtitle": "Première entrée · Laissez passer",
+      "alreadyIn": "Déjà entré",
+      "alreadyInSubtitle": "Entré à {{time}} · {{ago}}",
+      "alreadyInFallback": "Ce billet a déjà été utilisé",
+      "invalid": "Invalide",
+      "wrongEventSubtitle": "Mauvais événement · Refusez l’entrée",
+      "cancelledSubtitle": "Billet annulé · Refusez l’entrée",
+      "unknownSubtitle": "Pas un billet Tikly · Refusez l’entrée",
+      "ticketOf": "{{tier}} · Billet {{index}} sur {{total}}",
+      "checkedInBy": "Entré à {{time}} par {{staff}}",
+      "lastEntryAtGate": "Dernière entrée : {{gate}} par {{staff}} · {{count}} ré-entrées",
+      "lastEntry": "Dernière entrée par {{staff}} · {{count}} ré-entrées",
+      "otherEventEyebrow": "{{tier}} · Billet d’un autre événement",
+      "otherEventEyebrowShort": "Billet d’un autre événement",
+      "askForTicket": "Demandez à la personne son billet pour {{event}}.",
+      "cancelledLine": "Ce billet a été remboursé ou annulé.",
+      "unknownEyebrow": "Code non reconnu",
+      "unknownHeading": "Aucun billet correspondant",
+      "unknownLine": "Vérifiez le code ou demandez le billet dans l’app Tikly.",
+      "minutesAgo": "il y a {{minutes}} min",
+      "hoursAgo": "il y a {{hours}} h {{minutes}} min",
+      "allowReentry": "Autoriser la ré-entrée",
+      "reentryFailed": "Impossible d’enregistrer la ré-entrée",
+      "scanNext": "Scanner le suivant",
+      "backIn": "Retour au scan dans {{seconds}} s",
+      "beepPlayed": "Bip joué",
+      "yourCall": "La ré-entrée est votre décision",
+      "buzzPlayed": "Alerte jouée",
+      "errorPlayed": "Son d’erreur joué",
+      "doNotAdmit": "Refusez l’entrée",
+      "missing": "Résultat du scan indisponible"
+    },
+    "lookup": {
+      "title": "Trouver un billet",
+      "body": "Si un QR ne se scanne pas, cherchez par code ou par téléphone de l’acheteur.",
+      "byCode": "Code du billet",
+      "byPhone": "Téléphone",
+      "codeLabel": "Code du billet",
+      "phoneLabel": "Téléphone de l’acheteur",
+      "codePlaceholder": "EVT-XXXX-XXX",
+      "phonePlaceholder": "6 77 12 34 56",
+      "resultsHeaderOne": "{{count}} billet · {{name}}",
+      "resultsHeaderOther": "{{count}} billets · {{name}}",
+      "notIn": "Pas encore entré",
+      "inAt": "Entré à {{time}}",
+      "checkedIn": "Entré",
+      "cancelled": "Annulé",
+      "checkInNow": "Faire entrer",
+      "noneTitle": "Aucun billet trouvé",
+      "noneBody": "Vérifiez le code ou le numéro et réessayez.",
+      "idHint": "Demandez une pièce d’identité au nom de l’acheteur avant une entrée manuelle.",
+      "reentryRecorded": "Ré-entrée enregistrée à {{time}}"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Tout marquer comme lu",
+    "newCount": "{{count}} nouvelles",
+    "today": "Aujourd’hui",
+    "earlier": "Plus tôt",
+    "unread": "Non lue",
+    "loadFailed": "Impossible de charger les notifications",
+    "emptyTitle": "Vous êtes à jour",
+    "emptyBody": "Rappels, paiements et nouvelles des événements apparaissent ici.",
+    "types": {
+      "reminder": {
+        "title": "{{event}} dans 24 heures",
+        "body": "{{date}}, {{time}} · {{venue}}. Votre billet est dans l’app."
+      },
+      "purchase": {
+        "title": "Paiement confirmé",
+        "body": "{{count}} billets {{tier}} pour {{event}} · {{amount}} via {{method}}."
+      },
+      "update": {
+        "title": "{{organizer}} a publié"
+      },
+      "cancelled": {
+        "title": "Événement annulé : {{event}}",
+        "body": "Remboursement intégral de {{amount}} envoyé sur votre numéro MoMo.",
+        "bodyNoRefund": "L’organisateur a annulé cet événement."
+      },
+      "refunded": {
+        "title": "Remboursement envoyé",
+        "body": "{{amount}} pour {{event}} arrive sur votre numéro MoMo."
+      },
+      "welcome": {
+        "title": "Bienvenue sur tikly",
+        "body": "Votre compte est prêt. Découvrez ce qui se passe à {{city}} cette semaine."
+      },
+      "generic": {
+        "title": "Nouvelle de tikly"
+      }
+    }
+  },
+  "reviews": {
+    "eyebrow": "Votre avis",
+    "title": "Comment était {{event}} ?",
+    "count": "{{count}} avis",
+    "starsLabel": "{{count}} étoiles sur 5",
+    "write": "Donner mon avis",
+    "composeTitle": "C’était comment ?",
+    "composeHint": "Seuls les participants enregistrés à l’entrée peuvent donner un avis, après l’événement.",
+    "commentPlaceholder": "Racontez l’ambiance aux autres fans",
+    "ratingRequired": "Choisissez une note de 1 à 5 étoiles.",
+    "submit": "Publier l’avis",
+    "thanks": "Merci pour votre avis !",
+    "emptyTitle": "Pas encore d’avis",
+    "emptyBody": "Les avis apparaissent ici après l’événement.",
+    "errorTitle": "Impossible de charger les avis",
+    "retry": "Réessayer",
+    "checkedIn": "Entré le {{date}}",
+    "ratingLabel": "Note",
+    "starLabel": "{{count}} étoiles",
+    "tapToRate": "Touchez une étoile pour noter",
+    "ratingValue": "{{rating}} sur {{max}} · {{label}}",
+    "labels": {
+      "1": "Décevant",
+      "2": "Peut mieux faire",
+      "3": "Bonne soirée",
+      "4": "Super soirée",
+      "5": "Inoubliable"
+    },
+    "highlightsLabel": "Qu’avez-vous aimé ? (facultatif)",
+    "highlights": {
+      "performers": "Artistes",
+      "venue": "Lieu",
+      "sound": "Son",
+      "organisation": "Organisation",
+      "value": "Rapport qualité-prix",
+      "entry": "Entrée rapide"
+    },
+    "commentLabel": "Votre commentaire",
+    "shownAs": "Affiché sur la page de l’événement sous « {{name}} »",
+    "post": "Publier l’avis"
+  },
+  "marketplace": {
+    "eyebrow": "Prestataires vérifiés",
+    "title": "Services",
+    "searchPlaceholder": "Salles, chaises, sono…",
+    "anyCity": "Toutes les villes",
+    "allCities": "toutes les villes",
+    "anyPrice": "Tous les prix",
+    "under": "Moins de {{price}}",
+    "results": "{{count}} services",
+    "resultsIn": "{{category}} à {{city}} · {{count}}",
+    "emptyTitle": "Aucun service trouvé",
+    "emptyBody": "Essayez une autre catégorie, ville ou un autre prix.",
+    "loadFailed": "Chargement impossible",
+    "retry": "Réessayer",
+    "units": {
+      "per_day": "/ jour",
+      "per_item": "/ unité",
+      "per_event": "/ événement"
+    },
+    "categories": {
+      "hall": "Salles",
+      "chairs": "Chaises",
+      "canopy": "Bâches",
+      "sound": "Sono",
+      "catering": "Traiteur",
+      "decoration": "Décoration",
+      "other": "Autre"
+    },
+    "status": {
+      "accepted": "Acceptée",
+      "paid": "Payée",
+      "cancelled": "Annulée"
+    },
+    "detail": {
+      "notFound": "Service indisponible",
+      "share": "Partager",
+      "about": "À propos",
+      "contact": "Contacter le prestataire",
+      "call": "Appeler",
+      "request": "Demander une réservation"
+    },
+    "request": {
+      "eyebrow": "Demande de réservation",
+      "title": "Réserver : {{category}}",
+      "whichEvent": "Pour quel événement ?",
+      "noEvent": "Sans événement",
+      "dates": "Dates",
+      "from": "Du",
+      "to": "Au",
+      "quantity": "Quantité",
+      "message": "Message au prestataire",
+      "messagePlaceholder": "Invités, heure d’installation, détails utiles",
+      "estimateDays": "{{price}} × {{quantity}} × {{days}} jours",
+      "estimateItems": "{{price}} × {{quantity}}",
+      "payLater": "Vous ne payez qu’après acceptation de {{provider}}",
+      "send": "Envoyer la demande",
+      "estimateDay": "{{price}} × {{quantity}} × 1 jour"
+    },
+    "bookings": {
+      "title": "Réservations",
+      "unknown": "Service",
+      "counts": {
+        "toPay": "À payer",
+        "waiting": "En attente",
+        "paid": "Payées"
+      },
+      "pay": "Payer {{amount}}",
+      "payHint": "Payez vite pour garder les dates · touchez pour annuler",
+      "waiting": "{{when}} · en attente de réponse",
+      "paid": "Payé {{amount}} · {{when}}",
+      "completed": "Terminée · {{amount}} · {{when}}",
+      "declined": "Refusée",
+      "declinedReason": "Refusée : {{reason}}",
+      "findSimilar": "Voir d’autres",
+      "cancelTitle": "Annuler cette réservation ?",
+      "keep": "Garder",
+      "cancel": "Annuler",
+      "emptyTitle": "Aucune réservation",
+      "emptyBody": "Demandez un service depuis l’onglet Services."
+    }
+  },
+  "provider": {
+    "verification": {
+      "verified": "Prestataire vérifié",
+      "pending": "Vérification en cours",
+      "rejected": "Vérification refusée"
+    },
+    "verificationBanner": {
+      "pending": "Un administrateur examine vos documents. Vos services apparaîtront après vérification.",
+      "rejected": "Votre vérification a été refusée. Mettez à jour vos documents pour réessayer."
+    },
+    "setup": {
+      "title": "Configurez votre activité",
+      "body": "Votre profil professionnel et vos documents ne sont pas encore enregistrés."
+    },
+    "monthEarnings": "Revenus de {{month}}",
+    "vsLastMonth": "{{change}} vs mois dernier",
+    "afterFee": "après {{percent}} % de commission",
+    "paidBookings": "{{count}} réservations payées",
+    "newRequests": "Nouvelles demandes",
+    "newCount": "{{count}} nouv.",
+    "noRequestsTitle": "Aucune nouvelle demande",
+    "noRequestsBody": "Les demandes des organisateurs apparaissent ici.",
+    "nextJob": "Prochaine prestation",
+    "accept": {
+      "action": "Accepter",
+      "title": "Accepter et fixer le prix",
+      "amount": "Montant total ({{currency}})",
+      "hint": "L’organisateur paie ce montant sur Tikly.",
+      "confirm": "Accepter la réservation",
+      "amountRequired": "Saisissez un montant."
+    },
+    "decline": {
+      "action": "Refuser",
+      "title": "Refuser cette demande ?",
+      "keep": "Garder",
+      "confirm": "Refuser"
+    },
+    "listings": {
+      "eyebrow": "Votre catalogue",
+      "title": "Mes services",
+      "emptyTitle": "Aucun service",
+      "emptyBody": "Vos services apparaîtront ici une fois vérifié."
+    },
+    "earnings": {
+      "eyebrow": "Paiements",
+      "title": "Revenus",
+      "net": "Votre part",
+      "periods": {
+        "month": "Ce mois",
+        "year": "Cette année",
+        "all": "Tout"
+      },
+      "rows": {
+        "gross": "Montant brut",
+        "commission": "Commission",
+        "refunded": "Remboursé",
+        "paidBookings": "Réservations payées"
+      }
+    }
+  },
+  "exhibitor": {
+    "role": "Exposant",
+    "eventsTitle": "Événements avec stands",
+    "left": "{{count}} stands restants",
+    "onlyLeft": "Plus que {{count}}",
+    "slotLeft": "{{count}} restants",
+    "from": "Dès {{price}}",
+    "seeSlots": "Voir les stands",
+    "emptyTitle": "Aucun stand disponible",
+    "emptyBody": "Les événements proposant des stands apparaîtront ici.",
+    "bookEyebrow": "Réserver un stand",
+    "chooseTitle": "Choisissez votre stand",
+    "noSlotsTitle": "Aucun stand pour cet événement",
+    "noSlotsBody": "L’organisateur n’a pas encore ouvert de stands.",
+    "listedNote": "{{name}} figurera parmi les exposants sur la page de l’événement. L’organisateur attribue les numéros de stand.",
+    "pickStand": "Choisissez un stand",
+    "bookAndPay": "Réserver et payer",
+    "mySlotsTitle": "Mes stands",
+    "paid": "Payé {{amount}}",
+    "pending": "Paiement en attente",
+    "mySlotsEmptyTitle": "Aucun stand réservé",
+    "mySlotsEmptyBody": "Réservez un stand depuis l’onglet Événements."
+  },
+  "pay": {
+    "title": "Payer par Mobile Money",
+    "payAmount": "Payer {{amount}}",
+    "pendingTitle": "Validez sur votre téléphone",
+    "pendingBody": "Confirmez la demande {{method}}, ou composez {{code}} si elle n’apparaît pas.",
+    "checkNow": "J’ai validé, vérifier",
+    "paidTitle": "Paiement reçu",
+    "paidBody": {
+      "booking": "Le prestataire est prévenu et les dates sont réservées.",
+      "slot": "Votre stand est réservé. Vous figurerez sur la page de l’événement."
+    },
+    "failedTitle": "Paiement non abouti",
+    "failedBody": "Aucun montant n’a été prélevé. Vous pouvez réessayer.",
+    "tryAgain": "Réessayer",
+    "done": "Terminé"
+  },
+  "posts": {
+    "eyebrow": "Actus de l’événement",
+    "title": "Publications",
+    "pinned": "Épinglé",
+    "types": {
+      "update": "Info",
+      "speaker": "Artiste",
+      "promo": "Promo"
+    },
+    "emptyTitle": "Aucune publication",
+    "emptyBody": "L’organisateur n’a encore rien publié ici.",
+    "errorTitle": "Impossible de charger les publications",
+    "retry": "Réessayer"
+  }
+}

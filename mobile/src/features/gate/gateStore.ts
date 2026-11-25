@@ -1,0 +1,137 @@
+import { useCallback, useEffect, useSyncExternalStore } from 'react';
+import { env } from '@/config/env';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { toApiError, type ApiError } from '@/lib/api';
+import { gateApi } from './api';
+import { sampleGate, sampleStaff } from './sampleGate';
+import type { GateEvent, LookupQuery, ScanOutcome, ScannedTicket } from './types';
+
+type GateState = {
+  events: GateEvent[];
+  status: 'idle' | 'loading' | 'ready' | 'error';
+  error?: ApiError;
+  outcomes: Record<string, ScanOutcome>;
+  lastEntry: Record<string, ScanOutcome>;
+  soundOn: boolean;
+  owner?: string;
+};
+
+let state: GateState = { events: [], status: 'idle', outcomes: {}, lastEntry: {}, soundOn: true };
+const listeners = new Set<() => void>();
+
+const setState = (patch: Partial<GateState>) => {
+  state = { ...state, ...patch };
+  listeners.forEach((listener) => listener());
+};
+
+const subscribe = (listener: () => void) => {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+};
+
+const getState = () => state;
+
+const updateEvent = (eventId: string, update: (event: GateEvent) => GateEvent) =>
+  setState({ events: state.events.map((event) => (event.id === eventId ? update(event) : event)) });
+
+async function loadEvents() {
+  const owner = state.owner;
+  setState({ status: 'loading', error: undefined });
+  try {
+    const events = env.useSampleData ? sampleGate.events().map((event) => ({ ...event })) : await gateApi.events();
+    if (state.owner === owner) setState({ events, status: 'ready' });
+  } catch (caught) {
+    if (state.owner === owner) setState({ status: 'error', error: toApiError(caught) });
+  }
+}
+
+const newScanId = () => `scan-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+
+async function scan(eventId: string, value: string, staffName: string, manual: boolean): Promise<ScanOutcome> {
+  const outcome: ScanOutcome = env.useSampleData
+    ? sampleGate.scan(eventId, value, staffName)
+    : {
+        id: newScanId(),
+        eventId,
+        scannedAt: new Date().toISOString(),
+        ...(await gateApi.scan(eventId, manual ? { code: value } : { qrToken: value })),
+      };
+
+  const outcomes = { ...state.outcomes, [outcome.id]: outcome };
+  if (outcome.result === 'VALID') {
+    setState({ outcomes, lastEntry: { ...state.lastEntry, [eventId]: outcome } });
+    if (env.useSampleData) {
+      const fresh = sampleGate.events().find((event) => event.id === eventId);
+      if (fresh) updateEvent(eventId, () => ({ ...fresh }));
+    } else {
+      updateEvent(eventId, (event) => ({ ...event, checkedIn: event.checkedIn + 1, scannedByMe: event.scannedByMe + 1 }));
+    }
+  } else {
+    setState({ outcomes });
+  }
+  return outcome;
+}
+
+async function reentry(eventId: string, ticketId: string, staffName: string) {
+  if (env.useSampleData) sampleGate.reentry(ticketId, staffName);
+  else await gateApi.reentry(eventId, ticketId);
+}
+
+async function allowReentry(outcome: ScanOutcome, staffName: string) {
+  if (outcome.ticket) await reentry(outcome.eventId, outcome.ticket.id, staffName);
+}
+
+async function lookup(eventId: string, query: LookupQuery): Promise<ScannedTicket[]> {
+  return env.useSampleData ? sampleGate.lookup(eventId, query) : gateApi.lookup(eventId, query);
+}
+
+export const gateStore = {
+  loadEvents,
+  scan,
+  allowReentry,
+  reentry,
+  lookup,
+  toggleSound: () => setState({ soundOn: !state.soundOn }),
+};
+
+export function useGateState() {
+  return useSyncExternalStore(subscribe, getState);
+}
+
+export function useGateStaff() {
+  const { user } = useAuth();
+  return { name: user?.name ?? sampleStaff.name };
+}
+
+export function useGateEvents() {
+  const { user } = useAuth();
+  const owner = user?.id ?? 'sample';
+  const current = useGateState();
+  const stale = current.owner !== owner;
+
+  useEffect(() => {
+    if (getState().owner === owner && getState().status !== 'idle') return;
+    setState({ events: [], outcomes: {}, lastEntry: {}, status: 'idle', error: undefined, owner });
+    loadEvents();
+  }, [owner]);
+
+  const reload = useCallback(() => loadEvents(), []);
+  return {
+    events: stale ? [] : current.events,
+    loading: stale || current.status === 'idle' || current.status === 'loading',
+    error: stale ? undefined : current.error,
+    reload,
+  };
+}
+
+export function useGateEvent(eventId: string | undefined) {
+  const { events } = useGateEvents();
+  return events.find((event) => event.id === eventId);
+}
+
+export function useScanOutcome(scanId: string | undefined) {
+  const { outcomes } = useGateState();
+  return scanId ? outcomes[scanId] : undefined;
+}

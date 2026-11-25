@@ -1,0 +1,854 @@
+{
+  "common": {
+    "appName": "tikly",
+    "language": "Language",
+    "back": "Back",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "seeAll": "See all",
+    "clear": "Clear",
+    "country": "Cameroon",
+    "increase": "Add one",
+    "decrease": "Remove one",
+    "loading": "Loading",
+    "retry": "Try again",
+    "close": "Close"
+  },
+  "splash": {
+    "tagline": "Events · Tickets · Entry",
+    "footer": "Made for CEMAC"
+  },
+  "tickets": {
+    "tiers": {
+      "standard": "Standard",
+      "vip": "VIP",
+      "vvip": "VVIP"
+    },
+    "title": "Tickets",
+    "emptyTitle": "No tickets yet",
+    "emptyBody": "Tickets you buy appear here with their QR code.",
+    "browse": "Find an event",
+    "stock": {
+      "left": "{{count}} left",
+      "onlyLeft": "Only {{count}} left",
+      "soldOut": "Sold out",
+      "salesClosed": "Sales closed"
+    }
+  },
+  "myTickets": {
+    "title": "My tickets",
+    "upcoming": "Upcoming · {{count}}",
+    "past": {
+      "checkedIn": "Checked in {{time}}",
+      "rate": "Rate this event",
+      "youRated": "You rated {{rating}}/{{max}}",
+      "refunded": "Refunded {{amount}}",
+      "cancelledByOrganizer": "Cancelled by organizer",
+      "cancelledByYou": "Cancelled by you"
+    },
+    "reminder": "We’ll remind you by push and email {{hours}} hours before each event.",
+    "when": {
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "inDays": "In {{count}} days",
+      "live": "Happening now",
+      "ended": "Ended"
+    },
+    "quantity": "{{count}} × {{tier}}",
+    "show": "Show",
+    "view": "View",
+    "open": "{{title}}, {{when}}, {{quantity}}. Open tickets",
+    "emptyPastTitle": "No past events yet",
+    "emptyPastBody": "Events you’ve been to will show up here.",
+    "loadFailed": "Couldn’t load your tickets",
+    "detail": {
+      "brightness": "Brightness raised for scanning",
+      "eyebrow": "{{date}} · Doors {{time}}",
+      "holder": "Holder",
+      "tier": "Tier",
+      "entrance": "Entrance",
+      "entranceDefault": "Main gate",
+      "ticketOf": "Ticket {{index}} of {{total}}",
+      "swipeHint": " · swipe for next",
+      "downloadPdf": "Download PDF",
+      "calendar": "Calendar",
+      "more": "More options",
+      "viewEvent": "View event",
+      "cancel": "Cancel",
+      "qrUnavailable": "Your QR code will appear here shortly.",
+      "notFoundTitle": "Ticket not found",
+      "pdfFailed": "Couldn’t create the PDF. Please try again.",
+      "notFoundBody": "This ticket isn’t on this device. Check My tickets for your passes.",
+      "rateEvent": "Rate this event",
+      "cancelTicket": "Cancel a ticket"
+    },
+    "refund": {
+      "action": "Cancel this ticket",
+      "confirmTitle": "Cancel ticket {{code}}?",
+      "confirmBody": "You will get a 50% refund of {{amount}} to the Mobile Money number used for payment. This cannot be undone.",
+      "confirmFree": "This free ticket will be cancelled. This cannot be undone.",
+      "keep": "Keep ticket",
+      "confirm": "Cancel ticket",
+      "doneTitle": "Ticket cancelled",
+      "doneBody": "{{amount}} is on its way to your Mobile Money account.",
+      "doneNoRefund": "Your ticket has been cancelled.",
+      "failedTitle": "Couldn’t cancel the ticket"
+    },
+    "pastCount": "Past · {{count}}",
+    "cancel": {
+      "title": "Cancel this ticket?",
+      "body": "You get {{percent}}% of the price back on {{method}} within 24 hours. This can’t be undone.",
+      "yourMomo": "your Mobile Money number",
+      "ticketLabel": "{{tier}} · Ticket {{index}}",
+      "price": "Ticket price",
+      "fee": "Cancellation ({{percent}}%)",
+      "youGet": "You get back",
+      "to": "To {{phone}}",
+      "cutoff": "Cancellations close {{when}} ({{hours}} h before doors)",
+      "confirm": "Cancel and refund {{amount}}",
+      "keep": "Keep my ticket",
+      "doneTitle": "Ticket cancelled",
+      "doneBody": "{{amount}} is on its way to your Mobile Money number."
+    }
+  },
+  "onboarding": {
+    "getStarted": "Get started",
+    "haveAccount": "I already have an account",
+    "discover": {
+      "eyebrow": "All events · One app",
+      "title": "Every event in your city, one tap away",
+      "body": "Concerts, football, conferences, comedy and expos. Book them in seconds.",
+      "ticket": {
+        "eyebrow": "Sat 14 Dec · Douala",
+        "title": "Douala Business Expo",
+        "venue": "Akwa Expo Hall"
+      }
+    },
+    "pay": {
+      "eyebrow": "MTN MoMo · Orange Money",
+      "title": "Pay in seconds with Mobile Money",
+      "body": "Choose your tier. Seats are held for 10 minutes while you approve.",
+      "card": {
+        "title": "Approve payment",
+        "meta": "2 × VIP · MTN MoMo",
+        "holdLabel": "Seats held for"
+      }
+    },
+    "entry": {
+      "eyebrow": "QR entry · Reminders",
+      "title": "Your phone is your ticket",
+      "body": "Show your QR code at the gate. We remind you 24 hours before doors open.",
+      "card": {
+        "status": "Valid · Gate B",
+        "title": "Makossa Night Live",
+        "meta": "VIP · TK-7Q4M-21"
+      }
+    }
+  },
+  "auth": {
+    "logIn": "Log in",
+    "continueWithGoogle": "Continue with Google",
+    "roles": {
+      "attendee": {
+        "title": "Attendee",
+        "description": "Discover events and buy tickets"
+      },
+      "organizer": {
+        "title": "Organizer",
+        "description": "Create events, sell tickets, run the gate",
+        "tag": "Web dashboard"
+      },
+      "provider": {
+        "title": "Service provider",
+        "description": "Rent out halls, chairs, canopies, sound",
+        "tag": "ID check"
+      },
+      "exhibitor": {
+        "title": "Exhibitor",
+        "description": "Book display slots at events",
+        "tag": "Web dashboard"
+      }
+    },
+    "fields": {
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone number",
+      "password": "Password",
+      "identifier": "Email or phone number"
+    },
+    "signUp": {
+      "stepRole": "Step 1 of 2",
+      "roleTitle": "How will you use tikly?",
+      "roleBody": "Pick one role for this account. You can create another account later.",
+      "continueAs": "Continue as {{role}}",
+      "stepDetails": "Step 2 of 2 · {{role}}",
+      "detailsTitle": "Create your account",
+      "orEmail": "or sign up with email",
+      "phoneHint": "Use your MoMo or Orange Money number",
+      "passwordPlaceholder": "At least {{min}} characters",
+      "termsPrefix": "I agree to the ",
+      "terms": "Terms",
+      "termsJoin": " and ",
+      "privacy": "Privacy Policy",
+      "createAccount": "Create account",
+      "haveAccount": "Already have an account? "
+    },
+    "login": {
+      "eyebrow": "Good to see you",
+      "title": "Welcome back",
+      "body": "Log in to see your tickets and upcoming events.",
+      "forgot": "Forgot password?",
+      "or": "or",
+      "gateStaff": "Gate staff? Open scanner login",
+      "newHere": "New to tikly? ",
+      "createAccount": "Create an account"
+    },
+    "errors": {
+      "nameRequired": "Enter your full name",
+      "emailInvalid": "Enter an email like name@example.com",
+      "phoneInvalid": "Enter a 9-digit number that starts with 6",
+      "passwordShort": "Use at least {{min}} characters",
+      "termsRequired": "Accept the Terms and Privacy Policy to continue",
+      "identifierInvalid": "Enter your email or a 9-digit phone number",
+      "passwordRequired": "Enter your password"
+    },
+    "reset": {
+      "eyebrow": "Reset password",
+      "title": "Forgot your password?",
+      "body": "Enter the email on your account. We’ll send a reset link that works for {{hours}} hour.",
+      "send": "Send reset link",
+      "remembered": "Remembered it? ",
+      "backToLogin": "Back to log in",
+      "sentEyebrow": "Link sent",
+      "sentTitle": "Check your inbox",
+      "sentBody": "We sent a reset link to {{email}}. It expires in {{hours}} hour.",
+      "openEmail": "Open email app",
+      "resendIn": "Resend link in {{time}}",
+      "resend": "Resend link",
+      "resent": "A new link is on its way.",
+      "wrongEmail": "Wrong email? ",
+      "changeIt": "Change it",
+      "newEyebrow": "Almost done",
+      "newTitle": "Set a new password",
+      "newBody": "Use at least {{min}} characters. You’ll be logged in on this phone.",
+      "newBodyNoLogin": "Use at least {{min}} characters, then log in with your new password.",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password",
+      "mismatch": "Passwords don’t match",
+      "match": "Passwords match",
+      "saveAndLogIn": "Save and log in",
+      "save": "Save password",
+      "invalidTitle": "This link doesn’t work",
+      "invalidBody": "Open the latest reset link from your email, or request a new one.",
+      "requestNew": "Request a new link",
+      "strength": {
+        "0": "Enter a password",
+        "1": "Too short",
+        "2": "Fair password",
+        "3": "Good password",
+        "4": "Strong password"
+      }
+    }
+  },
+  "tabs": {
+    "home": "Home",
+    "explore": "Explore",
+    "tickets": "Tickets",
+    "profile": "Profile",
+    "marketplace": "Services",
+    "bookings": "Bookings",
+    "requests": "Requests",
+    "listings": "My services",
+    "earnings": "Earnings",
+    "slot-events": "Events",
+    "my-slots": "My slots"
+  },
+  "events": {
+    "searchPlaceholder": "Search events or venues",
+    "fromPrice": "From {{price}}",
+    "free": "Free",
+    "sellingFast": "Selling fast",
+    "share": "Share event",
+    "shareMessage": "{{title}} at {{venue}}, on tikly",
+    "categories": {
+      "all": "All",
+      "concerts": {
+        "plural": "Concerts",
+        "singular": "Concert"
+      },
+      "sports": {
+        "plural": "Sports",
+        "singular": "Sports"
+      },
+      "conferences": {
+        "plural": "Conferences",
+        "singular": "Conference"
+      },
+      "comedy": {
+        "plural": "Comedy",
+        "singular": "Comedy"
+      },
+      "festivals": {
+        "plural": "Festivals",
+        "singular": "Festival"
+      },
+      "expos": {
+        "plural": "Expos",
+        "singular": "Expo"
+      },
+      "other": {
+        "plural": "Other",
+        "singular": "Event"
+      }
+    },
+    "photoCount": "Photo {{index}} of {{total}}",
+    "like": "Like",
+    "openInMaps": "Open {{place}} in maps",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied",
+    "updateTags": {
+      "lineup": "Lineup",
+      "location": "Location",
+      "info": "Info"
+    }
+  },
+  "home": {
+    "yourCity": "Your city",
+    "changeCity": "Change city",
+    "notifications": "Notifications",
+    "title": "What’s on this week?",
+    "featured": "Featured this week",
+    "comingUp": "Coming up in {{city}}",
+    "emptyTitle": "No events in this category",
+    "emptyBody": "Try another category or see everything on in your city."
+  },
+  "explore": {
+    "title": "Explore",
+    "filters": "Filters",
+    "filtersCount": "Filters · {{count}}",
+    "thisMonth": "This month",
+    "category": "Category",
+    "price": "Price",
+    "removeFilter": "Remove filter {{filter}}",
+    "resultsOne": "{{count}} event found",
+    "resultsOther": "{{count}} events found",
+    "sortSoonest": "Soonest first",
+    "sortLatest": "Latest first",
+    "emptyTitle": "No events match",
+    "emptyBody": "Try a different search or remove a filter.",
+    "clearFilters": "Clear filters"
+  },
+  "profile": {
+    "title": "Profile",
+    "signOut": "Sign out",
+    "preferences": "Preferences",
+    "account": "Account",
+    "homeCity": "Home city",
+    "notifications": "Notifications",
+    "notificationChannels": "Push + email",
+    "phone": "Phone & MoMo number",
+    "changePassword": "Change password",
+    "help": "Help & support",
+    "terms": "Terms & privacy",
+    "logOut": "Log out",
+    "logIn": "Log in",
+    "roles": {
+      "staff": "Gate staff",
+      "admin": "Admin"
+    },
+    "edit": {
+      "title": "Edit profile",
+      "phone": "Phone & MoMo number",
+      "phoneHint": "Used for Mobile Money payments and refunds.",
+      "save": "Save changes"
+    },
+    "guest": "Guest"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutes": "{{count}} min ago",
+    "hours": "{{count}} h ago",
+    "yesterday": "Yesterday",
+    "days": "{{count}} days ago"
+  },
+  "eventDetails": {
+    "notFoundTitle": "Event not found",
+    "notFoundBody": "It may have been cancelled or removed.",
+    "rating": "Rated {{average}} out of 5 from {{count}} reviews",
+    "days": "{{count}} days",
+    "viewOnMap": "View on map",
+    "organizerMeta": "Organizer · {{count}} events",
+    "tickets": "Tickets",
+    "salesEnd": "Sales end {{date}}",
+    "lineup": "Lineup",
+    "seeAllCount": "See all {{count}}",
+    "about": "About",
+    "readMore": "Read more",
+    "readLess": "Show less",
+    "updates": "Updates",
+    "noUpdates": "No updates in this category yet.",
+    "agendaDay": "Agenda · Day {{day}}",
+    "fullAgenda": "Full agenda",
+    "location": "Location",
+    "wouriRiver": "Wouri River",
+    "directions": "Get directions",
+    "copyAddress": "Copy address",
+    "addressCopied": "Address copied",
+    "bringYourPeople": "Bring your people",
+    "from": "From",
+    "price": "Price",
+    "unavailable": "Tickets",
+    "getTickets": "Get tickets",
+    "reviews": "Reviews",
+    "seeReviews": "See all",
+    "noReviews": "No reviews yet",
+    "reviewsHint": "What attendees thought of this event"
+  },
+  "checkout": {
+    "step": "Step {{step}} of {{total}}",
+    "chooseTickets": "Choose your tickets",
+    "rules": "Max {{max}} tickets per order. Tickets are personal and can’t be transferred. Seats are held for 10 minutes at payment.",
+    "noneSelected": "No tickets yet",
+    "continue": "Continue",
+    "title": "Checkout",
+    "bookingFee": "Booking fee",
+    "total": "Total",
+    "payWith": "Pay with",
+    "numberToCharge": "{{method}} number to charge",
+    "wrongNetwork": "This number isn’t {{method}}. Pick the other network or use another number.",
+    "deliveryTo": "Tickets go to your app and",
+    "deliveryInApp": "Tickets go to your app as soon as payment is approved.",
+    "pay": "Pay {{amount}}",
+    "secureNote": "Secure Mobile Money payment · No card needed",
+    "invalidTitle": "Choose your tickets first",
+    "invalidBody": "Go back and pick a tier and quantity."
+  },
+  "errors": {
+    "network": "Can’t reach tikly right now. Check your connection and try again.",
+    "generic": "Something went wrong. Please try again.",
+    "retry": "Try again"
+  },
+  "payments": {
+    "methods": {
+      "mtn": "MTN MoMo",
+      "orange": "Orange Money"
+    },
+    "short": {
+      "mtn": "MoMo",
+      "orange": "Orange Money"
+    },
+    "notFoundTitle": "Order not found",
+    "retryFailed": "Couldn’t start a new payment",
+    "pending": {
+      "eyebrow": "Waiting for approval",
+      "title": "Approve on your phone",
+      "body": "We sent a request for {{amount}} to {{phone}}. Enter your {{method}} PIN to confirm.",
+      "held": "{{count}} {{tier}} seats held for",
+      "timeLeft": "{{time}} left to approve",
+      "stepSent": "Payment request sent",
+      "stepPin": "Waiting for your PIN",
+      "stepTickets": "Tickets issued with QR codes",
+      "noPrompt": "No prompt? Dial ",
+      "noPromptEnd": " to approve pending payments.",
+      "resend": "I’ve approved, check again",
+      "cancel": "Cancel payment"
+    },
+    "success": {
+      "title": "You’re going",
+      "body": "{{count}} {{tier}} tickets saved to your app and email.",
+      "ticketOf": "{{tier}} · Ticket {{index}} of {{total}}",
+      "qrLabel": "Ticket QR code {{code}}",
+      "paid": "Paid {{amount}} with {{method}} · Ref {{reference}}",
+      "viewTickets": "View my tickets",
+      "addToCalendar": "Add to calendar"
+    },
+    "failed": {
+      "eyebrow": "Payment not completed",
+      "title": "Your seats were released",
+      "expiredBody": "The request expired after 10 minutes without your PIN. You were not charged.",
+      "declinedBody": "The payment was declined or cancelled. You were not charged.",
+      "sellingFast": "{{tier}} is selling fast: {{count}} left. Try again now to hold new seats.",
+      "retry": "Try again with {{method}}",
+      "switch": "Pay with {{method}}",
+      "backToEvent": "Back to event"
+    }
+  },
+  "gate": {
+    "tag": "Gate",
+    "events": {
+      "eyebrow": "Gate staff · {{name}}",
+      "title": "Your events",
+      "assignedBy": "Assigned by {{organizer}}",
+      "live": "Live now",
+      "meta": "{{date}} · Doors {{time}} · {{area}}",
+      "ofTotal": "/ {{total}} in",
+      "checkedInLabel": "{{count}} of {{total}} checked in",
+      "mine": "You scanned {{count}}",
+      "start": "Start scanning",
+      "comingUp": "Coming up",
+      "opensAt": "{{date}} · Scanning opens {{time}}",
+      "lockedHint": "Scanning has not opened yet",
+      "lockedBody": "Scanning opens {{when}}.",
+      "logout": "Log out of scanner",
+      "loadFailed": "Couldn’t load your events",
+      "emptyTitle": "No events assigned",
+      "emptyBody": "Ask the organizer to add you to an event’s gate team."
+    },
+    "scanner": {
+      "close": "Close scanner",
+      "torch": "Flashlight",
+      "hint": "Point at the ticket QR code",
+      "checking": "Checking ticket…",
+      "checkedInOf": "Checked in of {{total}}",
+      "last": "Last: {{tier}} · {{name}}",
+      "noScansTitle": "No scans yet",
+      "noScansBody": "Your last entry shows here",
+      "enterCode": "Enter code",
+      "sound": "Scan sounds",
+      "cameraTitle": "Camera access needed",
+      "cameraBody": "Tikly uses the camera only to read ticket QR codes at the gate.",
+      "allowCamera": "Allow camera",
+      "openSettings": "Open settings",
+      "checkFailed": "Couldn’t check this ticket",
+      "notAssigned": "Event not found",
+      "notAssignedBody": "This event isn’t in your gate assignments."
+    },
+    "manual": {
+      "title": "Enter ticket code",
+      "body": "Use the code printed under the QR when it won’t scan.",
+      "label": "Ticket code",
+      "placeholder": "TK-XXXX-XX",
+      "check": "Check ticket"
+    },
+    "result": {
+      "valid": "Valid",
+      "validSubtitle": "First entry · Let them in",
+      "alreadyIn": "Already in",
+      "alreadyInSubtitle": "Checked in at {{time}} · {{ago}}",
+      "alreadyInFallback": "This ticket was already used",
+      "invalid": "Invalid",
+      "wrongEventSubtitle": "Wrong event · Do not let in",
+      "cancelledSubtitle": "Ticket cancelled · Do not let in",
+      "unknownSubtitle": "Not a Tikly ticket · Do not let in",
+      "ticketOf": "{{tier}} · Ticket {{index}} of {{total}}",
+      "checkedInBy": "Checked in {{time}} by {{staff}}",
+      "lastEntryAtGate": "Last entry: {{gate}} by {{staff}} · {{count}} re-entries",
+      "lastEntry": "Last entry by {{staff}} · {{count}} re-entries",
+      "otherEventEyebrow": "{{tier}} · Ticket for another event",
+      "otherEventEyebrowShort": "Ticket for another event",
+      "askForTicket": "Ask the guest for their {{event}} ticket.",
+      "cancelledLine": "This ticket was refunded or cancelled.",
+      "unknownEyebrow": "Code not recognised",
+      "unknownHeading": "No matching ticket",
+      "unknownLine": "Check the code or ask for the ticket in the Tikly app.",
+      "minutesAgo": "{{minutes}} min ago",
+      "hoursAgo": "{{hours}} h {{minutes}} min ago",
+      "allowReentry": "Allow re-entry",
+      "reentryFailed": "Couldn’t record the re-entry",
+      "scanNext": "Scan next",
+      "backIn": "Back to camera in {{seconds}} s",
+      "beepPlayed": "Beep played",
+      "yourCall": "Re-entry is your call",
+      "buzzPlayed": "Warning buzz played",
+      "errorPlayed": "Error tone played",
+      "doNotAdmit": "Do not let in",
+      "missing": "Scan result not available"
+    },
+    "lookup": {
+      "title": "Find a ticket",
+      "body": "When a QR won’t scan, search by code or the buyer’s phone.",
+      "byCode": "Ticket code",
+      "byPhone": "Buyer phone",
+      "codeLabel": "Ticket code",
+      "phoneLabel": "Buyer phone",
+      "codePlaceholder": "EVT-XXXX-XXX",
+      "phonePlaceholder": "6 77 12 34 56",
+      "resultsHeaderOne": "{{count}} ticket · {{name}}",
+      "resultsHeaderOther": "{{count}} tickets · {{name}}",
+      "notIn": "Not checked in",
+      "inAt": "In at {{time}}",
+      "checkedIn": "Checked in",
+      "cancelled": "Cancelled",
+      "checkInNow": "Check in now",
+      "noneTitle": "No tickets found",
+      "noneBody": "Check the code or phone number and try again.",
+      "idHint": "Ask for ID that matches the buyer’s name before checking in manually.",
+      "reentryRecorded": "Re-entry recorded at {{time}}"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "newCount": "{{count}} new",
+    "today": "Today",
+    "earlier": "Earlier",
+    "unread": "Unread",
+    "loadFailed": "Couldn’t load notifications",
+    "emptyTitle": "You’re all caught up",
+    "emptyBody": "Reminders, payments and event updates show up here.",
+    "types": {
+      "reminder": {
+        "title": "{{event}} is in 24 hours",
+        "body": "{{date}}, {{time}} · {{venue}}. Your ticket is in the app."
+      },
+      "purchase": {
+        "title": "Payment confirmed",
+        "body": "{{count}} {{tier}} tickets for {{event}} · {{amount}} via {{method}}."
+      },
+      "update": {
+        "title": "{{organizer}} posted"
+      },
+      "cancelled": {
+        "title": "Event cancelled: {{event}}",
+        "body": "Full refund of {{amount}} sent to your MoMo number.",
+        "bodyNoRefund": "The organizer cancelled this event."
+      },
+      "refunded": {
+        "title": "Refund sent",
+        "body": "{{amount}} for {{event}} is on its way to your MoMo number."
+      },
+      "welcome": {
+        "title": "Welcome to tikly",
+        "body": "Your account is ready. Explore what’s on in {{city}} this week."
+      },
+      "generic": {
+        "title": "Update from tikly"
+      }
+    }
+  },
+  "reviews": {
+    "eyebrow": "Your review",
+    "title": "How was {{event}}?",
+    "count": "{{count}} reviews",
+    "starsLabel": "{{count}} out of 5 stars",
+    "write": "Write a review",
+    "composeTitle": "How was it?",
+    "composeHint": "Only attendees who checked in can review, once the event is over.",
+    "commentPlaceholder": "Tell other fans what it was like",
+    "ratingRequired": "Pick a rating from 1 to 5 stars.",
+    "submit": "Post review",
+    "thanks": "Thanks for your review!",
+    "emptyTitle": "No reviews yet",
+    "emptyBody": "Reviews appear here after the event ends.",
+    "errorTitle": "Couldn’t load reviews",
+    "retry": "Try again",
+    "checkedIn": "You checked in on {{date}}",
+    "ratingLabel": "Rating",
+    "starLabel": "{{count}} stars",
+    "tapToRate": "Tap a star to rate",
+    "ratingValue": "{{rating}} of {{max}} · {{label}}",
+    "labels": {
+      "1": "Not great",
+      "2": "Could be better",
+      "3": "Good night",
+      "4": "Great night",
+      "5": "Unforgettable"
+    },
+    "highlightsLabel": "What stood out? (optional)",
+    "highlights": {
+      "performers": "Performers",
+      "venue": "Venue",
+      "sound": "Sound",
+      "organisation": "Organisation",
+      "value": "Value for money",
+      "entry": "Entry was quick"
+    },
+    "commentLabel": "Your comment",
+    "shownAs": "Shown on the event page as “{{name}}”",
+    "post": "Post review"
+  },
+  "marketplace": {
+    "eyebrow": "Verified providers",
+    "title": "Services",
+    "searchPlaceholder": "Halls, chairs, sound…",
+    "anyCity": "Any city",
+    "allCities": "all cities",
+    "anyPrice": "Any price",
+    "under": "Under {{price}}",
+    "results": "{{count}} services",
+    "resultsIn": "{{category}} in {{city}} · {{count}}",
+    "emptyTitle": "No services found",
+    "emptyBody": "Try another category, city or price.",
+    "loadFailed": "Couldn’t load this",
+    "retry": "Try again",
+    "units": {
+      "per_day": "/ day",
+      "per_item": "/ item",
+      "per_event": "/ event"
+    },
+    "categories": {
+      "hall": "Halls",
+      "chairs": "Chairs",
+      "canopy": "Canopies",
+      "sound": "Sound",
+      "catering": "Catering",
+      "decoration": "Decoration",
+      "other": "Other"
+    },
+    "status": {
+      "accepted": "Accepted",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    },
+    "detail": {
+      "notFound": "Service not available",
+      "share": "Share",
+      "about": "About",
+      "contact": "Talk to the provider",
+      "call": "Call",
+      "request": "Request booking"
+    },
+    "request": {
+      "eyebrow": "Booking request",
+      "title": "Request these {{category}}",
+      "whichEvent": "For which event?",
+      "noEvent": "Not linked to an event",
+      "dates": "Dates",
+      "from": "From",
+      "to": "To",
+      "quantity": "Quantity",
+      "message": "Message to the provider",
+      "messagePlaceholder": "Guests, setup time, anything they should know",
+      "estimateDays": "{{price}} × {{quantity}} × {{days}} days",
+      "estimateItems": "{{price}} × {{quantity}}",
+      "payLater": "You only pay after {{provider}} accepts",
+      "send": "Send request",
+      "estimateDay": "{{price}} × {{quantity}} × 1 day"
+    },
+    "bookings": {
+      "title": "Bookings",
+      "unknown": "Service",
+      "counts": {
+        "toPay": "To pay",
+        "waiting": "Waiting",
+        "paid": "Paid"
+      },
+      "pay": "Pay {{amount}}",
+      "payHint": "Pay soon to keep the dates · tap to cancel",
+      "waiting": "{{when}} · waiting for reply",
+      "paid": "Paid {{amount}} · {{when}}",
+      "completed": "Completed · {{amount}} · {{when}}",
+      "declined": "Declined",
+      "declinedReason": "Declined: {{reason}}",
+      "findSimilar": "Find similar",
+      "cancelTitle": "Cancel this booking?",
+      "keep": "Keep",
+      "cancel": "Cancel booking",
+      "emptyTitle": "No bookings yet",
+      "emptyBody": "Request a service from the Services tab."
+    }
+  },
+  "provider": {
+    "verification": {
+      "verified": "Verified provider",
+      "pending": "Verification pending",
+      "rejected": "Verification rejected"
+    },
+    "verificationBanner": {
+      "pending": "An admin is reviewing your documents. Your services appear once you’re verified.",
+      "rejected": "Your verification was rejected. Update your documents to apply again."
+    },
+    "setup": {
+      "title": "Set up your business",
+      "body": "Your business profile and verification documents aren’t on file yet."
+    },
+    "monthEarnings": "{{month}} earnings",
+    "vsLastMonth": "{{change}} vs last month",
+    "afterFee": "after {{percent}}% platform fee",
+    "paidBookings": "{{count}} paid bookings",
+    "newRequests": "New requests",
+    "newCount": "{{count}} new",
+    "noRequestsTitle": "No new requests",
+    "noRequestsBody": "Booking requests from organizers show up here.",
+    "nextJob": "Next confirmed job",
+    "accept": {
+      "action": "Accept",
+      "title": "Accept and set the price",
+      "amount": "Total to charge ({{currency}})",
+      "hint": "The organizer pays this amount on Tikly.",
+      "confirm": "Accept booking",
+      "amountRequired": "Enter an amount."
+    },
+    "decline": {
+      "action": "Decline",
+      "title": "Decline this request?",
+      "keep": "Keep",
+      "confirm": "Decline"
+    },
+    "listings": {
+      "eyebrow": "Your catalogue",
+      "title": "My services",
+      "emptyTitle": "No services listed",
+      "emptyBody": "Services you list appear here once you’re verified."
+    },
+    "earnings": {
+      "eyebrow": "Payouts",
+      "title": "Earnings",
+      "net": "Your share",
+      "periods": {
+        "month": "This month",
+        "year": "This year",
+        "all": "All time"
+      },
+      "rows": {
+        "gross": "Gross bookings",
+        "commission": "Platform fee",
+        "refunded": "Refunded",
+        "paidBookings": "Paid bookings"
+      }
+    }
+  },
+  "exhibitor": {
+    "role": "Exhibitor",
+    "eventsTitle": "Events with open slots",
+    "left": "{{count}} slots left",
+    "onlyLeft": "Only {{count}} left",
+    "slotLeft": "{{count}} left",
+    "from": "From {{price}}",
+    "seeSlots": "See slots",
+    "emptyTitle": "No open slots right now",
+    "emptyBody": "Events selling exhibitor slots will show up here.",
+    "bookEyebrow": "Book a slot",
+    "chooseTitle": "Choose your stand",
+    "noSlotsTitle": "No slots for this event",
+    "noSlotsBody": "The organizer hasn’t opened any slots yet.",
+    "listedNote": "{{name}} will be listed under Exhibitors on the event page. The organizer assigns stand numbers.",
+    "pickStand": "Pick a stand",
+    "bookAndPay": "Book and pay",
+    "mySlotsTitle": "My slots",
+    "paid": "Paid {{amount}}",
+    "pending": "Payment pending",
+    "mySlotsEmptyTitle": "No slots booked",
+    "mySlotsEmptyBody": "Book a stand from the Events tab."
+  },
+  "pay": {
+    "title": "Pay with Mobile Money",
+    "payAmount": "Pay {{amount}}",
+    "pendingTitle": "Approve on your phone",
+    "pendingBody": "Confirm the {{method}} prompt, or dial {{code}} if it doesn’t appear.",
+    "checkNow": "I’ve approved, check now",
+    "paidTitle": "Payment received",
+    "paidBody": {
+      "booking": "The provider has been notified and the dates are yours.",
+      "slot": "Your stand is booked. You’ll be listed on the event page."
+    },
+    "failedTitle": "Payment didn’t go through",
+    "failedBody": "No money was taken. You can try again.",
+    "tryAgain": "Try again",
+    "done": "Done"
+  },
+  "posts": {
+    "eyebrow": "Event news",
+    "title": "Posts",
+    "pinned": "Pinned",
+    "types": {
+      "update": "Update",
+      "speaker": "Artist",
+      "promo": "Promo"
+    },
+    "emptyTitle": "No posts yet",
+    "emptyBody": "The organiser hasn’t posted anything here yet.",
+    "errorTitle": "Couldn’t load posts",
+    "retry": "Try again"
+  }
+}
