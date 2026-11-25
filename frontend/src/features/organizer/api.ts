@@ -206,3 +206,27 @@ export const staffApi = {
   assign: (eventId: string, staffId: string) => api.post(`/events/${eventId}/staff`, { staffId }),
   unassign: (eventId: string, staffId: string) => api.delete(`/events/${eventId}/staff/${staffId}`),
 };
+
+export type EventReview = {
+  id: string;
+  rating: number;
+  comment?: string;
+  author: string;
+  createdAt: string;
+  event: { id: string; title: LocalizedText; startAt: string } | null;
+};
+
+export type ReviewSummary = {
+  average: number;
+  count: number;
+  distribution: Record<'1' | '2' | '3' | '4' | '5', number>;
+  events: { id: string; title: LocalizedText; startAt: string; ratingAvg: number; ratingCount: number }[];
+};
+
+export const reviewApi = {
+  summary: () => api.get<ReviewSummary>('/organizer/reviews/summary'),
+  list: (query: { page: number; eventId?: string; rating?: number }): Promise<Page<EventReview>> =>
+    api.page<EventReview>('/organizer/reviews', { params: { limit: 10, ...query } }),
+  rateProvider: (providerId: string, input: { bookingId: string; rating: number; comment?: string }) =>
+    api.post<{ id: string; rating: number }>(`/providers/${providerId}/reviews`, input),
+};

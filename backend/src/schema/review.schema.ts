@@ -14,7 +14,18 @@ export const providerReviewBody = z.object({ rating, comment: comment.optional()
 
 export const providerIdParam = z.object({ providerId: objectId });
 
+export const organizerReviewsQuery = pageQuery.extend({
+  eventId: objectId.optional(),
+  rating: z.coerce
+    .number('validation.review.rating.integer')
+    .int('validation.review.rating.integer')
+    .min(1, 'validation.review.rating.range')
+    .max(5, 'validation.review.rating.range')
+    .optional(),
+});
+
 export { eventIdParam, pageQuery };
 
 export type EventReviewBody = z.infer<typeof eventReviewBody>;
 export type ProviderReviewBody = z.infer<typeof providerReviewBody>;
+export type OrganizerReviewsQuery = z.infer<typeof organizerReviewsQuery>;

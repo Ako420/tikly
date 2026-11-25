@@ -26,3 +26,9 @@ providerReviewRouter.post(
   validate({ params: s.providerIdParam, body: s.providerReviewBody }),
   ctrl.reviewProvider,
 );
+
+export const organizerReviewRouter = Router();
+
+organizerReviewRouter.use(authenticate, authorize('organizer'));
+organizerReviewRouter.get('/summary', ctrl.organizerSummary);
+organizerReviewRouter.get('/', validate({ query: s.organizerReviewsQuery }), ctrl.listForOrganizer);

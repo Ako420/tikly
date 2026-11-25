@@ -1,8 +1,8 @@
 import type { RequestHandler } from 'express';
-import type { EventReviewBody, ProviderReviewBody } from '../schema/review.schema';
+import type { EventReviewBody, OrganizerReviewsQuery, ProviderReviewBody } from '../schema/review.schema';
 import * as reviewService from '../service/review.service';
 import type { Page } from '../util/pagination';
-import { created, paginated } from '../util/response';
+import { created, ok, paginated } from '../util/response';
 
 export const listForEvent: RequestHandler = async (req, res) => {
   const page = req.validatedQuery as Page;
@@ -25,4 +25,14 @@ export const reviewProvider: RequestHandler = async (req, res) => {
     res,
     await reviewService.reviewProvider(req.user!, String(req.params.providerId), req.body as ProviderReviewBody),
   );
+};
+
+export const listForOrganizer: RequestHandler = async (req, res) => {
+  const query = req.validatedQuery as OrganizerReviewsQuery;
+  const { items, total } = await reviewService.listOrganizerReviews(req.user!.id, query);
+  paginated(res, items, query, total);
+};
+
+export const organizerSummary: RequestHandler = async (req, res) => {
+  ok(res, await reviewService.organizerReviewSummary(req.user!.id));
 };

@@ -133,6 +133,17 @@ function BookingBody({ booking, onChanged }: { booking: Booking; onChanged: () =
           </p>
         )}
 
+        {booking.status === 'completed' &&
+          (booking.review ? (
+            <p className="text-sm text-fg-secondary">
+              You rated this provider <span className="font-bold text-fg">{booking.review.rating} ★</span>.
+            </p>
+          ) : (
+            <Link href="/organizer/reviews?tab=providers" className={buttonClass('outline', 'sm', 'self-start')}>
+              <Icon name="reviews" size={16} /> Rate this provider
+            </Link>
+          ))}
+
         {booking.provider && (
           <section className="rounded-2xl border border-border p-4">
             <p className="text-xs font-bold tracking-wide text-fg-muted uppercase">Provider</p>

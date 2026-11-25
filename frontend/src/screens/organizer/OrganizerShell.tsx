@@ -15,7 +15,7 @@ const NAV: { href: string; label: string; icon: IconName; ready?: boolean }[] = 
   { href: '/organizer/orders', label: 'Orders & attendees', icon: 'orders', ready: true },
   { href: '/organizer/marketplace', label: 'Marketplace', icon: 'marketplace', ready: true },
   { href: '/organizer/staff', label: 'Gate staff', icon: 'staff', ready: true },
-  { href: '/organizer/reviews', label: 'Reviews', icon: 'reviews' },
+  { href: '/organizer/reviews', label: 'Reviews', icon: 'reviews', ready: true },
 ];
 
 const initials = (name = '') =>

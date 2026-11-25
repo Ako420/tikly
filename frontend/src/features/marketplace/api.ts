@@ -51,6 +51,7 @@ export type Booking = {
   provider: { id: string; businessName: string; phone: string; whatsapp?: string } | null;
   event: { id: string; title: LocalizedText; startAt: string; city: string } | null;
   payment: { orderId: string; status: PaymentStatus } | null;
+  review: { id: string; rating: number } | null;
   createdAt: string;
 };
 

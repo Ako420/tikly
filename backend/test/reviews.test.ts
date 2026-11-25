@@ -165,6 +165,8 @@ describe('provider reviews (REV-2)', () => {
   it('lets the organizer review a completed booking once', async () => {
     const { provider, organizer, booking } = await completedBooking();
     const path = `/providers/${provider.id}/reviews`;
+    const before = await request(app).get(`${api}/bookings/${booking.id}`).set(organizer.auth);
+    expect(before.body.data.review).toBeNull();
     const res = await review(path, organizer.auth, { rating: 4, comment: 'On time.', bookingId: booking.id });
     expect(res.status).toBe(201);
     expect(res.body.data).toMatchObject({ rating: 4, author: 'Ama N.' });
@@ -173,6 +175,8 @@ describe('provider reviews (REV-2)', () => {
     );
 
     expect(await ProviderModel.findById(provider._id)).toMatchObject({ ratingAvg: 4, ratingCount: 1 });
+    const after = await request(app).get(`${api}/bookings/${booking.id}`).set(organizer.auth);
+    expect(after.body.data.review).toEqual({ id: res.body.data.id, rating: 4 });
     const publicPage = await request(app).get(`${api}/providers/${provider.id}`);
     expect(publicPage.body.data).toMatchObject({ ratingAvg: 4, ratingCount: 1 });
     const list = await request(app).get(`${api}/providers/${provider.id}/reviews`);
@@ -205,6 +209,73 @@ describe('provider reviews (REV-2)', () => {
     const { provider } = await completedBooking();
     await ProviderModel.updateOne({ _id: provider._id }, { verification: 'pending' });
     expect((await request(app).get(`${api}/providers/${provider.id}/reviews`)).status).toBe(404);
+  });
+});
+
+describe('organizer reviews of their events (REV-3)', () => {
+  async function reviewedEvent(organizerAuthor?: Awaited<ReturnType<typeof createUser>>, ratings: number[] = []) {
+    const { organizer, event, tier } = await pastEvent();
+    const owner = organizerAuthor ?? organizer;
+    if (organizerAuthor) await EventModel.updateOne({ _id: event._id }, { organizerId: organizerAuthor.user._id });
+    const reviews = [];
+    for (const [index, rating] of ratings.entries()) {
+      const author = await attendee(event._id, tier._id, true, `Guest ${index} Mbia`);
+      reviews.push(await review(`/events/${event.id}/reviews`, author.auth, { rating, comment: `Rated ${rating}` }));
+    }
+    return { organizer: owner, event, reviews };
+  }
+
+  it('lists reviews across my events newest first, with the event, and filters by event and rating', async () => {
+    const first = await reviewedEvent(undefined, [5, 3]);
+    const second = await reviewedEvent(first.organizer, [4]);
+    await reviewedEvent(undefined, [1]);
+
+    const all = await request(app).get(`${api}/organizer/reviews`).set(first.organizer.auth);
+    expect(all.status).toBe(200);
+    expect(all.body.meta).toMatchObject({ total: 3 });
+    expect(all.body.data[0]).toMatchObject({ rating: 4, comment: 'Rated 4', event: { id: second.event.id } });
+
+    const one = await request(app).get(`${api}/organizer/reviews?eventId=${first.event.id}`).set(first.organizer.auth);
+    expect(one.body.data.map((item: { rating: number }) => item.rating).sort()).toEqual([3, 5]);
+
+    const fives = await request(app).get(`${api}/organizer/reviews?rating=5`).set(first.organizer.auth);
+    expect(fives.body.data).toEqual([expect.objectContaining({ rating: 5, author: 'Guest M.' })]);
+  });
+
+  it('refuses events of other organizers, bad ratings and non-organizers', async () => {
+    const mine = await reviewedEvent(undefined, [5]);
+    const theirs = await reviewedEvent(undefined, [2]);
+    const other = await request(app).get(`${api}/organizer/reviews?eventId=${theirs.event.id}`).set(mine.organizer.auth);
+    expect(other.status).toBe(404);
+    const bad = await request(app).get(`${api}/organizer/reviews?rating=6`).set(mine.organizer.auth);
+    expect(bad.status).toBe(400);
+    const guest = await createUser('attendee');
+    expect((await request(app).get(`${api}/organizer/reviews`).set(guest.auth)).status).toBe(403);
+    expect((await request(app).get(`${api}/organizer/reviews/summary`).set(guest.auth)).status).toBe(403);
+  });
+
+  it('summarises the average, the star breakdown and each event, leaving out hidden reviews', async () => {
+    const first = await reviewedEvent(undefined, [5, 4, 2]);
+    const second = await reviewedEvent(first.organizer, [5]);
+    await ReviewModel.updateOne({ _id: first.reviews[2]!.body.data.id }, { hidden: true });
+
+    const res = await request(app).get(`${api}/organizer/reviews/summary`).set(first.organizer.auth);
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject({
+      average: 4.7,
+      count: 3,
+      distribution: { 1: 0, 2: 0, 3: 0, 4: 1, 5: 2 },
+    });
+    expect(res.body.data.events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: first.event.id, ratingAvg: 4.5, ratingCount: 2 }),
+        expect.objectContaining({ id: second.event.id, ratingAvg: 5, ratingCount: 1 }),
+      ]),
+    );
+
+    const empty = await createUser('organizer');
+    const none = await request(app).get(`${api}/organizer/reviews/summary`).set(empty.auth);
+    expect(none.body.data).toEqual({ average: 0, count: 0, distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, events: [] });
   });
 });
 
