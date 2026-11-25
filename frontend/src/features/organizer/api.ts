@@ -105,3 +105,28 @@ export const formatTime = (iso: string) =>
 
 export const formatShortDate = (iso: string) =>
   new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(iso));
+
+export type Category = { key: string; en: string; fr: string };
+export type TierName = 'standard' | 'vip' | 'vvip';
+
+export type CreateEventInput = {
+  title: LocalizedText;
+  description: LocalizedText;
+  category: string;
+  coverUrl?: string;
+  venue: string;
+  city: string;
+  country: string;
+  startAt: string;
+  endAt: string;
+};
+
+export type CreateTierInput = { name: TierName; price: number; quantity: number; salesEndAt: string };
+
+export const eventDraftApi = {
+  categories: () => api.get<Category[]>('/categories', { skipAuth: true }),
+  uploadCover: (file: File) => api.upload<{ url: string }>('/uploads/image', file),
+  create: (input: CreateEventInput) => api.post<OrganizerEvent>('/events', input),
+  addTier: (eventId: string, input: CreateTierInput) => api.post<Tier>(`/events/${eventId}/tiers`, input),
+  submit: (eventId: string) => api.post<OrganizerEvent>(`/events/${eventId}/submit`),
+};

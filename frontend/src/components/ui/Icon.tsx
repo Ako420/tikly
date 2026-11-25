@@ -29,6 +29,7 @@ const PATHS = {
   tickets: 'M4 7h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4zM14 7v10',
   view: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z',
   edit: 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
+  check: 'M5 12l5 5L20 7',
 } as const;
 
 export type IconName = keyof typeof PATHS;

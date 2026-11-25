@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, type ReactNode } from 'react';
+import { buttonClass } from '@/components/ui/Button';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { Logo } from '@/components/ui/Logo';
 import { useAuth } from '@/features/auth/AuthProvider';
@@ -33,6 +34,7 @@ export function OrganizerShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
 
   if (!allowed) return <div className="grid flex-1 place-items-center text-fg-muted">Loading…</div>;
+  if (pathname === '/organizer/events/new') return <>{children}</>;
 
   const isActive = (href: string) => (href === '/organizer' ? pathname === href : pathname.startsWith(href));
 
@@ -120,13 +122,10 @@ export function OrganizerShell({ children }: { children: ReactNode }) {
             <span className="hidden size-10 place-items-center rounded-full border border-border sm:grid">
               <Icon name="bell" />
             </span>
-            <span
-              title="Coming soon"
-              className="hidden h-10 cursor-not-allowed items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white opacity-60 sm:inline-flex"
-            >
+            <Link href="/organizer/events/new" className={buttonClass('primary', 'sm', 'hidden sm:inline-flex')}>
               <Icon name="add" size={18} />
               Create event
-            </span>
+            </Link>
           </div>
         </header>
         <main className="min-w-0 flex-1 px-4 py-8 sm:px-8">

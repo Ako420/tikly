@@ -40,12 +40,14 @@ async function send<T>(path: string, options: RequestOptions): Promise<{ status:
     const tokens = tokenStorage.load();
     if (tokens) headers.Authorization = `Bearer ${tokens.accessToken}`;
   }
+  const isForm = options.body instanceof FormData;
+  if (isForm) delete headers['Content-Type'];
   let response: Response;
   try {
     response = await fetch(buildUrl(path, options.params), {
       method: options.method ?? 'GET',
       headers,
-      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+      body: options.body === undefined ? undefined : isForm ? (options.body as FormData) : JSON.stringify(options.body),
     });
   } catch (error) {
     throw new ApiError('NETWORK_ERROR', error instanceof Error ? error.message : 'Network error', null);
@@ -96,6 +98,11 @@ export const api = {
     request<T>(path, { ...options, method: 'POST', body: body ?? {} }),
   patch: <T>(path: string, body?: unknown, options?: Omit<RequestOptions, 'method' | 'body'>) =>
     request<T>(path, { ...options, method: 'PATCH', body: body ?? {} }),
+  upload: <T>(path: string, file: File) => {
+    const form = new FormData();
+    form.append('file', file);
+    return request<T>(path, { method: 'POST', body: form });
+  },
   delete: <T>(path: string, options?: Omit<RequestOptions, 'method' | 'body'>) =>
     request<T>(path, { ...options, method: 'DELETE' }),
 };
