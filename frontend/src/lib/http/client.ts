@@ -43,7 +43,7 @@ export type Page<T> = { items: T[]; meta: PageMeta };
 
 async function envelope<T>(path: string, options: RequestOptions): Promise<Envelope<T>> {
   const result = await send<T>(path, options);
-  if (result.status === 401 && window.location.pathname.startsWith('/organizer')) {
+  if (result.status === 401 && /^\/(organizer|admin)(\/|$)/.test(window.location.pathname)) {
     window.location.assign(`/login?next=${encodeURIComponent(window.location.pathname)}`);
   }
   if (result.status >= 200 && result.status < 300) return result.body as Envelope<T>;

@@ -15,7 +15,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  if (!signedIn && (pathname.startsWith("/dashboard") || pathname.startsWith("/organizer"))) {
+  if (!signedIn && ["/dashboard", "/organizer", "/admin"].some((prefix) => pathname.startsWith(prefix))) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", `${pathname}${search}`);
     return NextResponse.redirect(loginUrl);
@@ -25,5 +25,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup", "/dashboard/:path*", "/organizer/:path*"],
+  matcher: ["/", "/login", "/signup", "/dashboard/:path*", "/organizer/:path*", "/admin/:path*"],
 };

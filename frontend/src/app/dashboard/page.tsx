@@ -27,6 +27,7 @@ async function Welcome() {
   const [user, { t }] = await Promise.all([getSessionUser(), getDictionary()]);
   if (!user) redirect("/login");
   if (user.role === "organizer") redirect("/organizer");
+  if (user.role === "admin") redirect("/admin");
 
   return (
     <section className="flex w-full max-w-md flex-col items-center gap-4 rounded-3xl border border-border bg-background p-8 text-center">
