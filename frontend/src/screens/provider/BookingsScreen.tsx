@@ -1,11 +1,12 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { buttonClass } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { FormAlert } from '@/components/ui/FormAlert';
 import { Icon } from '@/components/ui/Icon';
-import { StatusPill, type PillTone } from '@/components/ui/StatusPill';
+import { StatusPill } from '@/components/ui/StatusPill';
 import { initialsOf } from '@/components/shell/DashboardShell';
 import {
   bookingDays,
@@ -13,9 +14,9 @@ import {
   MIN_BOOKING_AMOUNT,
   providerApi,
   suggestedAmount,
-  type BookingStatus,
   type ProviderBooking,
 } from '@/features/provider/api';
+import { BOOKING_TONES as STATUS_TONES, formatBookingRange as formatRange, isPast, startOfToday, timeAgo } from '@/features/provider/format';
 import type { Dictionary, Locale } from '@/i18n/dictionaries';
 import { cn } from '@/lib/cn';
 import { ApiError } from '@/lib/http/errors';
@@ -25,23 +26,6 @@ import { useProvider } from './ProviderShell';
 
 type Tab = 'upcoming' | 'requests' | 'completed' | 'declined' | 'cancelled';
 const TABS: Tab[] = ['upcoming', 'requests', 'completed', 'declined', 'cancelled'];
-
-const STATUS_TONES: Record<BookingStatus, PillTone> = {
-  requested: 'primary',
-  accepted: 'warning',
-  paid: 'valid',
-  completed: 'neutral',
-  declined: 'neutral',
-  cancelled: 'neutral',
-};
-
-const isPast = (iso: string) => new Date(iso).getTime() < Date.now();
-
-const startOfToday = () => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return today.getTime();
-};
 
 function inTab(booking: ProviderBooking, tab: Tab) {
   switch (tab) {
@@ -61,26 +45,13 @@ function inTab(booking: ProviderBooking, tab: Tab) {
 const byStart = (direction: 1 | -1) => (a: ProviderBooking, b: ProviderBooking) =>
   direction * (new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
-const intlLocale = (locale: Locale) => (locale === 'fr' ? 'fr-FR' : 'en-GB');
-
-const formatRange = (booking: ProviderBooking, locale: Locale, options: Intl.DateTimeFormatOptions) =>
-  new Intl.DateTimeFormat(intlLocale(locale), options).formatRange(new Date(booking.startDate), new Date(booking.endDate));
-
-function timeAgo(iso: string, locale: Locale) {
-  const format = new Intl.RelativeTimeFormat(intlLocale(locale), { numeric: 'auto' });
-  const minutes = Math.round((new Date(iso).getTime() - Date.now()) / 60000);
-  if (Math.abs(minutes) < 60) return format.format(minutes, 'minute');
-  const hours = Math.round(minutes / 60);
-  if (Math.abs(hours) < 24) return format.format(hours, 'hour');
-  return format.format(Math.round(hours / 24), 'day');
-}
-
 export function BookingsScreen() {
   const { t, locale, reloadPending } = useProvider();
   const copy = t.provider.bookings;
   const { data, error, loading, reload } = useAsync(providerApi.bookings, []);
+  const linkedId = useSearchParams().get('booking');
   const [tab, setTab] = useState<Tab>('upcoming');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(linkedId);
 
   const groups = useMemo(() => {
     const bookings = data ?? [];
@@ -91,6 +62,14 @@ export function BookingsScreen() {
       ]),
     ) as Record<Tab, ProviderBooking[]>;
   }, [data]);
+
+  const [linkHandled, setLinkHandled] = useState(false);
+  if (data && linkedId && !linkHandled) {
+    const linked = data.find((booking) => booking.id === linkedId);
+    const linkedTab = linked ? TABS.find((key) => inTab(linked, key)) : undefined;
+    setLinkHandled(true);
+    if (linkedTab) setTab(linkedTab);
+  }
 
   const rows = groups[tab];
   const selected = data?.find((booking) => booking.id === selectedId) ?? null;

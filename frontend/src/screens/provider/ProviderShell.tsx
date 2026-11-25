@@ -18,6 +18,7 @@ type ProviderContextValue = {
   profileLoading: boolean;
   pendingRequests: number;
   reloadPending: () => void;
+  reloadProfile: () => void;
 };
 
 const ProviderContext = createContext<ProviderContextValue | null>(null);
@@ -39,14 +40,14 @@ export function ProviderShell({ user, locale, t, children }: ProviderShellProps)
   const nav: ShellNavItem[] = [
     { href: '/provider', label: labels.overview, icon: 'dashboard', ready: true },
     { href: '/provider/bookings', label: labels.bookings, icon: 'bookings', ready: true, badge: pendingRequests },
-    { href: '/provider/services', label: labels.services, icon: 'marketplace' },
-    { href: '/provider/calendar', label: labels.calendar, icon: 'calendar' },
-    { href: '/provider/earnings', label: labels.earnings, icon: 'wallet' },
-    { href: '/provider/reviews', label: labels.reviews, icon: 'reviews' },
+    { href: '/provider/services', label: labels.services, icon: 'marketplace', ready: true },
+    { href: '/provider/calendar', label: labels.calendar, icon: 'calendar', ready: true },
+    { href: '/provider/earnings', label: labels.earnings, icon: 'wallet', ready: true },
+    { href: '/provider/reviews', label: labels.reviews, icon: 'reviews', ready: true },
   ];
 
   const secondaryNav: ShellNavItem[] = [
-    { href: '/provider/profile', label: labels.profile, icon: 'business' },
+    { href: '/provider/profile', label: labels.profile, icon: 'business', ready: true },
     { href: '/provider/help', label: labels.help, icon: 'help' },
   ];
 
@@ -74,6 +75,7 @@ export function ProviderShell({ user, locale, t, children }: ProviderShellProps)
         profileLoading: profile.loading,
         pendingRequests,
         reloadPending: pending.reload,
+        reloadProfile: profile.reload,
       }}
     >
       <div className="theme-light flex min-h-dvh flex-1 flex-col">
