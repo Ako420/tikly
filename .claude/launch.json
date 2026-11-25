@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mobile-web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--max-old-space-size=6144", "../node_modules/expo/bin/cli", "start", "--web", "--port", "8081"],
+      "cwd": "mobile",
+      "port": 8081
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../node_modules/next/dist/bin/next", "dev", "--port", "3000"],
+      "cwd": "frontend",
+      "port": 3000
+    },
+    {
+      "name": "api",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../node_modules/tsx/dist/cli.mjs", "watch", "src/server.ts"],
+      "cwd": "backend",
+      "port": 4000
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+export const LOCALES = ["en", "fr"] as const;
+export type Locale = (typeof LOCALES)[number];
+export const DEFAULT_LOCALE: Locale = "en";
+
+export const isLocale = (value: unknown): value is Locale =>
+  typeof value === "string" && (LOCALES as readonly string[]).includes(value);
+
+const en = {
+  languageName: "English",
+  languageLabel: "Language",
+  brand: {
+    eyebrow: "For organizers, providers and admins",
+    headline: "Plan it, sell it, run the gate.",
+    supporting:
+      "Budgets, tickets, staff and Mobile Money payouts for events across the CEMAC region, in one place.",
+    credit: "Photo: Asaba at CIMFEST, Kekiwiyi, CC BY-SA 4.0",
+    gateNote: "Gate staff scan tickets in the tikly mobile app.",
+  },
+  fields: {
+    identifier: "Email or phone",
+    identifierPlaceholder: "you@example.com or 6XX XX XX XX",
+    password: "Password",
+    name: "Full name",
+    namePlaceholder: "Christelle Ngono",
+    email: "Email",
+    emailPlaceholder: "you@example.com",
+    phone: "Mobile number",
+    phonePlaceholder: "6XX XX XX XX",
+    newPassword: "Create a password",
+    passwordHint: "At least 8 characters.",
+    showPassword: "Show password",
+    hidePassword: "Hide password",
+  },
+  login: {
+    title: "Log in",
+    eyebrow: "Good to see you",
+    heading: "Welcome back",
+    subtitle: "Log in to manage your events, services or the platform.",
+    submit: "Log in",
+    submitting: "Logging in…",
+    newHere: "New to tikly?",
+    createAccount: "Create an account",
+    googleCta: "Continue with Google",
+  },
+  signup: {
+    title: "Create an account",
+    eyebrow: "Get started",
+    heading: "Create your account",
+    subtitle: "Tell us how you will use tikly. You can add details later.",
+    roleLabel: "I am joining as",
+    submit: "Create account",
+    submitting: "Creating account…",
+    haveAccount: "Already have an account?",
+    logIn: "Log in",
+    googleCta: "Sign up with Google",
+    roles: {
+      organizer: {
+        title: "Event organizer",
+        description: "Create events, sell tickets and plan budgets.",
+      },
+      provider: {
+        title: "Service provider",
+        description: "Offer sound, catering, venues or decor to organizers.",
+      },
+      exhibitor: {
+        title: "Exhibitor",
+        description: "Book stands and slots at events.",
+      },
+    },
+  },
+  dashboard: {
+    title: "Dashboard",
+    greeting: "Hello, {name}",
+    comingSoon: "Your dashboard is on its way.",
+    signOut: "Log out",
+  },
+  errors: {
+    generic: "Something went wrong. Please try again.",
+    network: "We couldn't reach tikly. Check your connection and try again.",
+    mobileOnly: "This account uses the tikly mobile app. Open the app to sign in.",
+    identifierRequired: "Enter your email or phone number.",
+    passwordRequired: "Enter your password.",
+    roleRequired: "Choose how you will use tikly.",
+    phoneRequired: "Enter your mobile number.",
+  },
+  google: {
+    divider: "or",
+    notConfigured: "Google sign-in isn't set up yet.",
+    loading: "Signing you in with Google…",
+    completeEyebrow: "Almost there",
+    completeHeading: "Finish setting up",
+    completeSubtitle: "You're signing up with Google as {email}. Choose your role and add a mobile number.",
+    submit: "Create account",
+    submitting: "Creating account…",
+    back: "Use another method",
+  },
+};
+
+export type Dictionary = typeof en;
+
+const fr: Dictionary = {
+  languageName: "Français",
+  languageLabel: "Langue",
+  brand: {
+    eyebrow: "Pour les organisateurs, prestataires et administrateurs",
+    headline: "Planifiez, vendez, gérez l'entrée.",
+    supporting:
+      "Budgets, billets, équipes et paiements Mobile Money pour les événements de la zone CEMAC, au même endroit.",
+    credit: "Photo : Asaba au CIMFEST, Kekiwiyi, CC BY-SA 4.0",
+    gateNote: "Le personnel d'accueil scanne les billets dans l'application mobile tikly.",
+  },
+  fields: {
+    identifier: "E-mail ou téléphone",
+    identifierPlaceholder: "vous@exemple.com ou 6XX XX XX XX",
+    password: "Mot de passe",
+    name: "Nom complet",
+    namePlaceholder: "Christelle Ngono",
+    email: "E-mail",
+    emailPlaceholder: "vous@exemple.com",
+    phone: "Numéro mobile",
+    phonePlaceholder: "6XX XX XX XX",
+    newPassword: "Créez un mot de passe",
+    passwordHint: "Au moins 8 caractères.",
+    showPassword: "Afficher le mot de passe",
+    hidePassword: "Masquer le mot de passe",
+  },
+  login: {
+    title: "Connexion",
+    eyebrow: "Ravi de vous revoir",
+    heading: "Bon retour",
+    subtitle: "Connectez-vous pour gérer vos événements, vos services ou la plateforme.",
+    submit: "Se connecter",
+    submitting: "Connexion…",
+    newHere: "Nouveau sur tikly ?",
+    createAccount: "Créer un compte",
+    googleCta: "Continuer avec Google",
+  },
+  signup: {
+    title: "Créer un compte",
+    eyebrow: "Commencer",
+    heading: "Créez votre compte",
+    subtitle: "Dites-nous comment vous utiliserez tikly. Vous pourrez compléter plus tard.",
+    roleLabel: "Je m'inscris en tant que",
+    submit: "Créer le compte",
+    submitting: "Création du compte…",
+    haveAccount: "Vous avez déjà un compte ?",
+    logIn: "Se connecter",
+    googleCta: "S'inscrire avec Google",
+    roles: {
+      organizer: {
+        title: "Organisateur d'événements",
+        description: "Créez des événements, vendez des billets et planifiez vos budgets.",
+      },
+      provider: {
+        title: "Prestataire de services",
+        description: "Proposez sonorisation, traiteur, salles ou décoration aux organisateurs.",
+      },
+      exhibitor: {
+        title: "Exposant",
+        description: "Réservez des stands et des créneaux lors d'événements.",
+      },
+    },
+  },
+  dashboard: {
+    title: "Tableau de bord",
+    greeting: "Bonjour, {name}",
+    comingSoon: "Votre tableau de bord arrive bientôt.",
+    signOut: "Se déconnecter",
+  },
+  errors: {
+    generic: "Une erreur s'est produite. Veuillez réessayer.",
+    network: "Impossible de joindre tikly. Vérifiez votre connexion et réessayez.",
+    mobileOnly: "Ce compte utilise l'application mobile tikly. Ouvrez l'application pour vous connecter.",
+    identifierRequired: "Saisissez votre e-mail ou votre numéro de téléphone.",
+    passwordRequired: "Saisissez votre mot de passe.",
+    roleRequired: "Choisissez comment vous utiliserez tikly.",
+    phoneRequired: "Saisissez votre numéro mobile.",
+  },
+  google: {
+    divider: "ou",
+    notConfigured: "La connexion Google n'est pas encore configurée.",
+    loading: "Connexion avec Google…",
+    completeEyebrow: "Presque terminé",
+    completeHeading: "Finalisez votre compte",
+    completeSubtitle:
+      "Vous vous inscrivez avec Google en tant que {email}. Choisissez votre rôle et ajoutez un numéro mobile.",
+    submit: "Créer le compte",
+    submitting: "Création du compte…",
+    back: "Utiliser une autre méthode",
+  },
+};
+
+export const dictionaries: Record<Locale, Dictionary> = { en, fr };
