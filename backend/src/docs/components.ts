@@ -600,6 +600,10 @@ export const BookingView = registry.register(
       .object({ orderId: id(), status: z.enum(ORDER_STATUSES) })
       .nullable()
       .openapi({ description: 'The latest payment attempt, if any.' }),
+    review: z
+      .object({ id: id(), rating: z.number().int().min(1).max(5).openapi({ example: 5 }) })
+      .nullable()
+      .openapi({ description: 'The organizer’s review of the provider for this booking, once written (REV-2).' }),
     ...timestamps,
   }),
 );

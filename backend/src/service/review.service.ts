@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { BookingModel, EventModel, ProviderModel, ReviewModel, ServiceModel, TicketModel, UserModel } from '../model';
-import type { EventReviewBody, ProviderReviewBody } from '../schema/review.schema';
+import type { EventReviewBody, OrganizerReviewsQuery, ProviderReviewBody } from '../schema/review.schema';
 import type { EventStatus, ReviewTarget } from '../types/enums';
 import { AppError } from '../util/AppError';
 import type { Page } from '../util/pagination';
@@ -97,4 +97,82 @@ export async function reviewProvider(user: { id: string }, providerId: string, i
   await refreshRating('provider', provider._id);
   const author = await UserModel.findById(user.id).select('name').lean();
   return toReviewView(review, author?.name ?? '');
+}
+
+async function organizerEvents(organizerId: string) {
+  return EventModel.find({ organizerId }).select('title startAt ratingAvg ratingCount').lean();
+}
+
+export async function listOrganizerReviews(organizerId: string, query: OrganizerReviewsQuery) {
+  const events = await organizerEvents(organizerId);
+  const eventOf = new Map(events.map((event) => [String(event._id), event]));
+  if (query.eventId && !eventOf.has(query.eventId)) throw AppError.notFound();
+
+  const targetIds = query.eventId ? [new Types.ObjectId(query.eventId)] : events.map((event) => event._id);
+  const filter = {
+    target: 'event',
+    targetId: { $in: targetIds },
+    hidden: false,
+    ...(query.rating && { rating: query.rating }),
+  };
+  const [reviews, total] = await Promise.all([
+    ReviewModel.find(filter).sort({ createdAt: -1, _id: -1 }).skip(skipFor(query)).limit(query.limit).lean(),
+    ReviewModel.countDocuments(filter),
+  ]);
+  const authors = await UserModel.find({ _id: { $in: reviews.map((review) => review.authorId) } })
+    .select('name')
+    .lean();
+  const nameOf = new Map(authors.map((author) => [String(author._id), author.name]));
+  const items = reviews.map((review) => {
+    const event = eventOf.get(String(review.targetId));
+    return {
+      ...toReviewView(review, nameOf.get(String(review.authorId)) ?? ''),
+      event: event ? { id: String(event._id), title: event.title, startAt: event.startAt } : null,
+    };
+  });
+  return { items, total };
+}
+
+export async function organizerReviewSummary(organizerId: string) {
+  const events = await organizerEvents(organizerId);
+  const [rows, perEvent] = await Promise.all([
+    ReviewModel.aggregate<{ _id: number; count: number }>([
+      { $match: { target: 'event', targetId: { $in: events.map((event) => event._id) }, hidden: false } },
+      { $group: { _id: '$rating', count: { $sum: 1 } } },
+    ]),
+    ReviewModel.aggregate<{ _id: Types.ObjectId; avg: number; count: number }>([
+      { $match: { target: 'event', targetId: { $in: events.map((event) => event._id) }, hidden: false } },
+      { $group: { _id: '$targetId', avg: { $avg: '$rating' }, count: { $sum: 1 } } },
+    ]),
+  ]);
+  const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<1 | 2 | 3 | 4 | 5, number>;
+  let count = 0;
+  let sum = 0;
+  for (const row of rows) {
+    distribution[row._id as 1 | 2 | 3 | 4 | 5] = row.count;
+    count += row.count;
+    sum += row._id * row.count;
+  }
+  const eventOf = new Map(events.map((event) => [String(event._id), event]));
+  return {
+    average: count ? Math.round((sum / count) * 10) / 10 : 0,
+    count,
+    distribution,
+    events: perEvent
+      .flatMap((row) => {
+        const event = eventOf.get(String(row._id));
+        return event
+          ? [
+              {
+                id: String(event._id),
+                title: event.title,
+                startAt: event.startAt,
+                ratingAvg: Math.round(row.avg * 10) / 10,
+                ratingCount: row.count,
+              },
+            ]
+          : [];
+      })
+      .sort((a, b) => b.startAt.getTime() - a.startAt.getTime()),
+  };
 }

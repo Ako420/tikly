@@ -18,6 +18,7 @@ import './service.docs';
 import './booking.docs';
 import './slot.docs';
 import './review.docs';
+import './sales.docs';
 import './notification.docs';
 import './admin.docs';
 

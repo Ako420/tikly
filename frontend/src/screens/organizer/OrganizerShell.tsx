@@ -12,10 +12,10 @@ import { cn } from '@/lib/cn';
 const NAV: { href: string; label: string; icon: IconName; ready?: boolean }[] = [
   { href: '/organizer', label: 'Overview', icon: 'dashboard', ready: true },
   { href: '/organizer/events', label: 'Events', icon: 'events', ready: true },
-  { href: '/organizer/orders', label: 'Orders & attendees', icon: 'orders' },
-  { href: '/organizer/marketplace', label: 'Marketplace', icon: 'marketplace' },
-  { href: '/organizer/staff', label: 'Gate staff', icon: 'staff' },
-  { href: '/organizer/reviews', label: 'Reviews', icon: 'reviews' },
+  { href: '/organizer/orders', label: 'Orders & attendees', icon: 'orders', ready: true },
+  { href: '/organizer/marketplace', label: 'Marketplace', icon: 'marketplace', ready: true },
+  { href: '/organizer/staff', label: 'Gate staff', icon: 'staff', ready: true },
+  { href: '/organizer/reviews', label: 'Reviews', icon: 'reviews', ready: true },
 ];
 
 const initials = (name = '') =>
@@ -137,7 +137,7 @@ function Frame({ user, children }: { user: OrganizerUser; children: ReactNode })
             <span className="hidden size-10 place-items-center rounded-full border border-border sm:grid">
               <Icon name="bell" />
             </span>
-            <Link href="/organizer/events/new" className={buttonClass('primary', 'sm', 'hidden sm:inline-flex')}>
+            <Link href="/organizer/events/new" className={buttonClass('primary', 'sm', 'max-sm:hidden')}>
               <Icon name="add" size={18} />
               Create event
             </Link>

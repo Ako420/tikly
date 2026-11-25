@@ -5,6 +5,7 @@ import {
   EventModel,
   OrderModel,
   ProviderModel,
+  ReviewModel,
   ServiceModel,
   UserModel,
   type Booking,
@@ -54,7 +55,7 @@ async function toBookingViews(bookings: BookingLike[]) {
         .map(String),
     ),
   ];
-  const [services, organizers, events, orders] = await Promise.all([
+  const [services, organizers, events, orders, reviews] = await Promise.all([
     ServiceModel.find({ _id: { $in: ids('serviceId') } })
       .select('providerId category title unit price photos')
       .lean(),
@@ -67,7 +68,11 @@ async function toBookingViews(bookings: BookingLike[]) {
     OrderModel.find({ _id: { $in: ids('orderId') } })
       .select('status')
       .lean(),
+    ReviewModel.find({ bookingId: { $in: bookings.map((booking) => booking._id) } })
+      .select('bookingId rating')
+      .lean(),
   ]);
+  const reviewOf = new Map(reviews.map((review) => [String(review.bookingId), review]));
   const providers = await ProviderModel.find({ _id: { $in: services.map((service) => service.providerId) } })
     .select('businessName phone whatsapp')
     .lean();
@@ -86,6 +91,7 @@ async function toBookingViews(bookings: BookingLike[]) {
     const organizer = organizerOf.get(String(booking.organizerId));
     const event = booking.eventId ? eventOf.get(String(booking.eventId)) : undefined;
     const order = booking.orderId ? orderOf.get(String(booking.orderId)) : undefined;
+    const review = reviewOf.get(String(booking._id));
     return {
       id: String(booking._id),
       status: booking.status,
@@ -116,6 +122,7 @@ async function toBookingViews(bookings: BookingLike[]) {
       organizer: organizer ? { id: String(organizer._id), name: organizer.name, phone: organizer.phone } : null,
       event: event ? { id: String(event._id), title: event.title, startAt: event.startAt, city: event.city } : null,
       payment: order ? { orderId: String(order._id), status: order.status } : null,
+      review: review ? { id: String(review._id), rating: review.rating } : null,
       createdAt: booking.createdAt,
       updatedAt: booking.updatedAt,
     };

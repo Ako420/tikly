@@ -1,4 +1,4 @@
-import { api } from '@/lib/http/client';
+import { api, type Page } from '@/lib/http/client';
 
 export type LocalizedText = Partial<Record<'en' | 'fr', string>>;
 
@@ -129,4 +129,104 @@ export const eventDraftApi = {
   create: (input: CreateEventInput) => api.post<OrganizerEvent>('/events', input),
   addTier: (eventId: string, input: CreateTierInput) => api.post<Tier>(`/events/${eventId}/tiers`, input),
   submit: (eventId: string) => api.post<OrganizerEvent>(`/events/${eventId}/submit`),
+};
+
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded';
+export type TicketStatus = 'valid' | 'checked_in' | 'cancelled' | 'refunded';
+export type SalesPerson = { id: string; name: string; email?: string; phone?: string };
+
+export type EventOrder = {
+  id: string;
+  buyer: SalesPerson;
+  phone?: string;
+  amount: number;
+  status: OrderStatus;
+  tickets: number;
+  items: { tier: TierName; quantity: number; unitPrice: number }[];
+  createdAt: string;
+  paidAt?: string;
+};
+
+export type EventAttendee = {
+  id: string;
+  code: string;
+  tier: TierName;
+  holder: SalesPerson;
+  orderId: string;
+  status: TicketStatus;
+  checkedInAt?: string;
+  reentries: number;
+  createdAt: string;
+};
+
+export type SalesQuery = { page: number; status?: string; q?: string; tierId?: string };
+
+export const salesApi = {
+  orders: (eventId: string, query: SalesQuery): Promise<Page<EventOrder>> =>
+    api.page<EventOrder>(`/events/${eventId}/orders`, { params: { limit: 20, ...query } }),
+  attendees: (eventId: string, query: SalesQuery): Promise<Page<EventAttendee>> =>
+    api.page<EventAttendee>(`/events/${eventId}/attendees`, { params: { limit: 20, ...query } }),
+};
+
+export const ORDER_STATUS_META: Record<OrderStatus, { label: string; tone: 'valid' | 'warning' | 'invalid' | 'neutral' }> = {
+  paid: { label: 'Paid', tone: 'valid' },
+  pending: { label: 'Awaiting payment', tone: 'warning' },
+  failed: { label: 'Failed', tone: 'invalid' },
+  expired: { label: 'Expired', tone: 'neutral' },
+  refunded: { label: 'Refunded', tone: 'neutral' },
+};
+
+export const TICKET_STATUS_META: Record<TicketStatus, { label: string; tone: 'valid' | 'warning' | 'invalid' | 'neutral' }> = {
+  valid: { label: 'Not checked in', tone: 'neutral' },
+  checked_in: { label: 'Checked in', tone: 'valid' },
+  cancelled: { label: 'Cancelled', tone: 'invalid' },
+  refunded: { label: 'Refunded', tone: 'neutral' },
+};
+
+export const TIER_LABEL: Record<TierName, string> = { standard: 'Standard', vip: 'VIP', vvip: 'VVIP' };
+
+export type StaffEvent = { id: string; title: LocalizedText; startAt: string; endAt: string; venue: string; city: string; status: EventStatus };
+
+export type StaffMember = {
+  id: string;
+  name: string;
+  phone: string;
+  status: 'active' | 'suspended' | 'disabled';
+  createdAt: string;
+  events: StaffEvent[];
+};
+
+export type CreateStaffInput = { name: string; phone: string; password: string };
+export type UpdateStaffInput = Partial<{ name: string; password: string; status: 'active' | 'disabled' }>;
+
+export const staffApi = {
+  list: () => api.get<StaffMember[]>('/organizer/staff'),
+  create: (input: CreateStaffInput) => api.post<StaffMember>('/organizer/staff', input),
+  update: (id: string, input: UpdateStaffInput) => api.patch<StaffMember>(`/organizer/staff/${id}`, input),
+  assign: (eventId: string, staffId: string) => api.post(`/events/${eventId}/staff`, { staffId }),
+  unassign: (eventId: string, staffId: string) => api.delete(`/events/${eventId}/staff/${staffId}`),
+};
+
+export type EventReview = {
+  id: string;
+  rating: number;
+  comment?: string;
+  author: string;
+  createdAt: string;
+  event: { id: string; title: LocalizedText; startAt: string } | null;
+};
+
+export type ReviewSummary = {
+  average: number;
+  count: number;
+  distribution: Record<'1' | '2' | '3' | '4' | '5', number>;
+  events: { id: string; title: LocalizedText; startAt: string; ratingAvg: number; ratingCount: number }[];
+};
+
+export const reviewApi = {
+  summary: () => api.get<ReviewSummary>('/organizer/reviews/summary'),
+  list: (query: { page: number; eventId?: string; rating?: number }): Promise<Page<EventReview>> =>
+    api.page<EventReview>('/organizer/reviews', { params: { limit: 10, ...query } }),
+  rateProvider: (providerId: string, input: { bookingId: string; rating: number; comment?: string }) =>
+    api.post<{ id: string; rating: number }>(`/providers/${providerId}/reviews`, input),
 };
