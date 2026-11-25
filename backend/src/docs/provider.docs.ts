@@ -1,6 +1,6 @@
 import { idParam, pageQuery } from '../schema/common.schema';
 import * as s from '../schema/provider.schema';
-import { ProviderEarnings, ProviderProfile, PublicProvider, ServiceItem } from './components';
+import { MyProviderProfile, ProviderEarnings, ProviderProfile, PublicProvider, ServiceItem } from './components';
 import { route } from './registry';
 
 const tag = 'Providers';
@@ -35,9 +35,10 @@ route({
   path: '/providers/me',
   tag,
   summary: 'Get my business profile',
-  description: 'Shows the verification status and, when rejected, the reason. 404 means no profile yet: show the form.',
+  description:
+    'Shows the verification status and, when rejected, the reason, plus `commissionPercent`: the current tikly commission on service bookings, so the app can show what the provider will receive. 404 means no profile yet: show the form.',
   roles: provider,
-  response: ProviderProfile,
+  response: MyProviderProfile,
   errors: { 404: ['NOT_FOUND'] },
 });
 

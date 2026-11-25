@@ -123,6 +123,24 @@ describe('provider profile (SRV-1)', () => {
     expect(res.body.data.verification).toBe('pending');
     expect(res.body.data.rejectionReason).toBeUndefined();
   });
+
+  it('shows the current service commission rate', async () => {
+    const { auth } = await provider('verified');
+    const admin = await createUser('admin');
+
+    const defaults = await request(app).get(`${api}/providers/me`).set(auth);
+    expect(defaults.status).toBe(200);
+    expect(defaults.body.data).toMatchObject({ businessName: expect.any(String), commissionPercent: 10 });
+
+    const saved = await request(app)
+      .patch(`${api}/admin/settings`)
+      .set(admin.auth)
+      .send({ commission: { service: 7.5, ticket: 12 } });
+    expect(saved.status).toBe(200);
+
+    const changed = await request(app).get(`${api}/providers/me`).set(auth);
+    expect(changed.body.data.commissionPercent).toBe(7.5);
+  });
 });
 
 describe('GET /providers/:id (SRV-5)', () => {

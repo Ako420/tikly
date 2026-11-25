@@ -3,6 +3,7 @@ import type { CreateProviderBody, EarningsQuery, UpdateProviderBody } from '../s
 import { AppError } from '../util/AppError';
 import { toProviderContact, toServiceView } from '../util/catalogView';
 import { notifyAdmins } from './notification.service';
+import { getCommissionRate } from './setting.service';
 
 const sameDocuments = (current: string[], next: string[]) =>
   current.length === next.length && next.every((id) => current.includes(id));
@@ -19,6 +20,11 @@ export async function getMyProvider(userId: string) {
   const provider = await findMyProvider(userId);
   if (!provider) throw AppError.notFound();
   return provider;
+}
+
+export async function getMyProfile(userId: string) {
+  const [provider, commissionPercent] = await Promise.all([getMyProvider(userId), getCommissionRate('service')]);
+  return { ...provider.toJSON(), commissionPercent };
 }
 
 export async function createProvider(userId: string, input: CreateProviderBody) {

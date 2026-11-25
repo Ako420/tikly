@@ -10,7 +10,7 @@ export const create: RequestHandler = async (req, res) => {
 };
 
 export const getMine: RequestHandler = async (req, res) => {
-  ok(res, await providerService.getMyProvider(req.user!.id));
+  ok(res, await providerService.getMyProfile(req.user!.id));
 };
 
 export const updateMine: RequestHandler = async (req, res) => {

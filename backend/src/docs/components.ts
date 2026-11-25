@@ -481,6 +481,17 @@ export const ProviderProfile = registry.register(
   }),
 );
 
+export const MyProviderProfile = registry.register(
+  'MyProviderProfile',
+  ProviderProfile.extend({
+    commissionPercent: z.number().openapi({
+      example: 10,
+      description:
+        'Current tikly commission on service bookings, in percent. The provider receives the booking amount minus this share.',
+    }),
+  }),
+);
+
 const providerSummaryShape = {
   id: id(),
   businessName: z.string().openapi({ example: 'Akwa Events Hire' }),
