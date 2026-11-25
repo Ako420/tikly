@@ -184,3 +184,25 @@ export const TICKET_STATUS_META: Record<TicketStatus, { label: string; tone: 'va
 };
 
 export const TIER_LABEL: Record<TierName, string> = { standard: 'Standard', vip: 'VIP', vvip: 'VVIP' };
+
+export type StaffEvent = { id: string; title: LocalizedText; startAt: string; endAt: string; venue: string; city: string; status: EventStatus };
+
+export type StaffMember = {
+  id: string;
+  name: string;
+  phone: string;
+  status: 'active' | 'suspended' | 'disabled';
+  createdAt: string;
+  events: StaffEvent[];
+};
+
+export type CreateStaffInput = { name: string; phone: string; password: string };
+export type UpdateStaffInput = Partial<{ name: string; password: string; status: 'active' | 'disabled' }>;
+
+export const staffApi = {
+  list: () => api.get<StaffMember[]>('/organizer/staff'),
+  create: (input: CreateStaffInput) => api.post<StaffMember>('/organizer/staff', input),
+  update: (id: string, input: UpdateStaffInput) => api.patch<StaffMember>(`/organizer/staff/${id}`, input),
+  assign: (eventId: string, staffId: string) => api.post(`/events/${eventId}/staff`, { staffId }),
+  unassign: (eventId: string, staffId: string) => api.delete(`/events/${eventId}/staff/${staffId}`),
+};

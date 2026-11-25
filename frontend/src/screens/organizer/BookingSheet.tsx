@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { buttonClass } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
+import { Modal } from '@/components/ui/Modal';
 import { StatusPill } from '@/components/ui/StatusPill';
 import {
   BOOKING_STATUS_META,
@@ -27,38 +28,7 @@ const POLL_LIMIT = 60;
 type Props = { bookingId: string; onClose: () => void; onChanged: () => void };
 
 export function BookingSheet({ bookingId, onClose, onChanged }: Props) {
-  const ref = useRef<HTMLDialogElement>(null);
-  const titleId = useId();
   const { data: booking, error, reload } = useAsync(() => marketplaceApi.booking(bookingId), [bookingId]);
-
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog) return;
-    if (!dialog.open) dialog.showModal();
-    const handleClose = () => onClose();
-    dialog.addEventListener('close', handleClose);
-    let pressedOutside = false;
-    const outside = (event: PointerEvent) => {
-      const rect = dialog.getBoundingClientRect();
-      return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
-    };
-    const down = (event: PointerEvent) => {
-      pressedOutside = outside(event);
-    };
-    const up = (event: PointerEvent) => {
-      if (pressedOutside && outside(event)) dialog.close();
-    };
-    const fallback = !('closedBy' in HTMLDialogElement.prototype);
-    if (fallback) {
-      dialog.addEventListener('pointerdown', down);
-      dialog.addEventListener('pointerup', up);
-    }
-    return () => {
-      dialog.removeEventListener('close', handleClose);
-      dialog.removeEventListener('pointerdown', down);
-      dialog.removeEventListener('pointerup', up);
-    };
-  }, [onClose]);
 
   const refresh = useCallback(() => {
     reload();
@@ -66,26 +36,12 @@ export function BookingSheet({ bookingId, onClose, onChanged }: Props) {
   }, [reload, onChanged]);
 
   return (
-    <dialog
-      ref={ref}
-      aria-labelledby={titleId}
-      {...({ closedby: 'any' } as object)}
-      className="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-none w-full max-w-[440px] flex-col bg-raised p-0 text-fg shadow-2xl open:flex"
+    <Modal
+      variant="sheet"
+      title="Booking"
+      onClose={onClose}
+      badge={booking && <StatusPill tone={BOOKING_STATUS_META[booking.status].tone}>{BOOKING_STATUS_META[booking.status].label}</StatusPill>}
     >
-      <header className="flex items-center gap-3 border-b border-border px-5 py-4">
-        <h1 id={titleId} className="text-[17px] font-extrabold">
-          Booking
-        </h1>
-        {booking && (
-          <StatusPill tone={BOOKING_STATUS_META[booking.status].tone}>{BOOKING_STATUS_META[booking.status].label}</StatusPill>
-        )}
-        <form method="dialog" className="ml-auto">
-          <button aria-label="Close" className="grid size-10 place-items-center rounded-full border border-border hover:bg-surface">
-            <Icon name="close" size={18} />
-          </button>
-        </form>
-      </header>
-
       {error ? (
         <div className="p-6 text-center">
           <p className="text-fg-secondary">{error instanceof ApiError ? error.message : 'We could not load this booking.'}</p>
@@ -102,7 +58,7 @@ export function BookingSheet({ bookingId, onClose, onChanged }: Props) {
       ) : (
         <BookingBody booking={booking} onChanged={refresh} />
       )}
-    </dialog>
+    </Modal>
   );
 }
 

@@ -124,6 +124,9 @@ export function EventWorkspaceScreen({ eventId }: { eventId: string }) {
           <p className="mt-1 text-[13px] text-fg-secondary">
             staff assigned. They scan tickets in the mobile app; live check-ins appear here on event day.
           </p>
+          <Link href="/organizer/staff" className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline">
+            Manage gate staff <Icon name="chevron" size={16} />
+          </Link>
           {stats && (
             <p className="mt-4 border-t border-border pt-4 text-sm">
               <span className="font-bold">{formatAmount(stats.totals.checkedIn)}</span>{' '}
