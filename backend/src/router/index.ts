@@ -14,6 +14,7 @@ import { planningRouter } from './planning.router';
 import { eventPostRouter, postRouter } from './post.router';
 import { providerRouter } from './provider.router';
 import { eventReviewRouter, providerReviewRouter } from './review.router';
+import { eventSalesRouter } from './sales.router';
 import { serviceRouter } from './service.router';
 import {
   eventExhibitorRouter,
@@ -38,6 +39,7 @@ apiRouter.use('/events/:eventId/reviews', eventReviewRouter);
 apiRouter.use('/events/:eventId/posts', eventPostRouter);
 apiRouter.use('/events/:eventId/exhibitors', eventExhibitorRouter);
 apiRouter.use('/events/:eventId/slot-bookings', eventSlotBookingRouter);
+apiRouter.use('/events/:eventId', eventSalesRouter);
 apiRouter.use('/events/:eventId', planningRouter);
 apiRouter.use('/events', eventRouter);
 apiRouter.use('/tiers', tierRouter);

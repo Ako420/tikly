@@ -1,4 +1,4 @@
-import { api } from '@/lib/http/client';
+import { api, type Page } from '@/lib/http/client';
 
 export type LocalizedText = Partial<Record<'en' | 'fr', string>>;
 
@@ -130,3 +130,57 @@ export const eventDraftApi = {
   addTier: (eventId: string, input: CreateTierInput) => api.post<Tier>(`/events/${eventId}/tiers`, input),
   submit: (eventId: string) => api.post<OrganizerEvent>(`/events/${eventId}/submit`),
 };
+
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded';
+export type TicketStatus = 'valid' | 'checked_in' | 'cancelled' | 'refunded';
+export type SalesPerson = { id: string; name: string; email?: string; phone?: string };
+
+export type EventOrder = {
+  id: string;
+  buyer: SalesPerson;
+  phone?: string;
+  amount: number;
+  status: OrderStatus;
+  tickets: number;
+  items: { tier: TierName; quantity: number; unitPrice: number }[];
+  createdAt: string;
+  paidAt?: string;
+};
+
+export type EventAttendee = {
+  id: string;
+  code: string;
+  tier: TierName;
+  holder: SalesPerson;
+  orderId: string;
+  status: TicketStatus;
+  checkedInAt?: string;
+  reentries: number;
+  createdAt: string;
+};
+
+export type SalesQuery = { page: number; status?: string; q?: string; tierId?: string };
+
+export const salesApi = {
+  orders: (eventId: string, query: SalesQuery): Promise<Page<EventOrder>> =>
+    api.page<EventOrder>(`/events/${eventId}/orders`, { params: { limit: 20, ...query } }),
+  attendees: (eventId: string, query: SalesQuery): Promise<Page<EventAttendee>> =>
+    api.page<EventAttendee>(`/events/${eventId}/attendees`, { params: { limit: 20, ...query } }),
+};
+
+export const ORDER_STATUS_META: Record<OrderStatus, { label: string; tone: 'valid' | 'warning' | 'invalid' | 'neutral' }> = {
+  paid: { label: 'Paid', tone: 'valid' },
+  pending: { label: 'Awaiting payment', tone: 'warning' },
+  failed: { label: 'Failed', tone: 'invalid' },
+  expired: { label: 'Expired', tone: 'neutral' },
+  refunded: { label: 'Refunded', tone: 'neutral' },
+};
+
+export const TICKET_STATUS_META: Record<TicketStatus, { label: string; tone: 'valid' | 'warning' | 'invalid' | 'neutral' }> = {
+  valid: { label: 'Not checked in', tone: 'neutral' },
+  checked_in: { label: 'Checked in', tone: 'valid' },
+  cancelled: { label: 'Cancelled', tone: 'invalid' },
+  refunded: { label: 'Refunded', tone: 'neutral' },
+};
+
+export const TIER_LABEL: Record<TierName, string> = { standard: 'Standard', vip: 'VIP', vvip: 'VVIP' };

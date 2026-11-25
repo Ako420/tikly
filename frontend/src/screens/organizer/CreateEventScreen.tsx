@@ -13,6 +13,7 @@ import {
   formatTime,
   type Category,
   type CreateEventInput,
+  TIER_LABEL,
   type TierName,
 } from '@/features/organizer/api';
 import { ApiError } from '@/lib/http/errors';
@@ -27,7 +28,6 @@ const STEPS = [
   { title: 'Review & submit', body: 'Send for approval' },
 ];
 
-const TIER_LABEL: Record<TierName, string> = { standard: 'Standard', vip: 'VIP', vvip: 'VVIP' };
 const TIER_ORDER: TierName[] = ['standard', 'vip', 'vvip'];
 const COMMISSION = 0.1;
 const COUNTRIES = ['Cameroon', 'Gabon', 'Congo', 'Chad', 'Central African Republic', 'Equatorial Guinea'];

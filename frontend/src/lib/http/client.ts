@@ -37,12 +37,15 @@ async function send<T>(path: string, options: RequestOptions): Promise<{ status:
   return { status: response.status, body };
 }
 
-export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+export type PageMeta = { page: number; limit: number; total: number; pages: number };
+export type Page<T> = { items: T[]; meta: PageMeta };
+
+async function envelope<T>(path: string, options: RequestOptions): Promise<Envelope<T>> {
   const result = await send<T>(path, options);
   if (result.status === 401 && window.location.pathname.startsWith('/organizer')) {
     window.location.assign(`/login?next=${encodeURIComponent(window.location.pathname)}`);
   }
-  if (result.status >= 200 && result.status < 300) return (result.body as Envelope<T>).data;
+  if (result.status >= 200 && result.status < 300) return result.body as Envelope<T>;
   if (isApiErrorBody(result.body)) {
     const { code, message, details } = result.body.error;
     throw new ApiError(code, message, result.status, details ?? null);
@@ -50,7 +53,15 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   throw new ApiError('INTERNAL', `Request failed with status ${result.status}`, result.status);
 }
 
+export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  return (await envelope<T>(path, options)).data;
+}
+
 export const api = {
+  page: async <T>(path: string, options?: Omit<RequestOptions, 'method' | 'body'>): Promise<Page<T>> => {
+    const body = await envelope<T[]>(path, options ?? {});
+    return { items: body.data, meta: body.meta as PageMeta };
+  },
   get: <T>(path: string, options?: Omit<RequestOptions, 'method' | 'body'>) => request<T>(path, options),
   post: <T>(path: string, body?: unknown, options?: Omit<RequestOptions, 'method' | 'body'>) =>
     request<T>(path, { ...options, method: 'POST', body: body ?? {} }),

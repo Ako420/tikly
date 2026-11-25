@@ -101,7 +101,7 @@ export function EventWorkspaceScreen({ eventId }: { eventId: string }) {
       <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
         <div className="flex flex-col gap-6">
           {stats ? (
-            <SalesCard stats={stats} />
+            <SalesCard stats={stats} eventId={event.id} />
           ) : (
             <Card className="p-6 text-fg-muted">Ticket sales appear here once the event is published.</Card>
           )}
@@ -136,7 +136,7 @@ export function EventWorkspaceScreen({ eventId }: { eventId: string }) {
   );
 }
 
-function SalesCard({ stats }: { stats: EventStats }) {
+function SalesCard({ stats, eventId }: { stats: EventStats; eventId: string }) {
   const capacity = stats.tiers.reduce((sum, tier) => sum + tier.quantity, 0);
   const percent = capacity ? Math.round((stats.totals.ticketsSold / capacity) * 100) : 0;
   return (
@@ -145,6 +145,9 @@ function SalesCard({ stats }: { stats: EventStats }) {
         <div>
           <h2 className="text-xl font-extrabold">Ticket sales</h2>
           <p className="text-[13px] text-fg-muted">Net after commission: {formatMoney(stats.totals.net)}</p>
+          <Link href={`/organizer/orders?event=${eventId}`} className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline">
+            View orders & attendees <Icon name="chevron" size={16} />
+          </Link>
         </div>
         <div className="text-right">
           <p className="text-[30px] leading-tight font-extrabold">{formatMoney(stats.totals.gross)}</p>
