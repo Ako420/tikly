@@ -30,6 +30,9 @@ const PATHS = {
   view: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z',
   edit: 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
   check: 'M5 12l5 5L20 7',
+  bookings: 'M3 8h18v12H3zM8 8V5h8v3M3 13h18M10 13v2h4v-2',
+  wallet: 'M4 7h15v13H4zM4 7l11-3v3M15 12.5h4v3h-4z',
+  business: 'M4 21V4h9v17M13 9h7v12M2 21h20M7 8h3M7 12h3M7 16h3M16 13h1M16 17h1',
 } as const;
 
 export type IconName = keyof typeof PATHS;
