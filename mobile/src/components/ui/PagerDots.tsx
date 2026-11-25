@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
-import { cn } from '@/lib/cn';
+import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSpring } from 'react-native-reanimated';
+import { SPRING } from '@/lib/motion';
+import { useTheme } from '@/theme';
 
 type PagerDotsProps = {
   count: number;
@@ -7,6 +10,31 @@ type PagerDotsProps = {
   onSelect?: (index: number) => void;
   getLabel?: (index: number) => string;
 };
+
+const DOT = 8;
+const ACTIVE_DOT = 24;
+
+function Dot({ active }: { active: boolean }) {
+  const { colors } = useTheme();
+  const reduceMotion = useReducedMotion();
+  const progress = useSharedValue(active ? 1 : 0);
+
+  useEffect(() => {
+    progress.value = reduceMotion ? (active ? 1 : 0) : withSpring(active ? 1 : 0, SPRING.snappy);
+  }, [active, progress, reduceMotion]);
+
+  const style = useAnimatedStyle(() => ({
+    width: DOT + (ACTIVE_DOT - DOT) * progress.value,
+    opacity: 0.4 + 0.6 * progress.value,
+  }));
+
+  return (
+    <Animated.View
+      className="h-2 rounded-full"
+      style={[{ backgroundColor: active ? colors.accentText : colors.foregroundSecondary }, style]}
+    />
+  );
+}
 
 export function PagerDots({ count, active, onSelect, getLabel }: PagerDotsProps) {
   return (
@@ -20,8 +48,9 @@ export function PagerDots({ count, active, onSelect, getLabel }: PagerDotsProps)
           disabled={!onSelect}
           onPress={() => onSelect?.(index)}
           hitSlop={8}
-          className={cn('h-2 rounded-full', index === active ? 'w-6 bg-accent-text' : 'w-2 bg-foreground-secondary opacity-40')}
-        />
+        >
+          <Dot active={index === active} />
+        </Pressable>
       ))}
     </View>
   );

@@ -12,6 +12,7 @@ import type { AppNotification } from '@/features/notifications/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { useNow } from '@/lib/useNow';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 export default function Notifications() {
@@ -55,6 +56,7 @@ export default function Notifications() {
       </View>
 
       <SectionList
+        CellRendererComponent={EnterCell}
         sections={sections}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled={false}

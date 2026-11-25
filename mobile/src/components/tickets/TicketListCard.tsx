@@ -1,11 +1,12 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/Text';
 import { useTicketFormatter } from '@/features/tickets/formatTicket';
 import type { TicketBundle } from '@/features/tickets/types';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/cn';
 import { palette, ThemeScope, useTheme } from '@/theme';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { TicketNotch } from './TicketNotch';
 
 type TicketListCardProps = {
@@ -24,11 +25,10 @@ export function TicketListCard({ bundle, onPress }: TicketListCardProps) {
   const title = format.title(bundle);
 
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={t('myTickets.open', { title, when: when.label, quantity: format.quantity(bundle) })}
       onPress={onPress}
-      style={({ pressed }) => (pressed ? { opacity: 0.85 } : null)}
     >
       <ThemeScope
         scheme="light"
@@ -83,6 +83,6 @@ export function TicketListCard({ bundle, onPress }: TicketListCardProps) {
           </Text>
         </View>
       </ThemeScope>
-    </Pressable>
+    </PressableScale>
   );
 }

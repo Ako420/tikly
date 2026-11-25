@@ -1,10 +1,13 @@
+import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
+import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withSequence, withSpring, withTiming } from 'react-native-reanimated';
 import { useTierLabels } from '@/components/events/details/TierRow';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Text } from '@/components/ui/Text';
 import type { TicketTier } from '@/features/events/types';
 import { cn } from '@/lib/cn';
 import { formatMoney } from '@/lib/money';
+import { SPRING } from '@/lib/motion';
 
 type TierSelectorCardProps = {
   tier: TicketTier;
@@ -17,9 +20,22 @@ export function TierSelectorCard({ tier, quantity, max, onChange }: TierSelector
   const labels = useTierLabels();
   const stock = labels.stock(tier);
   const selected = quantity > 0;
+  const reduceMotion = useReducedMotion();
+  const scale = useSharedValue(1);
+  const wasSelected = useRef(selected);
+
+  useEffect(() => {
+    if (selected && !wasSelected.current && !reduceMotion) {
+      scale.value = withSequence(withTiming(1.025, { duration: 110 }), withSpring(1, SPRING.bouncy));
+    }
+    wasSelected.current = selected;
+  }, [selected, reduceMotion, scale]);
+
+  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 
   return (
-    <View
+    <Animated.View
+      style={popStyle}
       className={cn(
         'gap-2.5 rounded-card bg-surface-raised',
         selected ? 'border-2 border-accent-text p-[13px]' : 'border border-border p-3.5',
@@ -43,6 +59,6 @@ export function TierSelectorCard({ tier, quantity, max, onChange }: TierSelector
           <QuantityStepper value={quantity} max={max} onChange={onChange} label={labels.name(tier)} />
         ) : null}
       </View>
-    </View>
+    </Animated.View>
   );
 }

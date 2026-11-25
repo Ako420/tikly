@@ -19,6 +19,7 @@ import { useApiErrorMessage } from '@/lib/api';
 import { formatMoney } from '@/lib/money';
 import { shareNative } from '@/lib/share';
 import { useAsync } from '@/lib/useAsync';
+import { FadeInView } from '@/components/motion/FadeInView';
 import { useTheme } from '@/theme';
 
 const HERO_HEIGHT = 240;
@@ -63,7 +64,7 @@ export default function ServiceDetail() {
   const whatsapp = provider.whatsapp ?? provider.phone;
 
   return (
-    <View className="flex-1 bg-background">
+    <FadeInView className="flex-1 bg-background">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 130 + insets.bottom }}>
         <View style={{ height: HERO_HEIGHT }} className="bg-surface">
           {service.photos.length > 0 ? (
@@ -174,6 +175,6 @@ export default function ServiceDetail() {
           onAction={() => router.push({ pathname: '/services/[id]/request', params: { id: service.id } })}
         />
       ) : null}
-    </View>
+    </FadeInView>
   );
 }

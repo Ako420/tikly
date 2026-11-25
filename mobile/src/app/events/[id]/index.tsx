@@ -28,6 +28,7 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { formatDateRange, formatDayMonthTime, formatTimeRange, getEventSpan } from '@/lib/dates';
 import { formatMoney } from '@/lib/money';
 import { copyToClipboard, eventUrl, openInMaps, shareNative } from '@/lib/share';
+import { FadeInView } from '@/components/motion/FadeInView';
 import { useTheme } from '@/theme';
 
 const VISIBLE_POSTS = 2;
@@ -74,7 +75,7 @@ export default function EventDetailsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background">
+    <FadeInView className="flex-1 bg-background">
       <StatusBar style={pastHero && scheme === 'light' ? 'dark' : 'light'} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -286,6 +287,6 @@ export default function EventDetailsScreen() {
           onAction={() => router.push({ pathname: '/events/[id]/tickets', params: { id: event.id } })}
         />
       ) : null}
-    </View>
+    </FadeInView>
   );
 }

@@ -14,6 +14,7 @@ import type { PostType } from '@/features/posts/api';
 import { useEventPosts } from '@/features/posts/useEventPosts';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const FILTERS: (PostType | 'all')[] = ['all', 'update', 'speaker', 'promo'];
@@ -63,6 +64,7 @@ export default function EventPostsScreen() {
         />
       </View>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={posts.items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={header}

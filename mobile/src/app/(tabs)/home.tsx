@@ -24,6 +24,7 @@ import { HOME_CITIES, setHomeCity, useHomeCity } from '@/features/preferences/ho
 import { useTranslation } from '@/i18n/I18nProvider';
 import { useApiErrorMessage } from '@/lib/api';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell, EnterItem } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const FEATURED_GAP = 14;
@@ -121,6 +122,7 @@ export default function Home() {
               className="px-6"
             />
             <FlatList
+              CellRendererComponent={EnterCell}
               data={featured}
               keyExtractor={(event) => event.id}
               horizontal
@@ -154,12 +156,13 @@ export default function Home() {
             />
           ) : events.length > 0 ? (
             <View className="gap-3">
-              {events.map((event) => (
-                <EventRow
-                  key={event.id}
-                  event={event}
-                  onPress={() => router.push({ pathname: '/events/[id]', params: { id: event.id } })}
-                />
+              {events.map((event, index) => (
+                <EnterItem key={event.id} index={index}>
+                  <EventRow
+                    event={event}
+                    onPress={() => router.push({ pathname: '/events/[id]', params: { id: event.id } })}
+                  />
+                </EnterItem>
               ))}
             </View>
           ) : (

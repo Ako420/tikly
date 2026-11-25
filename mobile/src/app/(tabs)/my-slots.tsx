@@ -11,6 +11,7 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 export default function MySlots() {
@@ -33,6 +34,7 @@ export default function MySlots() {
   return (
     <Screen edges={['top']}>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<ScreenTitle title={t('exhibitor.mySlotsTitle')} />}

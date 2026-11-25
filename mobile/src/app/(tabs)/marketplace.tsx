@@ -17,6 +17,7 @@ import { useTranslation } from '@/i18n/I18nProvider';
 import { formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useTabBarSpace } from '@/components/navigation/TabBar';
+import { EnterCell } from '@/components/motion/EnterCell';
 import { useTheme } from '@/theme';
 
 const PRICE_CAPS = [100_000, 500_000];
@@ -82,6 +83,7 @@ export default function Marketplace() {
   return (
     <Screen edges={['top']}>
       <FlatList
+        CellRendererComponent={EnterCell}
         data={items}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={header}

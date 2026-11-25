@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { cn } from '@/lib/cn';
 
 type IconButtonProps = {
@@ -13,7 +14,7 @@ type IconButtonProps = {
 
 export function IconButton({ icon, accessibilityLabel, onPress, size = 'md', badge, className }: IconButtonProps) {
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
@@ -23,12 +24,11 @@ export function IconButton({ icon, accessibilityLabel, onPress, size = 'md', bad
         size === 'lg' ? 'h-11 w-11' : 'h-10 w-10',
         className,
       )}
-      style={({ pressed }) => (pressed ? { opacity: 0.7 } : null)}
     >
       {icon}
       {badge ? (
         <View className="absolute right-[11px] top-2.5 h-[9px] w-[9px] rounded-full border-2 border-surface-raised bg-accent-text" />
       ) : null}
-    </Pressable>
+    </PressableScale>
   );
 }
