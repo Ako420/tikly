@@ -17,6 +17,7 @@ type ProviderContextValue = {
   profile: ProviderProfile | null;
   profileLoading: boolean;
   pendingRequests: number;
+  reloadPending: () => void;
 };
 
 const ProviderContext = createContext<ProviderContextValue | null>(null);
@@ -37,7 +38,7 @@ export function ProviderShell({ user, locale, t, children }: ProviderShellProps)
 
   const nav: ShellNavItem[] = [
     { href: '/provider', label: labels.overview, icon: 'dashboard', ready: true },
-    { href: '/provider/bookings', label: labels.bookings, icon: 'bookings', badge: pendingRequests },
+    { href: '/provider/bookings', label: labels.bookings, icon: 'bookings', ready: true, badge: pendingRequests },
     { href: '/provider/services', label: labels.services, icon: 'marketplace' },
     { href: '/provider/calendar', label: labels.calendar, icon: 'calendar' },
     { href: '/provider/earnings', label: labels.earnings, icon: 'wallet' },
@@ -65,7 +66,15 @@ export function ProviderShell({ user, locale, t, children }: ProviderShellProps)
 
   return (
     <ProviderContext
-      value={{ user, locale, t, profile: business ?? null, profileLoading: profile.loading, pendingRequests }}
+      value={{
+        user,
+        locale,
+        t,
+        profile: business ?? null,
+        profileLoading: profile.loading,
+        pendingRequests,
+        reloadPending: pending.reload,
+      }}
     >
       <div className="theme-light flex min-h-dvh flex-1 flex-col">
         <DashboardShell
