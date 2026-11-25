@@ -25,6 +25,16 @@ export async function saveSession({ user, tokens }: Session & { user: { role: We
   store.set(USER_COOKIE, JSON.stringify(sessionUser), { ...baseCookie, maxAge: REFRESH_MAX_AGE_SECONDS });
 }
 
+export async function saveTokens(tokens: Session["tokens"]) {
+  const store = await cookies();
+  store.set(ACCESS_COOKIE, tokens.accessToken, { ...baseCookie, maxAge: tokens.expiresIn });
+  store.set(REFRESH_COOKIE, tokens.refreshToken, { ...baseCookie, maxAge: REFRESH_MAX_AGE_SECONDS });
+}
+
+export async function getRefreshToken() {
+  return (await cookies()).get(REFRESH_COOKIE)?.value;
+}
+
 export async function clearSession() {
   const store = await cookies();
   store.delete(ACCESS_COOKIE);
