@@ -949,11 +949,12 @@
       "addPhoto": "Photo",
       "changePhoto": "Changer la photo",
       "removePhoto": "Retirer la photo",
-      "notify": "Prévenir {{count}} détenteurs de billets",
+      "notify": "Prévenir tous les détenteurs de billets",
       "send": "Publier",
       "postedTitle": "Actualité publiée",
       "postedBody": "Elle est visible sur la page de l’événement.",
-      "postedNotified": "Elle est en ligne et {{count}} détenteurs ont été prévenus."
+      "postedNotified": "Elle est en ligne et {{count}} détenteurs ont été prévenus.",
+      "postedNotifiedOne": "Elle est en ligne et 1 détenteur a été prévenu."
     },
     "staff": {
       "title": "Contrôleurs",
@@ -975,6 +976,8 @@
       "loginTitle": "Accès contrôleur",
       "loginMessage": "Bonjour {{name}}, vous êtes contrôleur pour {{event}} sur Tikly. Ouvrez l’app Tikly, touchez « Gate staff? Open scanner login » et connectez-vous avec {{phone}} et le mot de passe {{password}}.",
       "loginFallback": "Partagez ces accès : téléphone {{phone}}, mot de passe {{password}}"
-    }
+    },
+    "dayToGo": "J-1",
+    "tomorrow": "demain"
   }
 }

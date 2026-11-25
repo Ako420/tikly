@@ -18,7 +18,7 @@ import { HOME_CITIES } from '@/features/preferences/homeCity';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { toApiError, useApiErrorMessage } from '@/lib/api';
 import { cn } from '@/lib/cn';
-import { formatMoney } from '@/lib/money';
+import { formatAmount, formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useNow } from '@/lib/useNow';
 import { useTheme } from '@/theme';
@@ -97,7 +97,8 @@ function Wizard({ event }: { event?: LoadedEvent }) {
   const locked = !['draft', 'rejected', 'published'].includes(status);
   const categoryLabel = useMemo(() => {
     const match = categories.find((item) => item.key === category);
-    return match ? match[language] || match.en : t('organizer.form.category');
+    if (match) return match[language] || match.en;
+    return category ? category.charAt(0).toUpperCase() + category.slice(1) : t('organizer.form.category');
   }, [categories, category, language, t]);
 
   const errors = {
@@ -301,7 +302,7 @@ function Wizard({ event }: { event?: LoadedEvent }) {
                       </Text>
                       <FieldBox
                         className="h-12"
-                        value={tier.price}
+                        value={tier.price === '' ? '' : formatAmount(digits(tier.price))}
                         onChangeText={(value) => updateTier(index, { price: value.replace(/\D/g, '') })}
                         keyboardType="number-pad"
                         placeholder="0"
@@ -365,7 +366,7 @@ function Wizard({ event }: { event?: LoadedEvent }) {
         </KeyboardAvoidingView>
         <View className="flex-row items-center gap-4 border-t border-border bg-surface-raised px-6 pt-3.5" style={{ paddingBottom: Math.max(insets.bottom, 16) + 8 }}>
           <View>
-            <Text variant="amountLg">{t('organizer.form.ticketCount', { count: totalTickets })}</Text>
+            <Text variant="amountLg">{t('organizer.form.ticketCount', { count: formatAmount(totalTickets) })}</Text>
             <Text variant="caption" tone="muted">
               {t('organizer.form.upTo', { amount: formatMoney(maxRevenue) })}
             </Text>

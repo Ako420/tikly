@@ -12,7 +12,7 @@ import { organizerApi } from '@/features/organizer/api';
 import { daysUntil } from '@/features/organizer/format';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/cn';
-import { formatMoney } from '@/lib/money';
+import { formatAmount, formatMoney } from '@/lib/money';
 import { eventUrl, shareNative } from '@/lib/share';
 import { useAsync } from '@/lib/useAsync';
 import { useNow } from '@/lib/useNow';
@@ -66,7 +66,7 @@ export default function EventWorkspace() {
   const days = daysUntil(event.startAt, now);
   const statusLine =
     event.status === 'published' && days > 0
-      ? `${t('organizer.status.published')} · ${t('organizer.daysToGo', { count: days })}`
+      ? `${t('organizer.status.published')} · ${t(days === 1 ? 'organizer.dayToGo' : 'organizer.daysToGo', { count: days })}`
       : t(`organizer.status.${event.status}`);
   const tiers = stats?.tiers ?? [];
   const capacity = tiers.reduce((sum, tier) => sum + tier.quantity, 0);
@@ -135,9 +135,9 @@ export default function EventWorkspace() {
           <View className="gap-3.5 rounded-[22px] border border-border bg-surface-raised p-4">
             <View className="flex-row justify-between gap-3">
               <View>
-                <Text variant="headline">{String(stats.totals.ticketsSold)}</Text>
+                <Text variant="headline">{formatAmount(stats.totals.ticketsSold)}</Text>
                 <Text variant="caption" tone="muted">
-                  {t('organizer.soldOfCapacity', { capacity })}
+                  {t('organizer.soldOfCapacity', { capacity: formatAmount(capacity) })}
                 </Text>
               </View>
               <View className="items-end">
@@ -156,7 +156,7 @@ export default function EventWorkspace() {
                   <View className="flex-row justify-between">
                     <Text variant="bodySmStrong">{t(`tickets.tiers.${tier.name}`)}</Text>
                     <Text variant="bodySmStrong" tone={soldOut ? 'valid' : 'primary'}>
-                      {`${tier.sold} / ${tier.quantity}${soldOut ? ` · ${t('organizer.soldOut')}` : ''}`}
+                      {`${formatAmount(tier.sold)} / ${formatAmount(tier.quantity)}${soldOut ? ` · ${t('organizer.soldOut')}` : ''}`}
                     </Text>
                   </View>
                   <View className="h-2 overflow-hidden rounded-full bg-surface">

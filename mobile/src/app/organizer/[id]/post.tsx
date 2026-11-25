@@ -87,7 +87,7 @@ export default function PostUpdate() {
       });
       Alert.alert(
         t('organizer.post.postedTitle'),
-        result.notified > 0 ? t('organizer.post.postedNotified', { count: result.notified }) : t('organizer.post.postedBody'),
+        result.notified > 0 ? t(result.notified === 1 ? 'organizer.post.postedNotifiedOne' : 'organizer.post.postedNotified', { count: result.notified }) : t('organizer.post.postedBody'),
       );
       router.back();
     } catch (caught) {
@@ -210,14 +210,14 @@ export default function PostUpdate() {
         {holders > 0 ? (
           <View className="flex-row items-center justify-between">
             <Text variant="bodySm" tone="secondary">
-              {t('organizer.post.notify', { count: holders })}
+              {t('organizer.post.notify')}
             </Text>
             <Switch
               value={notify}
               onValueChange={setNotify}
               trackColor={{ true: colors.accent, false: colors.border }}
               thumbColor={colors.surfaceRaised}
-              accessibilityLabel={t('organizer.post.notify', { count: holders })}
+              accessibilityLabel={t('organizer.post.notify')}
             />
           </View>
         ) : null}

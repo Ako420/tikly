@@ -949,11 +949,12 @@
       "addPhoto": "Photo",
       "changePhoto": "Change photo",
       "removePhoto": "Remove photo",
-      "notify": "Notify {{count}} ticket holders",
+      "notify": "Notify everyone with a ticket",
       "send": "Post update",
       "postedTitle": "Update posted",
       "postedBody": "It’s now on your event page.",
-      "postedNotified": "It’s on your event page and {{count}} ticket holders were notified."
+      "postedNotified": "It’s on your event page and {{count}} ticket holders were notified.",
+      "postedNotifiedOne": "It’s on your event page and 1 ticket holder was notified."
     },
     "staff": {
       "title": "Gate staff",
@@ -975,6 +976,8 @@
       "loginTitle": "Staff login",
       "loginMessage": "Hi {{name}}, you’re gate staff for {{event}} on Tikly. Open the Tikly app, tap “Gate staff? Open scanner login” and sign in with {{phone}} and password {{password}}.",
       "loginFallback": "Share these details: phone {{phone}}, password {{password}}"
-    }
+    },
+    "dayToGo": "1 day to go",
+    "tomorrow": "tomorrow"
   }
 }

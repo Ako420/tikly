@@ -16,7 +16,7 @@ import { daysUntil, STATUS_TONE } from '@/features/organizer/format';
 import { useTranslation } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/cn';
 import { formatDateRange } from '@/lib/dates';
-import { formatMoney } from '@/lib/money';
+import { formatAmount, formatMoney } from '@/lib/money';
 import { useAsync } from '@/lib/useAsync';
 import { useNow } from '@/lib/useNow';
 import { useTheme } from '@/theme';
@@ -91,7 +91,7 @@ export default function MyEvents() {
     const subtitle =
       event.status === 'pending'
         ? t('organizer.submitted')
-        : `${formatDateRange(event.startAt, event.endAt, language, false)}${days > 0 && event.status === 'published' ? ` · ${t('organizer.inDays', { count: days })}` : ''}`;
+        : `${formatDateRange(event.startAt, event.endAt, language, false)}${days > 0 && event.status === 'published' ? ` · ${t(days === 1 ? 'organizer.tomorrow' : 'organizer.inDays', { count: days })}` : ''}`;
 
     return (
       <Pressable
@@ -144,7 +144,7 @@ export default function MyEvents() {
         {stats && capacity > 0 ? (
           <View className="gap-2">
             <View className="flex-row items-center justify-between">
-              <Text variant="captionStrong">{t('organizer.soldOf', { sold, capacity })}</Text>
+              <Text variant="captionStrong">{t('organizer.soldOf', { sold: formatAmount(sold), capacity: formatAmount(capacity) })}</Text>
               <Text variant="captionStrong" tone="accent">
                 {formatMoney(stats.totals.gross)}
               </Text>

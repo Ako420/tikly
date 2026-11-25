@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { OptionSheet } from '@/components/ui/OptionSheet';
 import { Text } from '@/components/ui/Text';
@@ -27,6 +27,7 @@ export function DateTimeField({ label, value, onChange, compact, disabled, error
   const { t, language } = useTranslation();
   const { colors } = useTheme();
   const [sheet, setSheet] = useState<'day' | 'time' | null>(null);
+  const advancing = useRef(false);
   const locale = language === 'fr' ? 'fr-FR' : 'en-GB';
 
   const days = useMemo(() => {
@@ -45,6 +46,7 @@ export function DateTimeField({ label, value, onChange, compact, disabled, error
     const next = new Date(value);
     next.setFullYear(year!, month! - 1, day!);
     onChange(next);
+    advancing.current = true;
     setSheet('time');
   };
 
@@ -82,14 +84,19 @@ export function DateTimeField({ label, value, onChange, compact, disabled, error
           </Text>
         </View>
       </Pressable>
-      <OptionSheet visible={sheet === 'day'} title={label} options={days} value={dayKey(value)} onSelect={setDay} onClose={() => setSheet(null)} />
       <OptionSheet
-        visible={sheet === 'time'}
-        title={t('organizer.form.pickTime')}
-        options={TIMES.map((time) => ({ value: time, label: time }))}
-        value={timeKey(value)}
-        onSelect={setTime}
-        onClose={() => setSheet(null)}
+        visible={sheet !== null}
+        title={sheet === 'time' ? t('organizer.form.pickTime') : label}
+        options={sheet === 'time' ? TIMES.map((time) => ({ value: time, label: time })) : days}
+        value={sheet === 'time' ? timeKey(value) : dayKey(value)}
+        onSelect={sheet === 'time' ? setTime : setDay}
+        onClose={() => {
+          if (advancing.current) {
+            advancing.current = false;
+            return;
+          }
+          setSheet(null);
+        }}
       />
     </>
   );
