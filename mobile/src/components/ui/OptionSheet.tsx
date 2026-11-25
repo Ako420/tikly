@@ -6,6 +6,8 @@ import { cn } from '@/lib/cn';
 import { ThemeScope, useTheme } from '@/theme';
 import { Text } from './Text';
 
+const OPTION_HEIGHT = 56;
+
 type Option<T extends string> = { value: T; label: string };
 
 type OptionSheetProps<T extends string> = {
@@ -31,7 +33,7 @@ export function OptionSheet<T extends string>({ visible, title, options, value, 
           <Text variant="sectionTitle" accessibilityRole="header" className="px-6 pb-2">
             {title}
           </Text>
-          <ScrollView contentContainerClassName="px-3">
+          <ScrollView key={title} contentContainerClassName="px-3" contentOffset={{ x: 0, y: Math.max(0, (options.findIndex((option) => option.value === value) - 2) * OPTION_HEIGHT) }}>
             {options.map((option) => {
               const selected = option.value === value;
               return (
