@@ -39,7 +39,7 @@ async function send<T>(path: string, options: RequestOptions): Promise<{ status:
 
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const result = await send<T>(path, options);
-  if (result.status === 401) {
+  if (result.status === 401 && window.location.pathname.startsWith('/organizer')) {
     window.location.assign(`/login?next=${encodeURIComponent(window.location.pathname)}`);
   }
   if (result.status >= 200 && result.status < 300) return (result.body as Envelope<T>).data;
